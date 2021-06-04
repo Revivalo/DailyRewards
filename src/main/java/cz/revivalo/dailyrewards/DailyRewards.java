@@ -25,6 +25,7 @@ public final class DailyRewards extends JavaPlugin {
     private RewardManager rewardManager;
     private GuiManager guiManager;
     public boolean papi = false;
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -53,7 +54,6 @@ public final class DailyRewards extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        plugin = null;
         PlayerConfig.removeConfigs();
     }
 

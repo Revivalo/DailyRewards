@@ -1,0 +1,140 @@
+#
+#
+#    ____        _ _       ____                            _
+#   |  _ \  __ _(_) |_   _|  _ \ _____      ____ _ _ __ __| |
+#   | | | |/ _` | | | | | | |_) / _ \ \ /\ / / _` | '__/ _` |
+#   | |_| | (_| | | | |_| |  _ <  __/\ V  V / (_| | | | (_| |
+#   |____/ \__,_|_|_|\__, |_| \_\___| \_/\_/ \__,_|_|  \__,_|
+#                    |___/
+#                                      by Revivalo
+#
+# If you have some questions, join https://discord.gg/TfUC8uJ for help
+#
+config:
+  reward-reset: "&e[&6&lDailyRewards&e] &fYou reset &e%type% &freward for player &e%player%"
+  unavailable-player: "&c[&4&lDailyRewards&c] Player &n%player%&c is not available"
+  permission-msg: "&c[&4&lDailyRewards&c] You are not permitted to use this command"
+  rewards-dont-set: "&c[&4&lDailyRewards&c] Rewards is not set"
+  reload-msg: "&e[&6&lDailyRewards&e] &fPlugin was successfully reloaded"
+  menu-title: "Rewards"
+  menu-size: 45
+  fill-background-enabled: true
+  background-item: GRAY_STAINED_GLASS_PANE
+  # Make rewards available for first join
+  automatically-activate: true
+  enable-join-notification: true
+  announce-enabled: true
+  # In seconds
+  join-notification-delay: 3
+  join-hover-message: "&7Click for collect your rewards"
+  join-notifications:
+  - ' '
+  - '&2 - &a%rewards% rewards are waiting for you! &f(Click here)'
+  - ' '
+  cooldown-format: "&c%days% days %hours% hours"
+  cooldown-message: "&c[&4&lDailyRewards&c] For &l%type% &creward you have to wait &n%time%"
+  unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT
+  #
+  # DAILY REWARD SECTION
+  #
+  daily-position: 20
+  daily-sound: ENTITY_PLAYER_LEVELUP
+  daily-title: "&a&lRewards"
+  daily-subtitle: "&7You have collected your &adaily&7 reward"
+  daily-collected: "&a%player% &7collected his &a&ldaily reward!"
+  daily-premium-collected: "&a%player% &7collected his &a&lpremium daily reward!"
+  daily-displayname-available: "&a&lDAILY REWARD"
+  daily-available-item: "CHEST_MINECART"
+  daily-unavailable-item: "MINECART"
+  daily-available-lore:
+    - "&7Reward contains:"
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ premium reward unavailable"
+  daily-available-premium-lore:
+    - "&7Reward contains:"
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ premium reward available"
+  daily-displayname-unavailable: "&c&lDAILY REWARD"
+  daily-unavailable-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
+  daily-rewards:
+    - "give %player% iron_ingot 8"
+  daily-premium-rewards:
+    - "give %player% iron_ingot 16"
+    - "give %player% gold_ingot 3"
+  #
+  # WEEKLY REWARD SECTION
+  #
+  weekly-position: 22
+  weekly-sound: ENTITY_FIREWORK_ROCKET_LARGE_BLAST
+  weekly-title: "&e&lRewards"
+  weekly-subtitle: "&7You have collected your &eweekly &7reward"
+  weekly-collected: "&e%player% &7collected his &e&lweekly reward!"
+  weekly-premium-collected: "&e%player% &7collected his &e&lpremium weekly reward!"
+  weekly-displayname-available: "&a&lWEEKLY REWARD"
+  weekly-available-item: "CHEST_MINECART"
+  weekly-unavailable-item: "MINECART"
+  weekly-available-lore:
+    - "&7Reward contains:"
+    - "&a 1x &fDiamond"
+    - " "
+    - "&c❌ premium reward unavailable"
+  weekly-available-premium-lore:
+    - "&7Reward contains:"
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ premium reward available"
+  weekly-displayname-unavailable: "&c&lWEEKLY REWARD"
+  weekly-unavailable-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
+  weekly-rewards:
+    - "give %player% diamond 1"
+  weekly-premium-rewards:
+    - "give %player% diamond 5"
+    - "give %player% emerald 3"
+  #
+  # MONTHLY REWARD SECTION
+  #
+  monthly-position: 24
+  monthly-sound: ENTITY_FIREWORK_ROCKET_BLAST
+  monthly-title: "&9&lRewards"
+  monthly-subtitle: "&7You have collected your &9monthly &7reward"
+  monthly-collected: "&9%player% &7collected his &9&lmonthly reward!"
+  monthly-premium-collected: "&9%player% &7collected his &9&lpremium monthly reward!"
+  monthly-displayname-available: "&a&lMONTHLY REWARD"
+  monthly-available-item: "CHEST_MINECART"
+  monthly-unavailable-item: "MINECART"
+  monthly-available-lore:
+    - "&7Reward contains:"
+    - "&a  8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ premium reward unavailable"
+  monthly-available-premium-lore:
+    - "&7Reward contains:"
+    - "&a  1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ premium reward activated"
+  monthly-displayname-unavailable: "&c&lMONTHLY REWARD"
+  monthly-unavailable-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
+  monthly-rewards:
+    - "give %player% diamond 8"
+    - "give %player% iron_ingot 32"
+    - "give %player% gold_ingot 16"
+  monthly-premium-rewards:
+    - "give %player% nether_star 1"
+    - "give %player% diamond 16"
+    - "give %player% iron_ingot 64"
+    - "give %player% gold_ingot 32"

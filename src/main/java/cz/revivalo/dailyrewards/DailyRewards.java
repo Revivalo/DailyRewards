@@ -8,6 +8,7 @@ import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
 import cz.revivalo.dailyrewards.rewardmanager.RewardManager;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -29,6 +30,10 @@ public final class DailyRewards extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+
+        int pluginId = 12070;
+        Metrics metrics = new Metrics(this, pluginId);
+
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");
 

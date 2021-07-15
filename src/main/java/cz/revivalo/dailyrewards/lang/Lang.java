@@ -118,7 +118,7 @@ public enum Lang {
             }
     }
 
-    public void reload(){
+    public static void reload(){
         FileConfiguration cfg = DailyRewards.getPlugin(DailyRewards.class).getConfig();
         for (String key : cfg.getConfigurationSection("config").getKeys(true))
             if (key.endsWith("lore") || key.endsWith("rewards")){

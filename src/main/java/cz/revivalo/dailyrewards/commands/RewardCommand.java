@@ -1,5 +1,6 @@
 package cz.revivalo.dailyrewards.commands;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.guimanager.GuiManager;
 import cz.revivalo.dailyrewards.lang.Lang;
@@ -10,6 +11,9 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.Objects;
 
 public class RewardCommand implements CommandExecutor {
@@ -45,13 +49,19 @@ public class RewardCommand implements CommandExecutor {
                             case "reload":
                                 if (!p.hasPermission("dailyreward.manage")){
                                     p.sendMessage(Lang.PERMISSIONMSG.content(p));
-                                    break;
+                                } else {
+                                    this.plugin.reloadConfig();
+                                    File configFile = new File(Bukkit.getServer().getPluginManager().getPlugin("DailyRewards").getDataFolder(), "config.yml");
+
+                                    try {
+                                        ConfigUpdater.update(this.plugin, "config.yml", configFile, Collections.emptyList());
+                                    } catch (IOException ex) {
+                                        ex.printStackTrace();
+                                    }
+
+                                    Lang.reload();
+                                    p.sendMessage(Lang.RELOADMSG.content(p));
                                 }
-                                Bukkit.getPluginManager().disablePlugin(plugin);
-                                Objects.requireNonNull(Bukkit.getPluginManager().getPlugin("DailyRewards")).reloadConfig();
-                                Bukkit.getPluginManager().enablePlugin(plugin);
-                                Lang.ANNOUNCEENABLED.reload();
-                                p.sendMessage(Lang.RELOADMSG.content(p));
                                 break;
                         }
                         break;

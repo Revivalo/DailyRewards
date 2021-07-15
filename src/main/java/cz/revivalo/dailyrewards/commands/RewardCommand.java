@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Objects;
 
 public class RewardCommand implements CommandExecutor {
     private final DailyRewards plugin;
@@ -70,12 +69,12 @@ public class RewardCommand implements CommandExecutor {
                             case "reset":
                                 if (!p.hasPermission("dailyreward.manage")){
                                     p.sendMessage(Lang.PERMISSIONMSG.content(p));
-                                    break;
-                                }
-                                if (rewardManager.reset(Bukkit.getOfflinePlayer(args[1]), args[2])){
-                                    p.sendMessage(Lang.REWARDRESET.content(p).replace("%type%", args[2]).replace("%player%", args[1]));
                                 } else {
-                                    p.sendMessage(Lang.UNAVAILABLEPLAYER.content(p).replace("%player%", args[1]));
+                                    if (rewardManager.reset(Bukkit.getOfflinePlayer(args[1]), args[2])) {
+                                        p.sendMessage(Lang.REWARDRESET.content(p).replace("%type%", args[2]).replace("%player%", args[1]));
+                                    } else {
+                                        p.sendMessage(Lang.UNAVAILABLEPLAYER.content(p).replace("%player%", args[1]));
+                                    }
                                 }
                                 break;
                         }

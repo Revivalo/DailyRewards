@@ -8,6 +8,7 @@ import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
 import cz.revivalo.dailyrewards.rewardmanager.RewardManager;
+import cz.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public final class DailyRewards extends JavaPlugin {
 
@@ -32,7 +34,19 @@ public final class DailyRewards extends JavaPlugin {
         plugin = this;
 
         int pluginId = 12070;
-        Metrics metrics = new Metrics(this, pluginId);
+        new Metrics(this, pluginId);
+
+        Logger logger = this.getLogger();
+
+        new UpdateChecker(this, 81780).getVersion(version -> {
+            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
+                logger.info("There is a new update available.");
+            } else {
+                logger.info("There is not a new update available. " +
+                        "Outdated versions are no longer supported, get new one here " +
+                        "https://www.spigotmc.org/resources/%E2%9A%A1-playerwarps-easy-warping-system-now-with-favorite-warps-categories-1-13-1-17.79089/");
+            }
+        });
 
         saveDefaultConfig();
         File configFile = new File(getDataFolder(), "config.yml");

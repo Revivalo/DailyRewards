@@ -1,5 +1,5 @@
 name: DailyRewards
-version: 1.0.7
+version: 1.0.9
 main: cz.revivalo.dailyrewards.DailyRewards
 api-version: 1.13
 softdepend: [PlaceholderAPI]

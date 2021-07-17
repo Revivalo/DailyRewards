@@ -28,6 +28,7 @@ public final class DailyRewards extends JavaPlugin {
     private RewardManager rewardManager;
     private GuiManager guiManager;
     public boolean papi = false;
+    public static boolean newestVersion;
 
     @Override
     public void onEnable() {
@@ -40,11 +41,11 @@ public final class DailyRewards extends JavaPlugin {
 
         new UpdateChecker(this, 81780).getVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                logger.info("There is a new update available.");
+                logger.info("You are running latest release (" + version + ")");
+                newestVersion = true;
             } else {
-                logger.info("There is not a new update available. " +
-                        "Outdated versions are no longer supported, get new one here " +
-                        "https://www.spigotmc.org/resources/%E2%9A%A1-playerwarps-easy-warping-system-now-with-favorite-warps-categories-1-13-1-17.79089/");
+                logger.info("There is a new update available." + "\n" + "Outdated versions are no longer supported, get new one here https://www.spigotmc.org/resources/%E2%9A%A1-playerwarps-easy-warping-system-now-with-favorite-warps-categories-1-13-1-17.79089/");
+                newestVersion = false;
             }
         });
 

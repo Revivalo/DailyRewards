@@ -11,6 +11,7 @@
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
 config:
+  update-checker: true
   reward-reset: "&e[&6&lDailyRewards&e] &fYou reset &e%type% &freward for player &e%player%"
   unavailable-player: "&c[&4&lDailyRewards&c] Player &n%player%&c is not available"
   permission-msg: "&c[&4&lDailyRewards&c] You are not permitted to use this command"

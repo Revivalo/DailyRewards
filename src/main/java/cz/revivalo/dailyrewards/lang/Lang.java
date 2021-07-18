@@ -31,6 +31,7 @@ public enum Lang {
     COOLDOWNMESSAGE("cooldown-message"),
     UNAVAILABLEREWARDSOUND("unavailable-reward-sound"),
 
+    UPDATECHECKER("update-checker"),
     DAILYPOSITION("daily-position"),
     DAILYSOUND("daily-sound"),
     DAILYTITLE("daily-title"),
@@ -86,6 +87,10 @@ public enum Lang {
 
     Lang(final String text) {
         this.text = text;
+    }
+
+    public String content() {
+        return ChatColor.translateAlternateColorCodes('&', messages.get(text));
     }
 
     public String content(Player p) {

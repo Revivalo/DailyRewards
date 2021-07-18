@@ -4,10 +4,12 @@ import com.tchristofferson.configupdater.ConfigUpdater;
 import cz.revivalo.dailyrewards.commands.RewardCommand;
 import cz.revivalo.dailyrewards.guimanager.ClickEvent;
 import cz.revivalo.dailyrewards.guimanager.GuiManager;
+import cz.revivalo.dailyrewards.lang.Lang;
 import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
 import cz.revivalo.dailyrewards.rewardmanager.RewardManager;
+import cz.revivalo.dailyrewards.updatechecker.Notification;
 import cz.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -40,12 +42,15 @@ public final class DailyRewards extends JavaPlugin {
         Logger logger = this.getLogger();
 
         new UpdateChecker(this, 81780).getVersion(version -> {
-            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                logger.info("You are running latest release (" + version + ")");
-                newestVersion = true;
-            } else {
-                logger.info("There is a new update available." + "\n" + "Outdated versions are no longer supported, get new one here https://www.spigotmc.org/resources/%E2%9A%A1-playerwarps-easy-warping-system-now-with-favorite-warps-categories-1-13-1-17.79089/");
-                newestVersion = false;
+            if (Boolean.parseBoolean(Lang.UPDATECHECKER.content())) {
+                String actualVersion = this.getDescription().getVersion();
+                if (actualVersion.equalsIgnoreCase(version)) {
+                    logger.info("You are running latest release (" + version + ")");
+                    newestVersion = true;
+                } else {
+                    logger.info("There is a new v" + version + " update available (You are running v" + actualVersion + ")." + "\n" + "Outdated versions are no longer supported, get new one here https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-papi-support-1-13-1-17.81780/");
+                    newestVersion = false;
+                }
             }
         });
 
@@ -86,6 +91,7 @@ public final class DailyRewards extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new ClickEvent(rewardManager), plugin);
         pm.registerEvents(new JoinNotification(plugin), plugin);
+        pm.registerEvents(new Notification(), plugin);
     }
 
     public String getPremium(Player p, String type){

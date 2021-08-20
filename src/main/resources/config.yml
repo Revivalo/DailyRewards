@@ -10,6 +10,9 @@
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+#
 config:
   update-checker: true
   reward-reset: "&e[&6&lDailyRewards&e] &fYou reset &e%type% &freward for player &e%player%"
@@ -30,7 +33,7 @@ config:
   join-hover-message: "&7Click for collect your rewards"
   join-notifications:
   - ' '
-  - '&2 - &a%rewards% rewards are waiting for you! &f(Click here)'
+  - '&2 - &a%rewards% reward(s) are waiting for you! &f(Click here)'
   - ' '
   cooldown-format: "&c%days% days %hours% hours"
   cooldown-message: "&c[&4&lDailyRewards&c] For &l%type% &creward you have to wait &n%time%"

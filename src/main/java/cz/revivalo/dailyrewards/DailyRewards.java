@@ -31,10 +31,13 @@ public final class DailyRewards extends JavaPlugin {
     private GuiManager guiManager;
     public boolean papi = false;
     public static boolean newestVersion;
+    public static boolean isHexSupport;
 
     @Override
     public void onEnable() {
         plugin = this;
+
+        isHexSupport = Bukkit.getBukkitVersion().contains("6") || Bukkit.getBukkitVersion().contains("7");
 
         int pluginId = 12070;
         new Metrics(this, pluginId);

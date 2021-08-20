@@ -23,8 +23,7 @@ public class RewardManager {
     }
     /*
     TODO:
-    UDĚLAT ŠTASTNÝ DEN
-
+    MySQL support
      */
 
     public void claim(Player p, String type, boolean fromCommand){

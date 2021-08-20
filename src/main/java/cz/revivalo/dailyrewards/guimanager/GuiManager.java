@@ -32,7 +32,7 @@ public class GuiManager {
         Inventory inv = Bukkit.createInventory(new Rewards(), Integer.parseInt(Lang.MENUSIZE.content(p)), Lang.MENUTITLE.content(p));
         if (Boolean.parseBoolean(Lang.FILLBACKGROUND.content(p))){
             for (int i = 0; i < Integer.parseInt(Lang.MENUSIZE.content(p)); i++){
-                inv.setItem(i, createGuiItem(Lang.BACKGROUNDITEM.content(p).toUpperCase(), false, "", null));
+                inv.setItem(i, createGuiItem(Lang.BACKGROUNDITEM.content(p).toUpperCase(), false, " ", null));
             }
         }
         inv.setItem(Integer.parseInt(Lang.DAILYPOSITION.content(null)), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? Lang.DAILYAVAILABLEITEM.content(null) : Lang.DAILYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? Lang.DAILYDISPLAYNAMEAVAILABLE.content(p) : Lang.DAILYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? replace(p, Lang.valueOf("DAILYAVAILABLE" + plugin.getPremium(p, "daily") + "LORE").contentLore(p), "daily") : replace(p, Lang.DAILYUNAVAILABLELORE.contentLore(p), "daily")));

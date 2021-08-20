@@ -2,7 +2,7 @@ package cz.revivalo.dailyrewards.lang;
 
 import cz.revivalo.dailyrewards.DailyRewards;
 import me.clip.placeholderapi.PlaceholderAPI;
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public enum Lang {
     REWARDRESET("reward-reset"),
@@ -64,6 +66,13 @@ public enum Lang {
     WEEKLYREWARDS("weekly-rewards"),
     WEEKLYPREMIUMREWARDS("weekly-premium-rewards"),
 
+    USEMYSQL("use-mysql"),
+    MYSQLIP("mysql-ip"),
+    MYSQLDBNAME("mysql-database-name"),
+    MYSQLUSERNAME("mysql-username"),
+    MYSQLPASSWORD("mysql-password"),
+
+
     MONTHLYPOSITION("monthly-position"),
     MONTHLYSOUND("monthly-sound"),
     MONTHLYTITLE("monthly-title"),
@@ -82,22 +91,22 @@ public enum Lang {
 
     private final String text;
 
-    private static Map<String, String> messages = new HashMap<>();
-    private static Map<String, List<String>> lores = new HashMap<>();
+    private static final Map<String, String> messages = new HashMap<>();
+    private static final Map<String, List<String>> lores = new HashMap<>();
 
     Lang(final String text) {
         this.text = text;
     }
 
     public String content() {
-        return ChatColor.translateAlternateColorCodes('&', messages.get(text));
+        return applyColor(messages.get(text));
     }
 
     public String content(Player p) {
         if (DailyRewards.getPlugin(DailyRewards.class).papi){
-            return PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', messages.get(text)));
+            return PlaceholderAPI.setPlaceholders(p, applyColor(messages.get(text)));
         } else {
-            return ChatColor.translateAlternateColorCodes('&', messages.get(text));
+            return applyColor(messages.get(text));
         }
     }
 
@@ -105,15 +114,19 @@ public enum Lang {
         List<String> lore = new ArrayList<>();
         for (String str : lores.get(text)){
             if (DailyRewards.getPlugin(DailyRewards.class).papi){
-                lore.add(PlaceholderAPI.setPlaceholders(p, ChatColor.translateAlternateColorCodes('&', str)));
+                lore.add(PlaceholderAPI.setPlaceholders(p, applyColor(str)));
             } else {
-                lore.add(ChatColor.translateAlternateColorCodes('&', str));
+                lore.add(applyColor(str));
             }
         }
         return lore;
     }
 
     static {
+        reload();
+    }
+
+    public static void reload(){
         FileConfiguration cfg = DailyRewards.getPlugin(DailyRewards.class).getConfig();
         for (String key : cfg.getConfigurationSection("config").getKeys(true))
             if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications")){
@@ -123,13 +136,18 @@ public enum Lang {
             }
     }
 
-    public static void reload(){
-        FileConfiguration cfg = DailyRewards.getPlugin(DailyRewards.class).getConfig();
-        for (String key : cfg.getConfigurationSection("config").getKeys(true))
-            if (key.endsWith("lore") || key.endsWith("rewards")){
-                lores.put(key, cfg.getStringList("config." + key));
-            } else {
-                messages.put(key, cfg.getString("config." + key));
+    private final Pattern hexPattern = Pattern.compile("<#([A-Fa-f0-9]){6}>");
+    public String applyColor(String message){
+        if (DailyRewards.isHexSupport) {
+            Matcher matcher = hexPattern.matcher(message);
+            while (matcher.find()) {
+                final ChatColor hexColor = ChatColor.of(matcher.group().substring(1, matcher.group().length() - 1));
+                final String before = message.substring(0, matcher.start());
+                final String after = message.substring(matcher.end());
+                message = before + hexColor + after;
+                matcher = hexPattern.matcher(message);
             }
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 }

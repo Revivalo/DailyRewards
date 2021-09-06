@@ -15,7 +15,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 public class JoinNotification implements Listener {
     private final DailyRewards plugin;
     private final Cooldowns cooldowns;
-    public JoinNotification(DailyRewards plugin) {
+    public JoinNotification(final DailyRewards plugin) {
         this.plugin = plugin;
         cooldowns = plugin.getCooldowns();
     }
@@ -23,10 +23,10 @@ public class JoinNotification implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-        if (!Boolean.parseBoolean(Lang.AUTOMATICALLYACTIVATE.content(p))){
+        if (!Lang.AUTOMATICALLYACTIVATE.getBoolean()){
             cooldowns.set(e.getPlayer());
         }
-        if (Boolean.parseBoolean(Lang.ENABLEJOINNOTIFICATION.content(p))) {
+        if (Lang.ENABLEJOINNOTIFICATION.getBoolean()) {
             int available = 0;
             for (int i = 0; i <= 3; i++) {
                 if (i == 0) {
@@ -49,7 +49,7 @@ public class JoinNotification implements Listener {
                             p.spigot().sendMessage(joinMsg);
                         }
                     }
-                }.runTaskLater(plugin, Integer.parseInt(Lang.JOINNOTIFICATIONDELAY.content(p)) * 20L);
+                }.runTaskLater(plugin, Lang.JOINNOTIFICATIONDELAY.getInt() * 20L);
             }
         }
     }

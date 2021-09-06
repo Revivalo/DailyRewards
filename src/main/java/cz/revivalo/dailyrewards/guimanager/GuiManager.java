@@ -30,8 +30,8 @@ public class GuiManager {
 
     public Inventory openRewardsMenu(Player p){
         Inventory inv = Bukkit.createInventory(new Rewards(), Integer.parseInt(Lang.MENUSIZE.content(p)), Lang.MENUTITLE.content(p));
-        if (Boolean.parseBoolean(Lang.FILLBACKGROUND.content(p))){
-            for (int i = 0; i < Integer.parseInt(Lang.MENUSIZE.content(p)); i++){
+        if (Lang.FILLBACKGROUND.getBoolean()){
+            for (int i = 0; i < Lang.MENUSIZE.getInt(); i++){
                 inv.setItem(i, createGuiItem(Lang.BACKGROUNDITEM.content(p).toUpperCase(), false, " ", null));
             }
         }
@@ -41,14 +41,14 @@ public class GuiManager {
             @Override
             public void run() {
                 if (p.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENUTITLE.content(p))) {
-                    inv.setItem(Integer.parseInt(Lang.DAILYPOSITION.content(null)), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? Lang.DAILYAVAILABLEITEM.content(null) : Lang.DAILYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? Lang.DAILYDISPLAYNAMEAVAILABLE.content(p) : Lang.DAILYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? replace(p, Lang.valueOf("DAILYAVAILABLE" + plugin.getPremium(p, "daily") + "LORE").contentLore(p), "daily") : replace(p, Lang.DAILYUNAVAILABLELORE.contentLore(p), "daily")));
+                    inv.setItem(Lang.DAILYPOSITION.getInt(), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? Lang.DAILYAVAILABLEITEM.content(null) : Lang.DAILYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? Lang.DAILYDISPLAYNAMEAVAILABLE.content(p) : Lang.DAILYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "daily", false)) < 0 ? replace(p, Lang.valueOf("DAILYAVAILABLE" + plugin.getPremium(p, "daily") + "LORE").contentLore(p), "daily") : replace(p, Lang.DAILYUNAVAILABLELORE.contentLore(p), "daily")));
                 } else {
                     cancel();
                 }
 
             }}.runTaskTimer(plugin, 0, 20);
-        inv.setItem(Integer.parseInt(Lang.WEEKLYPOSITION.content(null)), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0 ? Lang.WEEKLYAVAILABLEITEM.content(null).toUpperCase() : Lang.WEEKLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0 ? Lang.WEEKLYDISPLAYNAMEAVAILABLE.content(p) : Lang.WEEKLYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0 ? replace(p, Lang.valueOf("WEEKLYAVAILABLE" + plugin.getPremium(p, "weekly") + "LORE").contentLore(p), "weekly") : replace(p, Lang.WEEKLYUNAVAILABLELORE.contentLore(p), "weekly")));
-        inv.setItem(Integer.parseInt(Lang.MONTHLYPOSITION.content(null)), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0 ? Lang.MONTHLYAVAILABLEITEM.content(null).toUpperCase() : Lang.MONTHLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0 ? Lang.MONTHLYDISPLAYNAMEAVAILABLE.content(p) : Lang.MONTHLYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0 ? replace(p, Lang.valueOf("MONTHLYAVAILABLE" + plugin.getPremium(p, "monthly") + "LORE").contentLore(p), "monthly") : replace(p, Lang.MONTHLYUNAVAILABLELORE.contentLore(p), "monthly")));
+        inv.setItem(Integer.parseInt(Lang.WEEKLYPOSITION.content()), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0 ? Lang.WEEKLYAVAILABLEITEM.content(null).toUpperCase() : Lang.WEEKLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0 ? Lang.WEEKLYDISPLAYNAMEAVAILABLE.content(p) : Lang.WEEKLYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "weekly", false)) < 0 ? replace(p, Lang.valueOf("WEEKLYAVAILABLE" + plugin.getPremium(p, "weekly") + "LORE").contentLore(p), "weekly") : replace(p, Lang.WEEKLYUNAVAILABLELORE.contentLore(p), "weekly")));
+        inv.setItem(Integer.parseInt(Lang.MONTHLYPOSITION.content()), createGuiItem(Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0 ? Lang.MONTHLYAVAILABLEITEM.content(null).toUpperCase() : Lang.MONTHLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0, Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0 ? Lang.MONTHLYDISPLAYNAMEAVAILABLE.content(p) : Lang.MONTHLYDISPLAYNAMEUNAVAILABLE.content(p), Long.parseLong(cooldowns.getCooldown(p, "monthly", false)) < 0 ? replace(p, Lang.valueOf("MONTHLYAVAILABLE" + plugin.getPremium(p, "monthly") + "LORE").contentLore(p), "monthly") : replace(p, Lang.MONTHLYUNAVAILABLELORE.contentLore(p), "monthly")));
         return inv;
     }
 

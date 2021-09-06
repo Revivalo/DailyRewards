@@ -102,6 +102,10 @@ public enum Lang {
         return applyColor(messages.get(text));
     }
 
+    public boolean getBoolean(){return Boolean.parseBoolean(messages.get(text));}
+
+    public int getInt(){return Integer.parseInt(messages.get(text));}
+
     public String content(Player p) {
         if (DailyRewards.getPlugin(DailyRewards.class).papi){
             return PlaceholderAPI.setPlaceholders(p, applyColor(messages.get(text)));

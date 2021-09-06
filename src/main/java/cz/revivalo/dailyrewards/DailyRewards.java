@@ -33,6 +33,12 @@ public final class DailyRewards extends JavaPlugin {
     public static boolean newestVersion;
     public static boolean isHexSupport;
 
+    //
+    // TODO:
+    // MySQL support
+    // Custom reward's times
+    //
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -45,7 +51,7 @@ public final class DailyRewards extends JavaPlugin {
         Logger logger = this.getLogger();
 
         new UpdateChecker(this, 81780).getVersion(version -> {
-            if (Boolean.parseBoolean(Lang.UPDATECHECKER.content())) {
+            if (Lang.UPDATECHECKER.getBoolean()) {
                 String actualVersion = this.getDescription().getVersion();
                 if (actualVersion.equalsIgnoreCase(version)) {
                     logger.info("You are running latest release (" + version + ")");

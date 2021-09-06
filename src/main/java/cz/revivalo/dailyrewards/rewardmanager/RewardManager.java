@@ -21,10 +21,6 @@ public class RewardManager {
         this.plugin = plugin;
         cooldowns = plugin.getCooldowns();
     }
-    /*
-    TODO:
-    MySQL support
-     */
 
     public void claim(Player p, String type, boolean fromCommand){
         long cd = Long.parseLong(cooldowns.getCooldown(p, type, false));
@@ -54,7 +50,7 @@ public class RewardManager {
             p.playSound(p.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase() + "SOUND").content(p).toUpperCase()), 1F, 1F);
             p.sendTitle(Lang.valueOf(type.toUpperCase() + "TITLE").content(p), Lang.valueOf(type.toUpperCase() + "SUBTITLE").content(p), 15, 35, 15);
             cooldowns.setCooldown(p, type);
-            if (Boolean.parseBoolean(Lang.ANNOUNCEENABLED.content(p))) {
+            if (Lang.ANNOUNCEENABLED.getBoolean()) {
                 announce(Lang.valueOf(type.toUpperCase() + plugin.getPremium(p, type) + "COLLECTED").content(p).replace("%player%", p.getName()));
             }
             if (!fromCommand) {

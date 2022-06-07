@@ -22,40 +22,51 @@ public class RewardManager {
         cooldowns = plugin.getCooldowns();
     }
 
-    public void claim(Player p, String type, boolean fromCommand){
-        long cd = Long.parseLong(cooldowns.getCooldown(p, type, false));
-        if (!p.hasPermission("dailyreward." + type)){
+    public void claim(final Player player, String type, boolean fromCommand){
+        long cd = Long.parseLong(cooldowns.getCooldown(player, type, false));
+        if (!player.hasPermission("dailyreward." + type)){
             if (fromCommand) {
-                p.sendMessage(Lang.PERMISSIONMSG.content(p));
+                player.sendMessage(Lang.PERMISSIONMSG.content(player));
             }
             return;
         }
         if (cd >= 0){
-            String time = cooldowns.getCooldown(p, type, true);
+            String time = cooldowns.getCooldown(player, type, true);
             if (fromCommand){
-                p.sendMessage(Lang.COOLDOWNMESSAGE.content(p).replace("%type%", type).replace("%time%", time));
+                player.sendMessage(Lang.COOLDOWNMESSAGE.content(player).replace("%type%", getRewardPlaceholder(type)).replace("%time%", time));
             } else {
-                p.playSound(p.getLocation(), Sound.valueOf(Lang.UNAVAILABLEREWARDSOUND.content(p).toUpperCase()), 1F, 1F);
+                player.playSound(player.getLocation(), Sound.valueOf(Lang.UNAVAILABLEREWARDSOUND.content(player).toUpperCase()), 1F, 1F);
             }
         } else {
-            List<String> rewards = Lang.valueOf(type.toUpperCase() + plugin.getPremium(p, type) + "REWARDS").contentLore(p);
+            List<String> rewards = Lang.valueOf(type.toUpperCase() + plugin.getPremium(player, type) + "REWARDS").contentLore(player);
             ConsoleCommandSender console = Bukkit.getConsoleSender();
             if (rewards.size() != 0) {
                 for (String str : rewards) {
-                    Bukkit.dispatchCommand(console, str.replace("%random%", String.valueOf(new Random().nextInt(200) + 100)).replace("%player%", p.getName()));
+                    Bukkit.dispatchCommand(console, str.replace("%random%", String.valueOf(new Random().nextInt(200) + 100)).replace("%player%", player.getName()));
                 }
             } else {
-                p.sendMessage(Lang.REWARDDONTSET.content(p));
+                player.sendMessage(Lang.REWARDDONTSET.content(player));
             }
-            p.playSound(p.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase() + "SOUND").content(p).toUpperCase()), 1F, 1F);
-            p.sendTitle(Lang.valueOf(type.toUpperCase() + "TITLE").content(p), Lang.valueOf(type.toUpperCase() + "SUBTITLE").content(p), 15, 35, 15);
-            cooldowns.setCooldown(p, type);
+            player.playSound(player.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase() + "SOUND").content(player).toUpperCase()), 1F, 1F);
+            player.sendTitle(Lang.valueOf(type.toUpperCase() + "TITLE").content(player), Lang.valueOf(type.toUpperCase() + "SUBTITLE").content(player), 15, 35, 15);
+            cooldowns.setCooldown(player, type);
             if (Lang.ANNOUNCEENABLED.getBoolean()) {
-                announce(Lang.valueOf(type.toUpperCase() + plugin.getPremium(p, type) + "COLLECTED").content(p).replace("%player%", p.getName()));
+                announce(Lang.valueOf(type.toUpperCase() + plugin.getPremium(player, type) + "COLLECTED").content(player).replace("%player%", player.getName()));
             }
             if (!fromCommand) {
-                p.closeInventory();
+                player.closeInventory();
             }
+        }
+    }
+
+    private String getRewardPlaceholder(final String reward) {
+        switch (reward){
+            case "daily":
+                return Lang.DAILYPLACEHOLDER.content();
+            case "weekly":
+                return Lang.WEEKLYPLACEHOLDER.content();
+            default:
+                return Lang.MONTHLYPLACEHOLDER.content();
         }
     }
 

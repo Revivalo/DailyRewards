@@ -14,19 +14,19 @@ public class ClickEvent implements Listener {
         this.rewardManager = rewardManager;
     }
 
-    @EventHandler
-    public void onMenuClick(InventoryClickEvent e){
+    @EventHandler (ignoreCancelled = true)
+    public void onMenuClick(final InventoryClickEvent e){
         if (e.getInventory().getHolder() instanceof Rewards){
             if (e.getCurrentItem() == null) return;
             e.setCancelled(true);
-            Player p = (Player) e.getWhoClicked();
+            final Player player = (Player) e.getWhoClicked();
             int slot = e.getSlot();
             if (slot == Integer.parseInt(Lang.DAILYPOSITION.content(null))){
-                rewardManager.claim(p, "daily", false);
+                rewardManager.claim(player, "daily", false);
             } else if (slot == Integer.parseInt(Lang.WEEKLYPOSITION.content(null))){
-                rewardManager.claim(p, "weekly", false);
+                rewardManager.claim(player, "weekly", false);
             } else if (slot == Integer.parseInt(Lang.MONTHLYPOSITION.content(null))){
-                rewardManager.claim(p, "monthly", false);
+                rewardManager.claim(player, "monthly", false);
             }
         }
     }

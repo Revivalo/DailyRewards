@@ -41,6 +41,7 @@ config:
   #
   # DAILY REWARD SECTION
   #
+  daily-placeholder: "daily"
   daily-position: 20
   daily-sound: ENTITY_PLAYER_LEVELUP
   daily-title: "&a&lRewards"
@@ -73,6 +74,7 @@ config:
   #
   # WEEKLY REWARD SECTION
   #
+  weekly-placeholder: "weekly"
   weekly-position: 22
   weekly-sound: ENTITY_FIREWORK_ROCKET_LARGE_BLAST
   weekly-title: "&e&lRewards"
@@ -105,6 +107,7 @@ config:
   #
   # MONTHLY REWARD SECTION
   #
+  monthly-placeholder: "monthly"
   monthly-position: 24
   monthly-sound: ENTITY_FIREWORK_ROCKET_BLAST
   monthly-title: "&9&lRewards"

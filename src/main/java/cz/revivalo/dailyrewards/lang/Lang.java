@@ -34,6 +34,8 @@ public enum Lang {
     UNAVAILABLEREWARDSOUND("unavailable-reward-sound"),
 
     UPDATECHECKER("update-checker"),
+
+    DAILYPLACEHOLDER("daily-placeholder"),
     DAILYPOSITION("daily-position"),
     DAILYSOUND("daily-sound"),
     DAILYTITLE("daily-title"),
@@ -50,6 +52,7 @@ public enum Lang {
     DAILYREWARDS("daily-rewards"),
     DAILYPREMIUMREWARDS("daily-premium-rewards"),
 
+    WEEKLYPLACEHOLDER("weekly-placeholder"),
     WEEKLYPOSITION("weekly-position"),
     WEEKLYSOUND("weekly-sound"),
     WEEKLYTITLE("weekly-title"),
@@ -72,7 +75,7 @@ public enum Lang {
     MYSQLUSERNAME("mysql-username"),
     MYSQLPASSWORD("mysql-password"),
 
-
+    MONTHLYPLACEHOLDER("monthly-placeholder"),
     MONTHLYPOSITION("monthly-position"),
     MONTHLYSOUND("monthly-sound"),
     MONTHLYTITLE("monthly-title"),

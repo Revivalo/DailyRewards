@@ -32,23 +32,23 @@ public class RewardCommand implements CommandExecutor {
             sender.sendMessage("[DailyRewards] Only in-game command!");
             return true;
         } else {
-            Player p = (Player) sender;
+            Player player = (Player) sender;
             if (cmd.getName().equalsIgnoreCase("reward")){
                 switch (args.length){
                     case 0:
-                        rewardManager.claim(p, "daily", true);
+                        rewardManager.claim(player, "daily", true);
                         break;
                     case 1:
                         switch (args[0]){
                             case "weekly":
-                                rewardManager.claim(p, "weekly", true);
+                                rewardManager.claim(player, "weekly", true);
                                 break;
                             case "monthly":
-                                rewardManager.claim(p, "monthly", true);
+                                rewardManager.claim(player, "monthly", true);
                                 break;
                             case "reload":
-                                if (!p.hasPermission("dailyreward.manage")){
-                                    p.sendMessage(Lang.PERMISSIONMSG.content(p));
+                                if (!player.hasPermission("dailyreward.manage")){
+                                    player.sendMessage(Lang.PERMISSIONMSG.content(player));
                                 } else {
                                     this.plugin.reloadConfig();
                                     File configFile = new File(Bukkit.getServer().getPluginManager().getPlugin("DailyRewards").getDataFolder(), "config.yml");
@@ -60,7 +60,7 @@ public class RewardCommand implements CommandExecutor {
                                     }
 
                                     Lang.reload();
-                                    p.sendMessage(Lang.RELOADMSG.content(p));
+                                    player.sendMessage(Lang.RELOADMSG.content(player));
                                 }
                                 break;
                         }
@@ -68,20 +68,20 @@ public class RewardCommand implements CommandExecutor {
                     case 3:
                         switch (args[0]){
                             case "reset":
-                                if (!p.hasPermission("dailyreward.manage")){
-                                    p.sendMessage(Lang.PERMISSIONMSG.content(p));
+                                if (!player.hasPermission("dailyreward.manage")){
+                                    player.sendMessage(Lang.PERMISSIONMSG.content(player));
                                 } else {
                                     if (rewardManager.reset(Bukkit.getOfflinePlayer(args[1]), args[2])) {
-                                        p.sendMessage(Lang.REWARDRESET.content(p).replace("%type%", args[2]).replace("%player%", args[1]));
+                                        player.sendMessage(Lang.REWARDRESET.content(player).replace("%type%", args[2]).replace("%player%", args[1]));
                                     } else {
-                                        p.sendMessage(Lang.UNAVAILABLEPLAYER.content(p).replace("%player%", args[1]));
+                                        player.sendMessage(Lang.UNAVAILABLEPLAYER.content(player).replace("%player%", args[1]));
                                     }
                                 }
                                 break;
                         }
                 }
             } else if (cmd.getName().equalsIgnoreCase("rewards")){
-                p.openInventory(guiManager.openRewardsMenu(p));
+                player.openInventory(guiManager.openRewardsMenu(player));
             }
         }
         return true;

@@ -10,10 +10,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Cooldowns {
 
-    public String getCooldown(Player p, String type, boolean formated){
+    public String getCooldown(Player p, String type, boolean formatted){
         FileConfiguration data = PlayerConfig.getConfig(p);
         long cd = data.getLong("rewards." + type) - System.currentTimeMillis();
-        if (formated){
+        if (formatted){
             switch (type){
                 case "daily":
                     return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(cd),

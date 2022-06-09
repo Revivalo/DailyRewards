@@ -37,7 +37,6 @@ public final class DailyRewards extends JavaPlugin {
     // TODO:
     // MySQL support
     // Custom reward's times
-    // Source code published
     // Auto claim reward
     //
 
@@ -45,7 +44,7 @@ public final class DailyRewards extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        isHexSupport = Bukkit.getBukkitVersion().contains("6") || Bukkit.getBukkitVersion().contains("7") || Bukkit.getBukkitVersion().contains("8");
+        isHexSupport = Bukkit.getBukkitVersion().contains("6") || Bukkit.getBukkitVersion().contains("7") || Bukkit.getBukkitVersion().contains("8") || Bukkit.getBukkitVersion().contains("9");
 
         int pluginId = 12070;
         new Metrics(this, pluginId);

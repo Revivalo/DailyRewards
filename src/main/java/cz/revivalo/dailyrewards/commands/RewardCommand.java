@@ -27,7 +27,7 @@ public class RewardCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        boolean fromPlayer = sender instanceof Player;
+        final boolean fromPlayer = sender instanceof Player;
         if (!fromPlayer){
             sender.sendMessage("[DailyRewards] Only in-game command!");
             return true;

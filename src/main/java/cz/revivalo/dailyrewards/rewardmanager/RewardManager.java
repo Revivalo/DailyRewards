@@ -11,6 +11,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Random;
 
@@ -35,10 +36,10 @@ public class RewardManager {
             if (fromCommand){
                 player.sendMessage(Lang.COOLDOWNMESSAGE.content(player).replace("%type%", getRewardPlaceholder(type)).replace("%time%", time));
             } else {
-                player.playSound(player.getLocation(), Sound.valueOf(Lang.UNAVAILABLEREWARDSOUND.content(player).toUpperCase()), 1F, 1F);
+                player.playSound(player.getLocation(), Sound.valueOf(Lang.UNAVAILABLEREWARDSOUND.content(player).toUpperCase(Locale.ENGLISH)), 1F, 1F);
             }
         } else {
-            List<String> rewards = Lang.valueOf(type.toUpperCase() + plugin.getPremium(player, type) + "REWARDS").contentLore(player);
+            List<String> rewards = Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + plugin.getPremium(player, type) + "REWARDS").contentLore(player);
             ConsoleCommandSender console = Bukkit.getConsoleSender();
             if (rewards.size() != 0) {
                 for (String str : rewards) {
@@ -47,11 +48,11 @@ public class RewardManager {
             } else {
                 player.sendMessage(Lang.REWARDDONTSET.content(player));
             }
-            player.playSound(player.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase() + "SOUND").content(player).toUpperCase()), 1F, 1F);
-            player.sendTitle(Lang.valueOf(type.toUpperCase() + "TITLE").content(player), Lang.valueOf(type.toUpperCase() + "SUBTITLE").content(player), 15, 35, 15);
+            player.playSound(player.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "SOUND").content(player).toUpperCase(Locale.ENGLISH)), 1F, 1F);
+            player.sendTitle(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "TITLE").content(player), Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "SUBTITLE").content(player), 15, 35, 15);
             cooldowns.setCooldown(player, type);
             if (Lang.ANNOUNCEENABLED.getBoolean()) {
-                announce(Lang.valueOf(type.toUpperCase() + plugin.getPremium(player, type) + "COLLECTED").content(player).replace("%player%", player.getName()));
+                announce(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + plugin.getPremium(player, type) + "COLLECTED").content(player).replace("%player%", player.getName()));
             }
             if (!fromCommand) {
                 player.closeInventory();
@@ -70,15 +71,15 @@ public class RewardManager {
         }
     }
 
-    public boolean reset(OfflinePlayer p, String type){
-        if (p.isOnline() || p.hasPlayedBefore()) {
-            FileConfiguration data = PlayerConfig.getConfig(p);
+    public boolean reset(final OfflinePlayer player, String type){
+        if (player.isOnline() || player.hasPlayedBefore()) {
+            FileConfiguration data = PlayerConfig.getConfig(player);
             if (type.equalsIgnoreCase("all")) {
                 Objects.requireNonNull(data).set("rewards", null);
             } else {
-                Objects.requireNonNull(data).set("rewards." + type, 0);
+                data.set("rewards." + type, 0);
             }
-            Objects.requireNonNull(PlayerConfig.getConfig(p)).save();
+            Objects.requireNonNull(PlayerConfig.getConfig(player)).save();
             return true;
         } else {
             return false;

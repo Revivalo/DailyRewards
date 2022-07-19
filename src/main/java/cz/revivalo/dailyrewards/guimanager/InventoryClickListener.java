@@ -8,9 +8,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class ClickEvent implements Listener {
+public class InventoryClickListener implements Listener {
     private final RewardManager rewardManager;
-    public ClickEvent(RewardManager rewardManager) {
+    public InventoryClickListener(RewardManager rewardManager) {
         this.rewardManager = rewardManager;
     }
 

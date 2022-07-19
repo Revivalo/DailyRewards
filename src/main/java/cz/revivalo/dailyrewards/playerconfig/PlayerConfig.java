@@ -17,9 +17,9 @@ public class PlayerConfig extends YamlConfiguration {
 
     public static PlayerConfig getConfig(OfflinePlayer player) {
         UUID uuid = player.getUniqueId();
-        if (!new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("DailyRewards")).getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml").exists()) {
+        /*if (!new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("DailyRewards")).getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml").exists()) {
             return null;
-        }
+        }*/
         return getConfig(uuid);
     }
 

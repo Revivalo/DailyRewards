@@ -2,7 +2,7 @@ package cz.revivalo.dailyrewards;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
 import cz.revivalo.dailyrewards.commands.RewardCommand;
-import cz.revivalo.dailyrewards.guimanager.ClickEvent;
+import cz.revivalo.dailyrewards.guimanager.InventoryClickListener;
 import cz.revivalo.dailyrewards.guimanager.GuiManager;
 import cz.revivalo.dailyrewards.lang.Lang;
 import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
@@ -99,7 +99,7 @@ public final class DailyRewards extends JavaPlugin {
 
     void implementsListeners(){
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(new ClickEvent(rewardManager), plugin);
+        pm.registerEvents(new InventoryClickListener(rewardManager), plugin);
         pm.registerEvents(new JoinNotification(plugin), plugin);
         pm.registerEvents(new Notification(), plugin);
     }

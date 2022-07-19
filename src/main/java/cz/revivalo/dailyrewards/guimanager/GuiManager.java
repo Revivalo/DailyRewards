@@ -79,8 +79,8 @@ public class GuiManager {
         }
         if (meta != null) {
             meta.setDisplayName(name);
+            Objects.requireNonNull(meta).setLore(lore);
         }
-        Objects.requireNonNull(meta).setLore(lore);
         item.setItemMeta(meta);
 
         return item;

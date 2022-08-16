@@ -8,6 +8,7 @@ import cz.revivalo.dailyrewards.lang.Lang;
 import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
+import cz.revivalo.dailyrewards.rewardmanager.Placeholder;
 import cz.revivalo.dailyrewards.rewardmanager.RewardManager;
 import cz.revivalo.dailyrewards.updatechecker.Notification;
 import cz.revivalo.dailyrewards.updatechecker.UpdateChecker;
@@ -82,6 +83,7 @@ public final class DailyRewards extends JavaPlugin {
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             papi = true;
+            new Placeholder(this).register();
         } else {
             plugin.getLogger().warning("Could not find PlaceholderAPI, placeholders will not work");
         }

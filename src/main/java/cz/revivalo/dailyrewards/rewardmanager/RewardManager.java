@@ -2,7 +2,7 @@ package cz.revivalo.dailyrewards.rewardmanager;
 
 import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.lang.Lang;
-import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
+import cz.revivalo.dailyrewards.playerconfig.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -73,13 +73,13 @@ public class RewardManager {
 
     public boolean reset(final OfflinePlayer player, String type){
         if (player.isOnline() || player.hasPlayedBefore()) {
-            FileConfiguration data = PlayerConfig.getConfig(player);
+            FileConfiguration data = PlayerData.getConfig(player);
             if (type.equalsIgnoreCase("all")) {
                 Objects.requireNonNull(data).set("rewards", null);
             } else {
                 data.set("rewards." + type, 0);
             }
-            Objects.requireNonNull(PlayerConfig.getConfig(player)).save();
+            Objects.requireNonNull(PlayerData.getConfig(player)).save();
             return true;
         } else {
             return false;
@@ -87,8 +87,8 @@ public class RewardManager {
     }
 
     private void announce(String msg){
-        for (Player p : Bukkit.getOnlinePlayers()){
-            p.sendMessage(msg);
+        for (Player onlinePlayer : Bukkit.getOnlinePlayers()){
+            onlinePlayer.sendMessage(msg);
         }
     }
 }

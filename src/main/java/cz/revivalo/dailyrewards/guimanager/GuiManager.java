@@ -46,7 +46,7 @@ public class GuiManager {
                     cancel();
                 }
 
-            }}.runTaskTimer(plugin, 0, 20);
+            }}.runTaskTimerAsynchronously(plugin, 0, 20);
         inv.setItem(Integer.parseInt(Lang.WEEKLYPOSITION.content()), createGuiItem(Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 ? Lang.WEEKLYAVAILABLEITEM.content(null).toUpperCase() : Lang.WEEKLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0, Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 ? Lang.WEEKLYDISPLAYNAMEAVAILABLE.content(player) : Lang.WEEKLYDISPLAYNAMEUNAVAILABLE.content(player), Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 ? replace(player, Lang.valueOf("WEEKLYAVAILABLE" + plugin.getPremium(player, "weekly") + "LORE").contentLore(player), "weekly") : replace(player, Lang.WEEKLYUNAVAILABLELORE.contentLore(player), "weekly")));
         inv.setItem(Integer.parseInt(Lang.MONTHLYPOSITION.content()), createGuiItem(Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 ? Lang.MONTHLYAVAILABLEITEM.content(null).toUpperCase() : Lang.MONTHLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0, Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 ? Lang.MONTHLYDISPLAYNAMEAVAILABLE.content(player) : Lang.MONTHLYDISPLAYNAMEUNAVAILABLE.content(player), Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 ? replace(player, Lang.valueOf("MONTHLYAVAILABLE" + plugin.getPremium(player, "monthly") + "LORE").contentLore(player), "monthly") : replace(player, Lang.MONTHLYUNAVAILABLELORE.contentLore(player), "monthly")));
         return inv;
@@ -66,7 +66,7 @@ public class GuiManager {
         if (id.equalsIgnoreCase("PLAYER_HEAD")) {
             meta = item.getItemMeta();
             if (meta != null) {
-                ((SkullMeta) meta).setOwner(null);
+                ((SkullMeta) meta).setOwningPlayer(null);
             }
         }
         if (glow) {

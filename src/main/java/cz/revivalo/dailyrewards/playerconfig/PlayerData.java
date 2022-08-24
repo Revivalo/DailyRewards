@@ -1,6 +1,6 @@
 package cz.revivalo.dailyrewards.playerconfig;
 
-import org.bukkit.Bukkit;
+import cz.revivalo.dailyrewards.DailyRewards;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -8,14 +8,14 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.*;
 
-public class PlayerConfig extends YamlConfiguration {
-    private static final Map<UUID, PlayerConfig> configs = new HashMap<>();
+public class PlayerData extends YamlConfiguration {
+    private static final Map<UUID, PlayerData> configs = new HashMap<>();
 
-    public static PlayerConfig getConfig(Player player) {
+    public static PlayerData getConfig(Player player) {
         return getConfig(player.getUniqueId());
     }
 
-    public static PlayerConfig getConfig(OfflinePlayer player) {
+    public static PlayerData getConfig(OfflinePlayer player) {
         UUID uuid = player.getUniqueId();
         /*if (!new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("DailyRewards")).getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml").exists()) {
             return null;
@@ -23,21 +23,21 @@ public class PlayerConfig extends YamlConfiguration {
         return getConfig(uuid);
     }
 
-    public static PlayerConfig getConfig(UUID uuid) {
+    public static PlayerData getConfig(UUID uuid) {
         synchronized (configs) {
             if (configs.containsKey(uuid)) {
                 return configs.get(uuid);
             }
-            PlayerConfig config = new PlayerConfig(uuid);
+            PlayerData config = new PlayerData(uuid);
             configs.put(uuid, config);
             return config;
         }
     }
 
     public static void removeConfigs() {
-        Collection<PlayerConfig> oldConfs = new ArrayList<>(configs.values());
+        Collection<PlayerData> oldConfs = new ArrayList<>(configs.values());
         synchronized (configs) {
-            for (PlayerConfig config : oldConfs) {
+            for (PlayerData config : oldConfs) {
                 config.discard();
             }
         }
@@ -47,15 +47,15 @@ public class PlayerConfig extends YamlConfiguration {
     private final Object saveLock = new Object();
     private final UUID uuid;
 
-    public PlayerConfig(UUID uuid) {
+    public PlayerData(UUID uuid) {
         super();
-        file = new File(Objects.requireNonNull(Bukkit.getServer().getPluginManager().getPlugin("DailyRewards")).getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml");
+        file = new File(DailyRewards.getPlugin(DailyRewards.class).getDataFolder(), "userdata" + File.separator + uuid.toString() + ".yml");
         this.uuid = uuid;
         reload();
     }
 
     @SuppressWarnings("unused")
-    private PlayerConfig() {
+    private PlayerData() {
         uuid = null;
     }
 

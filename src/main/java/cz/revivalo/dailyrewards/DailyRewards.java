@@ -5,7 +5,7 @@ import cz.revivalo.dailyrewards.commands.RewardCommand;
 import cz.revivalo.dailyrewards.guimanager.InventoryClickListener;
 import cz.revivalo.dailyrewards.guimanager.GuiManager;
 import cz.revivalo.dailyrewards.lang.Lang;
-import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
+import cz.revivalo.dailyrewards.playerconfig.PlayerData;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
 import cz.revivalo.dailyrewards.rewardmanager.Placeholder;
@@ -37,7 +37,6 @@ public final class DailyRewards extends JavaPlugin {
     //
     // TODO:
     // MySQL support
-    // Custom reward's times
     // Auto claim reward
     //
 
@@ -91,7 +90,7 @@ public final class DailyRewards extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        PlayerConfig.removeConfigs();
+        PlayerData.removeConfigs();
     }
 
     void registerCommands(){

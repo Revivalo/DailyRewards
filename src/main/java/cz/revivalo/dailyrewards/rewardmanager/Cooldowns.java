@@ -1,7 +1,7 @@
 package cz.revivalo.dailyrewards.rewardmanager;
 
 import cz.revivalo.dailyrewards.lang.Lang;
-import cz.revivalo.dailyrewards.playerconfig.PlayerConfig;
+import cz.revivalo.dailyrewards.playerconfig.PlayerData;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Cooldowns {
 
     public String getCooldown(Player p, String type, boolean formatted){
-        FileConfiguration data = PlayerConfig.getConfig(p);
+        FileConfiguration data = PlayerData.getConfig(p);
         long cd = data.getLong("rewards." + type) - System.currentTimeMillis();
         if (formatted){
             switch (type){
@@ -32,32 +32,33 @@ public class Cooldowns {
     }
 
     public void set(Player p){
-        FileConfiguration data = PlayerConfig.getConfig(p);
+        FileConfiguration data = PlayerData.getConfig(p);
         if (!data.isConfigurationSection("rewards")) {
             long currentTime = System.currentTimeMillis();
-            Objects.requireNonNull(data).set("rewards.daily", currentTime + 86400000);
-            Objects.requireNonNull(data).set("rewards.weekly", currentTime + 604800000);
-            Objects.requireNonNull(data).set("rewards.monthly", currentTime + Long.parseLong("2592000000"));
-            PlayerConfig.getConfig(p).save();
+            Objects.requireNonNull(data).set("rewards.daily", currentTime + Lang.DAILY_COOLDOWN.getLong());
+            Objects.requireNonNull(data).set("rewards.weekly", currentTime + Lang.WEEKLY_COOLDOWN.getLong());
+            Objects.requireNonNull(data).set("rewards.monthly", currentTime + Lang.MONTHLY_COOLDOWN.getLong());
+            PlayerData.getConfig(p).save();
         }
     }
 
 
-    public void setCooldown(Player p, String type){
-        FileConfiguration cfg = PlayerConfig.getConfig(p);
+    public void setCooldown(final Player player, String type){
+        final PlayerData playerData = PlayerData.getConfig(player);
         long cd = 0;
+        long currentTime = System.currentTimeMillis();
         switch (type){
             case "daily":
-                cd = System.currentTimeMillis() + 86400000;
+                cd = currentTime + Lang.DAILY_COOLDOWN.getLong();
                 break;
             case "weekly":
-                cd = System.currentTimeMillis() + 604800000;
+                cd = currentTime + Lang.WEEKLY_COOLDOWN.getLong();
                 break;
             case "monthly":
-                cd = System.currentTimeMillis() + Long.parseLong("2592000000");
+                cd = currentTime + Lang.MONTHLY_COOLDOWN.getLong();
                 break;
         }
-        cfg.set("rewards." + type, cd);
-        PlayerConfig.getConfig(p).save();
+        playerData.set("rewards." + type, cd);
+        playerData.save();
     }
 }

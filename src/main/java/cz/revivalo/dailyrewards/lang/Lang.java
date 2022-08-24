@@ -14,6 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public enum Lang {
+    DAILY_COOLDOWN("daily-cooldown"),
+    WEEKLY_COOLDOWN("weekly-cooldown"),
+    MONTHLY_COOLDOWN("monthly-cooldown"),
     REWARDRESET("reward-reset"),
     UNAVAILABLEPLAYER("unavailable-player"),
     PERMISSIONMSG("permission-msg"),
@@ -108,7 +111,7 @@ public enum Lang {
     public boolean getBoolean(){return Boolean.parseBoolean(messages.get(text));}
 
     public int getInt(){return Integer.parseInt(messages.get(text));}
-
+    public long getLong(){return Long.parseLong(messages.get(text)) * 3600000;}
     public String content(Player p) {
         if (DailyRewards.getPlugin(DailyRewards.class).papi){
             return PlaceholderAPI.setPlaceholders(p, applyColor(messages.get(text)));

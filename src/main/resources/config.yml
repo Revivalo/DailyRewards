@@ -113,7 +113,7 @@ config:
   #
   monthly-placeholder: "monthly"
   # In hours
-  montly-cooldown: 720
+  monthly-cooldown: 720
   monthly-position: 24
   monthly-sound: ENTITY_FIREWORK_ROCKET_BLAST
   monthly-title: "&9&lRewards"

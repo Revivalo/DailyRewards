@@ -18,8 +18,18 @@ config:
   reward-reset: "&e[&6&lDailyRewards&e] &fYou reset &e%type% &freward for player &e%player%"
   unavailable-player: "&c[&4&lDailyRewards&c] Player &n%player%&c is not available"
   permission-msg: "&c[&4&lDailyRewards&c] You are not permitted to use this command"
-  rewards-dont-set: "&c[&4&lDailyRewards&c] Rewards is not set"
+  rewards-dont-set: "&c[&4&lDailyRewards&c] Rewards are not set"
   reload-msg: "&e[&6&lDailyRewards&e] &fPlugin was successfully reloaded"
+  invalid-arguments: "&c[&4&lDailyRewards&c] Use /reward help to list syntax of available commands"
+  incomplete-reward-reset: "&c[&4&lDailyRewards&c] Specify what you specifically want to reset (daily/weekly/monthly/all)"
+  help:
+    - "&e[&6&lDailyRewards&e] &fList with all available commands:"
+    - "&f/rewards &7- Main GUI menu"
+    - "&f/reward &7- obtain daily reward"
+    - "&f/reward weekly &7- obtain weekly reward"
+    - "&f/reward monthly &7- obtain monthly reward"
+    - "&f/reward reset <player> <daily|weekly|monthly|all>"
+    - "&f/reward reload &7- reloads configuration section"
   menu-title: "Rewards"
   menu-size: 45
   fill-background-enabled: true
@@ -32,9 +42,9 @@ config:
   join-notification-delay: 3
   join-hover-message: "&7Click for collect your rewards"
   join-notifications:
-  - ' '
-  - '&2 - &a%rewards% reward(s) are waiting for you! &f(Click here)'
-  - ' '
+    - ' '
+    - '&2 - &a%rewards% reward(s) are waiting for you! &f(Click here)'
+    - ' '
   cooldown-format: "&c%days% days %hours% hours"
   cooldown-message: "&c[&4&lDailyRewards&c] For &l%type% &creward you have to wait &n%time%"
   unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT

@@ -2,7 +2,8 @@ package cz.revivalo.dailyrewards.guimanager;
 
 import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.guimanager.holders.Rewards;
-import cz.revivalo.dailyrewards.lang.Lang;
+import cz.revivalo.dailyrewards.files.Lang;
+import cz.revivalo.dailyrewards.rewardmanager.Cooldown;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 
 import org.bukkit.Bukkit;
@@ -16,48 +17,46 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class GuiManager {
     private final DailyRewards plugin;
     private final Cooldowns cooldowns;
-    public GuiManager(DailyRewards plugin){
+    public GuiManager(final DailyRewards plugin){
         this.plugin = plugin;
         cooldowns = plugin.getCooldowns();
     }
 
-    public Inventory openRewardsMenu(final Player player){
-        Inventory inv = Bukkit.createInventory(new Rewards(), Integer.parseInt(Lang.MENUSIZE.content(player)), Lang.MENUTITLE.content(player));
-        if (Lang.FILLBACKGROUND.getBoolean()){
-            for (int i = 0; i < Lang.MENUSIZE.getInt(); i++){
-                inv.setItem(i, createGuiItem(Lang.BACKGROUNDITEM.content(player).toUpperCase(), false, " ", null));
-            }
-        }
-        inv.setItem(Integer.parseInt(Lang.DAILYPOSITION.content(null)), createGuiItem(Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 ? Lang.DAILYAVAILABLEITEM.content(null) : Lang.DAILYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0, Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 ? Lang.DAILYDISPLAYNAMEAVAILABLE.content(player) : Lang.DAILYDISPLAYNAMEUNAVAILABLE.content(player), Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 ? replace(player, Lang.valueOf("DAILYAVAILABLE" + plugin.getPremium(player, "daily") + "LORE").contentLore(player), "daily") : replace(player, Lang.DAILYUNAVAILABLELORE.contentLore(player), "daily")));
-        new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                if (player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENUTITLE.content(player))) {
-                    inv.setItem(Lang.DAILYPOSITION.getInt(), createGuiItem(Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 ? Lang.DAILYAVAILABLEITEM.content(null) : Lang.DAILYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0, Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 ? Lang.DAILYDISPLAYNAMEAVAILABLE.content(player) : Lang.DAILYDISPLAYNAMEUNAVAILABLE.content(player), Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 ? replace(player, Lang.valueOf("DAILYAVAILABLE" + plugin.getPremium(player, "daily") + "LORE").contentLore(player), "daily") : replace(player, Lang.DAILYUNAVAILABLELORE.contentLore(player), "daily")));
-                } else {
-                    cancel();
+    public void openRewardsMenu(final Player player){
+        Bukkit.getScheduler().scheduleSyncDelayedTask(DailyRewards.getPlugin(DailyRewards.class), () -> {
+            final Inventory inv = Bukkit.createInventory(new Rewards(), Integer.parseInt(Lang.MENU_SIZE.content(player)), Lang.MENU_TITLE.content(player));
+            if (Lang.FILL_BACKGROUND.getBoolean()) {
+                for (int i = 0; i < Lang.MENU_SIZE.getInt(); i++) {
+                    inv.setItem(i, createGuiItem(Lang.BACKGROUND_ITEM.content(player).toUpperCase(), false, " ", null));
                 }
+            }
 
-            }}.runTaskTimerAsynchronously(plugin, 0, 20);
-        inv.setItem(Integer.parseInt(Lang.WEEKLYPOSITION.content()), createGuiItem(Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 ? Lang.WEEKLYAVAILABLEITEM.content(null).toUpperCase() : Lang.WEEKLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0, Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 ? Lang.WEEKLYDISPLAYNAMEAVAILABLE.content(player) : Lang.WEEKLYDISPLAYNAMEUNAVAILABLE.content(player), Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 ? replace(player, Lang.valueOf("WEEKLYAVAILABLE" + plugin.getPremium(player, "weekly") + "LORE").contentLore(player), "weekly") : replace(player, Lang.WEEKLYUNAVAILABLELORE.contentLore(player), "weekly")));
-        inv.setItem(Integer.parseInt(Lang.MONTHLYPOSITION.content()), createGuiItem(Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 ? Lang.MONTHLYAVAILABLEITEM.content(null).toUpperCase() : Lang.MONTHLYUNAVAILABLEITEM.content(null).toUpperCase(), Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0, Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 ? Lang.MONTHLYDISPLAYNAMEAVAILABLE.content(player) : Lang.MONTHLYDISPLAYNAMEUNAVAILABLE.content(player), Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 ? replace(player, Lang.valueOf("MONTHLYAVAILABLE" + plugin.getPremium(player, "monthly") + "LORE").contentLore(player), "monthly") : replace(player, Lang.MONTHLYUNAVAILABLELORE.contentLore(player), "monthly")));
-        return inv;
-    }
+            final Cooldown dailyCooldown = cooldowns.getCooldown(player, "daily");
+            final Cooldown weeklyCooldown = cooldowns.getCooldown(player, "weekly");
+            final Cooldown monthlyCooldown = cooldowns.getCooldown(player, "monthly");
+            inv.setItem(Integer.parseInt(Lang.DAILY_POSITION.content(null)), createGuiItem(dailyCooldown.isClaimable() ? Lang.DAILY_AVAILABLE_ITEM.getTextInUppercase() : Lang.DAILY_UNAVAILABLE_ITEM.getTextInUppercase(), dailyCooldown.isClaimable(),dailyCooldown.isClaimable() ? Lang.DAILY_DISPLAY_NAME_AVAILABLE.content(player) : Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.content(player), dailyCooldown.isClaimable() ? Lang.valueOf("DAILY_AVAILABLE" + plugin.getPremium(player, "daily") + "_LORE").getColoredList(player) : Lang.DAILY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", dailyCooldown.getFormat())));
+            new BukkitRunnable() {
 
-    private List<String> replace(Player p, List<String> lore, String type){
-        List<String> newLore = new ArrayList<>();
-        for (String str : lore){
-            newLore.add(str.replace("%cooldown%", cooldowns.getCooldown(p, type, true)));
-        }
-        return newLore;
+                @Override
+                public void run() {
+                    if (player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.getColoredText())) {
+                        inv.setItem(Lang.DAILY_POSITION.getInt(), createGuiItem(cooldowns.getCooldown(player, "daily").isClaimable() ? Lang.DAILY_AVAILABLE_ITEM.getTextInUppercase() : Lang.DAILY_UNAVAILABLE_ITEM.getTextInUppercase(), cooldowns.getCooldown(player, "daily").isClaimable(), cooldowns.getCooldown(player, "daily").isClaimable() ? Lang.DAILY_DISPLAY_NAME_AVAILABLE.content(player) : Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.content(player), cooldowns.getCooldown(player, "daily").isClaimable() ? Lang.valueOf("DAILY_AVAILABLE" + plugin.getPremium(player, "daily") + "_LORE").getColoredList(player) : Lang.DAILY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", cooldowns.getCooldown(player, "daily").getFormat())));
+                    } else {
+                        cancel();
+                    }
+
+                }
+            }.runTaskTimerAsynchronously(plugin, 0, 20);
+            inv.setItem(Lang.WEEKLY_POSITION.getInt(), createGuiItem(weeklyCooldown.isClaimable() ? Lang.WEEKLY_AVAILABLE_ITEM.getTextInUppercase() : Lang.WEEKLY_UNAVAILABLE_ITEM.getTextInUppercase(), weeklyCooldown.isClaimable(), weeklyCooldown.isClaimable() ? Lang.WEEKLY_DISPLAY_NAME_AVAILABLE.content(player) : Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.content(player), weeklyCooldown.isClaimable() ? Lang.valueOf("WEEKLY_AVAILABLE" + plugin.getPremium(player, "weekly") + "_LORE").getColoredList(player) : Lang.WEEKLY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", weeklyCooldown.getFormat())));
+            inv.setItem(Lang.MONTHLY_POSITION.getInt(), createGuiItem(monthlyCooldown.isClaimable() ? Lang.MONTHLY_AVAILABLE_ITEM.getTextInUppercase() : Lang.MONTHLY_UNAVAILABLE_ITEM.getTextInUppercase(), monthlyCooldown.isClaimable(), monthlyCooldown.isClaimable() ? Lang.MONTHLY_DISPLAYNAME_AVAILABLE.content(player) : Lang.MONTHLY_DISPLAY_NAME_UNAVAILABLE.content(player), monthlyCooldown.isClaimable() ? Lang.valueOf("MONTHLY_AVAILABLE" + plugin.getPremium(player, "monthly") + "_LORE").getColoredList(player) : Lang.MONTHLY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", monthlyCooldown.getFormat())));
+            player.openInventory(inv);
+        });
     }
 
     private ItemStack createGuiItem(String id, boolean glow, String name, List<String> lore) {

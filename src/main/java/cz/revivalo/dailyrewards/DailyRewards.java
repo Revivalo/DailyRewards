@@ -4,8 +4,8 @@ import com.tchristofferson.configupdater.ConfigUpdater;
 import cz.revivalo.dailyrewards.commands.RewardCommand;
 import cz.revivalo.dailyrewards.guimanager.InventoryClickListener;
 import cz.revivalo.dailyrewards.guimanager.GuiManager;
-import cz.revivalo.dailyrewards.lang.Lang;
-import cz.revivalo.dailyrewards.playerconfig.PlayerData;
+import cz.revivalo.dailyrewards.files.Lang;
+import cz.revivalo.dailyrewards.files.PlayerData;
 import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
 import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
 import cz.revivalo.dailyrewards.rewardmanager.Placeholder;
@@ -30,7 +30,7 @@ public final class DailyRewards extends JavaPlugin {
     private Cooldowns cooldowns;
     private RewardManager rewardManager;
     private GuiManager guiManager;
-    public boolean papi = false;
+    public static boolean PAPI = false;
     public static boolean newestVersion;
     public static boolean isHexSupport;
 
@@ -52,7 +52,7 @@ public final class DailyRewards extends JavaPlugin {
         Logger logger = this.getLogger();
 
         new UpdateChecker(this, 81780).getVersion(version -> {
-            if (Lang.UPDATECHECKER.getBoolean()) {
+            if (Lang.UPDATE_CHECKER.getBoolean()) {
                 String actualVersion = this.getDescription().getVersion();
                 if (actualVersion.equalsIgnoreCase(version)) {
                     logger.info("You are running latest release (" + version + ")");
@@ -81,10 +81,10 @@ public final class DailyRewards extends JavaPlugin {
         implementsListeners();
 
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            papi = true;
+            PAPI = true;
             new Placeholder(this).register();
         } else {
-            plugin.getLogger().warning("Could not find PlaceholderAPI, placeholders will not work");
+            logger.warning("Could not find PlaceholderAPI, placeholders will not work");
         }
     }
 
@@ -99,15 +99,15 @@ public final class DailyRewards extends JavaPlugin {
     }
 
     void implementsListeners(){
-        PluginManager pm = getServer().getPluginManager();
+        final PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new InventoryClickListener(rewardManager), plugin);
         pm.registerEvents(new JoinNotification(plugin), plugin);
         pm.registerEvents(new Notification(), plugin);
     }
 
-    public String getPremium(Player p, String type){
-        if (p.hasPermission("dailyreward." + type + ".premium")){
-            return "PREMIUM";
+    public String getPremium(final Player player, final String type){
+        if (player.hasPermission("dailyreward." + type + ".premium")){
+            return "_PREMIUM";
         } else {
             return "";
         }

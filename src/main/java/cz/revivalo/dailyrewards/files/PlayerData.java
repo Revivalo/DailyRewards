@@ -1,4 +1,4 @@
-package cz.revivalo.dailyrewards.playerconfig;
+package cz.revivalo.dailyrewards.files;
 
 import cz.revivalo.dailyrewards.DailyRewards;
 import org.bukkit.OfflinePlayer;

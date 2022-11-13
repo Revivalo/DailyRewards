@@ -1,8 +1,8 @@
 name: DailyRewards
-version: 1.3.0
+version: 1.3.1
 main: cz.revivalo.dailyrewards.DailyRewards
 api-version: 1.13
-sofdepend: [PlaceholderAPI]
+softdepend: [PlaceholderAPI]
 authors: [Revivalo]
 description: Reward system for players
 website: https://discord.gg/TfUC8uJ

@@ -1,7 +1,7 @@
 package cz.revivalo.dailyrewards.guimanager;
 
 import cz.revivalo.dailyrewards.guimanager.holders.Rewards;
-import cz.revivalo.dailyrewards.lang.Lang;
+import cz.revivalo.dailyrewards.files.Lang;
 import cz.revivalo.dailyrewards.rewardmanager.RewardManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,17 +15,17 @@ public class InventoryClickListener implements Listener {
     }
 
     @EventHandler (ignoreCancelled = true)
-    public void onMenuClick(final InventoryClickEvent e){
-        if (e.getInventory().getHolder() instanceof Rewards){
-            if (e.getCurrentItem() == null) return;
-            e.setCancelled(true);
-            final Player player = (Player) e.getWhoClicked();
-            int slot = e.getSlot();
-            if (slot == Integer.parseInt(Lang.DAILYPOSITION.content(null))){
+    public void onMenuClick(final InventoryClickEvent event){
+        if (event.getInventory().getHolder() instanceof Rewards){
+            if (event.getCurrentItem() == null) return;
+            event.setCancelled(true);
+            final Player player = (Player) event.getWhoClicked();
+            int slot = event.getSlot();
+            if (slot == Lang.DAILY_POSITION.getInt()){
                 rewardManager.claim(player, "daily", false);
-            } else if (slot == Integer.parseInt(Lang.WEEKLYPOSITION.content(null))){
+            } else if (slot == Lang.WEEKLY_POSITION.getInt()){
                 rewardManager.claim(player, "weekly", false);
-            } else if (slot == Integer.parseInt(Lang.MONTHLYPOSITION.content(null))){
+            } else if (slot == Lang.MONTHLY_POSITION.getInt()){
                 rewardManager.claim(player, "monthly", false);
             }
         }

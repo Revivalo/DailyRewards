@@ -1,8 +1,8 @@
 package cz.revivalo.dailyrewards.rewardmanager;
 
 import cz.revivalo.dailyrewards.DailyRewards;
-import cz.revivalo.dailyrewards.lang.Lang;
-import cz.revivalo.dailyrewards.playerconfig.PlayerData;
+import cz.revivalo.dailyrewards.files.Lang;
+import cz.revivalo.dailyrewards.files.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -13,49 +13,50 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Random;
 
 public class RewardManager {
     private final DailyRewards plugin;
     private final Cooldowns cooldowns;
-    public RewardManager(DailyRewards plugin){
+    public RewardManager(final DailyRewards plugin){
         this.plugin = plugin;
         cooldowns = plugin.getCooldowns();
     }
 
     public void claim(final Player player, String type, boolean fromCommand){
-        long cd = Long.parseLong(cooldowns.getCooldown(player, type, false));
+        final Cooldown cooldown = cooldowns.getCooldown(player, type);
         if (!player.hasPermission("dailyreward." + type)){
             if (fromCommand) {
-                player.sendMessage(Lang.PERMISSIONMSG.content(player));
+                player.sendMessage(Lang.PERMISSION_MESSAGE.content(player));
             }
             return;
         }
-        if (cd >= 0){
-            String time = cooldowns.getCooldown(player, type, true);
-            if (fromCommand){
-                player.sendMessage(Lang.COOLDOWNMESSAGE.content(player).replace("%type%", getRewardPlaceholder(type)).replace("%time%", time));
-            } else {
-                player.playSound(player.getLocation(), Sound.valueOf(Lang.UNAVAILABLEREWARDSOUND.content(player).toUpperCase(Locale.ENGLISH)), 1F, 1F);
-            }
-        } else {
-            List<String> rewards = Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + plugin.getPremium(player, type) + "REWARDS").contentLore(player);
-            ConsoleCommandSender console = Bukkit.getConsoleSender();
+        if (cooldown.isClaimable()){
+            final List<String> rewards = Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + plugin.getPremium(player, type) + "_REWARDS").getColoredList(player, "%player%", player.getName());
+            final ConsoleCommandSender console = Bukkit.getConsoleSender();
             if (rewards.size() != 0) {
                 for (String str : rewards) {
-                    Bukkit.dispatchCommand(console, str.replace("%random%", String.valueOf(new Random().nextInt(200) + 100)).replace("%player%", player.getName()));
+                    Bukkit.dispatchCommand(console, str);
                 }
             } else {
-                player.sendMessage(Lang.REWARDDONTSET.content(player));
+                player.sendMessage(Lang.REWARD_DONT_SET.content(player));
             }
-            player.playSound(player.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "SOUND").content(player).toUpperCase(Locale.ENGLISH)), 1F, 1F);
-            player.sendTitle(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "TITLE").content(player), Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "SUBTITLE").content(player), 15, 35, 15);
+
+
+            player.playSound(player.getLocation(), Sound.valueOf(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "_SOUND").content(player).toUpperCase(Locale.ENGLISH)), 1F, 1F);
+            //Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "title  title [{'text':'' + Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "TITLE") + '","color":"gold"}]"'");
+            player.sendTitle(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "_TITLE").content(player), Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + "_SUBTITLE").content(player), 15, 35, 15);
             cooldowns.setCooldown(player, type);
-            if (Lang.ANNOUNCEENABLED.getBoolean()) {
-                announce(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + plugin.getPremium(player, type) + "COLLECTED").content(player).replace("%player%", player.getName()));
+            if (Lang.ANNOUNCE_ENABLED.getBoolean()) {
+                announce(Lang.valueOf(type.toUpperCase(Locale.ENGLISH) + plugin.getPremium(player, type) + "_COLLECTED").content(player).replace("%player%", player.getName()));
             }
             if (!fromCommand) {
                 player.closeInventory();
+            }
+        } else {
+            if (fromCommand){
+                player.sendMessage(Lang.COOLDOWN_MESSAGE.content(player).replace("%type%", getRewardPlaceholder(type)).replace("%time%", cooldown.getFormat()));
+            } else {
+                player.playSound(player.getLocation(), Sound.valueOf(Lang.UNAVAILABLE_REWARD_SOUND.getText().toUpperCase(Locale.ENGLISH)), 1F, 1F);
             }
         }
     }
@@ -63,17 +64,17 @@ public class RewardManager {
     private String getRewardPlaceholder(final String reward) {
         switch (reward){
             case "daily":
-                return Lang.DAILYPLACEHOLDER.content();
+                return Lang.DAILY_PLACEHOLDER.getText();
             case "weekly":
-                return Lang.WEEKLYPLACEHOLDER.content();
+                return Lang.WEEKLY_PLACEHOLDER.getText();
             default:
-                return Lang.MONTHLYPLACEHOLDER.content();
+                return Lang.MONTHLY_PLACEHOLDER.getText();
         }
     }
 
     public boolean reset(final OfflinePlayer player, String type){
         if (player.isOnline() || player.hasPlayedBefore()) {
-            FileConfiguration data = PlayerData.getConfig(player);
+            final FileConfiguration data = PlayerData.getConfig(player);
             if (type.equalsIgnoreCase("all")) {
                 Objects.requireNonNull(data).set("rewards", null);
             } else {
@@ -86,9 +87,9 @@ public class RewardManager {
         }
     }
 
-    private void announce(String msg){
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()){
-            onlinePlayer.sendMessage(msg);
+    private void announce(final String message){
+        for (final Player onlinePlayer : Bukkit.getOnlinePlayers()){
+            onlinePlayer.sendMessage(message);
         }
     }
 }

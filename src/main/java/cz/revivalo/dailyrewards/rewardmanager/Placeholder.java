@@ -43,11 +43,11 @@ public class Placeholder extends PlaceholderExpansion {
             int available = 0;
             for (int i = 0; i <= 3; i++) {
                 if (i == 0) {
-                    if (Long.parseLong(cooldowns.getCooldown(player, "daily", false)) < 0 && (player.hasPermission("dailyreward.daily") || player.hasPermission("dailyreward.daily.premium"))) ++available;
+                    if (cooldowns.isRewardAvailable(player, "daily") && (player.hasPermission("dailyreward.daily") || player.hasPermission("dailyreward.daily.premium"))) ++available;
                 } else if (i == 1) {
-                    if (Long.parseLong(cooldowns.getCooldown(player, "weekly", false)) < 0 && (player.hasPermission("dailyreward.weekly") || player.hasPermission("dailyreward.weekly.premium"))) ++available;
+                    if (cooldowns.isRewardAvailable(player, "weekly") && (player.hasPermission("dailyreward.weekly") || player.hasPermission("dailyreward.weekly.premium"))) ++available;
                 } else if (i == 2) {
-                    if (Long.parseLong(cooldowns.getCooldown(player, "monthly", false)) < 0 && (player.hasPermission("dailyreward.monthly") || player.hasPermission("dailyreward.monthly.premium"))) ++available;
+                    if (cooldowns.isRewardAvailable(player, "monthly") && (player.hasPermission("dailyreward.monthly") || player.hasPermission("dailyreward.monthly.premium"))) ++available;
                 }
             }
             return String.valueOf(available);

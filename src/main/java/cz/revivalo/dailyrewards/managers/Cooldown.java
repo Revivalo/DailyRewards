@@ -1,4 +1,4 @@
-package cz.revivalo.dailyrewards.rewardmanager;
+package cz.revivalo.dailyrewards.managers;
 
 public class Cooldown {
     private final String format;

@@ -1,16 +1,15 @@
 package cz.revivalo.dailyrewards;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
 import cz.revivalo.dailyrewards.commands.RewardCommand;
-import cz.revivalo.dailyrewards.guimanager.InventoryClickListener;
-import cz.revivalo.dailyrewards.guimanager.GuiManager;
-import cz.revivalo.dailyrewards.files.Lang;
+import cz.revivalo.dailyrewards.files.Config;
 import cz.revivalo.dailyrewards.files.PlayerData;
-import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
-import cz.revivalo.dailyrewards.rewardmanager.JoinNotification;
-import cz.revivalo.dailyrewards.rewardmanager.Placeholder;
-import cz.revivalo.dailyrewards.rewardmanager.RewardManager;
-import cz.revivalo.dailyrewards.updatechecker.Notification;
+import cz.revivalo.dailyrewards.guimanager.GuiManager;
+import cz.revivalo.dailyrewards.listeners.InventoryClickListener;
+import cz.revivalo.dailyrewards.listeners.PlayerJoinListener;
+import cz.revivalo.dailyrewards.managers.MySQLManager;
+import cz.revivalo.dailyrewards.managers.Placeholder;
+import cz.revivalo.dailyrewards.managers.RewardManager;
+import cz.revivalo.dailyrewards.updatechecker.UpdateNotificator;
 import cz.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -18,16 +17,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.Objects;
 import java.util.logging.Logger;
 
 public final class DailyRewards extends JavaPlugin {
 
     private DailyRewards plugin;
-    private Cooldowns cooldowns;
     private RewardManager rewardManager;
     private GuiManager guiManager;
     public static boolean PAPI = false;
@@ -35,16 +30,20 @@ public final class DailyRewards extends JavaPlugin {
     public static boolean isHexSupport;
 
     //
-    // TODO:
+    // Added:
+    // Changed handling with Rewards menu
     // MySQL support
-    // Auto claim reward
+    // Auto claim rewards on join
     //
 
     @Override
     public void onEnable() {
         plugin = this;
 
-        isHexSupport = Bukkit.getBukkitVersion().contains("6") || Bukkit.getBukkitVersion().contains("7") || Bukkit.getBukkitVersion().contains("8") || Bukkit.getBukkitVersion().contains("9");
+        isHexSupport = Bukkit.getBukkitVersion().contains("6")
+                || Bukkit.getBukkitVersion().contains("7")
+                || Bukkit.getBukkitVersion().contains("8")
+                || Bukkit.getBukkitVersion().contains("9");
 
         int pluginId = 12070;
         new Metrics(this, pluginId);
@@ -52,7 +51,7 @@ public final class DailyRewards extends JavaPlugin {
         Logger logger = this.getLogger();
 
         new UpdateChecker(this, 81780).getVersion(version -> {
-            if (Lang.UPDATE_CHECKER.getBoolean()) {
+            if (Config.UPDATE_CHECKER.asBoolean()) {
                 String actualVersion = this.getDescription().getVersion();
                 if (actualVersion.equalsIgnoreCase(version)) {
                     logger.info("You are running latest release (" + version + ")");
@@ -64,17 +63,18 @@ public final class DailyRewards extends JavaPlugin {
             }
         });
 
-        saveDefaultConfig();
-        File configFile = new File(getDataFolder(), "config.yml");
+        /*saveDefaultConfig();
+        File configFile = new File(getDataFolder(), "config-1.8.yml");
 
         try {
-            ConfigUpdater.update(plugin, "config.yml", configFile, Collections.emptyList());
+            ConfigUpdater.update(plugin, "config-1.8.yml", configFile, Collections.emptyList());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        reloadConfig();
-        cooldowns = new Cooldowns();
+
+        reloadConfig();*/
+        MySQLManager.init();
         rewardManager = new RewardManager(plugin);
         guiManager = new GuiManager(plugin);
         registerCommands();
@@ -101,19 +101,17 @@ public final class DailyRewards extends JavaPlugin {
     void implementsListeners(){
         final PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new InventoryClickListener(rewardManager), plugin);
-        pm.registerEvents(new JoinNotification(plugin), plugin);
-        pm.registerEvents(new Notification(), plugin);
+        pm.registerEvents(new PlayerJoinListener(plugin), plugin);
+        pm.registerEvents(new UpdateNotificator(), plugin);
     }
 
-    public String getPremium(final Player player, final String type){
+    public String getPremium(final Player player, final RewardType type){
         if (player.hasPermission("dailyreward." + type + ".premium")){
             return "_PREMIUM";
         } else {
             return "";
         }
     }
-
-    public Cooldowns getCooldowns() {return cooldowns;}
 
     public RewardManager getRewardManager() {return rewardManager;}
 

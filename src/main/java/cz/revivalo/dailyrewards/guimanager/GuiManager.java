@@ -1,10 +1,12 @@
 package cz.revivalo.dailyrewards.guimanager;
 
 import cz.revivalo.dailyrewards.DailyRewards;
-import cz.revivalo.dailyrewards.guimanager.holders.Rewards;
+import cz.revivalo.dailyrewards.RewardType;
+import cz.revivalo.dailyrewards.files.Config;
+import cz.revivalo.dailyrewards.guimanager.holders.RewardsInventoryHolder;
 import cz.revivalo.dailyrewards.files.Lang;
-import cz.revivalo.dailyrewards.rewardmanager.Cooldown;
-import cz.revivalo.dailyrewards.rewardmanager.Cooldowns;
+import cz.revivalo.dailyrewards.managers.Cooldown;
+import cz.revivalo.dailyrewards.managers.Cooldowns;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,54 +24,91 @@ import java.util.Objects;
 
 public class GuiManager {
     private final DailyRewards plugin;
-    private final Cooldowns cooldowns;
     public GuiManager(final DailyRewards plugin){
         this.plugin = plugin;
-        cooldowns = plugin.getCooldowns();
     }
 
     public void openRewardsMenu(final Player player){
         Bukkit.getScheduler().scheduleSyncDelayedTask(DailyRewards.getPlugin(DailyRewards.class), () -> {
-            final Inventory inv = Bukkit.createInventory(new Rewards(), Integer.parseInt(Lang.MENU_SIZE.content(player)), Lang.MENU_TITLE.content(player));
-            if (Lang.FILL_BACKGROUND.getBoolean()) {
-                for (int i = 0; i < Lang.MENU_SIZE.getInt(); i++) {
-                    inv.setItem(i, createGuiItem(Lang.BACKGROUND_ITEM.content(player).toUpperCase(), false, " ", null));
+            final Inventory inv = Bukkit.createInventory(new RewardsInventoryHolder(), Config.MENU_SIZE.asInt(), Lang.MENU_TITLE.asColoredString());
+            if (Config.FILL_BACKGROUND.asBoolean()) {
+                for (int i = 0; i < Config.MENU_SIZE.asInt(); i++) {
+                    inv.setItem(i, createGuiItem(Config.BACKGROUND_ITEM.asStringInUppercase(), false, " ", null));
                 }
             }
 
-            final Cooldown dailyCooldown = cooldowns.getCooldown(player, "daily");
-            final Cooldown weeklyCooldown = cooldowns.getCooldown(player, "weekly");
-            final Cooldown monthlyCooldown = cooldowns.getCooldown(player, "monthly");
-            inv.setItem(Integer.parseInt(Lang.DAILY_POSITION.content(null)), createGuiItem(dailyCooldown.isClaimable() ? Lang.DAILY_AVAILABLE_ITEM.getTextInUppercase() : Lang.DAILY_UNAVAILABLE_ITEM.getTextInUppercase(), dailyCooldown.isClaimable(),dailyCooldown.isClaimable() ? Lang.DAILY_DISPLAY_NAME_AVAILABLE.content(player) : Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.content(player), dailyCooldown.isClaimable() ? Lang.valueOf("DAILY_AVAILABLE" + plugin.getPremium(player, "daily") + "_LORE").getColoredList(player) : Lang.DAILY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", dailyCooldown.getFormat())));
-            new BukkitRunnable() {
+            final Cooldown dailyCooldown = Cooldowns.getCooldown(player, RewardType.DAILY);
+            final Cooldown weeklyCooldown = Cooldowns.getCooldown(player, RewardType.WEEKLY);
+            final Cooldown monthlyCooldown = Cooldowns.getCooldown(player, RewardType.MONTHLY);
 
+            //final long dailyCooldownLong = dailyCooldown.getTimeLeft();
+
+            inv.setItem(Config.DAILY_POSITION.asInt(),
+                    createGuiItem(
+                            dailyCooldown.isClaimable()
+                                    ? Config.DAILY_AVAILABLE_ITEM.asStringInUppercase()
+                                    : Config.DAILY_UNAVAILABLE_ITEM.asStringInUppercase(),
+                            dailyCooldown.isClaimable(),dailyCooldown.isClaimable() ? Lang.DAILY_DISPLAY_NAME_AVAILABLE.asPlaceholderApiReplacedString(player) : Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderApiReplacedString(player),
+                            dailyCooldown.isClaimable()
+                                    ? Lang.valueOf("DAILY_AVAILABLE" + plugin.getPremium(player, RewardType.DAILY) + "_LORE").asColoredList()
+                                    : Lang.DAILY_UNAVAILABLE_LORE.asColoredList("%cooldown%", dailyCooldown.getFormat())
+                    )
+            );
+            new BukkitRunnable() {
+                long dailyCooldownLong = dailyCooldown.getTimeLeft();
                 @Override
                 public void run() {
-                    if (player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.getColoredText())) {
-                        inv.setItem(Lang.DAILY_POSITION.getInt(), createGuiItem(cooldowns.getCooldown(player, "daily").isClaimable() ? Lang.DAILY_AVAILABLE_ITEM.getTextInUppercase() : Lang.DAILY_UNAVAILABLE_ITEM.getTextInUppercase(), cooldowns.getCooldown(player, "daily").isClaimable(), cooldowns.getCooldown(player, "daily").isClaimable() ? Lang.DAILY_DISPLAY_NAME_AVAILABLE.content(player) : Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.content(player), cooldowns.getCooldown(player, "daily").isClaimable() ? Lang.valueOf("DAILY_AVAILABLE" + plugin.getPremium(player, "daily") + "_LORE").getColoredList(player) : Lang.DAILY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", cooldowns.getCooldown(player, "daily").getFormat())));
+                    dailyCooldownLong -= 1000;
+                    boolean claimable = dailyCooldownLong <= 0;
+                    if (player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
+                        inv.setItem(Config.DAILY_POSITION.asInt(),
+                                createGuiItem(claimable
+                                        ? Config.DAILY_AVAILABLE_ITEM.asStringInUppercase()
+                                        : Config.DAILY_UNAVAILABLE_ITEM.asStringInUppercase(),
+                                        claimable,
+                                        claimable
+                                                ? Lang.DAILY_DISPLAY_NAME_AVAILABLE.asPlaceholderApiReplacedString(player)
+                                                : Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderApiReplacedString(player),
+                                        claimable
+                                                ? Lang.valueOf("DAILY_AVAILABLE" + plugin.getPremium(player, RewardType.DAILY) + "_LORE").asColoredList()
+                                                : Lang.DAILY_UNAVAILABLE_LORE.asColoredList("%cooldown%", Config.format(dailyCooldownLong))
+                                )
+                        );
                     } else {
                         cancel();
                     }
 
                 }
             }.runTaskTimerAsynchronously(plugin, 0, 20);
-            inv.setItem(Lang.WEEKLY_POSITION.getInt(), createGuiItem(weeklyCooldown.isClaimable() ? Lang.WEEKLY_AVAILABLE_ITEM.getTextInUppercase() : Lang.WEEKLY_UNAVAILABLE_ITEM.getTextInUppercase(), weeklyCooldown.isClaimable(), weeklyCooldown.isClaimable() ? Lang.WEEKLY_DISPLAY_NAME_AVAILABLE.content(player) : Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.content(player), weeklyCooldown.isClaimable() ? Lang.valueOf("WEEKLY_AVAILABLE" + plugin.getPremium(player, "weekly") + "_LORE").getColoredList(player) : Lang.WEEKLY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", weeklyCooldown.getFormat())));
-            inv.setItem(Lang.MONTHLY_POSITION.getInt(), createGuiItem(monthlyCooldown.isClaimable() ? Lang.MONTHLY_AVAILABLE_ITEM.getTextInUppercase() : Lang.MONTHLY_UNAVAILABLE_ITEM.getTextInUppercase(), monthlyCooldown.isClaimable(), monthlyCooldown.isClaimable() ? Lang.MONTHLY_DISPLAYNAME_AVAILABLE.content(player) : Lang.MONTHLY_DISPLAY_NAME_UNAVAILABLE.content(player), monthlyCooldown.isClaimable() ? Lang.valueOf("MONTHLY_AVAILABLE" + plugin.getPremium(player, "monthly") + "_LORE").getColoredList(player) : Lang.MONTHLY_UNAVAILABLE_LORE.getColoredList(player, "%cooldown%", monthlyCooldown.getFormat())));
+            inv.setItem(Config.WEEKLY_POSITION.asInt(),
+                    createGuiItem(
+                            weeklyCooldown.isClaimable()
+                                    ? Config.WEEKLY_AVAILABLE_ITEM.asStringInUppercase()
+                                    : Config.WEEKLY_UNAVAILABLE_ITEM.asStringInUppercase(),
+                            weeklyCooldown.isClaimable(), weeklyCooldown.isClaimable()
+                                    ? Lang.WEEKLY_DISPLAY_NAME_AVAILABLE.asPlaceholderApiReplacedString(player)
+                                    : Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderApiReplacedString(player),
+                            weeklyCooldown.isClaimable()
+                                    ? Lang.valueOf("WEEKLY_AVAILABLE" + plugin.getPremium(player, RewardType.WEEKLY) + "_LORE").asColoredList()
+                                    : Lang.WEEKLY_UNAVAILABLE_LORE.asColoredList("%cooldown%", weeklyCooldown.getFormat())
+                    )
+            );
+            inv.setItem(Config.MONTHLY_POSITION.asInt(), createGuiItem(monthlyCooldown.isClaimable() ? Config.MONTHLY_AVAILABLE_ITEM.asStringInUppercase() : Config.MONTHLY_UNAVAILABLE_ITEM.asStringInUppercase(), monthlyCooldown.isClaimable(), monthlyCooldown.isClaimable() ? Lang.MONTHLY_DISPLAYNAME_AVAILABLE.asPlaceholderApiReplacedString(player) : Lang.MONTHLY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderApiReplacedString(player), monthlyCooldown.isClaimable() ? Lang.valueOf("MONTHLY_AVAILABLE" + plugin.getPremium(player, RewardType.WEEKLY) + "_LORE").asColoredList() : Lang.MONTHLY_UNAVAILABLE_LORE.asColoredList("%cooldown%", monthlyCooldown.getFormat())));
             player.openInventory(inv);
         });
     }
 
-    private ItemStack createGuiItem(String id, boolean glow, String name, List<String> lore) {
-        ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(id)));
+    private ItemStack createGuiItem(String material, boolean glow, String name, List<String> lore) {
+        ItemStack item = new ItemStack(Objects.requireNonNull(Material.getMaterial(material)));
         ItemMeta meta = item.getItemMeta();
-        if (id.equalsIgnoreCase("PLAYER_HEAD")) {
+        if (material.equalsIgnoreCase("PLAYER_HEAD")) {
             meta = item.getItemMeta();
             if (meta != null) {
-                ((SkullMeta) meta).setOwningPlayer(null);
+                ((SkullMeta) meta).setOwner(null);
             }
         }
         if (glow) {
-            if (!id.equalsIgnoreCase("PLAYER_HEAD")){
+            if (!material.equalsIgnoreCase("PLAYER_HEAD")){
                 if (meta != null) {
                     meta.addEnchant(Enchantment.LURE, 1, false);
                     meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);

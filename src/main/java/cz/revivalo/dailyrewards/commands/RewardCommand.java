@@ -1,11 +1,9 @@
 package cz.revivalo.dailyrewards.commands;
 
 import cz.revivalo.dailyrewards.DailyRewards;
-import cz.revivalo.dailyrewards.RewardType;
-import cz.revivalo.dailyrewards.files.Config;
-import cz.revivalo.dailyrewards.files.Lang;
-import cz.revivalo.dailyrewards.guimanager.GuiManager;
-import cz.revivalo.dailyrewards.managers.RewardManager;
+import cz.revivalo.dailyrewards.configuration.enums.Config;
+import cz.revivalo.dailyrewards.configuration.enums.Lang;
+import cz.revivalo.dailyrewards.managers.reward.RewardType;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,83 +13,82 @@ import org.bukkit.entity.Player;
 import java.util.Locale;
 
 public class RewardCommand implements CommandExecutor {
-    private final RewardManager rewardManager;
-    private final GuiManager guiManager;
-    public RewardCommand(final DailyRewards plugin) {
-        rewardManager = plugin.getRewardManager();
-        guiManager = plugin.getGuiManager();
-    }
 
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        //final boolean fromPlayer = sender instanceof Player;
-        if (!(sender instanceof Player)){
-            sender.sendMessage("[DailyRewards] Only in-game command!");
-            return true;
-        } else {
-            Player player = (Player) sender;
-            if (cmd.getName().equalsIgnoreCase("reward")){
-                switch (args.length){
-                    case 0:
-                        rewardManager.claim(player, RewardType.DAILY, true, true);
-                        break;
-                    case 1:
-                        switch (args[0]){
-                            case "weekly":
-                                rewardManager.claim(player, RewardType.WEEKLY, true, true);
-                                break;
-                            case "monthly":
-                                rewardManager.claim(player, RewardType.MONTHLY, true, true);
-                                break;
-                            case "help":
-                                for (final String line : Lang.HELP_MESSAGE.asColoredList()){
-                                    player.sendMessage(line);
-                                }
-                            case "reload":
-                                if (!player.hasPermission("dailyreward.manage")){
-                                    player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
-                                } else {
-                                    Config.reload();
-                                    Lang.reload();
-                                    player.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());
-                                }
-                                break;
-                            default:
-                                player.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
-                                break;
-                        }
-                        break;
-                    case 2:
-                        if (args[0].equalsIgnoreCase("reset")){
-                            player.sendMessage(Lang.INCOMPLETE_REWARD_RESET.asColoredString());
-                        }
-                        break;
-                    case 3:
-                        switch (args[0]){
-                            case "reset":
-                                if (!player.hasPermission("dailyreward.manage")){
-                                    player.sendMessage(Lang.PERMISSION_MESSAGE.asPlaceholderApiReplacedString(player));
-                                } else {
-                                    if (rewardManager.reset(Bukkit.getOfflinePlayer(args[1]), RewardType.valueOf(args[2].toUpperCase(Locale.ENGLISH)))) {
-                                        player.sendMessage(Lang.REWARD_RESET.asColoredString().replace("%type%", args[2]).replace("%player%", args[1]));
-                                    } else {
-                                        player.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", args[1]));
-                                    }
-                                }
-                                break;
-                            default:
-                                player.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
-                                break;
-                        }
-                        break;
-                    default:
-                        player.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
-                        break;
-                }
-            } else if (cmd.getName().equalsIgnoreCase("rewards")){
-                guiManager.openRewardsMenu(player);
-            }
-        }
-        return true;
-    }
+	@SuppressWarnings("deprecation")
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (!(sender instanceof Player)) {
+			sender.sendMessage("[DailyRewards] Commands are only executable in-game!");
+			return true;
+		}
+		final Player player = (Player) sender;
+
+		switch (cmd.getName().toLowerCase()) {
+			case "reward":
+				switch (args.length) {
+					case 0:
+						DailyRewards.getRewardManager().claim(player, RewardType.DAILY, true, true);
+						break;
+
+					case 1:
+						switch (args[0]) {
+							case "daily":
+							case "monthly":
+							case "weekly":
+								DailyRewards.getRewardManager().claim(player, RewardType.findByName(args[0]), true, true);
+								break;
+
+							case "help":
+								Lang.HELP_MESSAGE.asColoredList().forEach(player::sendMessage);
+								break;
+
+							case "reload":
+								if (!player.hasPermission("dailyreward.manage")) {
+									player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
+									break;
+								}
+								Config.reload();
+								Lang.reload();
+								player.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());
+								break;
+
+							default:
+								player.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
+								break;
+						}
+						break;
+
+					case 2:
+						if (!"reset".equalsIgnoreCase(args[0])) break;
+						player.sendMessage(Lang.INCOMPLETE_REWARD_RESET.asColoredString());
+						break;
+
+					case 3:
+						if ("reset".equals(args[0])) {
+							if (!player.hasPermission("dailyreward.manage")) {
+								player.sendMessage(Lang.PERMISSION_MESSAGE.asPlaceholderReplacedText(player));
+								break;
+							}
+
+							player.sendMessage(DailyRewards.getRewardManager()
+									.resetPlayer(Bukkit.getOfflinePlayer(args[1]), RewardType.valueOf(args[2].toUpperCase(Locale.ENGLISH))) ?
+									Lang.REWARD_RESET.asColoredString().replace("%type%", args[2]).replace("%player%", args[1]) :
+									Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", args[1]));
+							break;
+						}
+						player.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
+						break;
+
+					default:
+						player.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
+						break;
+				}
+				break;
+
+			case "rewards":
+				DailyRewards.getGuiManager().openRewardsMenu(player);
+				break;
+		}
+		return true;
+	}
 }

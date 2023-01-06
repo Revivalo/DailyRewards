@@ -10,13 +10,13 @@
     <packaging>jar</packaging>
 
     <name>DailyReward</name>
-
     <description>Reward system for player</description>
+    <url>discord.io/athelion</url>
+
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <url>discord.io/athelion</url>
 
     <build>
         <plugins>
@@ -109,6 +109,12 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.24</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

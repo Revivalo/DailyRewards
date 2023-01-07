@@ -25,49 +25,56 @@ public class MySQLManager {
 	private static Connection connection;
 
 	@SneakyThrows
-	public static void init() {
+	public static void init(){
 		if (!Config.USE_MYSQL.asBoolean()) return;
 
-		final HikariConfig config = new HikariConfig();
-		config.setUsername(Config.MYSQL_USERNAME.asString());
-		config.setPassword(Config.MYSQL_PASSWORD.asString());
+		String username = Config.MYSQL_USERNAME.asString();
+		String password = Config.MYSQL_PASSWORD.asString();
+		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-		config.setJdbcUrl(String.format("jdbc:mysql://%s:3306/%s?connectTimeout=1000000&autoReconnect=YES",
-				Config.MYSQL_IP.asString(),
-				Config.MYSQL_DBNAME.asString()));
 
-		final Enumeration<Driver> drivers = DriverManager.getDrivers();
+		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":3306/" + Config.MYSQL_DBNAME.asString() + "?idleConnectionTestPeriod=3600&testConnectionOnCheckin=true&autoReconnect=YES");
+		config.setUsername(username);
+		config.setPassword(password);
+
+		HikariDataSource ds = new HikariDataSource(config);
+
+		Enumeration<Driver> drivers = DriverManager.getDrivers();
 		while (drivers.hasMoreElements()) {
-			final Driver driver = drivers.nextElement();
-			if (!"com.mysql.cj.jdbc.Driver".equals(driver.getClass().getName())) continue;
-			DriverManager.deregisterDriver(driver);
+			Driver driver = drivers.nextElement();
+			if (driver.getClass().getName().equals("com.mysql.cj.jdbc.Driver")) {
+				try {
+					DriverManager.deregisterDriver(driver);
+				} catch (SQLException e) {
+					// ignore
+				}
+			}
 		}
-
-		try (final HikariDataSource dataSource = new HikariDataSource(config);
-			 final Connection dataSourceConnection = dataSource.getConnection()) {
-
-			connection = dataSourceConnection;
+		try {
+			connection = ds.getConnection();
 			connection.prepareStatement(CREATE_TABLE).execute();
 			DataManager.setUsingMysql(true);
-
-			final File directory = new File(DailyRewards.getPlugin(DailyRewards.class).getDataFolder(), "userdata");
-			final File[] directoryListing = directory.listFiles();
-			if (directoryListing == null) return;
-
-			for (File file : directoryListing) {
-				final String fileName = file.getName();
-				final String uuid = fileName.substring(0, fileName.length() - 4);
-				if (MySQLManager.playerExists(uuid)) continue;
-
-				final FileConfiguration data = YamlConfiguration.loadConfiguration(file);
-				connection.prepareStatement(INSERT.replace("%columns%", "id, daily, weekly, monthly")
-								.replace("%values%", String.format("'%s', '%d', '%d', '%d'",
-										uuid, data.getLong("rewards.daily"), data.getLong("rewards.weekly"), data.getLong("rewards.monthly"))))
-						.executeUpdate();
+			//if (!tableExistsSQL(connection, "Rewards")){
+			File dir = new File(DailyRewards.getPlugin(DailyRewards.class).getDataFolder(), "userdata");
+			File[] directoryListing = dir.listFiles();
+			if (directoryListing != null) {
+				for (File file : directoryListing) {
+					FileConfiguration data = YamlConfiguration.loadConfiguration(file);
+					final String fileName = file.getName();
+					final String uuid = fileName.substring(0, fileName.length() - 4);
+					//final String insertStatement = INSERT.replace("%columns%", "id, daily, weekly, monthly")
+					//		.replace("%values%", "'" + uuid + "', '" + data.getLong("rewards.daily")+ "', '" + data.getLong("rewards.weekly") + "', '" + data.getLong("rewards.monthly") + "'");
+					if (!playerExists(uuid))
+						connection.prepareStatement(INSERT.replace("%columns%", "id, daily, weekly, monthly")
+								.replace("%values%", "'" + uuid + "', '" + data.getLong("rewards.daily")+ "', '" + data.getLong("rewards.weekly") + "', '" + data.getLong("rewards.monthly") + "'")).executeUpdate();
+				}
 			}
-		} catch (SQLException exception) {
-			throw new RuntimeException(exception);
+			//}
+			//connection.prepareStatement("DROP TABLE Rewards;").execute();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
 		}
+		//}
 	}
 
 	@SneakyThrows
@@ -91,9 +98,17 @@ public class MySQLManager {
 		final StringBuilder builder = new StringBuilder();
 		final int valuesLength = values.length;
 		for (int i = 0; i < valuesLength; i += 2) {
-			builder.append(values[i]).append("='").append(values[i + 1]).append("'").append((i == (valuesLength - 2) ? "" : ","));
+			builder.append(values[i])
+					.append("='")
+					.append(values[i + 1])
+					.append("'")
+					.append((i == (valuesLength - 2)
+							? ""
+							: ","));
 		}
-		connection.prepareStatement(UPDATE.replace("%values%", builder).replace("%id%", uuid.toString()))
+		connection.prepareStatement(UPDATE
+						.replace("%values%", builder)
+						.replace("%id%", uuid.toString()))
 				.executeUpdate();
 	}
 

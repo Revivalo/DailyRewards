@@ -12,7 +12,7 @@ import java.util.*;
 
 public class DataManager {
 
-	private static final List<RewardType> dailyRewards = Arrays.asList(RewardType.DAILY, RewardType.WEEKLY, RewardType.MONTHLY);
+	private static final List<RewardType> rewards = Arrays.asList(RewardType.DAILY, RewardType.WEEKLY, RewardType.MONTHLY);
 	@Getter @Setter
 	private static boolean usingMysql;
 
@@ -33,8 +33,8 @@ public class DataManager {
 	public static Collection<RewardType> getAvailableRewards(final Player player) {
 		final Collection<RewardType> availableRewards = new HashSet<>();
 
-		dailyRewards.forEach(rewardType -> {
-			if (!CooldownManager.isRewardAvailable(player, RewardType.DAILY)) return;
+		rewards.forEach(rewardType -> {
+			if (!CooldownManager.isRewardAvailable(player, rewardType)) return;
 			final String rewardName = rewardType.toString().toLowerCase();
 			if ((!player.hasPermission(
 					String.format("dailyreward.%s", rewardName)) && !player.hasPermission(

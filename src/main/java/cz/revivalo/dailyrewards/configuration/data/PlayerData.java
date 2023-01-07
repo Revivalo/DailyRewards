@@ -18,9 +18,9 @@ public class PlayerData extends YamlConfiguration {
 		super();
 		this.uuid = uniqueId;
 		this.file = new File(
-				DailyRewards.getPlugin(DailyRewards.class).getDataFolder(),
+				DailyRewards.getPlugin().getDataFolder(),
 				String.format("userdata%s%s.yml", File.separator, uniqueId.toString()));
-		this.reload();
+		if (file.exists()) this.reload();
 	}
 
 	public static PlayerData getConfig(UUID uniqueId) {

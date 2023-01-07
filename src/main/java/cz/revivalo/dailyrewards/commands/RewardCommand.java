@@ -86,9 +86,19 @@ public class RewardCommand implements CommandExecutor {
 				break;
 
 			case "rewards":
-				DailyRewards.getGuiManager().openRewardsMenu(player);
+				DailyRewards.getMenuManager().openRewardsMenu(player);
 				break;
 		}
 		return true;
 	}
+
+	/*@Override
+	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
+		if (command.getName().equalsIgnoreCase("reward")){
+			if (args.length == 0){
+				return
+			}
+		}
+		return null;
+	}*/
 }

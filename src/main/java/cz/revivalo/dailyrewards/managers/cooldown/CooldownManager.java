@@ -3,6 +3,7 @@ package cz.revivalo.dailyrewards.managers.cooldown;
 import cz.revivalo.dailyrewards.configuration.data.DataManager;
 import cz.revivalo.dailyrewards.configuration.enums.Config;
 import cz.revivalo.dailyrewards.managers.reward.RewardType;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.concurrent.TimeUnit;

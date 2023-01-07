@@ -12,6 +12,6 @@ public class Cooldown {
 	private final Long timeLeft;
 
 	public boolean isClaimable() {
-		return timeLeft < 0;
+		return timeLeft <= 0;
 	}
 }

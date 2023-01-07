@@ -14,12 +14,12 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
 	@Override
 	public String getAuthor() {
-		return DailyRewards.getPlugin().getDescription().getAuthors().toString();
+		return DailyRewards.getPlugin(DailyRewards.class).getDescription().getAuthors().toString();
 	}
 
 	@Override
 	public String getVersion() {
-		return DailyRewards.getPlugin().getDescription().getVersion();
+		return DailyRewards.getPlugin(DailyRewards.class).getDescription().getVersion();
 	}
 
 	@Override

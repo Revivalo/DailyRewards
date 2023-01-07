@@ -25,7 +25,7 @@ public enum Lang {
 	RELOAD_MESSAGE("reload-msg"),
 	MENU_TITLE("menu-title"),
 	JOIN_HOVER_MESSAGE("join-hover-message"),
-	JOIN_NOTIFICATION("join-notifications"),
+	JOIN_NOTIFICATION("join-notification"),
 	COOLDOWN_MESSAGE("cooldown-message"),
 	AUTO_CLAIMED_NOTIFICATION("auto-claim-notification"),
 
@@ -67,7 +67,7 @@ public enum Lang {
 
 	public static void reload() {
 		final YamlConfiguration configuration = new YamlFile(String.format("lang%s%s.yml", File.separator, Config.LANGUAGE.asString()),
-				DailyRewards.getPlugin(DailyRewards.class).getDataFolder())
+				DailyRewards.getPlugin().getDataFolder())
 				.getConfiguration();
 
 		Objects.requireNonNull(configuration.getConfigurationSection("lang"))

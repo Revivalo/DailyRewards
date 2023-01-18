@@ -32,7 +32,10 @@ public class YamlFile {
 
 		configuration.save(yamlFile);
 		configuration.options().copyDefaults(true);
-		ConfigUpdater.update(DailyRewards.getPlugin(DailyRewards.class), filePath, yamlFile, Collections.emptyList());
+		ConfigUpdater.update(DailyRewards.getPlugin(),
+				filePath,
+				yamlFile,
+				Collections.emptyList());
 	}
 
 	public YamlConfiguration getConfiguration() {

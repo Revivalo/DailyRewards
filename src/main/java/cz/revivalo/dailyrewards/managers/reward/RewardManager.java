@@ -48,7 +48,7 @@ public class RewardManager {
 		if (cooldown.isClaimable()) {
 			final String typeName = type.toString().toUpperCase();
 			final Collection<String> rewardCommands = Config.valueOf(String.format("%s%s_REWARDS", typeName, DailyRewards.isPremium(player, type)))
-					.asReplacedString("%player%", player.getName());
+					.asReplacedStringList("%player%", player.getName());
 
 			if (rewardCommands.size() == 0) {
 				player.sendMessage(Lang.REWARDS_IS_NOT_SET.asColoredString());

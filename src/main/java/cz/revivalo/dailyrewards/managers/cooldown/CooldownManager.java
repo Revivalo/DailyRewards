@@ -25,7 +25,8 @@ public class CooldownManager {
 						.build();
 			case DAILY:
 				return Cooldown.builder()
-						.setFormat(String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(remainingTime),
+						.setFormat(String.format("%02d:%02d:%02d",
+								TimeUnit.MILLISECONDS.toHours(remainingTime),
 								TimeUnit.MILLISECONDS.toMinutes(remainingTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(remainingTime)),
 								TimeUnit.MILLISECONDS.toSeconds(remainingTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime))))
 						.setTimeLeft(remainingTime)

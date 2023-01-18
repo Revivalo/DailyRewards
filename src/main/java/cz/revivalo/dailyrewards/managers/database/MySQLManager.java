@@ -33,7 +33,10 @@ public class MySQLManager {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":3306/" + Config.MYSQL_DBNAME.asString() + "?idleConnectionTestPeriod=3600&testConnectionOnCheckin=true&autoReconnect=YES");
+		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":3306/" + Config.MYSQL_DBNAME.asString() +
+				"?idleConnectionTestPeriod=3600" +
+				"&testConnectionOnCheckin=true" +
+				"&autoReconnect=YES");
 		config.setUsername(username);
 		config.setPassword(password);
 
@@ -46,7 +49,7 @@ public class MySQLManager {
 				try {
 					DriverManager.deregisterDriver(driver);
 				} catch (SQLException e) {
-					// ignore
+					throw new SQLException();
 				}
 			}
 		}
@@ -54,7 +57,6 @@ public class MySQLManager {
 			connection = ds.getConnection();
 			connection.prepareStatement(CREATE_TABLE).execute();
 			DataManager.setUsingMysql(true);
-			//if (!tableExistsSQL(connection, "Rewards")){
 			File dir = new File(DailyRewards.getPlugin(DailyRewards.class).getDataFolder(), "userdata");
 			File[] directoryListing = dir.listFiles();
 			if (directoryListing != null) {
@@ -62,27 +64,28 @@ public class MySQLManager {
 					FileConfiguration data = YamlConfiguration.loadConfiguration(file);
 					final String fileName = file.getName();
 					final String uuid = fileName.substring(0, fileName.length() - 4);
-					//final String insertStatement = INSERT.replace("%columns%", "id, daily, weekly, monthly")
-					//		.replace("%values%", "'" + uuid + "', '" + data.getLong("rewards.daily")+ "', '" + data.getLong("rewards.weekly") + "', '" + data.getLong("rewards.monthly") + "'");
 					if (!playerExists(uuid))
-						connection.prepareStatement(INSERT.replace("%columns%", "id, daily, weekly, monthly")
-								.replace("%values%", "'" + uuid + "', '" + data.getLong("rewards.daily")+ "', '" + data.getLong("rewards.weekly") + "', '" + data.getLong("rewards.monthly") + "'")).executeUpdate();
+						connection.prepareStatement(INSERT
+								.replace("%columns%", "id, daily, weekly, monthly")
+								.replace("%values%", "'" + uuid + "', '" + data.getLong("rewards.daily")+ "', '" + data.getLong("rewards.weekly") + "', '" + data.getLong("rewards.monthly") + "'"))
+								.executeUpdate();
 				}
 			}
-			//}
-			//connection.prepareStatement("DROP TABLE Rewards;").execute();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
-		//}
 	}
 
 	@SneakyThrows
 	public static void createPlayer(final String uuid) {
 		if (MySQLManager.playerExists(uuid)) return;
+		final long currentTimeInMillis = System.currentTimeMillis();
 		connection.prepareStatement(INSERT
 				.replace("%columns%", "id, daily, weekly, monthly")
-				.replace("%values%", uuid + ", 0, 0, 0"));
+				.replace("%values%", uuid + ", " +
+						(Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.DAILY.getCooldown()) + ", " +
+						(Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.WEEKLY.getCooldown()) + ", " +
+						(Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.MONTHLY.getCooldown())));
 	}
 
 	@SneakyThrows

@@ -1,5 +1,6 @@
 package cz.revivalo.dailyrewards.configuration.data;
 
+import cz.revivalo.dailyrewards.configuration.enums.Config;
 import cz.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import cz.revivalo.dailyrewards.managers.database.MySQLManager;
 import cz.revivalo.dailyrewards.managers.reward.RewardType;
@@ -18,7 +19,7 @@ public class DataManager {
 
 	@SneakyThrows
 	public static void setValues(final UUID id, Object... data) {
-		if (DataManager.isUsingMysql()) {
+		if (isUsingMysql()) {
 			MySQLManager.updateCooldown(id, data);
 			return;
 		}
@@ -28,6 +29,19 @@ public class DataManager {
 			playerData.set(String.format("rewards.%s", data[i]), data[i + 1]);
 
 		playerData.save();
+	}
+
+	public static void createPlayer(final Player player){
+		if (isUsingMysql()) MySQLManager.createPlayer(player.getUniqueId().toString());
+		else
+			if (!PlayerData.exists(player.getUniqueId())){
+				final PlayerData playerData = PlayerData.getConfig(player.getUniqueId());
+				final long currentTimeInMillis = System.currentTimeMillis();
+				if (!Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean()) playerData.set("rewards." + RewardType.DAILY, Config.DAILY_COOLDOWN.asLong() + currentTimeInMillis);
+				if (!Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean()) playerData.set("rewards." + RewardType.WEEKLY, Config.WEEKLY_COOLDOWN.asLong() + currentTimeInMillis);
+				if (!Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean()) playerData.set("rewards." + RewardType.MONTHLY, Config.MONTHLY_COOLDOWN.asLong() + currentTimeInMillis);
+				playerData.save();
+		}
 	}
 
 	public static Collection<RewardType> getAvailableRewards(final Player player) {
@@ -47,6 +61,6 @@ public class DataManager {
 	}
 
 	public static long getLong(final UUID id, final RewardType type) {
-		return DataManager.isUsingMysql() ? MySQLManager.getRewardsCooldown(id, type) : PlayerData.getConfig(id).getLong("rewards." + type);
+		return isUsingMysql() ? MySQLManager.getRewardsCooldown(id, type) : PlayerData.getConfig(id).getLong("rewards." + type);
 	}
 }

@@ -23,6 +23,8 @@ public class PlayerData extends YamlConfiguration {
 		if (file.exists()) this.reload();
 	}
 
+	public static boolean exists(UUID id) { return new File(DailyRewards.getPlugin().getDataFolder(), "userdata" + File.separator + id.toString() + ".yml").exists();}
+
 	public static PlayerData getConfig(UUID uniqueId) {
 		synchronized (configurations) {
 			if (configurations.containsKey(uniqueId)) return configurations.get(uniqueId);

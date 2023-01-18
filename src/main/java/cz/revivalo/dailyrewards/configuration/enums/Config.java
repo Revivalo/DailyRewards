@@ -31,6 +31,8 @@ public enum Config {
 	MYSQL_PASSWORD("mysql-password"),
 	UPDATE_CHECKER("update-checker"),
 
+	DAILY_ENABLED("daily-enabled"),
+	DAILY_AVAILABLE_AFTER_FIRST_JOIN("daily-available-after-first-join"),
 	DAILY_PLACEHOLDER("daily-placeholder"),
 	DAILY_POSITION("daily-position"),
 	DAILY_SOUND("daily-sound"),
@@ -39,6 +41,8 @@ public enum Config {
 	DAILY_REWARDS("daily-rewards"),
 	DAILY_PREMIUM_REWARDS("daily-premium-rewards"),
 
+	WEEKLY_ENABLED("weekly-enabled"),
+	WEEKLY_AVAILABLE_AFTER_FIRST_JOIN("weekly-available-after-first-join"),
 	WEEKLY_PLACEHOLDER("weekly-placeholder"),
 	WEEKLY_AVAILABLE_ITEM("weekly-available-item"),
 	WEEKLY_UNAVAILABLE_ITEM("weekly-unavailable-item"),
@@ -47,6 +51,8 @@ public enum Config {
 	WEEKLY_REWARDS("weekly-rewards"),
 	WEEKLY_PREMIUM_REWARDS("weekly-premium-rewards"),
 
+	MONTHLY_ENABLED("monthly-enabled"),
+	MONTHLY_AVAILABLE_AFTER_FIRST_JOIN("monthly-available-after-first-join"),
 	MONTHLY_PLACEHOLDER("monthly-placeholder"),
 	MONTHLY_AVAILABLE_ITEM("monthly-available-item"),
 	MONTHLY_UNAVAILABLE_ITEM("monthly-unavailable-item"),
@@ -71,7 +77,19 @@ public enum Config {
 				TimeUnit.MILLISECONDS.toSeconds(cd) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(cd)));
 	}
 
+
 	public static void reload() {
+		final YamlConfiguration configuration = new YamlFile("config.yml", DailyRewards.getPlugin(DailyRewards.class).getDataFolder()).getConfiguration();
+		for (String key : configuration.getConfigurationSection("config").getKeys(true)) {
+			if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help")) {
+				lists.put(key, configuration.getStringList("config." + key));
+			} else {
+				messages.put(key, configuration.getString("config." + key));
+			}
+		}
+		Lang.reload();
+	}
+	/*public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("config.yml",
 				DailyRewards.getPlugin(DailyRewards.class).getDataFolder())
 				.getConfiguration();
@@ -86,9 +104,9 @@ public enum Config {
 					messages.put(key, configuration.getString("config." + key));
 				});
 		Lang.reload();
-	}
+	}*/
 
-	public List<String> asReplacedString(String... replacements) {
+	public List<String> asReplacedStringList(String... replacements) {
 		final List<String> newList = new ArrayList<>();
 		for (final String line : lists.get(this.text)) {
 			String newLine = line;
@@ -103,7 +121,6 @@ public enum Config {
 	public String asString() {
 		return messages.get(text);
 	}
-
 	public String asUppercase() {
 		return this.asString().toUpperCase();
 	}

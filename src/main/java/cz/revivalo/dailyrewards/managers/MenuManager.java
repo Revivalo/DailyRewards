@@ -120,7 +120,7 @@ public class MenuManager {
 		itemMeta.setLore(lore);
 
 		if (material.equalsIgnoreCase("PLAYER_HEAD")) {
-			((SkullMeta) itemMeta).setOwningPlayer(null);
+			((SkullMeta) itemMeta).setOwner(null);//.setOwningPlayer(null);
 		} else if (glow) {
 			itemMeta.addEnchant(Enchantment.LURE, 1, false);
 			itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -131,7 +131,6 @@ public class MenuManager {
 
 	public static class RewardsInventoryHolder implements InventoryHolder {
 
-		@SuppressWarnings("ConstantConditions")
 		@Override
 		public Inventory getInventory() {
 			return null;

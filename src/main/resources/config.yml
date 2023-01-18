@@ -23,8 +23,8 @@ config:
   update-checker: true
   menu-size: 45
   fill-background-enabled: true
+  # Make rewards available after first join
   background-item: GRAY_STAINED_GLASS_PANE
-  # Make rewards available for first join
   enable-join-notification: true
   announce-enabled: true
   cooldown-format: "%days% days %hours% hours"
@@ -36,6 +36,8 @@ config:
   #
   # DAILY REWARD SECTION
   #
+  daily-enabled: true
+  daily-available-after-first-join: false
   daily-placeholder: "daily"
   # In hours
   daily-cooldown: 24
@@ -43,14 +45,20 @@ config:
   daily-sound: ENTITY_PLAYER_LEVELUP
   daily-available-item: "CHEST_MINECART"
   daily-unavailable-item: "MINECART"
+  # Following commands will be executed when player claims his
+  # reward with dailyreward.daily permission
   daily-rewards:
     - "give %player% iron_ingot 8"
+  # In the other hand, when player has dailyreward.daily.premium
+  # this commands will be executed (it's the same for weekly and monthly rewards)
   daily-premium-rewards:
     - "give %player% iron_ingot 16"
     - "give %player% gold_ingot 3"
   #
   # WEEKLY REWARD SECTION
   #
+  weekly-enabled: true
+  weekly-available-after-first-join: false
   weekly-placeholder: "weekly"
   # In hours
   weekly-cooldown: 168
@@ -66,6 +74,8 @@ config:
   #
   # MONTHLY REWARD SECTION
   #
+  monthly-enabled: true
+  monthly-available-after-first-join: false
   monthly-placeholder: "monthly"
   # In hours
   monthly-cooldown: 720

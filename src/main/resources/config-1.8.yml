@@ -10,44 +10,26 @@
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
-# From 1.16 version you can also use HEX colors.
-# Instead of &f format use <#ffffff>
-#
 config:
+  language: English
+  use-mysql: false
+  mysql-ip: 127.0.0.1
+  mysql-database-name: database
+  mysql-username: user
+  mysql-password: password
   update-checker: true
-  reward-reset: "&e[&6&lDailyRewards&e] &fYou reset &e%type% &freward for player &e%player%"
-  unavailable-player: "&c[&4&lDailyRewards&c] Player &n%player%&c is not available"
-  permission-msg: "&c[&4&lDailyRewards&c] You are not permitted to use this command"
-  rewards-dont-set: "&c[&4&lDailyRewards&c] Rewards are not set"
-  reload-msg: "&e[&6&lDailyRewards&e] &fPlugin was successfully reloaded"
-  invalid-arguments: "&c[&4&lDailyRewards&c] Use /reward help to list syntax of available commands"
-  incomplete-reward-reset: "&c[&4&lDailyRewards&c] Specify what you specifically want to reset (daily/weekly/monthly/all)"
-  help:
-    - "&e[&6&lDailyRewards&e] &fList with all available commands:"
-    - "&f/rewards &7- Main GUI menu"
-    - "&f/reward &7- obtain daily reward"
-    - "&f/reward weekly &7- obtain weekly reward"
-    - "&f/reward monthly &7- obtain monthly reward"
-    - "&f/reward reset <player> <daily|weekly|monthly|all>"
-    - "&f/reward reload &7- reloads configuration section"
-  menu-title: "Rewards"
   menu-size: 45
-  fill-background-enabled: true
-  background-item: GRAY_STAINED_GLASS_PANE
+  fill-background-enabled: false
+  background-item: STAINED_GLASS_PANE
   # Make rewards available for first join
-  automatically-activate: true
   enable-join-notification: true
   announce-enabled: true
+  cooldown-format: "%days% days %hours% hours"
   # In seconds
   join-notification-delay: 3
-  join-hover-message: "&7Click for collect your rewards"
-  join-notifications:
-    - ' '
-    - '&2 - &a%rewards% reward(s) are waiting for you! &f(Click here)'
-    - ' '
-  cooldown-format: "&c%days% days %hours% hours"
-  cooldown-message: "&c[&4&lDailyRewards&c] For &l%type% &creward you have to wait &n%time%"
-  unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT
+  unavailable-reward-sound: ENDERDRAGON_HIT
+  auto-claim-rewards-on-join: false
+  check-for-full-inventory: true
   #
   # DAILY REWARD SECTION
   #
@@ -55,29 +37,9 @@ config:
   # In hours
   daily-cooldown: 24
   daily-position: 20
-  daily-sound: ENTITY_PLAYER_LEVELUP
-  daily-title: "&a&lRewards"
-  daily-subtitle: "&7You have collected your &adaily&7 reward"
-  daily-collected: "&a%player% &7collected his &a&ldaily reward!"
-  daily-premium-collected: "&a%player% &7collected his &a&lpremium daily reward!"
-  daily-displayname-available: "&a&lDAILY REWARD"
-  daily-available-item: "CHEST_MINECART"
+  daily-sound: LEVEL_UP
+  daily-available-item: "STORAGE_MINECART"
   daily-unavailable-item: "MINECART"
-  daily-available-lore:
-    - "&7Reward contains:"
-    - "&a 8x &fIron Ingot"
-    - " "
-    - "&c❌ premium reward unavailable"
-  daily-available-premium-lore:
-    - "&7Reward contains:"
-    - "&a 16x &fIron Ingot"
-    - "&a  3x &fGold Ingot"
-    - " "
-    - "&e✔ premium reward available"
-  daily-displayname-unavailable: "&c&lDAILY REWARD"
-  daily-unavailable-lore:
-    - " "
-    - "&cAvailable in: %cooldown%"
   daily-rewards:
     - "give %player% iron_ingot 8"
   daily-premium-rewards:
@@ -90,29 +52,9 @@ config:
   # In hours
   weekly-cooldown: 168
   weekly-position: 22
-  weekly-sound: ENTITY_FIREWORK_ROCKET_LARGE_BLAST
-  weekly-title: "&e&lRewards"
-  weekly-subtitle: "&7You have collected your &eweekly &7reward"
-  weekly-collected: "&e%player% &7collected his &e&lweekly reward!"
-  weekly-premium-collected: "&e%player% &7collected his &e&lpremium weekly reward!"
-  weekly-displayname-available: "&a&lWEEKLY REWARD"
-  weekly-available-item: "CHEST_MINECART"
+  weekly-sound: FIREWORK_LARGE_BLAST
+  weekly-available-item: "STORAGE_MINECART"
   weekly-unavailable-item: "MINECART"
-  weekly-available-lore:
-    - "&7Reward contains:"
-    - "&a 1x &fDiamond"
-    - " "
-    - "&c❌ premium reward unavailable"
-  weekly-available-premium-lore:
-    - "&7Reward contains:"
-    - "&a 5x &fDiamond"
-    - "&a 3x &fEmerald"
-    - " "
-    - "&e✔ premium reward available"
-  weekly-displayname-unavailable: "&c&lWEEKLY REWARD"
-  weekly-unavailable-lore:
-    - " "
-    - "&cAvailable in: %cooldown%"
   weekly-rewards:
     - "give %player% diamond 1"
   weekly-premium-rewards:
@@ -125,33 +67,9 @@ config:
   # In hours
   monthly-cooldown: 720
   monthly-position: 24
-  monthly-sound: ENTITY_FIREWORK_ROCKET_BLAST
-  monthly-title: "&9&lRewards"
-  monthly-subtitle: "&7You have collected your &9monthly &7reward"
-  monthly-collected: "&9%player% &7collected his &9&lmonthly reward!"
-  monthly-premium-collected: "&9%player% &7collected his &9&lpremium monthly reward!"
-  monthly-displayname-available: "&a&lMONTHLY REWARD"
-  monthly-available-item: "CHEST_MINECART"
+  monthly-sound: FIREWORK_LARGE_BLAST
+  monthly-available-item: "STORAGE_MINECART"
   monthly-unavailable-item: "MINECART"
-  monthly-available-lore:
-    - "&7Reward contains:"
-    - "&a  8x &fDiamond"
-    - "&a 32x &fIron Ingot"
-    - "&a 16x &fGold Ingot"
-    - " "
-    - "&c❌ premium reward unavailable"
-  monthly-available-premium-lore:
-    - "&7Reward contains:"
-    - "&a  1x &fNether Star"
-    - "&a 16x &fDiamond"
-    - "&a 64x &fIron Ingot"
-    - "&a 32x &fGold Ingot"
-    - " "
-    - "&e✔ premium reward activated"
-  monthly-displayname-unavailable: "&c&lMONTHLY REWARD"
-  monthly-unavailable-lore:
-    - " "
-    - "&cAvailable in: %cooldown%"
   monthly-rewards:
     - "give %player% diamond 8"
     - "give %player% iron_ingot 32"

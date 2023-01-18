@@ -25,11 +25,10 @@ public class PlayerJoinListener implements Listener {
 	@Getter
 	public static final PlayerJoinListener instance = new PlayerJoinListener();
 
-	@SuppressWarnings("deprecation")
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onJoin(final PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
-		if (DataManager.isUsingMysql()) MySQLManager.createPlayer(player.getUniqueId().toString());
+		DataManager.createPlayer(player);//if (DataManager.isUsingMysql()) MySQLManager.createPlayer(player.getUniqueId().toString());
 		final Collection<RewardType> availableRewards = DataManager.getAvailableRewards(player);
 		final short numberOfAvailableRewards = (short) availableRewards.size();
 		if (numberOfAvailableRewards <= 0) return;

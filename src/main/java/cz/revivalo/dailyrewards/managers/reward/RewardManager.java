@@ -92,7 +92,7 @@ public class RewardManager {
 		if (!player.isOnline() && !player.hasPlayedBefore()) return false;
 		final String typeName = type.toString();
 		if (typeName.equalsIgnoreCase("all")) {
-			DataManager.setValues(player.getUniqueId(), "daily", 0L, "weekly", 0L, "monthly", 0L);
+			DataManager.setValues(player.getUniqueId(), RewardType.DAILY, 0L, RewardType.WEEKLY, 0L, RewardType.MONTHLY, 0L);
 			return true;
 		}
 		DataManager.setValues(player.getUniqueId(), typeName, 0L);

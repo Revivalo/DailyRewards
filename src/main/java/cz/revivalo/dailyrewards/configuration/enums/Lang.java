@@ -8,8 +8,6 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,7 +65,7 @@ public enum Lang {
 	private final String text;
 
 	public static void reload() {
-		final YamlConfiguration configuration = new YamlFile(String.format("lang%s%s.yml", File.separator, Config.LANGUAGE.asString()),
+		final YamlConfiguration configuration = new YamlFile("lang.yml",
 				DailyRewards.getPlugin().getDataFolder())
 				.getConfiguration();
 

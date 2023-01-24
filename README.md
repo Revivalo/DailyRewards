@@ -2,7 +2,7 @@
 # DailyRewards
 
 
-![LOGO](https://www.spigotmc.org/attachments/plugin-banner-jpg.537458/)
+![LOGO]([https://www.spigotmc.org/attachments/plugin-banner-jpg.537458/](https://www.spigotmc.org/attachments/plugin-banner-jpg.537458/))
 
 
 

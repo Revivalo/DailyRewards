@@ -1,8 +1,7 @@
 
 # DailyRewards
 
-
-![LOGO]([https://www.spigotmc.org/attachments/plugin-banner-jpg.537458/](https://www.spigotmc.org/attachments/plugin-banner-jpg.537458/))
+https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-mysql-oraxen-support-1-8-8-1-19-3.81780/
 
 
 

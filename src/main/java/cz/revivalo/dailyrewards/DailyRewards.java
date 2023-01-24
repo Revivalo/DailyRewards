@@ -21,19 +21,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.util.Arrays;
+import java.util.Collection;
 
 public final class DailyRewards extends JavaPlugin {
+    /*
+        [+] Support for Oraxen's custom items
+        [+] Option to toggle the reward
+        [+] Option to set cooldown format for each reward
+        [+] Support for some commands to be executed from the console
+        [!] Heavily optimized handling with lores of gui items
+        [!] Fixed HEX colors support
+
+
+     */
     private final int SERVICE_ID = 12070;
     private final int RESOURCE_ID = 81780;
 
-    @Getter @Setter
-    public static boolean papiEnabled;
-    @Getter @Setter
-    public static boolean latestVersion;
-    @Getter @Setter
-    public static boolean hexSupported;
     @Getter @Setter
     public static DailyRewards plugin;
 
@@ -42,9 +45,23 @@ public final class DailyRewards extends JavaPlugin {
     @Getter @Setter
     private static MenuManager menuManager;
 
+    @Getter @Setter
+    private PluginManager pluginManager;
+
+    private final Collection<String> supportedPlugins = getDescription().getSoftDepend();
+    @Getter @Setter
+    public static boolean papiInstalled;
+    @Getter @Setter
+    public static boolean oraxenInstalled;
+    @Getter @Setter
+    public static boolean latestVersion;
+    @Getter @Setter
+    public static boolean hexSupported;
+
     @Override
     public void onEnable() {
         DailyRewards.setPlugin(this);
+        setPluginManager(getServer().getPluginManager());
         final String serverVersion = Bukkit.getBukkitVersion();
         DailyRewards.setHexSupported(
                 serverVersion.contains("6") ||
@@ -71,15 +88,10 @@ public final class DailyRewards extends JavaPlugin {
         MySQLManager.init();
         DailyRewards.setRewardManager(new RewardManager());
         DailyRewards.setMenuManager(new MenuManager());
+
         this.registerCommands();
         this.implementListeners();
-
-        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            new PlaceholderManager().register();
-            DailyRewards.setPapiEnabled(true);
-            return;
-        }
-        getServer().getLogger().warning("Could not find PlaceholderAPI, placeholders will not work");
+        this.registerSupportedPlugins();
     }
 
     @Override
@@ -88,20 +100,35 @@ public final class DailyRewards extends JavaPlugin {
     }
 
     private void registerCommands() {
-        Arrays.asList("reward", "rewards")
+        final RewardCommand rewardCommand = new RewardCommand();
+        this.getDescription().getCommands().keySet()
                 .forEach(string -> {
                     final PluginCommand command = this.getCommand(string);
                     if (command == null) return;
 
-                    command.setExecutor(new RewardCommand());
+                    command.setExecutor(rewardCommand);
                 });
     }
 
     private void implementListeners() {
-        final PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(InventoryClickListener.getInstance(), this);
-        pluginManager.registerEvents(PlayerJoinListener.getInstance(), this);
-        pluginManager.registerEvents(UpdateNotificator.getInstance(), this);
+        getPluginManager().registerEvents(InventoryClickListener.getInstance(), this);
+        getPluginManager().registerEvents(PlayerJoinListener.getInstance(), this);
+        getPluginManager().registerEvents(UpdateNotificator.getInstance(), this);
+    }
+
+    private void registerSupportedPlugins(){
+        for (final String plugin : supportedPlugins){
+            if (getPluginManager().getPlugin(plugin) == null) continue;
+            switch (plugin) {
+                case "PlaceholderAPI":
+                    DailyRewards.setPapiInstalled(new PlaceholderManager().register());
+                    break;
+                case "Oraxen":
+                    DailyRewards.setOraxenInstalled(true);
+                    break;
+            }
+            Bukkit.getLogger().info(plugin + " has been successfully registered into supported plugins!");
+        }
     }
 
     public static String isPremium(final Player player, final RewardType type) {

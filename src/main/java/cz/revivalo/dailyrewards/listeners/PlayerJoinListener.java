@@ -4,7 +4,6 @@ import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.configuration.data.DataManager;
 import cz.revivalo.dailyrewards.configuration.enums.Config;
 import cz.revivalo.dailyrewards.configuration.enums.Lang;
-import cz.revivalo.dailyrewards.managers.database.MySQLManager;
 import cz.revivalo.dailyrewards.managers.reward.RewardType;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -19,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 public class PlayerJoinListener implements Listener {
 
@@ -36,14 +36,14 @@ public class PlayerJoinListener implements Listener {
 		if (Config.AUTO_CLAIM_REWARDS_ON_JOIN.asBoolean()) {
 			if (!player.hasPermission("dailyreward.autoclaim")) return;
 			Bukkit.getScheduler().runTaskLater(DailyRewards.getPlugin(), () ->
-					DailyRewards.getRewardManager().autoClaim(player, availableRewards), 2);
+					DailyRewards.getRewardManager().autoClaim(player, availableRewards), 3);
 			return;
 		}
 
 		if (!Config.ENABLE_JOIN_NOTIFICATION.asBoolean()) return;
 		Bukkit.getScheduler().runTaskLater(
 				DailyRewards.getPlugin(),
-				() -> Lang.JOIN_NOTIFICATION.asColoredList("%rewards%", String.valueOf(numberOfAvailableRewards))
+				() -> Lang.JOIN_NOTIFICATION.asColoredList(new HashMap<String, String>() {{put("%rewards%", String.valueOf(numberOfAvailableRewards));}})
 						.stream()
 						.map(TextComponent::new)
 						.forEach(joinMsg -> {

@@ -1,10 +1,15 @@
+#
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+#
 lang:
   auto-claim-notification:
     - " "
     - "&a ✔ &f%rewards% reward(s) has been successfully auto-claimed!"
     - " "
-  reward-reset: "&e[&6&lDailyRewards&e] &fYou reset &e%type% &freward for player &e%player%"
+  reward-reset: "&e[&6&lDailyRewards&e] &fYou reset the &e%type%&f reward(s) of a player &e%player%"
   unavailable-player: "&c[&4&lDailyRewards&c] Player &n%player%&c is not available"
+  reward-disabled: "&c[&4&lDailyRewards&c] Reward cannot be obtained!"
   permission-msg: "&c[&4&lDailyRewards&c] You are not permitted to use this command"
   rewards-are-not-set: "&c[&4&lDailyRewards&c] Rewards are not set!"
   reload-msg: "&e[&6&lDailyRewards&e] &fPlugin was successfully reloaded"

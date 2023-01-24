@@ -13,6 +13,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.stream.Collectors;
 
@@ -29,11 +30,15 @@ public class RewardManager {
 
 		rewardTypes.forEach(rewardType -> this.claim(player, rewardType, false, false));
 		Lang.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
-				.asColoredList("%rewards%", formattedRewards));
+				.asColoredList(new HashMap<String, String>() {{put("%rewards%", String.format(formattedRewards));}}));
 	}
 
 	@SuppressWarnings("deprecation")
 	public void claim(final Player player, RewardType type, boolean fromCommand, boolean announce) {
+		if (!type.isEnabled()){
+			player.sendMessage(Lang.DISABLED_REWARD.asColoredString());
+			return;
+		}
 		if (!player.hasPermission("dailyreward." + type)) {
 			if (!fromCommand) return;
 			player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
@@ -48,13 +53,15 @@ public class RewardManager {
 		if (cooldown.isClaimable()) {
 			final String typeName = type.toString().toUpperCase();
 			final Collection<String> rewardCommands = Config.valueOf(String.format("%s%s_REWARDS", typeName, DailyRewards.isPremium(player, type)))
-					.asReplacedStringList("%player%", player.getName());
+					.asReplacedList(new HashMap<String, String>(){{put("%player%", player.getName());}});
 
 			if (rewardCommands.size() == 0) {
 				player.sendMessage(Lang.REWARDS_IS_NOT_SET.asColoredString());
 			} else {
 				final ConsoleCommandSender consoleSender = Bukkit.getConsoleSender();
-				rewardCommands.forEach(command -> Bukkit.dispatchCommand(consoleSender, command));
+				rewardCommands.forEach(command -> {
+					Bukkit.dispatchCommand(consoleSender, command);
+				});
 			}
 
 			CooldownManager.setCooldown(player, type);
@@ -78,7 +85,7 @@ public class RewardManager {
 			if (fromCommand) {
 				player.sendMessage(Lang.COOLDOWN_MESSAGE.asColoredString()
 						.replace("%type%", getRewardsPlaceholder(type))
-						.replace("%time%", cooldown.getFormat()));
+						.replace("%time%", cooldown.getFormat(type.getCooldownFormat())));
 				return;
 			}
 			player.playSound(player.getLocation(),

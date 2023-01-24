@@ -1,26 +1,29 @@
 package cz.revivalo.dailyrewards.configuration.enums;
 
+import com.google.common.base.Splitter;
 import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.configuration.YamlFile;
+import io.th0rgal.oraxen.api.OraxenItems;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang.StringUtils;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public enum Config {
-	LANGUAGE("language"),
-	DAILY_COOLDOWN("daily-cooldown"),
-	WEEKLY_COOLDOWN("weekly-cooldown"),
-	MONTHLY_COOLDOWN("monthly-cooldown"),
 	MENU_SIZE("menu-size"),
 	FILL_BACKGROUND("fill-background-enabled"),
 	BACKGROUND_ITEM("background-item"),
 	ENABLE_JOIN_NOTIFICATION("enable-join-notification"),
 	ANNOUNCE_ENABLED("announce-enabled"),
 	JOIN_NOTIFICATION_DELAY("join-notification-delay"),
-	COOL_DOWN_FORMAT("cooldown-format"),
 	UNAVAILABLE_REWARD_SOUND("unavailable-reward-sound"),
 	AUTO_CLAIM_REWARDS_ON_JOIN("auto-claim-rewards-on-join"),
 
@@ -32,6 +35,8 @@ public enum Config {
 	UPDATE_CHECKER("update-checker"),
 
 	DAILY_ENABLED("daily-enabled"),
+	DAILY_COOLDOWN("daily-cooldown"),
+	DAILY_COOLDOWN_FORMAT("daily-cooldown-format"),
 	DAILY_AVAILABLE_AFTER_FIRST_JOIN("daily-available-after-first-join"),
 	DAILY_PLACEHOLDER("daily-placeholder"),
 	DAILY_POSITION("daily-position"),
@@ -42,6 +47,8 @@ public enum Config {
 	DAILY_PREMIUM_REWARDS("daily-premium-rewards"),
 
 	WEEKLY_ENABLED("weekly-enabled"),
+	WEEKLY_COOLDOWN("weekly-cooldown"),
+	WEEKLY_COOLDOWN_FORMAT("weekly-cooldown-format"),
 	WEEKLY_AVAILABLE_AFTER_FIRST_JOIN("weekly-available-after-first-join"),
 	WEEKLY_PLACEHOLDER("weekly-placeholder"),
 	WEEKLY_AVAILABLE_ITEM("weekly-available-item"),
@@ -52,6 +59,8 @@ public enum Config {
 	WEEKLY_PREMIUM_REWARDS("weekly-premium-rewards"),
 
 	MONTHLY_ENABLED("monthly-enabled"),
+	MONTHLY_COOLDOWN("monthly-cooldown"),
+	MONTHLY_COOLDOWN_FORMAT("monthly-cooldown-format"),
 	MONTHLY_AVAILABLE_AFTER_FIRST_JOIN("monthly-available-after-first-join"),
 	MONTHLY_PLACEHOLDER("monthly-placeholder"),
 	MONTHLY_AVAILABLE_ITEM("monthly-available-item"),
@@ -63,7 +72,7 @@ public enum Config {
 	CHECK_FOR_FULL_INVENTORY("check-for-full-inventory");
 
 	private static final Map<String, String> messages = new HashMap<>();
-	private static final Map<String, List<String>> lists = new HashMap<>();
+	private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
 
 	static {
 		reload();
@@ -71,14 +80,7 @@ public enum Config {
 
 	private final String text;
 
-	public static String format(long cd) {
-		return String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(cd),
-				TimeUnit.MILLISECONDS.toMinutes(cd) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(cd)),
-				TimeUnit.MILLISECONDS.toSeconds(cd) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(cd)));
-	}
-
-
-	public static void reload() {
+	/*public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("config.yml", DailyRewards.getPlugin(DailyRewards.class).getDataFolder()).getConfiguration();
 		for (String key : configuration.getConfigurationSection("config").getKeys(true)) {
 			if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help")) {
@@ -88,38 +90,53 @@ public enum Config {
 			}
 		}
 		Lang.reload();
-	}
-	/*public static void reload() {
+	}*/
+
+	public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("config.yml",
 				DailyRewards.getPlugin(DailyRewards.class).getDataFolder())
 				.getConfiguration();
 
 		Objects.requireNonNull(configuration.getConfigurationSection("config"))
-				.getKeys(true)
+				.getKeys(false)
 				.forEach(key -> {
 					if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help")) {
-						lists.put(key, configuration.getStringList("config." + key));
+						listsStoredAsStrings.put(key, String.join("⎶", configuration.getStringList("config." + key)));
 						return;
 					}
 					messages.put(key, configuration.getString("config." + key));
 				});
 		Lang.reload();
-	}*/
+	}
 
-	public List<String> asReplacedStringList(String... replacements) {
-		final List<String> newList = new ArrayList<>();
-		for (final String line : lists.get(this.text)) {
-			String newLine = line;
-			for (int i = 0; i < replacements.length; i += 2)
-				newLine = line.replace(replacements[i], replacements[i + 1]);
+	public static String formatTime(String message, long remainingTime) {
+		return replaceString(message, new HashMap<String, String>(){{
+			put("%days%", String.valueOf(TimeUnit.MILLISECONDS.toDays(remainingTime)));
+			put("%hours%", String.valueOf(TimeUnit.MILLISECONDS.toHours(remainingTime) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(remainingTime))));
+			put("%minutes%", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(remainingTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(remainingTime))));
+			put("%seconds%", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(remainingTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime))));
+		}});
+	}
 
-			newList.add(newLine);
-		}
-		return newList;
+	public static String replaceString(String messageToReplace, final Map<String, String> definitions){
+		final String[] keys = definitions.keySet().toArray(new String[0]);
+		final String[] values = definitions.values().toArray(new String[0]);
+
+		return StringUtils.replaceEach(messageToReplace, keys, values);
+	}
+
+	public List<String> asReplacedList(final Map<String, String> definitions) {
+		return Splitter.on("⎶").splitToList(replaceString(listsStoredAsStrings.get(this.text), definitions));
 	}
 
 	public String asString() {
 		return messages.get(text);
+	}
+	public ItemStack asAnItem(){
+		if (DailyRewards.isOraxenInstalled()){
+			if (OraxenItems.exists(messages.get(text))) return OraxenItems.getItemById(messages.get(text)).build();
+			else return new ItemStack(Material.valueOf(messages.get(text)));
+		} else return new ItemStack(Material.valueOf(messages.get(text)));
 	}
 	public String asUppercase() {
 		return this.asString().toUpperCase();

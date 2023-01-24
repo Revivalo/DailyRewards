@@ -116,5 +116,10 @@
             <version>1.18.24</version>
             <scope>compile</scope>
         </dependency>
+        <!--<dependency>
+            <groupId>org.ahocorasick</groupId>
+            <artifactId>ahocorasick</artifactId>
+            <version>0.6.3</version>
+        </dependency>-->
     </dependencies>
 </project>

@@ -36,7 +36,8 @@ public class MySQLManager {
 		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":3306/" + Config.MYSQL_DBNAME.asString() +
 				"?idleConnectionTestPeriod=3600" +
 				"&testConnectionOnCheckin=true" +
-				"&autoReconnect=YES");
+				"&allowReconnect=true" +
+				"&autoReconnect=true");
 		config.setUsername(username);
 		config.setPassword(password);
 

@@ -22,11 +22,11 @@ public class InventoryClickListener implements Listener {
 		event.setCancelled(true);
 		final Player player = (Player) event.getWhoClicked();
 		int slot = event.getSlot();
-		if (slot == Config.DAILY_POSITION.asInt()){
+		if (slot == Config.DAILY_POSITION.asInt() && Config.DAILY_ENABLED.asBoolean()){
 			DailyRewards.getRewardManager().claim(player, RewardType.DAILY, false, true);
-		} else if (slot == Config.WEEKLY_POSITION.asInt()){
+		} else if (slot == Config.WEEKLY_POSITION.asInt() && Config.WEEKLY_ENABLED.asBoolean()){
 			DailyRewards.getRewardManager().claim(player, RewardType.WEEKLY, false, true);
-		} else if (slot == Config.MONTHLY_POSITION.asInt()){
+		} else if (slot == Config.MONTHLY_POSITION.asInt() && Config.MONTHLY_ENABLED.asBoolean()){
 			DailyRewards.getRewardManager().claim(player, RewardType.MONTHLY, false, true);
 		}
 	}

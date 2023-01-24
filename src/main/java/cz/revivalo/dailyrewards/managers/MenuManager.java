@@ -59,7 +59,7 @@ public class MenuManager {
 													Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderReplacedText(player))
 									.setLore(
 											claimable ?
-													Lang.valueOf(String.format("MONTHLY_AVAILABLE%s_LORE", DailyRewards.isPremium(player, RewardType.DAILY))).asColoredList(Collections.emptyMap()) :
+													Lang.valueOf(String.format("DAILY_AVAILABLE%s_LORE", DailyRewards.isPremium(player, RewardType.DAILY))).asColoredList(Collections.emptyMap()) :
 													Lang.DAILY_UNAVAILABLE_LORE.asColoredList(new HashMap<String, String>() {{
 														put("%cooldown%", dailyCooldown.getFormat(Config.DAILY_COOLDOWN_FORMAT.asString()));
 													}})
@@ -81,7 +81,7 @@ public class MenuManager {
 												Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderReplacedText(player))
 								.setLore(
 										weeklyCooldown.isClaimable() ?
-												Lang.valueOf(String.format("MONTHLY_AVAILABLE%s_LORE", DailyRewards.isPremium(player, RewardType.WEEKLY))).asColoredList(Collections.emptyMap()) :
+												Lang.valueOf(String.format("WEEKLY_AVAILABLE%s_LORE", DailyRewards.isPremium(player, RewardType.WEEKLY))).asColoredList(Collections.emptyMap()) :
 												Lang.WEEKLY_UNAVAILABLE_LORE.asColoredList(new HashMap<String, String>() {{
 													put("%cooldown%", weeklyCooldown.getFormat(Config.WEEKLY_COOLDOWN_FORMAT.asString()));
 												}})

@@ -14,10 +14,10 @@ import java.util.function.Consumer;
 @Getter
 @RequiredArgsConstructor
 public class UpdateChecker {
-	private final int RECOURSE_ID;
+	private final int RESOURCE_ID;
 
 	public void getVersion(final Consumer<String> consumer) {
-		final String link = String.format("https://api.spigotmc.org/legacy/update.php?resource=%d", this.RECOURSE_ID);
+		final String link = String.format("https://api.spigotmc.org/legacy/update.php?resource=%d", this.RESOURCE_ID);
 		Bukkit.getScheduler().runTaskAsynchronously(
 				DailyRewards.getPlugin(),
 				() -> {

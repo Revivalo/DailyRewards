@@ -25,14 +25,7 @@ import java.util.Collection;
 
 public final class DailyRewards extends JavaPlugin {
     /*
-        [+] Support for Oraxen's custom items
-        [+] Option to toggle the reward
-        [+] Option to set cooldown format for each reward
-        [+] Support for some commands to be executed from the console
-        [!] Heavily optimized handling with lores of gui items
-        [!] Fixed HEX colors support
-
-
+        [+] Support for ItemsAdders's custom items
      */
     private final int SERVICE_ID = 12070;
     private final int RESOURCE_ID = 81780;
@@ -53,6 +46,8 @@ public final class DailyRewards extends JavaPlugin {
     public static boolean papiInstalled;
     @Getter @Setter
     public static boolean oraxenInstalled;
+    @Getter @Setter
+    public static boolean itemsAdderInstalled;
     @Getter @Setter
     public static boolean latestVersion;
     @Getter @Setter
@@ -121,10 +116,13 @@ public final class DailyRewards extends JavaPlugin {
             if (getPluginManager().getPlugin(plugin) == null) continue;
             switch (plugin) {
                 case "PlaceholderAPI":
-                    DailyRewards.setPapiInstalled(new PlaceholderManager().register());
+                    setPapiInstalled(new PlaceholderManager().register());
+                    break;
+                case "ItemsAdder":
+                    setItemsAdderInstalled(true);
                     break;
                 case "Oraxen":
-                    DailyRewards.setOraxenInstalled(true);
+                    setOraxenInstalled(true);
                     break;
             }
             Bukkit.getLogger().info(plugin + " has been successfully registered into supported plugins!");

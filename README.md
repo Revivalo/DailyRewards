@@ -5,7 +5,7 @@ https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-mysql-
 
 
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)]
 
 [![codefactor](https://www.codefactor.io/Content/badges/A.svg)](https://www.codefactor.io/repository/github/revivalo/dailyrewards)
 

@@ -1,5 +1,6 @@
 package cz.revivalo.dailyrewards.utils;
 
+import lombok.NonNull;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -9,38 +10,50 @@ import java.util.List;
 import java.util.Objects;
 
 public class ItemBuilder {
-    private final ItemStack itemStack;
-    private final ItemMeta meta;
-    public ItemBuilder(final ItemStack itemStack){
-        this.itemStack = itemStack;
-        this.meta = itemStack.getItemMeta();
+    public static ItemBuilderBuilder from(@NonNull ItemStack itemStack) {
+        return new ItemBuilderBuilder(itemStack);
     }
 
-    public ItemBuilder setName(final String name) {
-        meta.setDisplayName(name);
-        return this;
-    }
+    public static class ItemBuilderBuilder {
+        private final ItemStack itemStack;
+        private final ItemMeta meta;
 
-    public ItemBuilder setAmount(final int amount) {
-        itemStack.setAmount(amount);
-        return this;
-    }
 
-    public ItemBuilder setGlow(final boolean glow) {
-        if (glow) {
-            Objects.requireNonNull(meta).addEnchant(Enchantment.LURE, 1, false);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        ItemBuilderBuilder(ItemStack itemStack) {
+            this.itemStack = itemStack;
+            this.meta = itemStack.getItemMeta();
         }
-        return this;
-    }
 
-    public ItemBuilder setLore(final List<String> lore) {
-        meta.setLore(lore);
-        return this;
-    }
+        public ItemBuilderBuilder setName(final String name) {
+            this.meta.setDisplayName(name);
+            return this;
+        }
 
-    public ItemStack build() {
-        itemStack.setItemMeta(meta);
-        return itemStack;
+        public ItemBuilderBuilder setAmount(final int amount) {
+            this.itemStack.setAmount(amount);
+            return this;
+        }
+
+        public ItemBuilderBuilder setGlow(final boolean glow) {
+            if (glow) {
+                Objects.requireNonNull(this.meta).addEnchant(Enchantment.LURE, 1, false);
+                this.meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
+            return this;
+        }
+
+        public ItemBuilderBuilder setLore(final List<String> lore) {
+            this.meta.setLore(lore);
+            return this;
+        }
+
+        public ItemStack build() {
+            this.itemStack.setItemMeta(this.meta);
+            return this.itemStack;
+        }
+
+        public String toString() {
+            return "ItemBuilder.ItemBuilderBuilder(itemStack=" + this.itemStack + ", meta=" + this.meta + ")";
+        }
     }
 }

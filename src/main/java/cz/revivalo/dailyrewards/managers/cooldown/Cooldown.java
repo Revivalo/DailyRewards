@@ -2,26 +2,28 @@ package cz.revivalo.dailyrewards.managers.cooldown;
 
 import cz.revivalo.dailyrewards.configuration.enums.Config;
 
-public class Cooldown {
-	private Long timeLeft;
+import java.util.concurrent.atomic.AtomicLong;
 
-	public Cooldown(Long timeLeft) {
-		this.timeLeft = timeLeft;
+public class Cooldown {
+	private final AtomicLong timeLeftInMillis;
+
+	public Cooldown(long timeLeftInMillis) {
+		this.timeLeftInMillis = new AtomicLong(timeLeftInMillis);
 	}
 
 	public boolean isClaimable(){
-		return timeLeft < 0;
+		return getTimeLeftInMillis() <= 0;
 	}
 
-	public Long getTimeLeft() {
-		return timeLeft;
+	public Long getTimeLeftInMillis() {
+		return timeLeftInMillis.get();
+	}
+
+	public void reduce(int millis){
+		timeLeftInMillis.addAndGet(-millis);
 	}
 
 	public String getFormat(String format) {
-		return Config.formatTime(format, timeLeft);
-	}
-
-	public void setTimeLeft(long timeLeft){
-		this.timeLeft = timeLeft;
+		return Config.formatTime(format, getTimeLeftInMillis());
 	}
 }

@@ -10,6 +10,10 @@
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
+# From plugin version 1.6.0 plugin also supports Oraxen's custom
+# items, simply put the item's name from Oraxen's config
+# Example: weekly-available-item: "storm_sword"
+#
 config:
   language: English
   use-mysql: false
@@ -21,10 +25,8 @@ config:
   menu-size: 45
   fill-background-enabled: false
   background-item: STAINED_GLASS_PANE
-  # Make rewards available for first join
   enable-join-notification: true
   announce-enabled: true
-  cooldown-format: "%days% days %hours% hours"
   # In seconds
   join-notification-delay: 3
   unavailable-reward-sound: ENDERDRAGON_HIT
@@ -33,9 +35,12 @@ config:
   #
   # DAILY REWARD SECTION
   #
+  daily-enabled: true
   daily-placeholder: "daily"
+  daily-available-after-first-join: false
   # In hours
   daily-cooldown: 24
+  daily-cooldown-format: "%hours%:%minutes%:%seconds%"
   daily-position: 20
   daily-sound: LEVEL_UP
   daily-available-item: "STORAGE_MINECART"
@@ -48,9 +53,11 @@ config:
   #
   # WEEKLY REWARD SECTION
   #
+  weekly-enabled: true
   weekly-placeholder: "weekly"
   # In hours
   weekly-cooldown: 168
+  weekly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
   weekly-position: 22
   weekly-sound: FIREWORK_LARGE_BLAST
   weekly-available-item: "STORAGE_MINECART"
@@ -63,9 +70,11 @@ config:
   #
   # MONTHLY REWARD SECTION
   #
+  monthly-enabled: true
   monthly-placeholder: "monthly"
   # In hours
   monthly-cooldown: 720
+  monthly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
   monthly-position: 24
   monthly-sound: FIREWORK_LARGE_BLAST
   monthly-available-item: "STORAGE_MINECART"

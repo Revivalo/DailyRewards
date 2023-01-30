@@ -3,17 +3,17 @@ package cz.revivalo.dailyrewards.configuration.enums;
 import com.google.common.base.Splitter;
 import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.configuration.YamlFile;
+import dev.dbassett.skullcreator.SkullCreator;
+import dev.lone.itemsadder.api.CustomStack;
 import io.th0rgal.oraxen.api.OraxenItems;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -73,6 +73,7 @@ public enum Config {
 
 	private static final Map<String, String> messages = new HashMap<>();
 	private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
+	private static final Map<String, ItemStack> items = new HashMap<>();
 
 	static {
 		reload();
@@ -94,17 +95,29 @@ public enum Config {
 
 	public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("config.yml",
-				DailyRewards.getPlugin(DailyRewards.class).getDataFolder())
+				DailyRewards.getPlugin().getDataFolder())
 				.getConfiguration();
 
-		Objects.requireNonNull(configuration.getConfigurationSection("config"))
+		final ConfigurationSection configurationSection = configuration.getConfigurationSection("config");
+		Objects.requireNonNull(configurationSection)
 				.getKeys(false)
 				.forEach(key -> {
 					if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help")) {
-						listsStoredAsStrings.put(key, String.join("⎶", configuration.getStringList("config." + key)));
+						listsStoredAsStrings.put(key, String.join("⎶", configurationSection.getStringList(key)));
 						return;
+					} else if (key.endsWith("item")){
+						final String itemName = configurationSection.getString(key);
+						if (itemName.length() > 64){
+							items.put(key, SkullCreator.itemFromBase64(itemName));
+						} else if (DailyRewards.isItemsAdderInstalled() && CustomStack.getInstance(itemName) != null){
+							items.put(key, CustomStack.getInstance(itemName).getItemStack());
+						} else if (DailyRewards.isOraxenInstalled() && OraxenItems.exists(itemName)){
+							items.put(key, OraxenItems.getItemById(itemName).build());
+						} else {
+							items.put(key, new ItemStack(Material.valueOf(itemName.toUpperCase(Locale.ENGLISH))));
+						}
 					}
-					messages.put(key, configuration.getString("config." + key));
+					messages.put(key, configurationSection.getString(key));
 				});
 		Lang.reload();
 	}
@@ -133,10 +146,7 @@ public enum Config {
 		return messages.get(text);
 	}
 	public ItemStack asAnItem(){
-		if (DailyRewards.isOraxenInstalled()){
-			if (OraxenItems.exists(messages.get(text))) return OraxenItems.getItemById(messages.get(text)).build();
-			else return new ItemStack(Material.valueOf(messages.get(text)));
-		} else return new ItemStack(Material.valueOf(messages.get(text)));
+		return items.get(this.text);
 	}
 	public String asUppercase() {
 		return this.asString().toUpperCase();

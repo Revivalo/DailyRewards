@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -17,6 +18,7 @@ import java.util.regex.Pattern;
 @RequiredArgsConstructor
 public enum Lang {
 	HELP_MESSAGE("help"),
+	VALID_COMMAND_USAGE("command-usage"),
 	INVALID_ARGUMENTS_MESSAGE("invalid-arguments"),
 	INCOMPLETE_REWARD_RESET("incomplete-reward-reset"),
 	REWARD_RESET("reward-reset"),
@@ -72,27 +74,30 @@ public enum Lang {
 				DailyRewards.getPlugin().getDataFolder())
 				.getConfiguration();
 
-		Objects.requireNonNull(configuration.getConfigurationSection("lang"))
+		ConfigurationSection langSection = configuration.getConfigurationSection("lang");
+		Objects.requireNonNull(langSection)
 				.getKeys(true)
 				.forEach(key -> {
 					if (key.endsWith("lore") || key.endsWith("notification") || key.endsWith("help")) {
 						final List<String> coloredList = new ArrayList<>();
-						for (final String uncoloredLine : configuration.getStringList("lang." + key)){
+						for (final String uncoloredLine : langSection.getStringList(key)){
 							coloredList.add(applyColor(uncoloredLine));
 						}
 						listsAsStrings.put(key, String.join("⎶", coloredList));
 						return;
 					}
-					messages.put(key, applyColor(configuration.getString("lang." + key)));
+					messages.put(key, applyColor(langSection.getString(key)));
 				});
 	}
 
 	public static String applyColor(String message){
-		Matcher matcher = hexPattern.matcher(message);
-		while (matcher.find()){
-			String color = message.substring(matcher.start(), matcher.end());
-			message = message.replace(color, ChatColor.of(color.replace("<", "").replace(">", "")) + "");
-			matcher = hexPattern.matcher(message);
+		if (DailyRewards.isHexSupported()){
+			Matcher matcher = hexPattern.matcher(message);
+			while (matcher.find()){
+				String color = message.substring(matcher.start(), matcher.end());
+				message = message.replace(color, ChatColor.of(color.replace("<", "").replace(">", "")) + "");
+				matcher = hexPattern.matcher(message);
+			}
 		}
 		return ChatColor.translateAlternateColorCodes('&', message);
 	}
@@ -101,7 +106,7 @@ public enum Lang {
 		list.forEach(player::sendMessage);
 	}
 
-	public List<String> asColoredList(final Map<String, String> definitions) {
+	public List<String> asReplacedList(final Map<String, String> definitions) {
 		final String loreAsString = listsAsStrings.get(this.text);
 		final String[] keys = definitions.keySet().toArray(new String[0]);
 		final String[] values = definitions.values().toArray(new String[0]);
@@ -137,18 +142,6 @@ public enum Lang {
 		sb.append( loreAsString.substring( prevIndex ) );*/
 
 		//return Splitter.on("⎶").splitToList(sb.toString());
-
-	/*public List<String> asColoredList(String... replacements) {
-		final List<String> newList = new ArrayList<>();
-		for (final String line : lists.get(this.text)) {
-			String newLine = line;
-			for (int i = 0; i < replacements.length; i += 2)
-				newLine = newLine.replace(replacements[i], replacements[i + 1]);
-
-			newList.add(Lang.applyColor(newLine));
-		}
-		return newList;
-	}*/
 
 	public String asPlaceholderReplacedText(final Player player) {
 		return DailyRewards.isPapiInstalled() ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);

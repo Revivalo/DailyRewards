@@ -30,7 +30,7 @@ public class RewardManager {
 
 		rewardTypes.forEach(rewardType -> this.claim(player, rewardType, false, false));
 		Lang.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
-				.asColoredList(new HashMap<String, String>() {{put("%rewards%", String.format(formattedRewards));}}));
+				.asReplacedList(new HashMap<String, String>() {{put("%rewards%", String.format(formattedRewards));}}));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -59,9 +59,7 @@ public class RewardManager {
 				player.sendMessage(Lang.REWARDS_IS_NOT_SET.asColoredString());
 			} else {
 				final ConsoleCommandSender consoleSender = Bukkit.getConsoleSender();
-				rewardCommands.forEach(command -> {
-					Bukkit.dispatchCommand(consoleSender, command);
-				});
+				rewardCommands.forEach(command -> Bukkit.dispatchCommand(consoleSender, command));
 			}
 
 			CooldownManager.setCooldown(player, type);

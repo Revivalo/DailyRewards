@@ -43,7 +43,7 @@ public class PlayerJoinListener implements Listener {
 		if (!Config.ENABLE_JOIN_NOTIFICATION.asBoolean()) return;
 		Bukkit.getScheduler().runTaskLater(
 				DailyRewards.getPlugin(),
-				() -> Lang.JOIN_NOTIFICATION.asColoredList(new HashMap<String, String>() {{put("%rewards%", String.valueOf(numberOfAvailableRewards));}})
+				() -> Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{put("%rewards%", String.valueOf(numberOfAvailableRewards));}})
 						.stream()
 						.map(TextComponent::new)
 						.forEach(joinMsg -> {

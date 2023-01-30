@@ -62,12 +62,12 @@ config:
   #
   #
   weekly-enabled: true
-  weekly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
   # Make reward available after first join
   weekly-available-after-first-join: false
   weekly-placeholder: "weekly"
   # In hours
   weekly-cooldown: 168
+  weekly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
   weekly-position: 22
   weekly-sound: ENTITY_FIREWORK_ROCKET_LARGE_BLAST
   weekly-available-item: "CHEST_MINECART"
@@ -83,12 +83,12 @@ config:
   #
   #
   monthly-enabled: true
-  monthly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
   # Make reward available after first join
   monthly-available-after-first-join: false
   monthly-placeholder: "monthly"
   # In hours
   monthly-cooldown: 720
+  monthly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
   monthly-position: 24
   monthly-sound: ENTITY_FIREWORK_ROCKET_BLAST
   monthly-available-item: "CHEST_MINECART"

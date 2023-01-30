@@ -41,7 +41,7 @@ public class DataManager {
 	}
 
 	public static void createPlayer(final Player player){
-		Bukkit.getScheduler().runTaskAsynchronously(DailyRewards.getPlugin(), () -> {
+		Bukkit.getScheduler().runTask(DailyRewards.getPlugin(), () -> {
 			if (isUsingMysql()) MySQLManager.createPlayer(player.getUniqueId().toString());
 			else
 			if (!PlayerData.exists(player.getUniqueId())){
@@ -62,9 +62,8 @@ public class DataManager {
 			if (!rewardType.isEnabled()) return;
 			if (!CooldownManager.isRewardAvailable(player, rewardType)) return;
 			final String rewardName = rewardType.toString().toLowerCase();
-			if ((!player.hasPermission(
-					String.format("dailyreward.%s", rewardName)) && !player.hasPermission(
-					String.format("dailyreward.%s.premium", rewardName))))
+			if ((!player.hasPermission(String.format("dailyreward.%s", rewardName))
+					&& !player.hasPermission(String.format("dailyreward.%s.premium", rewardName))))
 				return;
 
 			availableRewards.add(rewardType);

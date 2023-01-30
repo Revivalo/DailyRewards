@@ -1,6 +1,7 @@
 package cz.revivalo.dailyrewards;
 
-import cz.revivalo.dailyrewards.commands.RewardCommand;
+import cz.revivalo.dailyrewards.commandmanager.commands.RewardMainCommand;
+import cz.revivalo.dailyrewards.commandmanager.commands.RewardsMainCommand;
 import cz.revivalo.dailyrewards.configuration.data.PlayerData;
 import cz.revivalo.dailyrewards.configuration.enums.Config;
 import cz.revivalo.dailyrewards.listeners.InventoryClickListener;
@@ -16,7 +17,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -25,7 +25,11 @@ import java.util.Collection;
 
 public final class DailyRewards extends JavaPlugin {
     /*
-        [+] Support for ItemsAdders's custom items
+        [+] Support for ItemsAdder's custom items
+        [+] Support for textured heads in rewards menu
+            Example: ...
+        [!] Changed handling system with (sub)commands
+        [!] Fixed announcing of available rewards after first join with disabled available rewards after first join
      */
     private final int SERVICE_ID = 12070;
     private final int RESOURCE_ID = 81780;
@@ -79,6 +83,7 @@ public final class DailyRewards extends JavaPlugin {
                             pluginVersion, actualVersion));
             DailyRewards.setLatestVersion(versionMatches);
         });
+        this.registerSupportedPlugins();
 
         MySQLManager.init();
         DailyRewards.setRewardManager(new RewardManager());
@@ -86,7 +91,6 @@ public final class DailyRewards extends JavaPlugin {
 
         this.registerCommands();
         this.implementListeners();
-        this.registerSupportedPlugins();
     }
 
     @Override
@@ -95,6 +99,11 @@ public final class DailyRewards extends JavaPlugin {
     }
 
     private void registerCommands() {
+        new RewardMainCommand().registerMainCommand(this, "reward");
+        new RewardsMainCommand().registerMainCommand(this, "rewards");
+    }
+
+    /*private void registerCommands() {
         final RewardCommand rewardCommand = new RewardCommand();
         this.getDescription().getCommands().keySet()
                 .forEach(string -> {
@@ -103,7 +112,7 @@ public final class DailyRewards extends JavaPlugin {
 
                     command.setExecutor(rewardCommand);
                 });
-    }
+    }*/
 
     private void implementListeners() {
         getPluginManager().registerEvents(InventoryClickListener.getInstance(), this);
@@ -125,7 +134,7 @@ public final class DailyRewards extends JavaPlugin {
                     setOraxenInstalled(true);
                     break;
             }
-            Bukkit.getLogger().info(plugin + " has been successfully registered into supported plugins!");
+            Bukkit.getLogger().info("[DailyRewards] " + plugin + " has been successfully registered into supported plugins!");
         }
     }
 

@@ -16,6 +16,7 @@ lang:
   invalid-arguments: "&c[&4&lDailyRewards&c] Use /reward help to list syntax of available commands"
   incomplete-reward-reset: "&c[&4&lDailyRewards&c] Specify what you specifically want to reset (daily/weekly/monthly/all)"
   full-inventory-message: "&c[&4&lDailyRewards&c] You can not obtain the reward(s), your inventory is full!"
+  command-usage: "&c[&4&lDailyRewards&c] Valid usage: %usage%"
   help:
     - "&e[&6&lDailyRewards&e] &fList with all available commands:"
     - "&f/rewards &7- Main GUI menu"

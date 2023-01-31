@@ -7,6 +7,7 @@ import cz.revivalo.dailyrewards.configuration.data.DataManager;
 import cz.revivalo.dailyrewards.configuration.enums.Config;
 import cz.revivalo.dailyrewards.managers.reward.RewardType;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -115,18 +116,18 @@ public class MySQLManager {
 		while (keys.hasNext()){
 		//for (Map.Entry<String, Object> entry : data.entrySet()) {
 			String key = keys.next();
-			Object value = data.get(keys.next());
+			Object value = data.get(key);
 			builder.append(key)
 					.append("='")
 					.append(value)
 					.append("'")
 					.append(keys.hasNext()
-							? ""
-							: ",");
+							? "?"
+							: "");
 		}
 		connection.prepareStatement(UPDATE
-						.replace("%values%", builder)
-						.replace("%id%", uuid.toString()))
+				.replace("%values%", builder)
+				.replace("%id%", uuid.toString()))
 				.executeUpdate();
 	}
 

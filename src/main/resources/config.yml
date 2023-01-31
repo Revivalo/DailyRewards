@@ -10,8 +10,8 @@
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
-# Plugin also supports Oraxen's & ItemsAdder's custom
-# items, simply put the item's name from Oraxen's config
+# Plugin also supports Oraxens & ItemsAdders custom
+# items, simply put the item's name from Oraxens config
 # Example: daily-available-item: "storm_sword"
 #
 # You can also use textured head with base64 value

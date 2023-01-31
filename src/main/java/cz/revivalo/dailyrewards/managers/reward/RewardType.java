@@ -11,8 +11,7 @@ import java.util.Arrays;
 public enum RewardType {
 	DAILY(Config.DAILY_COOLDOWN.asLong(), Config.DAILY_ENABLED.asBoolean(), Config.DAILY_COOLDOWN_FORMAT.asString()),
 	WEEKLY(Config.WEEKLY_COOLDOWN.asLong(), Config.WEEKLY_ENABLED.asBoolean(), Config.WEEKLY_COOLDOWN_FORMAT.asString()),
-	MONTHLY(Config.MONTHLY_COOLDOWN.asLong(), Config.MONTHLY_ENABLED.asBoolean(), Config.MONTHLY_COOLDOWN_FORMAT.asString()),
-	ALL(0, true, "");
+	MONTHLY(Config.MONTHLY_COOLDOWN.asLong(), Config.MONTHLY_ENABLED.asBoolean(), Config.MONTHLY_COOLDOWN_FORMAT.asString());
 
 	@Getter
 	private final long cooldown;

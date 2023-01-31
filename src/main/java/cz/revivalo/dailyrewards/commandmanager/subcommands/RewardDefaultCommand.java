@@ -1,13 +1,13 @@
 package cz.revivalo.dailyrewards.commandmanager.subcommands;
 
-import cz.revivalo.dailyrewards.DailyRewards;
 import cz.revivalo.dailyrewards.commandmanager.SubCommand;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class RewardsDefaultCommand implements SubCommand {
+public class RewardDefaultCommand implements SubCommand {
     @Override
     public String getName() {
         return "default";
@@ -15,26 +15,26 @@ public class RewardsDefaultCommand implements SubCommand {
 
     @Override
     public String getDescription() {
-        return "Opens a menu with rewards";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/rewards";
-    }
-
-    @Override
-    public String getPermission() {
-        return "dailyreward.use";
-    }
-
-    @Override
-    public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
         return null;
     }
 
     @Override
+    public String getSyntax() {
+        return "/reward";
+    }
+
+    @Override
+    public String getPermission() {
+        return null;
+    }
+
+    @Override
+    public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
+        return sender.hasPermission("dailyreward.manage") ? Arrays.asList("reset", "reload", "help", "claim") : Arrays.asList("claim", "help");
+    }
+
+    @Override
     public void perform(CommandSender sender, String[] args) {
-        DailyRewards.getMenuManager().openRewardsMenu((Player) sender);
+
     }
 }

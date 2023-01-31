@@ -4,6 +4,8 @@ import cz.revivalo.dailyrewards.configuration.data.DataManager;
 import cz.revivalo.dailyrewards.managers.reward.RewardType;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+
 public class CooldownManager {
 
 	public static Cooldown getCooldown(final Player player, final RewardType type) {
@@ -16,7 +18,10 @@ public class CooldownManager {
 	}
 
 	public static void setCooldown(final Player player, RewardType type) {
-		DataManager.setValues(player.getUniqueId(), type.toString().toLowerCase(),
-				System.currentTimeMillis() + type.getCooldown());
+		DataManager.setValues(player.getUniqueId(),
+				new HashMap<String, Object>(){{
+					put(type.toString().toLowerCase(), System.currentTimeMillis() + type.getCooldown());
+				}}
+		);
 	}
 }

@@ -2,10 +2,7 @@ package cz.revivalo.dailyrewards.commandmanager.commands;
 
 import cz.revivalo.dailyrewards.commandmanager.MainCommand;
 import cz.revivalo.dailyrewards.commandmanager.argumentmatchers.StartingWithStringArgumentMatcher;
-import cz.revivalo.dailyrewards.commandmanager.subcommands.ClaimCommand;
-import cz.revivalo.dailyrewards.commandmanager.subcommands.HelpCommand;
-import cz.revivalo.dailyrewards.commandmanager.subcommands.ReloadCommand;
-import cz.revivalo.dailyrewards.commandmanager.subcommands.ResetCommand;
+import cz.revivalo.dailyrewards.commandmanager.subcommands.*;
 import cz.revivalo.dailyrewards.configuration.enums.Lang;
 
 public class RewardMainCommand extends MainCommand {
@@ -15,6 +12,7 @@ public class RewardMainCommand extends MainCommand {
 
     @Override
     protected void registerSubCommands() {
+        subCommands.add(new RewardDefaultCommand());
         subCommands.add(new ClaimCommand());
         subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());

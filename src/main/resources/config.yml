@@ -10,9 +10,13 @@
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
-# From plugin version 1.6.0 plugin also supports Oraxen's custom
+# Plugin also supports Oraxen's & ItemsAdder's custom
 # items, simply put the item's name from Oraxen's config
-# Example: weekly-available-item: "storm_sword"
+# Example: daily-available-item: "storm_sword"
+#
+# You can also use textured head with base64 value
+# instead the item type in configuration
+# Example: daily-available-item: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjk5NjMzNzhmZmViZWM0MjBmNGM4YTU4YWQ2OTZhMTUxOGQ1N2VjNTZmOTA2OWU1YzkyMGQ2M2Q1ZWU0ZWZmMyJ9fX0="
 #
 config:
   use-mysql: false

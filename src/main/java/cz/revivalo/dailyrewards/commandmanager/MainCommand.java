@@ -1,6 +1,6 @@
 package cz.revivalo.dailyrewards.commandmanager;
 
-import org.bukkit.Bukkit;
+import cz.revivalo.dailyrewards.configuration.enums.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -28,9 +28,10 @@ public abstract class MainCommand implements TabExecutor {
         if (args.length == 0) {
             SubCommand defaultSyntax = getDefaultSyntax();
 
-            if (defaultSyntax != null && sender.hasPermission(defaultSyntax.getPermission())) {
-                Bukkit.getLogger().info(defaultSyntax.getSyntax());
-                defaultSyntax.perform(sender, args);
+            if (defaultSyntax != null) {
+                if (defaultSyntax.getPermission() == null || sender.hasPermission(defaultSyntax.getPermission())){
+                    defaultSyntax.perform(sender, args);
+                } else sender.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
                 return true;
             }
             return false;
@@ -41,7 +42,7 @@ public abstract class MainCommand implements TabExecutor {
         if (subCommand == null)
             return false;
 
-        if (sender.hasPermission(subCommand.getPermission()))
+        if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission()))
             subCommand.perform(sender, Arrays.copyOfRange(args, 1, args.length));
         else
             sender.sendMessage(noPermMessage);
@@ -55,7 +56,7 @@ public abstract class MainCommand implements TabExecutor {
             return null;
 
         if (args.length == 1) {
-            List<String> subCommandsTC = subCommands.stream().filter(sc -> sender.hasPermission(sc.getPermission())).map(SubCommand::getName).collect(Collectors.toList());
+            List<String> subCommandsTC = subCommands.stream().filter(sc -> sc.getPermission() == null || sender.hasPermission(sc.getPermission())).map(SubCommand::getName).collect(Collectors.toList());
             return getMatchingStrings(subCommandsTC, args[args.length - 1], argumentMatcher);
         }
 

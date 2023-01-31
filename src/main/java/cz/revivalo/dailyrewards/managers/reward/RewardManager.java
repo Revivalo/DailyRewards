@@ -93,15 +93,28 @@ public class RewardManager {
 		}
 	}
 
-	public boolean resetPlayer(final OfflinePlayer player, RewardType type) {
-		if (!player.isOnline() && !player.hasPlayedBefore()) return false;
-		final String typeName = type.toString();
-		if (typeName.equalsIgnoreCase("all")) {
-			DataManager.setValues(player.getUniqueId(), RewardType.DAILY, 0L, RewardType.WEEKLY, 0L, RewardType.MONTHLY, 0L);
-			return true;
+	public String resetPlayer(final OfflinePlayer player, String type) {
+		if (!player.isOnline() && !player.hasPlayedBefore()) return Lang.UNAVAILABLE_PLAYER.asColoredString();
+		if (type.equalsIgnoreCase("all")) {
+			DataManager.setValues(player.getUniqueId(),
+					new HashMap<String, Object>(){{
+						put(RewardType.DAILY.toString(), 0L);
+						put(RewardType.WEEKLY.toString(), 0L);
+						put(RewardType.MONTHLY.toString(), 0L);
+					}}
+			);//RewardType.DAILY, 0L, RewardType.WEEKLY, 0L, RewardType.MONTHLY, 0L);
+		} else {
+			try {
+				RewardType rewardType = RewardType.valueOf(type.toUpperCase(Locale.ENGLISH));
+				DataManager.setValues(player.getUniqueId(), new HashMap<String, Object>() {{
+					put(type, 0L);
+				}});
+			} catch (IllegalArgumentException ex) {
+				return Lang.INCOMPLETE_REWARD_RESET.asColoredString();
+			}
 		}
-		DataManager.setValues(player.getUniqueId(), typeName, 0L);
-		return true;
+
+		return Lang.REWARD_RESET.asColoredString().replace("%type%", type).replace("%player%", player.getName());
 	}
 
 	private String getRewardsPlaceholder(final RewardType reward) {

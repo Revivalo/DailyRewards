@@ -25,11 +25,6 @@ import java.util.Collection;
 
 public final class DailyRewards extends JavaPlugin {
     /*
-        [+] Support for ItemsAdder's custom items
-        [+] Support for textured heads in rewards menu
-            Example: ...
-        [!] Changed handling system with (sub)commands
-        [!] Fixed announcing of available rewards after first join with disabled available rewards after first join
      */
     private final int SERVICE_ID = 12070;
     private final int RESOURCE_ID = 81780;

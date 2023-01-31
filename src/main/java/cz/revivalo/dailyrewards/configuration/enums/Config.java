@@ -81,18 +81,6 @@ public enum Config {
 
 	private final String text;
 
-	/*public static void reload() {
-		final YamlConfiguration configuration = new YamlFile("config.yml", DailyRewards.getPlugin(DailyRewards.class).getDataFolder()).getConfiguration();
-		for (String key : configuration.getConfigurationSection("config").getKeys(true)) {
-			if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help")) {
-				lists.put(key, configuration.getStringList("config." + key));
-			} else {
-				messages.put(key, configuration.getString("config." + key));
-			}
-		}
-		Lang.reload();
-	}*/
-
 	public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("config.yml",
 				DailyRewards.getPlugin().getDataFolder())

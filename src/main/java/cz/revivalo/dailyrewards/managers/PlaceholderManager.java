@@ -24,8 +24,10 @@ public class PlaceholderManager extends PlaceholderExpansion {
 
 	@Override
 	public String onPlaceholderRequest(final Player player, String identifier) {
-		return player == null ? "" :
-				identifier.equalsIgnoreCase("available") ?
-						String.valueOf(DataManager.getAvailableRewards(player).size()) : null;
+		return player == null
+				? ""
+				: identifier.equalsIgnoreCase("available")
+					? String.valueOf(DataManager.getAvailableRewards(player).size())
+					: null;
 	}
 }

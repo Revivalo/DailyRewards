@@ -51,13 +51,7 @@ public class ResetCommand implements SubCommand {
             sender.sendMessage(Lang.INVALID_ARGUMENTS_MESSAGE.asColoredString());
             return;
         }
-        try {
-            sender.sendMessage(DailyRewards.getRewardManager()
-                    .resetPlayer(Bukkit.getOfflinePlayer(args[0]), RewardType.valueOf(args[1].toUpperCase(Locale.ENGLISH))) ?
-                    Lang.REWARD_RESET.asColoredString().replace("%type%", args[1]).replace("%player%", args[0]) :
-                    Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", args[0]));
-        } catch (IllegalArgumentException ex){
-            sender.sendMessage(Lang.INCOMPLETE_REWARD_RESET.asColoredString());
-        }
+        sender.sendMessage(DailyRewards.getRewardManager().resetPlayer(Bukkit.getOfflinePlayer(args[0]), args[1]));
+
     }
 }

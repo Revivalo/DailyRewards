@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 public class ClaimCommand implements SubCommand {
@@ -24,24 +25,26 @@ public class ClaimCommand implements SubCommand {
 
     @Override
     public String getSyntax() {
-        return "/reward claim <rewardType>";
+        return "/reward claim <daily|weekly|monthly>";
     }
 
     @Override
     public String getPermission() {
-        return "";
+        return null;
     }
 
     @Override
     public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
-        return Arrays.stream(RewardType.values()).map(reward -> reward.toString()).collect(Collectors.toList());
+        List<String> commands = Arrays.stream(RewardType.values()).map(reward -> reward.toString()).collect(Collectors.toList());
+        commands.remove("all");
+        return commands;
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        String rewardType;
+        RewardType rewardType;
         try {
-            rewardType = args[0];
+            rewardType = RewardType.valueOf(args[0].toUpperCase(Locale.ENGLISH));
         } catch (Exception exception){
             sender.sendMessage(Lang.VALID_COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
             return;
@@ -50,6 +53,6 @@ public class ClaimCommand implements SubCommand {
             sender.sendMessage("[DailyRewards] Command is only executable in-game!");
             return;
         }
-        DailyRewards.getRewardManager().claim((Player) sender, RewardType.findByName(rewardType), true, true);
+        DailyRewards.getRewardManager().claim((Player) sender, rewardType, true, true);
     }
 }

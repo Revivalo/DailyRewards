@@ -7,12 +7,14 @@ import cz.revivalo.dailyrewards.configuration.data.DataManager;
 import cz.revivalo.dailyrewards.configuration.enums.Config;
 import cz.revivalo.dailyrewards.managers.reward.RewardType;
 import lombok.SneakyThrows;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.sql.*;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.UUID;
 
 public class MySQLManager {
@@ -62,13 +64,22 @@ public class MySQLManager {
 			File[] directoryListing = dir.listFiles();
 			if (directoryListing != null) {
 				for (File file : directoryListing) {
-					FileConfiguration data = YamlConfiguration.loadConfiguration(file);
+					ConfigurationSection rewardsConfigurationSection = YamlConfiguration.loadConfiguration(file).getConfigurationSection("rewards");
 					final String fileName = file.getName();
 					final String uuid = fileName.substring(0, fileName.length() - 4);
 					if (!playerExists(uuid))
 						connection.prepareStatement(INSERT
 								.replace("%columns%", "id, daily, weekly, monthly")
-								.replace("%values%", "'" + uuid + "', '" + data.getLong("rewards.daily")+ "', '" + data.getLong("rewards.weekly") + "', '" + data.getLong("rewards.monthly") + "'"))
+								.replace(
+										"%values%",
+										"'"
+												+ uuid + "', '"
+												+ rewardsConfigurationSection.getLong("daily")
+												+ "', '"
+												+ rewardsConfigurationSection.getLong("weekly")
+												+ "', '"
+												+ rewardsConfigurationSection.getLong("monthly")
+												+ "'"))
 								.executeUpdate();
 				}
 			}
@@ -98,17 +109,20 @@ public class MySQLManager {
 				.next();
 	}
 
-	public static void updateCooldown(final UUID uuid, Object... values) throws SQLException {
+	public static void updateCooldown(final UUID uuid, Map<String, Object> data) throws SQLException {
 		final StringBuilder builder = new StringBuilder();
-		final int valuesLength = values.length;
-		for (int i = 0; i < valuesLength; i += 2) {
-			builder.append(values[i])
+		Iterator<String> keys = data.keySet().iterator();
+		while (keys.hasNext()){
+		//for (Map.Entry<String, Object> entry : data.entrySet()) {
+			String key = keys.next();
+			Object value = data.get(keys.next());
+			builder.append(key)
 					.append("='")
-					.append(values[i + 1])
+					.append(value)
 					.append("'")
-					.append((i == (valuesLength - 2)
+					.append(keys.hasNext()
 							? ""
-							: ","));
+							: ",");
 		}
 		connection.prepareStatement(UPDATE
 						.replace("%values%", builder)

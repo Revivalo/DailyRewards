@@ -1,0 +1,94 @@
+#
+#
+#    ____        _ _       ____                            _
+#   |  _ \  __ _(_) |_   _|  _ \ _____      ____ _ _ __ __| |
+#   | | | |/ _` | | | | | | |_) / _ \ \ /\ / / _` | '__/ _` |
+#   | |_| | (_| | | | |_| |  _ <  __/\ V  V / (_| | | | (_| |
+#   |____/ \__,_|_|_|\__, |_| \_\___| \_/\_/ \__,_|_|  \__,_|
+#                    |___/
+#                                      by Revivalo
+#
+# If you have some questions, join https://discord.gg/TfUC8uJ for help
+#
+# Plugin also supports Oraxen's & ItemsAdder's custom
+# items, simply put the item's name from Oraxen's config
+# Example: daily-available-item: "storm_sword"
+#
+# You can also use textured head with base64 value
+# instead the item type in configuration
+# Example: daily-available-item: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjk5NjMzNzhmZmViZWM0MjBmNGM4YTU4YWQ2OTZhMTUxOGQ1N2VjNTZmOTA2OWU1YzkyMGQ2M2Q1ZWU0ZWZmMyJ9fX0="
+#
+config:
+  language: English
+  use-mysql: false
+  mysql-ip: 127.0.0.1
+  mysql-database-name: database
+  mysql-username: user
+  mysql-password: password
+  update-checker: true
+  menu-size: 45
+  fill-background-enabled: false
+  background-item: STAINED_GLASS_PANE
+  enable-join-notification: true
+  announce-enabled: true
+  # In seconds
+  join-notification-delay: 3
+  unavailable-reward-sound: ENDERDRAGON_HIT
+  auto-claim-rewards-on-join: false
+  check-for-full-inventory: true
+  #
+  # DAILY REWARD SECTION
+  #
+  daily-enabled: true
+  daily-placeholder: "daily"
+  daily-available-after-first-join: false
+  # In hours
+  daily-cooldown: 24
+  daily-cooldown-format: "%hours%:%minutes%:%seconds%"
+  daily-position: 20
+  daily-sound: LEVEL_UP
+  daily-available-item: "STORAGE_MINECART"
+  daily-unavailable-item: "MINECART"
+  daily-rewards:
+    - "give %player% iron_ingot 8"
+  daily-premium-rewards:
+    - "give %player% iron_ingot 16"
+    - "give %player% gold_ingot 3"
+  #
+  # WEEKLY REWARD SECTION
+  #
+  weekly-enabled: true
+  weekly-placeholder: "weekly"
+  # In hours
+  weekly-cooldown: 168
+  weekly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
+  weekly-position: 22
+  weekly-sound: FIREWORK_LARGE_BLAST
+  weekly-available-item: "STORAGE_MINECART"
+  weekly-unavailable-item: "MINECART"
+  weekly-rewards:
+    - "give %player% diamond 1"
+  weekly-premium-rewards:
+    - "give %player% diamond 5"
+    - "give %player% emerald 3"
+  #
+  # MONTHLY REWARD SECTION
+  #
+  monthly-enabled: true
+  monthly-placeholder: "monthly"
+  # In hours
+  monthly-cooldown: 720
+  monthly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
+  monthly-position: 24
+  monthly-sound: FIREWORK_LARGE_BLAST
+  monthly-available-item: "STORAGE_MINECART"
+  monthly-unavailable-item: "MINECART"
+  monthly-rewards:
+    - "give %player% diamond 8"
+    - "give %player% iron_ingot 32"
+    - "give %player% gold_ingot 16"
+  monthly-premium-rewards:
+    - "give %player% nether_star 1"
+    - "give %player% diamond 16"
+    - "give %player% iron_ingot 64"
+    - "give %player% gold_ingot 32"

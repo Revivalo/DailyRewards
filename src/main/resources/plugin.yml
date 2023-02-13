@@ -1,6 +1,6 @@
 name: DailyRewards
 version: 1.6.3
-main: cz.revivalo.dailyrewards.DailyRewards
+main: dev.revivalo.dailyrewards.DailyRewardsPlugin
 api-version: 1.13
 softdepend: [PlaceholderAPI, Oraxen, ItemsAdder]
 authors: [Revivalo]

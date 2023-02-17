@@ -1,6 +1,5 @@
 package dev.revivalo.dailyrewards.configuration.data;
 
-import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.managers.database.MySQLManager;

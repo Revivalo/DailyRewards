@@ -27,15 +27,7 @@ public abstract class MainCommand implements TabExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
             perform(sender);
-//            SubCommand defaultSyntax = getDefaultSyntax();
-//
-//            if (defaultSyntax != null) {
-//                if (defaultSyntax.getPermission() == null || sender.hasPermission(defaultSyntax.getPermission())){
-//                    defaultSyntax.perform(sender, args);
-//                } else sender.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
-//                return true;
-//            }
-//            return false;
+            return true;
         }
 
         SubCommand subCommand = subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(getDefaultSyntax());

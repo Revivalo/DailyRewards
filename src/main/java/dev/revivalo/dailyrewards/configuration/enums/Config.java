@@ -1,14 +1,16 @@
 package dev.revivalo.dailyrewards.configuration.enums;
 
 import com.google.common.base.Splitter;
+import dev.dbassett.skullcreator.SkullCreator;
+import dev.lone.itemsadder.api.CustomStack;
+import dev.lone.itemsadder.api.ItemsAdder;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.YamlFile;
 import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
-import dev.dbassett.skullcreator.SkullCreator;
-import dev.lone.itemsadder.api.CustomStack;
 import io.th0rgal.oraxen.api.OraxenItems;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -92,20 +94,36 @@ public enum Config {
 				.forEach(key -> {
 					if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help")) {
 						listsStoredAsStrings.put(key, String.join("⎶", configurationSection.getStringList(key)));
-					} else if (key.endsWith("item")){
-						final String itemName = configurationSection.getString(key);
-						if (itemName.length() > 64){
-							items.put(key, SkullCreator.itemFromBase64(itemName));
-						} else if (Hooks.getITEMS_ADDER_HOOK().isOn() && CustomStack.getInstance(itemName) != null){
-							items.put(key, CustomStack.getInstance(itemName).getItemStack());
-						} else if (Hooks.getORAXEN_HOOK().isOn() && OraxenItems.exists(itemName)){
-							items.put(key, OraxenItems.getItemById(itemName).build());
-						} else {
-							items.put(key, new ItemStack(Material.valueOf(itemName.toUpperCase(Locale.ENGLISH))));
-						}
 					} else messages.put(key, configurationSection.getString(key));
 				});
+
+		loadItems(configurationSection);
+
 		Lang.reload();
+	}
+
+	public static void loadItems(ConfigurationSection configurationSection){
+		configurationSection
+				.getKeys(false)
+				.forEach(key -> {
+					if (key.endsWith("item")) {
+						final String itemName = configurationSection.getString(key);
+						Bukkit.getLogger().info("" + (CustomStack.getInstance(itemName) != null));
+						if (itemName.length() > 64) {
+							items.put(key, SkullCreator.itemFromBase64(itemName));
+						} else if (Hooks.getITEMS_ADDER_HOOK().isOn() && ItemsAdder.isCustomItem(itemName)) {
+							items.put(key, CustomStack.getInstance(itemName).getItemStack());
+						} else if (Hooks.getORAXEN_HOOK().isOn() && OraxenItems.exists(itemName)) {
+							items.put(key, OraxenItems.getItemById(itemName).build());
+						} else {
+							try {
+								items.put(key, new ItemStack(Material.valueOf(itemName.toUpperCase(Locale.ENGLISH))));
+							} catch (IllegalArgumentException ex){
+								items.put(key, new ItemStack(Material.STONE));
+							}
+						}
+					}
+				});
 	}
 
 	public List<String> asReplacedList(final Map<String, String> definitions) {

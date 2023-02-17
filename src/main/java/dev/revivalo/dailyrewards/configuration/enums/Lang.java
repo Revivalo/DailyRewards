@@ -17,7 +17,6 @@ import java.util.regex.Pattern;
 public enum Lang {
 	HELP_MESSAGE("help"),
 	VALID_COMMAND_USAGE("command-usage"),
-	INVALID_ARGUMENTS_MESSAGE("invalid-arguments"),
 	INCOMPLETE_REWARD_RESET("incomplete-reward-reset"),
 	REWARD_RESET("reward-reset"),
 	UNAVAILABLE_PLAYER("unavailable-player"),

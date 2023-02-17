@@ -25,8 +25,7 @@ import java.util.HashMap;
 
 public class PlayerJoinQuitListener implements Listener {
 
-	@Getter
-	public static final PlayerJoinQuitListener instance = new PlayerJoinQuitListener();
+	@Getter public static final PlayerJoinQuitListener instance = new PlayerJoinQuitListener();
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onJoin(final PlayerJoinEvent event) {

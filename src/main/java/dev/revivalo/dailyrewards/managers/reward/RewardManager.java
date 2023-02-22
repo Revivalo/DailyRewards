@@ -101,8 +101,8 @@ public class RewardManager {
 
 	public String resetPlayer(final OfflinePlayer player, String type) {
 		final boolean isPlayerOnline = player.isOnline();
-		if (isPlayerOnline && !player.hasPlayedBefore())
-			return Lang.UNAVAILABLE_PLAYER.asColoredString();
+		if (!isPlayerOnline && !player.hasPlayedBefore())
+			return Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", player.getName());
 		if (type.equalsIgnoreCase("all")) {
 			DataManager.setValues(player.getUniqueId(),
 					new HashMap<String, Object>(){{

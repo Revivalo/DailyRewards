@@ -10,7 +10,6 @@ import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import io.th0rgal.oraxen.api.OraxenItems;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -108,7 +107,6 @@ public enum Config {
 				.forEach(key -> {
 					if (key.endsWith("item")) {
 						final String itemName = configurationSection.getString(key);
-						Bukkit.getLogger().info("" + (CustomStack.getInstance(itemName) != null));
 						if (itemName.length() > 64) {
 							items.put(key, SkullCreator.itemFromBase64(itemName));
 						} else if (Hooks.getITEMS_ADDER_HOOK().isOn() && ItemsAdder.isCustomItem(itemName)) {

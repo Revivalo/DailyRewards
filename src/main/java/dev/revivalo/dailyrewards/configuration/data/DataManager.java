@@ -23,7 +23,6 @@ public class DataManager {
 
 	@SneakyThrows
 	public static void setValues(final UUID id, Map<String, Object> data) {
-		//Bukkit.getScheduler().runTask(DailyRewardsPlugin.get(), () -> {
 			if (isUsingMysql()) {
 				try {
 					MySQLManager.updateCooldown(id, data);
@@ -39,11 +38,9 @@ public class DataManager {
 				rewardsSection.set(entry.getKey(), entry.getValue());
 
 			playerData.save();
-		//});
 	}
 
 	public static void createPlayer(final Player player){
-		//Bukkit.getScheduler().runTask(DailyRewards.getPlugin(), () -> {
 			if (isUsingMysql()) MySQLManager.createPlayer(player.getUniqueId().toString());
 			else
 			if (!PlayerData.exists(player.getUniqueId())){
@@ -56,7 +53,6 @@ public class DataManager {
 				if (!Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean()) rewardsSection.set(RewardType.MONTHLY.toString(), Config.MONTHLY_COOLDOWN.asLong() + currentTimeInMillis);
 				playerData.save();
 			}
-		//});
 	}
 
 	public static Collection<RewardType> getAvailableRewards(final Player player) {

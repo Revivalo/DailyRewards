@@ -36,10 +36,8 @@ public class ResetCommand implements SubCommand {
     @Override
     public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
         switch (index){
-            case 0:
-                return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            case 1:
-                return Arrays.stream(RewardType.values()).map(RewardType::toString).collect(Collectors.toList());
+            case 0: return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
+            case 1: return Arrays.stream(RewardType.values()).map(RewardType::toString).collect(Collectors.toList());
         }
         return null;
     }

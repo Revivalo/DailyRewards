@@ -13,15 +13,14 @@ import dev.revivalo.dailyrewards.managers.reward.RewardManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
-import dev.revivalo.dailyrewards.utils.TextUtils;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 @Getter
 public final class DailyRewardsPlugin extends JavaPlugin {
@@ -84,8 +83,8 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         get().registerCommands();
         get().implementListeners();
 
-//        Bukkit.getLogger().info(TextUtils.applyColor("&e[DailyRewards] Update your version to ULTIMATE and get remove limitations!"));
-//        Bukkit.getLogger().info(TextUtils.applyColor("&e[DailyRewards] Get it here: "));
+        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and get remove limitations!");
+        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: link");
     }
 
     @Override

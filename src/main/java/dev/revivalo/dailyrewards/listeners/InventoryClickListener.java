@@ -12,8 +12,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InventoryClickListener implements Listener {
 
-	@Getter
-	public static final InventoryClickListener instance = new InventoryClickListener();
+	@Getter public static final InventoryClickListener instance = new InventoryClickListener();
 
 	@EventHandler (ignoreCancelled = true)
 	public void inventoryClick(final InventoryClickEvent event){

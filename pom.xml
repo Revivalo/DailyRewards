@@ -39,6 +39,10 @@
                             <pattern>org.bstats</pattern>
                             <shadedPattern>cz.revivalo.dailyrewards</shadedPattern>
                         </relocation>
+                        <relocation>
+                            <pattern>com.zaxxer.hikari</pattern>
+                            <shadedPattern>cz.revivalo.dailyrewards</shadedPattern>
+                        </relocation>
                     </relocations>
                 </configuration>
                 <executions>

@@ -41,7 +41,7 @@
                         </relocation>
                         <relocation>
                             <pattern>com.zaxxer.hikari</pattern>
-                            <shadedPattern>cz.revivalo.dailyrewards</shadedPattern>
+                            <shadedPattern>groupid.artifact.hikari</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
@@ -121,6 +121,7 @@
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
+            <scope>shaded</scope>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

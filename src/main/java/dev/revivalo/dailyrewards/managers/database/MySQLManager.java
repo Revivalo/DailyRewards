@@ -11,8 +11,9 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
-import java.sql.*;
-import java.util.Enumeration;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
@@ -36,26 +37,14 @@ public class MySQLManager {
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
 		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":3306/" + Config.MYSQL_DBNAME.asString() +
-				"&testConnectOnCheckout=true" +
-				"?idleConnectionTestPeriod=3600" +
+				"?testConnectOnCheckout=true" +
+				"&idleConnectionTestPeriod=3600" +
 				"&allowReconnect=true" +
 				"&autoReconnect=true");
 		config.setUsername(username);
 		config.setPassword(password);
 
 		HikariDataSource ds = new HikariDataSource(config);
-
-		Enumeration<Driver> drivers = DriverManager.getDrivers();
-		while (drivers.hasMoreElements()) {
-			Driver driver = drivers.nextElement();
-			if (driver.getClass().getName().equals("com.mysql.cj.jdbc.Driver")) {
-				try {
-					DriverManager.deregisterDriver(driver);
-				} catch (SQLException e) {
-					throw new SQLException();
-				}
-			}
-		}
 
 		try {
 			connection = ds.getConnection();

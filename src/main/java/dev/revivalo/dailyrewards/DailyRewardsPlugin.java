@@ -13,6 +13,7 @@ import dev.revivalo.dailyrewards.managers.reward.RewardManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
+import io.github.g00fy2.versioncompare.Version;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -65,15 +66,17 @@ public final class DailyRewardsPlugin extends JavaPlugin {
             if (!Config.UPDATE_CHECKER.asBoolean()) return;
 
             final String actualVersion = get().getDescription().getVersion();
-            final boolean versionMatches = actualVersion.equalsIgnoreCase(pluginVersion);
+            final boolean isNewerVersion = new Version(pluginVersion).isHigherThan(actualVersion);
 
-            get().getLogger().info(versionMatches ?
-                    String.format("You are running the latest release (%s)", pluginVersion) :
-                    String.format("There is a new v%s update available (You are running v%s).\n" +
-                                    "Outdated versions are no longer supported, get the latest one here: " +
-                                    "https://www.spigotmc.org/resources/%%E2%%9A%%A1-daily-weekly-monthly-rewards-mysql-hex-colors-support-1-8-1-19-3.81780/",
-                            pluginVersion, actualVersion));
-            DailyRewardsPlugin.setLatestVersion(versionMatches);
+            get().getLogger().info(isNewerVersion
+                    ? String.format("There is a new v%s update available (You are running v%s).\n" +
+                            "Outdated versions are no longer supported, get the latest one here: " +
+                            "https://www.spigotmc.org/resources/%%E2%%9A%%A1-daily-weekly-monthly-rewards-mysql-hex-colors-support-1-8-1-19-3.81780/",
+                            pluginVersion, actualVersion)
+                    : String.format("You are running the latest release (%s)", pluginVersion));
+
+
+            DailyRewardsPlugin.setLatestVersion(!isNewerVersion);
         });
 
         MySQLManager.init();

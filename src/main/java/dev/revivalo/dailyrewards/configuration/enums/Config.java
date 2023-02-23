@@ -76,10 +76,6 @@ public enum Config {
 	private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
 	private static final Map<String, ItemStack> items = new HashMap<>();
 
-	static {
-		reload();
-	}
-
 	private final String text;
 
 	public static void reload() {

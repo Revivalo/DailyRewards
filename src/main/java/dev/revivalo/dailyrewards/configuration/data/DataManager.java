@@ -66,7 +66,6 @@ public class DataManager {
 					&& !player.hasPermission(String.format("dailyreward.%s.premium", rewardName))))
 				return;
 
-			Bukkit.getLogger().info(rewardType.toString());
 			availableRewards.add(rewardType);
 		});
 

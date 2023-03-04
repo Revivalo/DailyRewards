@@ -24,7 +24,9 @@ public class RewardsMainCommand extends MainCommand {
             return;
         }
 
-        if (sender.hasPermission("dailyrewards.use"))
+        if (sender.hasPermission("dailyreward.use"))
             DailyRewardsPlugin.getMenuManager().openRewardsMenu((Player) sender);
+        else
+            sender.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
     }
 }

@@ -1,13 +1,13 @@
 package dev.revivalo.dailyrewards.hooks;
 
-import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.utils.VersionUtil;
 import org.jetbrains.annotations.Nullable;
 
 public class OraxenHook implements Hook<Void> {
 
     private final boolean isHooked;
     OraxenHook(){
-        isHooked = DailyRewardsPlugin.get().getPluginManager().getPlugin("Oraxen") != null;
+        isHooked = VersionUtil.checkPlugin("Oraxen");
     }
 
     @Override

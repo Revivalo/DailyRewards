@@ -26,6 +26,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public final class DailyRewardsPlugin extends JavaPlugin {
     /*
+
      */
     private final int RESOURCE_ID = 81780;
 
@@ -86,8 +87,8 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         get().registerCommands();
         get().implementListeners();
 
-        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and get remove limitations!");
-        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: link");
+        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and remove limitations!");
+        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: https://builtbybit.com/resources/ultimaterewards-network-reward-system.27336/");
     }
 
     @Override

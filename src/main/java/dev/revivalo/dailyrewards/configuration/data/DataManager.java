@@ -8,7 +8,6 @@ import dev.revivalo.dailyrewards.user.UserHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
@@ -75,6 +74,10 @@ public class DataManager {
 	}
 
 	public static long getLong(final UUID id, final RewardType type) {
-		return isUsingMysql() ? MySQLManager.getRewardsCooldown(id, type) : PlayerData.getConfig(id).getConfigurationSection("rewards").getLong(type.toString());
+		return isUsingMysql()
+				? MySQLManager.getRewardsCooldown(id, type)
+				: Optional.ofNullable(PlayerData.getConfig(id).getConfigurationSection("rewards"))
+					.map(section -> section.getLong(type.toString()))
+					.orElse(0L);
 	}
 }

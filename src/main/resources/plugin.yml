@@ -1,5 +1,5 @@
 name: DailyRewards
-version: 1.6.4
+version: 1.6.6
 main: dev.revivalo.dailyrewards.DailyRewardsPlugin
 api-version: 1.13
 softdepend: [PlaceholderAPI, Oraxen, ItemsAdder]
@@ -8,4 +8,6 @@ description: Reward system for players
 website: https://discord.gg/TfUC8uJ
 commands:
   reward:
+    aliases: [rw]
   rewards:
+    aliases: [rws]

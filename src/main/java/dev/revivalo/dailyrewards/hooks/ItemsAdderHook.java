@@ -2,7 +2,7 @@ package dev.revivalo.dailyrewards.hooks;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.listeners.ItemsAdderLoadDataListener;
-import dev.revivalo.dailyrewards.utils.VersionUtil;
+import dev.revivalo.dailyrewards.utils.VersionUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class ItemsAdderHook implements Hook<Void>{
@@ -15,7 +15,7 @@ public class ItemsAdderHook implements Hook<Void>{
     }
 
     private boolean hook(){
-        return VersionUtil.checkPlugin("ItemsAdder");
+        return VersionUtils.checkPlugin("ItemsAdder");
     }
 
     @Override

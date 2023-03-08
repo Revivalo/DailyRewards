@@ -30,6 +30,7 @@ public enum Config {
 
 	USE_MYSQL("use-mysql"),
 	MYSQL_IP("mysql-ip"),
+	MYSQL_PORT("mysql-port"),
 	MYSQL_DBNAME("mysql-database-name"),
 	MYSQL_USERNAME("mysql-username"),
 	MYSQL_PASSWORD("mysql-password"),

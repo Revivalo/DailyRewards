@@ -92,7 +92,7 @@ public enum Lang {
 	}
 
 	public String asPlaceholderReplacedText(final Player player) {
-		return Hooks.getPLACEHOLDER_API_HOOK().isOn() ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
+		return Hooks.getPLACEHOLDER_API_HOOK() != null ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
 	}
 
 	public String asColoredString() {

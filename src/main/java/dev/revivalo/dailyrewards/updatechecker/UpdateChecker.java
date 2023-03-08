@@ -1,7 +1,6 @@
 package dev.revivalo.dailyrewards.updatechecker;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 
@@ -11,7 +10,6 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-@Getter
 @RequiredArgsConstructor
 public class UpdateChecker {
 	private final int RESOURCE_ID;

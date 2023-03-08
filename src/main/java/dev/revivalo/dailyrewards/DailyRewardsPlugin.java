@@ -13,10 +13,10 @@ import dev.revivalo.dailyrewards.managers.reward.RewardManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
+import dev.revivalo.dailyrewards.utils.VersionUtils;
 import io.github.g00fy2.versioncompare.Version;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -38,9 +38,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
     @Setter private PluginManager pluginManager;
 
-    @Getter @Setter public static boolean latestVersion;
-    @Getter @Setter public static boolean hexSupported;
-
     public static DailyRewardsPlugin get() {
         return DailyRewardsPlugin.plugin;
     }
@@ -56,13 +53,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
         Config.reload();
 
-        final String serverVersion = Bukkit.getBukkitVersion();
-        DailyRewardsPlugin.setHexSupported(
-                serverVersion.contains("6") ||
-                        serverVersion.contains("7") ||
-                        serverVersion.contains("8") ||
-                        serverVersion.contains("9"));
-
         new UpdateChecker(RESOURCE_ID).getVersion(pluginVersion -> {
             if (!Config.UPDATE_CHECKER.asBoolean()) return;
 
@@ -77,7 +67,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                     : String.format("You are running the latest release (%s)", pluginVersion));
 
 
-            DailyRewardsPlugin.setLatestVersion(!isNewerVersion);
+            VersionUtils.setLatestVersion(!isNewerVersion);
         });
 
         MySQLManager.init();
@@ -88,7 +78,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         get().implementListeners();
 
         getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and remove limitations!");
-        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: https://builtbybit.com/resources/ultimaterewards-network-reward-system.27336/");
+        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: bit.ly/ultimate-rewards");
     }
 
     @Override

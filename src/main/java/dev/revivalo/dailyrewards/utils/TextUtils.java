@@ -17,11 +17,13 @@ import java.util.regex.Pattern;
 public class TextUtils {
     private static final Pattern hexPattern = Pattern.compile("<#([A-Fa-f\\d]){6}>");
     public static String applyColor(String message){
-        Matcher matcher = hexPattern.matcher(message);
-        while (matcher.find()){
-            String color = message.substring(matcher.start(), matcher.end());
-            message = message.replace(color, ChatColor.of(color.replace("<", "").replace(">", "")) + "");
-            matcher = hexPattern.matcher(message);
+        if (VersionUtils.isHexSupport()) {
+            Matcher matcher = hexPattern.matcher(message);
+            while (matcher.find()) {
+                String color = message.substring(matcher.start(), matcher.end());
+                message = message.replace(color, ChatColor.of(color.replace("<", "").replace(">", "")) + "");
+                matcher = hexPattern.matcher(message);
+            }
         }
         return ChatColor.translateAlternateColorCodes('&', message);
     }

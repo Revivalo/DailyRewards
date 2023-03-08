@@ -8,15 +8,14 @@ import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
+import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -69,8 +68,7 @@ public class RewardManager {
 
 			CooldownManager.setCooldown(player, type);
 			if (announce) {
-				player.playSound(player.getLocation(), Sound.valueOf(Config.valueOf(
-						String.format("%s_SOUND", typeName)).asUppercase()), 1F, 1F);
+				PlayerUtils.playSound(player, Config.valueOf(String.format("%s_SOUND", typeName)).asUppercase());
 
 				player.sendTitle(
 						Lang.valueOf(String.format("%s_TITLE", typeName)).asColoredString(),
@@ -91,11 +89,7 @@ public class RewardManager {
 						.replace("%time%", cooldown.getFormat(type.getCooldownFormat())));
 				return;
 			}
-			player.playSound(player.getLocation(),
-					Sound.valueOf(Config.UNAVAILABLE_REWARD_SOUND
-							.asString()
-							.toUpperCase(Locale.ENGLISH)),
-					1F, 1F);
+			PlayerUtils.playSound(player, Config.UNAVAILABLE_REWARD_SOUND.asUppercase());
 		}
 	}
 

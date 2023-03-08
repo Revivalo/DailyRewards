@@ -36,7 +36,7 @@ public class MySQLManager {
 		HikariConfig config = new HikariConfig();
 		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
-		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":3306/" + Config.MYSQL_DBNAME.asString() +
+		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":" + Config.MYSQL_PORT.asString() + "/" + Config.MYSQL_DBNAME.asString() +
 				"?testConnectOnCheckout=true" +
 				"&idleConnectionTestPeriod=3600" +
 				"&allowReconnect=true" +

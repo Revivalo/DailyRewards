@@ -1,7 +1,7 @@
 package dev.revivalo.dailyrewards.updatechecker;
 
-import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
+import dev.revivalo.dailyrewards.utils.VersionUtils;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +20,7 @@ public class UpdateNotificator implements Listener {
 
 		if (!player.isOp()) return;
 		if (!Config.UPDATE_CHECKER.asBoolean()) return;
-		if (DailyRewardsPlugin.isLatestVersion()) return;
+		if (VersionUtils.isLatestVersion()) return;
 
 		player.sendMessage("§e[§6§lDailyRewards§e] There is a newer version of this plugin. Download: " +
 				"\n§e§nhttps://bit.ly/revivalo-dailyrewards");

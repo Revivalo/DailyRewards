@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.utils.VersionUtils;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -33,15 +34,19 @@ public class MySQLManager {
 		String username = Config.MYSQL_USERNAME.asString();
 		String password = Config.MYSQL_PASSWORD.asString();
 		HikariConfig config = new HikariConfig();
-		config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
+		if (VersionUtils.isLegacyVersion()) config.setDriverClassName("com.mysql.jdbc.Driver");
+		else config.setDriverClassName("com.mysql.cj.jdbc.Driver");
 
 		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":" + Config.MYSQL_PORT.asString() + "/" + Config.MYSQL_DBNAME.asString() +
 				"?testConnectOnCheckout=true" +
 				"&idleConnectionTestPeriod=3600" +
 				"&allowReconnect=true" +
 				"&autoReconnect=true");
+
 		config.setUsername(username);
 		config.setPassword(password);
+		config.setIdleTimeout(0);
 
 		dataSource = new HikariDataSource(config);
 

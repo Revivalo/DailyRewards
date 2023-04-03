@@ -73,6 +73,8 @@ public enum Config {
 	MONTHLY_PREMIUM_REWARDS("monthly-premium-rewards"),
 	CHECK_FOR_FULL_INVENTORY("check-for-full-inventory");
 
+	private static final YamlFile configYamlFile = new YamlFile("config.yml",
+			DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 	private static final Map<String, String> messages = new HashMap<>();
 	private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
 	private static final Map<String, ItemStack> items = new HashMap<>();
@@ -80,9 +82,8 @@ public enum Config {
 	private final String text;
 
 	public static void reload() {
-		final YamlConfiguration configuration = new YamlFile("config.yml",
-				DailyRewardsPlugin.get().getDataFolder())
-				.getConfiguration();
+		configYamlFile.reload();
+		final YamlConfiguration configuration = configYamlFile.getConfiguration();
 
 		final ConfigurationSection configurationSection = configuration.getConfigurationSection("config");
 		Objects.requireNonNull(configurationSection)
@@ -97,6 +98,7 @@ public enum Config {
 
 		Lang.reload();
 	}
+
 
 	public static void loadItems(ConfigurationSection configurationSection){
 		configurationSection
@@ -136,14 +138,14 @@ public enum Config {
 	}
 
 	public boolean asBoolean() {
-		return Boolean.parseBoolean(messages.get(text));
+		return Boolean.parseBoolean(asString());
 	}
 
 	public long asLong() {
-		return Long.parseLong(messages.get(text)) * 3600000;
+		return Long.parseLong(asString()) * 3600000;
 	}
 
 	public int asInt() {
-		return Integer.parseInt(messages.get(text));
+		return Integer.parseInt(asString());
 	}
 }

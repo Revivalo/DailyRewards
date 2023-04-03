@@ -29,11 +29,11 @@ public class TextUtils {
     }
 
     public static String formatTime(String message, long remainingTime) {
-        return replaceString(message, new HashMap<String, String>(){{
+        return replaceString(message, new HashMap<String, String>() {{
             put("%days%", String.valueOf(TimeUnit.MILLISECONDS.toDays(remainingTime)));
             put("%hours%", String.valueOf(TimeUnit.MILLISECONDS.toHours(remainingTime) - TimeUnit.DAYS.toHours(TimeUnit.MILLISECONDS.toDays(remainingTime))));
-            put("%minutes%", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(remainingTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(remainingTime))));
-            put("%seconds%", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(remainingTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime))));
+            put("%minutes%", String.format("%02d", TimeUnit.MILLISECONDS.toMinutes(remainingTime) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(remainingTime))));
+            put("%seconds%", String.format("%02d", TimeUnit.MILLISECONDS.toSeconds(remainingTime) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(remainingTime))));
         }});
     }
 

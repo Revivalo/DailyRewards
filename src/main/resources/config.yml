@@ -13,8 +13,8 @@
 #  Upgraded to the ultimate edition and create your own rewards without limits,
 #  more at: https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-3.108055/
 #
-# Plugin also supports Oraxens & ItemsAdders custom
-# items, simply put the item's name from Oraxens config
+# Plugin also supports Oraxen's & ItemsAdder's custom
+# items, simply put the item's name from Oraxen's config
 # Example: daily-available-item: "storm_sword"
 #
 # You can also use textured head with base64 value

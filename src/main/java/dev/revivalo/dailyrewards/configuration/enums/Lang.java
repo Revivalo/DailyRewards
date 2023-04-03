@@ -66,7 +66,7 @@ public enum Lang {
 
 	public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("lang.yml",
-				DailyRewardsPlugin.get().getDataFolder())
+				DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME)
 				.getConfiguration();
 
 		ConfigurationSection langSection = configuration.getConfigurationSection("lang");

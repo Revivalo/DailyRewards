@@ -13,7 +13,7 @@ public class ItemsAdderLoadDataListener implements Listener {
     @EventHandler
     public void onItemsAdderLoad(final ItemsAdderLoadDataEvent event){
         Config.loadItems(Objects.requireNonNull(new YamlFile("config.yml",
-                DailyRewardsPlugin.get().getDataFolder())
+                DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME)
                 .getConfiguration().getConfigurationSection("config")));
     }
 }

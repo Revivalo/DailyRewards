@@ -10,8 +10,8 @@ public class CooldownManager {
 
 	public static void setCooldown(final Player player, RewardType type) {
 		DataManager.setValues(player.getUniqueId(),
-				new HashMap<String, Object>(){{
-					put(type.toString().toLowerCase(), System.currentTimeMillis() + type.getCooldown());
+				new HashMap<RewardType, Long>(){{
+					put(type, System.currentTimeMillis() + type.getCooldown());
 				}}
 		);
 	}

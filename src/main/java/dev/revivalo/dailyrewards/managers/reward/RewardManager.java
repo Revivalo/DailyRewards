@@ -98,36 +98,43 @@ public class RewardManager {
         //});
     }
 
-    public String resetPlayer(final OfflinePlayer player, String type) {
+    public String resetPlayer(final OfflinePlayer player, String typeString) {
         final boolean isPlayerOnline = player.isOnline();
+
         if (!isPlayerOnline && !player.hasPlayedBefore())
             return Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", player.getName());
-        if (type.equalsIgnoreCase("all")) {
-            DataManager.setValues(player.getUniqueId(),
-                    new HashMap<String, Object>() {{
-                        put(RewardType.DAILY.toString(), 0L);
-                        put(RewardType.WEEKLY.toString(), 0L);
-                        put(RewardType.MONTHLY.toString(), 0L);
-                    }}
-            );
+
+        HashMap<RewardType, Long> changes;
+
+        if (typeString.equalsIgnoreCase("all")) {
+            changes = new HashMap<RewardType, Long>() {{
+                put(RewardType.DAILY, 0L);
+                put(RewardType.WEEKLY, 0L);
+                put(RewardType.MONTHLY, 0L);
+            }};
+
         } else {
+            final RewardType type = RewardType.findByName(typeString);
             try {
-                DataManager.setValues(player.getUniqueId(), new HashMap<String, Object>() {{
+                changes = new HashMap<RewardType, Long>() {{
                     put(type, 0L);
-                }});
-                if (player.isOnline())
-                    UserHandler.getUser(player.getUniqueId()).get().updateCooldowns(new HashMap<RewardType, Long>() {{
-                        put(RewardType.findByName(type), 0L);
-                    }});
+                }};
+
+                //if (player.isOnline())
             } catch (IllegalArgumentException ex) {
                 return Lang.INCOMPLETE_REWARD_RESET.asColoredString();
             }
         }
 
+        DataManager.setValues(
+                player.getUniqueId(),
+                changes
+        );
+
         //Bukkit.getLogger().info(DataManager.getAvailableRewards(player.getPlayer()).size() + "");
         //if (isPlayerOnline) UserHandler.getUser(player.getUniqueId()).get().setAvailableRewards((short) DataManager.getAvailableRewards(player.getPlayer()).size());
 
-        return Lang.REWARD_RESET.asColoredString().replace("%type%", type).replace("%player%", player.getName());
+        return Lang.REWARD_RESET.asColoredString().replace("%type%", typeString).replace("%player%", player.getName());
     }
 
     private String getRewardsPlaceholder(final RewardType reward) {

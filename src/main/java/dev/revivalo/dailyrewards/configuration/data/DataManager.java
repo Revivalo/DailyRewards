@@ -4,6 +4,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.managers.database.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.user.UserHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -22,22 +23,25 @@ public class DataManager {
 	private static boolean usingMysql;
 
 	@SneakyThrows
-	public static void setValues(final UUID id, Map<String, Object> data) {
+	public static void setValues(final UUID id, Map<RewardType, Long> data) {
 			if (isUsingMysql()) {
 				try {
 					MySQLManager.updateCooldown(id, data);
 				} catch (SQLException e) {
 					throw new RuntimeException(e);
 				}
-				return;
+			} else {
+
+				final PlayerData playerData = PlayerData.getConfig(id);
+				final ConfigurationSection rewardsSection = playerData.getConfigurationSection("rewards");
+
+				for (Map.Entry<RewardType, Long> entry : data.entrySet())
+					rewardsSection.set(entry.getKey().toString(), entry.getValue());
+
+				playerData.save();
 			}
 
-			final PlayerData playerData = PlayerData.getConfig(id);
-			final ConfigurationSection rewardsSection = playerData.getConfigurationSection("rewards");
-			for (Map.Entry<String, Object> entry : data.entrySet())
-				rewardsSection.set(entry.getKey(), entry.getValue());
-
-			playerData.save();
+			UserHandler.getUser(id).get().updateCooldowns(data);
 	}
 
 	public static void createPlayer(final Player player){

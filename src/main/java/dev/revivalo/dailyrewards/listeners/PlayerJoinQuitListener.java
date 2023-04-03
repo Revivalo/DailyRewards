@@ -4,6 +4,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
@@ -20,8 +21,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class PlayerJoinQuitListener implements Listener {
 
@@ -30,38 +32,46 @@ public class PlayerJoinQuitListener implements Listener {
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onJoin(final PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
-		DataManager.createPlayer(player);
-		final Collection<RewardType> availableRewards = DataManager.getAvailableRewards(player);
 
-		User user = UserHandler.addUser(
-				new User(
-						player,
-						(short) availableRewards.size()
-				)
-		);
+		DataManager.getPlayerDataAsync(player, cooldowns -> {
+			Map<RewardType, Cooldown> cooldownMap = new HashMap<>();
+			cooldowns.forEach((key, value) -> {
+				cooldownMap.put(key, new Cooldown(value));
+			});
 
-		if (user.getAvailableRewards() <= 0) return;
+			User user = UserHandler.addUser(
+					new User(
+							player,
+							cooldownMap
+					)
+			);
 
-		if (Config.AUTO_CLAIM_REWARDS_ON_JOIN.asBoolean()) {
-			if (!player.hasPermission("dailyreward.autoclaim")) return;
-			Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
-					DailyRewardsPlugin.getRewardManager().autoClaim(player, availableRewards), 3);
-			return;
-		}
+			final Set<RewardType> availableRewards = user.getAvailableRewards();
 
-		if (!Config.ENABLE_JOIN_NOTIFICATION.asBoolean()) return;
-		Bukkit.getScheduler().runTaskLater(
-				DailyRewardsPlugin.get(),
-				() -> Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{put("%rewards%", String.valueOf(user.getAvailableRewards()));}})
-						.stream()
-						.map(TextComponent::new)
-						.forEach(joinMsg -> {
-							joinMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rewards"));
-							joinMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-									new ComponentBuilder(Lang.JOIN_HOVER_MESSAGE.asPlaceholderReplacedText(player)).create()));
+			if (user.getAvailableRewards().size() == 0) return;
 
-							player.spigot().sendMessage(joinMsg);
-						}), Config.JOIN_NOTIFICATION_DELAY.asInt() * 20L);
+			if (Config.AUTO_CLAIM_REWARDS_ON_JOIN.asBoolean()) {
+				if (!player.hasPermission("dailyreward.autoclaim")) return;
+				Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
+						DailyRewardsPlugin.getRewardManager().autoClaim(player, availableRewards), 3);
+				return;
+			}
+
+			if (!Config.ENABLE_JOIN_NOTIFICATION.asBoolean()) return;
+			Bukkit.getScheduler().runTaskLater(
+					DailyRewardsPlugin.get(),
+					() -> Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{put("%rewards%", String.valueOf(availableRewards.size()));}})
+							.stream()
+							.map(TextComponent::new)
+							.forEach(joinMsg -> {
+								joinMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rewards"));
+								joinMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+										new ComponentBuilder(Lang.JOIN_HOVER_MESSAGE.asPlaceholderReplacedText(player)).create()));
+
+								player.spigot().sendMessage(joinMsg);
+							}), Config.JOIN_NOTIFICATION_DELAY.asInt() * 20L);
+
+		});
 	}
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)

@@ -11,12 +11,12 @@ public class Cooldown {
 		this.timeLeftInMillis = new AtomicLong(timeLeftInMillis);
 	}
 
-	public boolean isClaimable(){
+	public boolean isClaimable() {
 		return getTimeLeftInMillis() <= 0;
 	}
 
-	public Long getTimeLeftInMillis() {
-		return timeLeftInMillis.get();
+	public long getTimeLeftInMillis() {
+		return timeLeftInMillis.get() - System.currentTimeMillis();
 	}
 
 	public void reduce(int millis){

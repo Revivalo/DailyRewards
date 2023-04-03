@@ -4,8 +4,8 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
-import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class MenuManager {
 
 
 			if (Config.DAILY_ENABLED.asBoolean()) {
-				final Cooldown dailyCooldown = CooldownManager.getCooldown(player, RewardType.DAILY);
+				final Cooldown dailyCooldown = UserHandler.getUser(player.getUniqueId()).get().getCooldowns().get(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);
 				final AtomicReference<BukkitTask> atomicTask = new AtomicReference<>();
 
 				atomicTask.set(Bukkit.getScheduler().runTaskTimerAsynchronously(DailyRewardsPlugin.get(), () -> {
@@ -43,7 +43,7 @@ public class MenuManager {
 						atomicTask.get().cancel();
 						return;
 					}
-					dailyCooldown.reduce(timer*50);
+					//dailyCooldown.reduce(timer*50);
 
 					boolean claimable = dailyCooldown.getTimeLeftInMillis() <= 0;
 					inventory.setItem(Config.DAILY_POSITION.asInt(),
@@ -70,12 +70,13 @@ public class MenuManager {
 			}
 
 			if (Config.WEEKLY_ENABLED.asBoolean()) {
-				final Cooldown weeklyCooldown = CooldownManager.getCooldown(player, RewardType.WEEKLY);
+				final Cooldown weeklyCooldown = UserHandler.getUser(player.getUniqueId()).get().getCooldowns().get(RewardType.WEEKLY);
+				//final Cooldown weeklyCooldown = CooldownManager.getCooldown(player, RewardType.WEEKLY);
 				inventory.setItem(Config.WEEKLY_POSITION.asInt(),
 						ItemBuilder.from(
-								weeklyCooldown.isClaimable()
-									? Config.WEEKLY_AVAILABLE_ITEM.asAnItem()
-									: Config.WEEKLY_UNAVAILABLE_ITEM.asAnItem())
+										weeklyCooldown.isClaimable()
+												? Config.WEEKLY_AVAILABLE_ITEM.asAnItem()
+												: Config.WEEKLY_UNAVAILABLE_ITEM.asAnItem())
 								.setGlow(weeklyCooldown.isClaimable())
 								.setName(
 										weeklyCooldown.isClaimable()
@@ -92,8 +93,9 @@ public class MenuManager {
 				);
 			}
 
+
 			if (Config.MONTHLY_ENABLED.asBoolean()) {
-				final Cooldown monthlyCooldown = CooldownManager.getCooldown(player, RewardType.MONTHLY);
+				final Cooldown monthlyCooldown = UserHandler.getUser(player.getUniqueId()).get().getCooldowns().get(RewardType.MONTHLY);
 				inventory.setItem(Config.MONTHLY_POSITION.asInt(),
 						ItemBuilder.from(
 								monthlyCooldown.isClaimable()

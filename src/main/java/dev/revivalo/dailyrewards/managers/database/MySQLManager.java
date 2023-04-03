@@ -15,9 +15,7 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class MySQLManager {
 
@@ -33,6 +31,7 @@ public class MySQLManager {
 
 		String username = Config.MYSQL_USERNAME.asString();
 		String password = Config.MYSQL_PASSWORD.asString();
+
 		HikariConfig config = new HikariConfig();
 
 		if (VersionUtils.isLegacyVersion()) config.setDriverClassName("com.mysql.jdbc.Driver");
@@ -46,6 +45,7 @@ public class MySQLManager {
 
 		config.setUsername(username);
 		config.setPassword(password);
+
 		config.setIdleTimeout(0);
 
 		dataSource = new HikariDataSource(config);
@@ -85,12 +85,13 @@ public class MySQLManager {
 		if (MySQLManager.playerExists(uuid)) return;
 		final long currentTimeInMillis = System.currentTimeMillis();
 		try (Connection connection = getConnection()) {
-			connection.prepareStatement(INSERT
+			String statement = INSERT
 					.replace("%columns%", "id, daily, weekly, monthly")
-					.replace("%values%", uuid + ", " +
+					.replace("%values%", "'" + uuid + "'" + ", " +
 							(Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.DAILY.getCooldown()) + ", " +
 							(Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.WEEKLY.getCooldown()) + ", " +
-							(Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.MONTHLY.getCooldown())))
+							(Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.MONTHLY.getCooldown()));
+			connection.prepareStatement(statement)
 					.execute();
 		} catch (SQLException ex) {
 			DailyRewardsPlugin.get().getLogger().warning("Failed to create player " + uuid + "!\n" + ex.getLocalizedMessage());
@@ -134,20 +135,24 @@ public class MySQLManager {
 		}
 	}
 
-	public static long getRewardsCooldown(final UUID uuid, RewardType rewardType) {
-		long cooldown;
+	public static Map<RewardType, Long> getRewardsCooldown(final UUID uuid) {
+		Map<RewardType, Long> cooldowns = new HashMap<>();
 		try (Connection connection = getConnection()) {
 			final ResultSet resultSet = connection.prepareStatement(SELECT
-							.replace("%value%", rewardType.toString())
-							.replace("%selector%", uuid.toString())
-					).executeQuery();
+					.replace("%value%", "*")
+					.replace("%selector%", uuid.toString())
+			).executeQuery();
 
-			if (!resultSet.next()) return 0;
-			cooldown = resultSet.getLong(rewardType.toString());
+			while (resultSet.next()){
+				cooldowns.put(RewardType.DAILY, resultSet.getLong("daily"));
+				cooldowns.put(RewardType.WEEKLY, resultSet.getLong("weekly"));
+				cooldowns.put(RewardType.MONTHLY, resultSet.getLong("monthly"));
+			}
+
 		} catch (SQLException exception) {
-			return -1;
+			return Collections.emptyMap();
 		}
-		return cooldown;
+		return cooldowns;
 	}
 
 	@SneakyThrows(SQLException.class)

@@ -15,6 +15,6 @@ public class AvailableRewardsResolver implements PlaceholderResolver {
     @Override
     public String resolve(Player p, String rawPlaceholder) {
         Optional<User> user = UserHandler.getUser(p.getUniqueId());
-        return user.map(value -> String.valueOf(value.getAvailableRewards().size())).orElse("0");
+        return user.map(value -> String.valueOf(value.getAvailableRewards().size())).orElse("Loading");
     }
 }

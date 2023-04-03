@@ -1,19 +1,20 @@
 package dev.revivalo.dailyrewards.configuration.data;
 
+import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
-import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.managers.database.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
-import dev.revivalo.dailyrewards.user.UserHandler;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.sql.SQLException;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class DataManager {
 
@@ -41,8 +42,7 @@ public class DataManager {
 
 	public static void createPlayer(final Player player){
 			if (isUsingMysql()) MySQLManager.createPlayer(player.getUniqueId().toString());
-			else
-			if (!PlayerData.exists(player.getUniqueId())){
+			else if (!PlayerData.exists(player.getUniqueId())){
 				final PlayerData playerData = PlayerData.getConfig(player.getUniqueId());
 				final ConfigurationSection rewardsSection = playerData.createSection("rewards");
 
@@ -54,30 +54,26 @@ public class DataManager {
 			}
 	}
 
-	public static Collection<RewardType> getAvailableRewards(final Player player) {
-		final Collection<RewardType> availableRewards = new HashSet<>();
-
-		Arrays.stream(RewardType.values()).collect(Collectors.toList()).forEach(rewardType -> {
-			if (!rewardType.isEnabled()) return;
-			if (!CooldownManager.isRewardAvailable(player, rewardType)) return;
-			final String rewardName = rewardType.toString().toLowerCase();
-			if ((!player.hasPermission(String.format("dailyreward.%s", rewardName))
-					&& !player.hasPermission(String.format("dailyreward.%s.premium", rewardName))))
-				return;
-
-			availableRewards.add(rewardType);
-		});
-
-		UserHandler.setUsersAvailableRewards(player.getUniqueId(), (short) availableRewards.size());
-
-		return availableRewards;
+	public static Map<RewardType, Long> getPlayersCooldowns(Player player){
+		Map<RewardType, Long> cooldowns = new HashMap<>();
+		if (isUsingMysql()) cooldowns = MySQLManager.getRewardsCooldown(player.getUniqueId());
+		else {
+			PlayerData playerData = PlayerData.getConfig(player.getUniqueId());
+			for (String key : playerData.getConfigurationSection("rewards").getKeys(false)){
+				cooldowns.put(RewardType.findByName(key), playerData.getLong("rewards." + key));
+			}
+		}
+		return cooldowns;
 	}
 
-	public static long getLong(final UUID id, final RewardType type) {
-		return isUsingMysql()
-				? MySQLManager.getRewardsCooldown(id, type)
-				: Optional.ofNullable(PlayerData.getConfig(id).getConfigurationSection("rewards"))
-					.map(section -> section.getLong(type.toString()))
-					.orElse(0L);
+
+	public static void getPlayerDataAsync(final Player player, final FindOneCallback callback) {
+		Bukkit.getScheduler().runTaskAsynchronously(DailyRewardsPlugin.get(), () -> {
+			createPlayer(player);
+			final Map<RewardType, Long> result = getPlayersCooldowns(player);
+			Bukkit.getScheduler().runTask(DailyRewardsPlugin.get(), () -> {
+				callback.onQueryDone(result);
+			});
+		});
 	}
 }

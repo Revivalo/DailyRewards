@@ -111,24 +111,25 @@ public class MySQLManager {
 		}
 	}
 
-	public static void updateCooldown(final UUID uuid, Map<String, Object> data) throws SQLException {
+	public static void updateCooldown(final UUID uuid, Map<RewardType, Long> data) throws SQLException {
 		final StringBuilder builder = new StringBuilder();
-		Iterator<String> keys = data.keySet().iterator();
+		Iterator<RewardType> keys = data.keySet().iterator();
 		while (keys.hasNext()){
-			String key = keys.next();
-			Object value = data.get(key);
-			builder.append(key)
+			RewardType key = keys.next();
+			long value = data.get(key);
+			builder.append(key.toString())
 					.append("='")
 					.append(value)
 					.append("'")
 					.append(keys.hasNext()
-							? "?"
+							? ","
 							: "");
 		}
 		try (Connection connection = getConnection()) {
-			connection.prepareStatement(UPDATE
-					.replace("%values%", builder)
-					.replace("%id%", uuid.toString())
+			connection.prepareStatement(
+					UPDATE
+						.replace("%values%", builder)
+						.replace("%id%", uuid.toString())
 			).executeUpdate();
 		} catch (SQLException ex) {
 			DailyRewardsPlugin.get().getLogger().warning("Failed to update cooldown for " + uuid + "!\n" + ex.getLocalizedMessage());

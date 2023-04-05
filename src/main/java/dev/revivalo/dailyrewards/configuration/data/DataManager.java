@@ -41,7 +41,7 @@ public class DataManager {
 				playerData.save();
 			}
 
-			UserHandler.getUser(id).get().updateCooldowns(data);
+			UserHandler.getUser(id).updateCooldowns(data);
 	}
 
 	public static void createPlayer(final Player player){
@@ -71,7 +71,7 @@ public class DataManager {
 	}
 
 
-	public static void getPlayerDataAsync(final Player player, final FindOneCallback callback) {
+	public static void loadPlayerDataAsync(final Player player, final FindOneCallback callback) {
 		Bukkit.getScheduler().runTaskAsynchronously(DailyRewardsPlugin.get(), () -> {
 			createPlayer(player);
 			final Map<RewardType, Long> result = getPlayersCooldowns(player);

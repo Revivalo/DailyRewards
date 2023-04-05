@@ -35,9 +35,10 @@ public class MenuManager {
 					inventory.setItem(i, BACKGROUND_ITEM);
 			}
 
+			final User user = UserHandler.getUser(player.getUniqueId());
 
 			if (Config.DAILY_ENABLED.asBoolean()) {
-				final Cooldown dailyCooldown = UserHandler.getUser(player.getUniqueId()).orElse(UserHandler.addUser(new User(player, Collections.emptyMap()))).getCooldowns().get(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);
+				final Cooldown dailyCooldown = user.getCooldownOfReward(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);
 				final AtomicReference<BukkitTask> atomicTask = new AtomicReference<>();
 
 				atomicTask.set(Bukkit.getScheduler().runTaskTimerAsynchronously(DailyRewardsPlugin.get(), () -> {
@@ -72,7 +73,7 @@ public class MenuManager {
 			}
 
 			if (Config.WEEKLY_ENABLED.asBoolean()) {
-				final Cooldown weeklyCooldown = UserHandler.getUser(player.getUniqueId()).get().getCooldowns().get(RewardType.WEEKLY);
+				final Cooldown weeklyCooldown = user.getCooldownOfReward(RewardType.WEEKLY);
 				//final Cooldown weeklyCooldown = CooldownManager.getCooldown(player, RewardType.WEEKLY);
 				inventory.setItem(Config.WEEKLY_POSITION.asInt(),
 						ItemBuilder.from(
@@ -97,7 +98,7 @@ public class MenuManager {
 
 
 			if (Config.MONTHLY_ENABLED.asBoolean()) {
-				final Cooldown monthlyCooldown = UserHandler.getUser(player.getUniqueId()).get().getCooldowns().get(RewardType.MONTHLY);
+				final Cooldown monthlyCooldown = user.getCooldownOfReward(RewardType.MONTHLY);
 				inventory.setItem(Config.MONTHLY_POSITION.asInt(),
 						ItemBuilder.from(
 								monthlyCooldown.isClaimable()

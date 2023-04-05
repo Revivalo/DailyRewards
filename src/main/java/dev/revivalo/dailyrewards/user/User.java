@@ -12,21 +12,21 @@ import java.util.Set;
 @Data
 public class User {
     private final Player player;
-    private final Map<RewardType, Cooldown> cooldowns;
+    private final Map<RewardType, Long> cooldowns;
 
     public Cooldown getCooldownOfReward(RewardType rewardType) {
-        return cooldowns.get(rewardType);
+        return new Cooldown(cooldowns.get(rewardType));
     }
 
     public Set<RewardType> getAvailableRewards(){
         Set<RewardType> availableRewards = new HashSet<>();
-        for (Map.Entry<RewardType, Cooldown> entry : cooldowns.entrySet()) {
-            if (entry.getValue().isClaimable()) availableRewards.add(entry.getKey());
+        for (Map.Entry<RewardType, Long> entry : cooldowns.entrySet()) {
+            if (new Cooldown(entry.getValue()).isClaimable()) availableRewards.add(entry.getKey());
         }
         return availableRewards;
     }
 
     public void updateCooldowns(Map<RewardType, Long> changes) {
-        changes.forEach((key, value) -> cooldowns.put(key, new Cooldown(value)));
+        cooldowns.putAll(changes);
     }
 }

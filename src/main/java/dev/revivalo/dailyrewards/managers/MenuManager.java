@@ -41,7 +41,7 @@ public class MenuManager {
 				final Cooldown dailyCooldown = user.getCooldownOfReward(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);
 				final AtomicReference<BukkitTask> atomicTask = new AtomicReference<>();
 
-				atomicTask.set(Bukkit.getScheduler().runTaskTimerAsynchronously(DailyRewardsPlugin.get(), () -> {
+				atomicTask.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
 					if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
 						atomicTask.get().cancel();
 						return;

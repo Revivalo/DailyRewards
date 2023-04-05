@@ -4,7 +4,6 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
-import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
@@ -22,7 +21,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class PlayerJoinQuitListener implements Listener {
@@ -33,16 +31,12 @@ public class PlayerJoinQuitListener implements Listener {
 	public void onJoin(final PlayerJoinEvent event) {
 		final Player player = event.getPlayer();
 
-		DataManager.getPlayerDataAsync(player, cooldowns -> {
-			Map<RewardType, Cooldown> cooldownMap = new HashMap<>();
-			cooldowns.forEach((key, value) -> {
-				cooldownMap.put(key, new Cooldown(value));
-			});
+		DataManager.loadPlayerDataAsync(player, cooldowns -> {
 
 			User user = UserHandler.addUser(
 					new User(
 							player,
-							cooldownMap
+							cooldowns
 					)
 			);
 

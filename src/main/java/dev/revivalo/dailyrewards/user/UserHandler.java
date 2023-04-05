@@ -1,7 +1,6 @@
 package dev.revivalo.dailyrewards.user;
 
 import java.util.HashMap;
-import java.util.Optional;
 import java.util.UUID;
 
 public class UserHandler {
@@ -11,8 +10,12 @@ public class UserHandler {
         return user;
     }
 
-    public static Optional<User> getUser(final UUID uuid){
-        return Optional.ofNullable(usersHashMap.get(uuid));
+    public static User getUser(final UUID uuid){
+        return usersHashMap.get(uuid);
+    }
+
+    public static void loadUsers(){
+
     }
 
     public static User removeUser(final UUID uuid){

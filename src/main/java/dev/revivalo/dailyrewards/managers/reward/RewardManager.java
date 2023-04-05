@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
+import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import dev.revivalo.dailyrewards.utils.TextUtils;
@@ -52,8 +53,8 @@ public class RewardManager {
             return;
         }
 
-
-        final Cooldown cooldown = UserHandler.getUser(player.getUniqueId()).get().getCooldownOfReward(type);
+        final User user = UserHandler.getUser(player.getUniqueId());
+        final Cooldown cooldown = user.getCooldownOfReward(type);
         if (cooldown.isClaimable()) {
             final String typeName = type.toString().toUpperCase();
             final Collection<String> rewardCommands = Config.valueOf(String.format("%s%s_REWARDS", typeName, DailyRewardsPlugin.isPremium(player, type)))
@@ -68,7 +69,7 @@ public class RewardManager {
             }
 
             CooldownManager.setCooldown(player, type);
-            UserHandler.getUser(player.getUniqueId()).get().updateCooldowns(new HashMap<RewardType, Long>() {{
+            user.updateCooldowns(new HashMap<RewardType, Long>() {{
                 put(type, System.currentTimeMillis() + type.getCooldown());
             }});
             if (announce) {

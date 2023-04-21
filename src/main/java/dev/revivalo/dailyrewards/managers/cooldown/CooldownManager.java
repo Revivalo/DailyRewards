@@ -9,9 +9,9 @@ import java.util.HashMap;
 public class CooldownManager {
 
 	public static void setCooldown(final Player player, RewardType type) {
-		DataManager.setValues(player.getUniqueId(),
-				new HashMap<RewardType, Long>(){{
-					put(type, System.currentTimeMillis() + type.getCooldown());
+		DataManager.updateValues(player.getUniqueId(),
+				null, new HashMap<String, Long>(){{
+					put(type.toString(), System.currentTimeMillis() + type.getCooldown());
 				}}
 		);
 	}

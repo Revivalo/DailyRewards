@@ -36,13 +36,27 @@ config:
   menu-size: 45
   fill-background-enabled: true
   background-item: GRAY_STAINED_GLASS_PANE
-  enable-join-notification: true
+  join-notification-by-default: true
+  join-notification-position: 21
+  join-notification-command: "/rewards"
+  auto-claim-rewards-on-join-by-default: false
+  auto-claim-rewards-position: 23
   announce-enabled: true
   # In seconds
   join-notification-delay: 3
   unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT
-  auto-claim-rewards-on-join: false
   check-for-full-inventory: true
+  #
+  #
+  # SETTINGS MENU
+  #
+  #
+  settings-enabled-in-menu: true
+  settings-position: 40
+  settings-item: REPEATER
+  settings-join-notification-item: BELL
+  settings-auto-claim-item: REDSTONE_TORCH
+  settings-back-item: STONE_BUTTON
   #
   #
   # DAILY REWARD SECTION

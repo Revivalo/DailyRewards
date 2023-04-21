@@ -1,5 +1,7 @@
 package dev.revivalo.dailyrewards.user;
 
+import dev.revivalo.dailyrewards.configuration.data.DataManager;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -19,6 +21,8 @@ public class UserHandler {
     }
 
     public static User removeUser(final UUID uuid){
-        return usersHashMap.remove(uuid);
+        final User user = usersHashMap.remove(uuid);
+        DataManager.updateValues(uuid, user, user.getData());
+        return user;
     }
 }

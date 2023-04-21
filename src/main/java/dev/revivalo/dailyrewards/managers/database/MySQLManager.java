@@ -52,6 +52,8 @@ public class MySQLManager {
 
 		try (Connection connection = getConnection()) {
 			connection.prepareStatement(CREATE_TABLE).execute();
+			connection.prepareStatement("ALTER TABLE Rewards ADD COLUMN `autoClaim` boolean DEFAULT " + Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() + ";");
+			connection.prepareStatement("ALTER TABLE Rewards ADD COLUMN `joinNotification` boolean DEFAULT " + Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() + ";");
 			DataManager.setUsingMysql(true);
 			File dir = new File(DailyRewardsPlugin.getPlugin(DailyRewardsPlugin.class).getDataFolder(), "userdata");
 			File[] directoryListing = dir.listFiles();
@@ -111,13 +113,13 @@ public class MySQLManager {
 		}
 	}
 
-	public static void updateCooldown(final UUID uuid, Map<RewardType, Long> data) throws SQLException {
+	public static void updateCooldown(final UUID uuid, Map<String, Long> data) throws SQLException {
 		final StringBuilder builder = new StringBuilder();
-		Iterator<RewardType> keys = data.keySet().iterator();
+		Iterator<String> keys = data.keySet().iterator();
 		while (keys.hasNext()){
-			RewardType key = keys.next();
+			String key = keys.next();
 			long value = data.get(key);
-			builder.append(key.toString())
+			builder.append(key)
 					.append("='")
 					.append(value)
 					.append("'")
@@ -136,8 +138,8 @@ public class MySQLManager {
 		}
 	}
 
-	public static Map<RewardType, Long> getRewardsCooldown(final UUID uuid) {
-		Map<RewardType, Long> cooldowns = new HashMap<>();
+	public static Map<String, Long> getRewardsCooldown(final UUID uuid) {
+		final Map<String, Long> cooldowns = new HashMap<>();
 		try (Connection connection = getConnection()) {
 			final ResultSet resultSet = connection.prepareStatement(SELECT
 					.replace("%value%", "*")
@@ -145,9 +147,12 @@ public class MySQLManager {
 			).executeQuery();
 
 			while (resultSet.next()){
-				cooldowns.put(RewardType.DAILY, resultSet.getLong("daily"));
-				cooldowns.put(RewardType.WEEKLY, resultSet.getLong("weekly"));
-				cooldowns.put(RewardType.MONTHLY, resultSet.getLong("monthly"));
+				cooldowns.put(RewardType.DAILY.name(), resultSet.getLong("daily"));
+				cooldowns.put(RewardType.WEEKLY.name(), resultSet.getLong("weekly"));
+				cooldowns.put(RewardType.MONTHLY.name(), resultSet.getLong("monthly"));
+
+				cooldowns.put("auto-claim", resultSet.getLong("autoClaim"));
+				cooldowns.put("join-notification", resultSet.getLong("joinNotification"));
 			}
 
 		} catch (SQLException exception) {

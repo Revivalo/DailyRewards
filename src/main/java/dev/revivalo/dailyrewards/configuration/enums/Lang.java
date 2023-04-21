@@ -15,6 +15,7 @@ import java.util.*;
 @RequiredArgsConstructor
 public enum Lang {
 	HELP_MESSAGE("help"),
+	BACK("back"),
 	VALID_COMMAND_USAGE("command-usage"),
 	INCOMPLETE_REWARD_RESET("incomplete-reward-reset"),
 	REWARD_RESET("reward-reset"),
@@ -24,6 +25,14 @@ public enum Lang {
 	REWARDS_IS_NOT_SET("rewards-are-not-set"),
 	RELOAD_MESSAGE("reload-msg"),
 	MENU_TITLE("menu-title"),
+	SETTINGS_TITLE("settings-title"),
+	SETTINGS_DISPLAY_NAME("settings-display-name"),
+	JOIN_NOTIFICATION_DISPLAY_NAME("join-notification-display-name"),
+	JOIN_NOTIFICATION_ENABLED_LORE("join-notification-enabled-lore"),
+	JOIN_NOTIFICATION_DISABLED_LORE("join-notification-disabled-lore"),
+	AUTO_CLAIM_DISPLAY_NAME("auto-claim-display-name"),
+	AUTO_CLAIM_ENABLED_LORE("auto-claim-enabled-lore"),
+	AUTO_CLAIM_DISABLED_LORE("auto-claim-disabled-lore"),
 	JOIN_HOVER_MESSAGE("join-hover-message"),
 	JOIN_NOTIFICATION("join-notification"),
 	COOLDOWN_MESSAGE("cooldown-message"),

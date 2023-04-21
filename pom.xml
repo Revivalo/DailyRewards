@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>DailyReward</artifactId>
-    <version>1.6.13</version>
+    <version>1.7.0</version>
     <packaging>jar</packaging>
 
     <name>DailyReward</name>

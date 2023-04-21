@@ -17,6 +17,7 @@ lang:
   incomplete-reward-reset: "&c[&4&lDailyRewards&c] Specify what you specifically want to reset (daily/weekly/monthly/all)"
   full-inventory-message: "&c[&4&lDailyRewards&c] You can not obtain the reward(s), your inventory is full!"
   command-usage: "&c[&4&lDailyRewards&c] Valid usage: %usage%"
+  back: "&cBack"
   help:
     - "&e[&6&lDailyRewards&e] &fList with all available commands:"
     - "&f/rewards &7- Main GUI menu"
@@ -25,6 +26,36 @@ lang:
     - "&f/reward monthly &7- obtain monthly reward"
     - "&f/reward reset <player> <daily|weekly|monthly|all>"
     - "&f/reward reload &7- reloads configuration section"
+  #
+  # Settings menu
+  #
+  settings-title: "Settings"
+  settings-display-name: "&eSettings"
+  join-notification-display-name: "&aJoin Notification"
+  join-notification-enabled-lore:
+    - "&7Notify you on join"
+    - "&7if you have uncollected rewards"
+    - " "
+    - "&c► Click to disable"
+  join-notification-disabled-lore:
+    - "&7Notify you on join"
+    - "&7if you have uncollected rewards"
+    - " "
+    - "&a► Click to enable"
+  auto-claim-display-name: "&aAuto Claim"
+  auto-claim-enabled-lore:
+    - "&7Will automatically claim"
+    - "&7all available rewards on join"
+    - " "
+    - "&c► Click to disable"
+  auto-claim-disabled-lore:
+    - "&7Will automatically claim"
+    - "&7all available rewards on join"
+    - " "
+    - "&a► Click to enable"
+  #
+  # Rewards menu
+  #
   menu-title: "Rewards"
   join-hover-message: "&7Click for collect your rewards"
   join-notification:
@@ -50,6 +81,9 @@ lang:
     - "&e✔ premium reward available"
   daily-displayname-unavailable: "&c&lDAILY REWARD"
   daily-unavailable-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
+  daily-unavailable-premium-lore:
     - " "
     - "&cAvailable in: %cooldown%"
   weekly-title: "&e&lRewards"

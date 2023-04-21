@@ -37,6 +37,9 @@ public class MenuManager {
 
 			final User user = UserHandler.getUser(player.getUniqueId());
 
+			if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean())
+				inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
+
 			if (Config.DAILY_ENABLED.asBoolean()) {
 				final Cooldown dailyCooldown = user.getCooldownOfReward(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);
 				final AtomicReference<BukkitTask> atomicTask = new AtomicReference<>();
@@ -51,9 +54,9 @@ public class MenuManager {
 					boolean claimable = dailyCooldown.getTimeLeftInMillis() <= 0;
 					inventory.setItem(Config.DAILY_POSITION.asInt(),
 							ItemBuilder.from(
-									claimable
-											? Config.DAILY_AVAILABLE_ITEM.asAnItem()
-											: Config.DAILY_UNAVAILABLE_ITEM.asAnItem()
+											claimable
+													? Config.DAILY_AVAILABLE_ITEM.asAnItem()
+													: Config.DAILY_UNAVAILABLE_ITEM.asAnItem()
 									)
 									.setGlow(claimable)
 									.setName(
@@ -64,8 +67,8 @@ public class MenuManager {
 											claimable
 													? Lang.valueOf(String.format("DAILY_AVAILABLE%s_LORE", DailyRewardsPlugin.isPremium(player, RewardType.DAILY))).asReplacedList(Collections.emptyMap())
 													: Lang.DAILY_UNAVAILABLE_LORE.asReplacedList(new HashMap<String, String>() {{
-														put("%cooldown%", dailyCooldown.getFormat(Config.DAILY_COOLDOWN_FORMAT.asString()));
-													}})
+												put("%cooldown%", dailyCooldown.getFormat(Config.DAILY_COOLDOWN_FORMAT.asString()));
+											}})
 									)
 									.build()
 					);
@@ -101,9 +104,9 @@ public class MenuManager {
 				final Cooldown monthlyCooldown = user.getCooldownOfReward(RewardType.MONTHLY);
 				inventory.setItem(Config.MONTHLY_POSITION.asInt(),
 						ItemBuilder.from(
-								monthlyCooldown.isClaimable()
-										? Config.MONTHLY_AVAILABLE_ITEM.asAnItem()
-										: Config.MONTHLY_UNAVAILABLE_ITEM.asAnItem()
+										monthlyCooldown.isClaimable()
+												? Config.MONTHLY_AVAILABLE_ITEM.asAnItem()
+												: Config.MONTHLY_UNAVAILABLE_ITEM.asAnItem()
 								)
 								.setGlow(monthlyCooldown.isClaimable())
 								.setName(
@@ -123,6 +126,48 @@ public class MenuManager {
 
 			player.openInventory(inventory);
 		});
+	}
+
+	public void openSettings(Player player, boolean fromMenu) {
+		final Inventory settings = Bukkit.createInventory(
+				new RewardSettingsInventoryHolder(),
+				Config.MENU_SIZE.asInt(),
+				Lang.SETTINGS_TITLE.asColoredString());
+
+		final User user = UserHandler.getUser(player.getUniqueId());
+
+		if (fromMenu)
+			settings.setItem(40, ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
+
+		settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
+				.setName(Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString())
+				.setGlow(user.isEnabledJoinNotification())
+				.setLore(
+						user.isEnabledJoinNotification()
+								? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
+								: Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+				).build()
+		);
+
+		settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(new ItemStack(Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem()))
+				.setName(Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString())
+				.setGlow(user.isEnabledAutoClaim())
+				.setLore(
+						user.isEnabledAutoClaim()
+								? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
+								: Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+				).build()
+		);
+
+		player.openInventory(settings);
+	}
+
+	public static class RewardSettingsInventoryHolder implements InventoryHolder {
+
+		@Override
+		public Inventory getInventory() {
+			return null;
+		}
 	}
 
 	public static class RewardsInventoryHolder implements InventoryHolder {

@@ -44,23 +44,24 @@ public class PlayerJoinQuitListener implements Listener {
 
 			if (user.getAvailableRewards().size() == 0) return;
 
-			if (Config.AUTO_CLAIM_REWARDS_ON_JOIN.asBoolean()) {
+			if (user.isEnabledAutoClaim()) {
 				if (!player.hasPermission("dailyreward.autoclaim")) return;
 				Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
 						DailyRewardsPlugin.getRewardManager().autoClaim(player, availableRewards), 3);
 				return;
 			}
 
-			if (!Config.ENABLE_JOIN_NOTIFICATION.asBoolean()) return;
+			if (!user.isEnabledJoinNotification()) return;
 			Bukkit.getScheduler().runTaskLater(
 					DailyRewardsPlugin.get(),
 					() -> Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{put("%rewards%", String.valueOf(availableRewards.size()));}})
 							.stream()
 							.map(TextComponent::new)
 							.forEach(joinMsg -> {
-								joinMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/rewards"));
+								joinMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.JOIN_NOTIFICATION_COMMAND.asString()));
 								joinMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-										new ComponentBuilder(Lang.JOIN_HOVER_MESSAGE.asPlaceholderReplacedText(player)).create()));
+										new ComponentBuilder(Lang.JOIN_HOVER_MESSAGE.asPlaceholderReplacedText(player)).create())
+								);
 
 								player.spigot().sendMessage(joinMsg);
 							}), Config.JOIN_NOTIFICATION_DELAY.asInt() * 20L);

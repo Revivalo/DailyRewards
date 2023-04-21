@@ -69,8 +69,8 @@ public class RewardManager {
             }
 
             CooldownManager.setCooldown(player, type);
-            user.updateCooldowns(new HashMap<RewardType, Long>() {{
-                put(type, System.currentTimeMillis() + type.getCooldown());
+            user.updateCooldowns(new HashMap<String, Long>() {{
+                put(type.toString(), System.currentTimeMillis() + type.getCooldown());
             }});
             if (announce) {
                 PlayerUtils.playSound(player, Config.valueOf(String.format("%s_SOUND", typeName)).asUppercase());
@@ -105,20 +105,20 @@ public class RewardManager {
         if (!isPlayerOnline && !player.hasPlayedBefore())
             return Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", player.getName());
 
-        HashMap<RewardType, Long> changes;
+        HashMap<String, Long> changes;
 
         if (typeString.equalsIgnoreCase("all")) {
-            changes = new HashMap<RewardType, Long>() {{
-                put(RewardType.DAILY, 0L);
-                put(RewardType.WEEKLY, 0L);
-                put(RewardType.MONTHLY, 0L);
+            changes = new HashMap<String, Long>() {{
+                put(RewardType.DAILY.toString(), 0L);
+                put(RewardType.WEEKLY.toString(), 0L);
+                put(RewardType.MONTHLY.toString(), 0L);
             }};
 
         } else {
             final RewardType type = RewardType.findByName(typeString);
             try {
-                changes = new HashMap<RewardType, Long>() {{
-                    put(type, 0L);
+                changes = new HashMap<String, Long>() {{
+                    put(type.toString(), 0L);
                 }};
 
                 //if (player.isOnline())
@@ -127,8 +127,9 @@ public class RewardManager {
             }
         }
 
-        DataManager.setValues(
+        DataManager.updateValues(
                 player.getUniqueId(),
+                null,
                 changes
         );
 

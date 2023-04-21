@@ -78,7 +78,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         get().implementListeners();
 
         getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and remove limitations!");
-        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: bit.ly/ultimate-rewards");
+        getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: https://bit.ly/ultimate-rewards");
     }
 
     @Override

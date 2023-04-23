@@ -42,6 +42,6 @@ public class SettingsCommand implements SubCommand {
 
         final Player player = (Player) sender;
 
-        DailyRewardsPlugin.getMenuManager().openSettings(player, false);
+        DailyRewardsPlugin.getMenuManager().openSettings(player);
     }
 }

@@ -1,6 +1,8 @@
 package dev.revivalo.dailyrewards.utils;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.configuration.enums.Config;
+import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import org.bukkit.*;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
@@ -8,7 +10,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
+import java.util.Collections;
+
 public class PlayerUtils {
+    public static boolean isPlayerInDisabledWorld(final Player player, boolean announce) {
+        final String playerWorldName = player.getWorld().getName();
+        if (Config.DISABLED_WORLDS.asReplacedList(Collections.emptyMap()).stream().anyMatch(worldName -> worldName.equalsIgnoreCase(playerWorldName))) {
+            if (announce) player.sendMessage(Lang.CLAIMING_IN_DISABLED_WORLD.asColoredString().replace("%world%", playerWorldName));
+            return true;
+        }
+        return false;
+    }
+
     public static void playSound(Player player, String sound){
         Sound soundToPlay;
         try {

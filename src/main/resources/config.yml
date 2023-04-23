@@ -46,6 +46,11 @@ config:
   join-notification-delay: 3
   unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT
   check-for-full-inventory: true
+  # Players won't be able to claim & open rewards
+  # also won't receive notification
+  disabled-worlds:
+    - "disabledworld1"
+    - "disabledworld2"
   #
   #
   # SETTINGS MENU
@@ -57,6 +62,7 @@ config:
   settings-join-notification-item: BELL
   settings-auto-claim-item: REDSTONE_TORCH
   settings-back-item: STONE_BUTTON
+  settings-back-position: 40
   #
   #
   # DAILY REWARD SECTION

@@ -43,15 +43,20 @@ public class RewardManager {
             player.sendMessage(Lang.DISABLED_REWARD.asColoredString());
             return;
         }
+
         if (!player.hasPermission("dailyreward." + type)) {
             if (!fromCommand) return;
             player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
             return;
         }
+
         if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean() && player.getInventory().firstEmpty() == -1) {
             player.sendMessage(Lang.FULL_INVENTORY_MESSAGE.asColoredString());
             return;
         }
+
+        if (PlayerUtils.isPlayerInDisabledWorld(player, true))
+            return;
 
         final User user = UserHandler.getUser(player.getUniqueId());
         final Cooldown cooldown = user.getCooldownOfReward(type);
@@ -138,6 +143,10 @@ public class RewardManager {
 
         return Lang.REWARD_RESET.asColoredString().replace("%type%", typeString).replace("%player%", player.getName());
     }
+
+   /* public void adjustSetting(User user, Setting setting) {
+        user
+    }*/
 
     private String getRewardsPlaceholder(final RewardType reward) {
         switch (reward) {

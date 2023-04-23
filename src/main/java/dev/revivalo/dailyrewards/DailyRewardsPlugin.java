@@ -2,6 +2,7 @@ package dev.revivalo.dailyrewards;
 
 import dev.revivalo.dailyrewards.commandmanager.commands.RewardMainCommand;
 import dev.revivalo.dailyrewards.commandmanager.commands.RewardsMainCommand;
+import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.hooks.Hooks;
@@ -13,6 +14,8 @@ import dev.revivalo.dailyrewards.managers.reward.RewardManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
+import dev.revivalo.dailyrewards.user.User;
+import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
 import io.github.g00fy2.versioncompare.Version;
 import lombok.Getter;
@@ -79,6 +82,11 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
         getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and remove limitations!");
         getServer().getConsoleSender().sendMessage(ChatColor.GOLD + "[DailyRewards] Get it here: https://bit.ly/ultimate-rewards");
+    }
+
+    @Override
+    public void onLoad() {
+        getServer().getOnlinePlayers().forEach(player -> UserHandler.addUser(new User(player, DataManager.getPlayerData(player))));
     }
 
     @Override

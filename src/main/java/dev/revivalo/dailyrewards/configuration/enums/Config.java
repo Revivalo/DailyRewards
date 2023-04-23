@@ -30,6 +30,7 @@ public enum Config {
 	AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT("auto-claim-rewards-on-join-by-default"),
 	AUTO_CLAIM_REWARDS_POSITION("auto-claim-rewards-position"),
 	JOIN_NOTIFICATION_POSITION("join-notification-position"),
+	DISABLED_WORLDS("disabled-worlds"),
 
 	SETTINGS_ENABLED_IN_MENU("settings-enabled-in-menu"),
 	SETTINGS_POSITION("settings-position"),
@@ -37,6 +38,7 @@ public enum Config {
 	SETTINGS_JOIN_NOTIFICATION_ITEM("settings-join-notification-item"),
 	SETTINGS_AUTO_CLAIM_ITEM("settings-auto-claim-item"),
 	SETTINGS_BACK_ITEM("settings-back-item"),
+	SETTINGS_BACK_POSITION("settings-back-position"),
 
 	USE_MYSQL("use-mysql"),
 	MYSQL_IP("mysql-ip"),

@@ -14,6 +14,7 @@ import java.util.*;
 
 @RequiredArgsConstructor
 public enum Lang {
+	PREFIX("prefix"),
 	HELP_MESSAGE("help"),
 	BACK("back"),
 	VALID_COMMAND_USAGE("command-usage"),
@@ -36,6 +37,7 @@ public enum Lang {
 	JOIN_HOVER_MESSAGE("join-hover-message"),
 	JOIN_NOTIFICATION("join-notification"),
 	COOLDOWN_MESSAGE("cooldown-message"),
+	CLAIMING_IN_DISABLED_WORLD("claiming-in-disabled-world"),
 	AUTO_CLAIMED_NOTIFICATION("auto-claim-notification"),
 
 	DAILY_TITLE("daily-title"),
@@ -92,7 +94,7 @@ public enum Lang {
 						listsAsStrings.put(key, String.join("⎶", coloredList));
 						return;
 					}
-					messages.put(key, TextUtils.applyColor(langSection.getString(key)));
+					messages.put(key, TextUtils.applyColor(langSection.getString(key).replace("%prefix%", PREFIX.asColoredString())));
 				});
 	}
 

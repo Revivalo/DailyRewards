@@ -128,16 +128,25 @@ public class MenuManager {
 		});
 	}
 
-	public void openSettings(Player player, boolean fromMenu) {
+	public void openSettings(Player player) {
+		if (!player.hasPermission("dailyreward.settings")) {
+			player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
+			return;
+		}
+
 		final Inventory settings = Bukkit.createInventory(
 				new RewardSettingsInventoryHolder(),
 				Config.MENU_SIZE.asInt(),
 				Lang.SETTINGS_TITLE.asColoredString());
 
+		if (Config.FILL_BACKGROUND.asBoolean()) {
+			for (int i = 0; i < 44; i++)
+				settings.setItem(i, BACKGROUND_ITEM);
+		}
+
 		final User user = UserHandler.getUser(player.getUniqueId());
 
-		if (fromMenu)
-			settings.setItem(40, ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
+		settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
 
 		settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
 				.setName(Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString())

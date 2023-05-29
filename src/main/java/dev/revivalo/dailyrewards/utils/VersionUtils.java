@@ -20,7 +20,7 @@ public class VersionUtils {
         setLegacyVersion(version.isLowerThan("1.13"));
     }
 
-    public static boolean checkPlugin(String pluginName){
+    public static boolean isLoaded(String pluginName){
         return DailyRewardsPlugin.get().getPluginManager().getPlugin(pluginName) != null;
     }
 }

@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Collections;
+import java.util.Locale;
 
 public class PlayerUtils {
     public static boolean isPlayerInDisabledWorld(final Player player, boolean announce) {
@@ -29,9 +30,10 @@ public class PlayerUtils {
     public static void playSound(Player player, String sound){
         Sound soundToPlay;
         try {
+            sound = sound.toUpperCase(Locale.ENGLISH);
             soundToPlay = Sound.valueOf(sound);
         } catch (IllegalArgumentException | NullPointerException ex){
-            soundToPlay = VersionUtils.isLegacyVersion() ? Sound.valueOf("NOTE_PLING") : Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
+            soundToPlay = VersionUtils.isOldVersion() ? Sound.valueOf("NOTE_PLING") : VersionUtils.isLegacyVersion() ? Sound.valueOf("BLOCK_NOTE_PLING") : Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
         }
         player.playSound(player.getLocation(), soundToPlay, 2f, 2f);
     }

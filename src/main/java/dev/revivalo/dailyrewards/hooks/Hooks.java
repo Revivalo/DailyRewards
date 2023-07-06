@@ -1,6 +1,5 @@
 package dev.revivalo.dailyrewards.hooks;
 
-import dev.revivalo.dailyrewards.utils.VersionUtils;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 
@@ -12,8 +11,8 @@ public class Hooks {
     @Getter private static ItemsAdderHook ITEMS_ADDER_HOOK;
 
 
-    public static void hook(){
-        if (VersionUtils.checkPlugin("PlaceholderAPI")) PLACEHOLDER_API_HOOK = new PlaceholderApiHook();
+    public static void hook() {
+        PLACEHOLDER_API_HOOK = new PlaceholderApiHook();
         BSTATS_HOOK = new BStatsHook();
         ORAXEN_HOOK = new OraxenHook();
         ITEMS_ADDER_HOOK = new ItemsAdderHook();

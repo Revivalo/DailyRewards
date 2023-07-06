@@ -74,8 +74,9 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                         : String.format("You are running the latest release (%s)", pluginVersion));
 
 
-            VersionUtils.setLatestVersion(!isNewerVersion);
-        });
+                VersionUtils.setLatestVersion(!isNewerVersion);
+            });
+        }
 
         MySQLManager.init();
         DailyRewardsPlugin.setRewardManager(new RewardManager());

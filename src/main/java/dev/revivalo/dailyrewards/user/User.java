@@ -11,43 +11,43 @@ import java.util.Set;
 
 public class User {
     @Getter private final Player player;
-    @Getter private final Map<String, Long> data;
+    @Getter private final Map<String, Object> data;
 
-    public User(Player player, Map<String, Long> data) {
+    public User(Player player, Map<String, Object> data) {
         this.player = player;
         this.data = data;
     }
 
     public Cooldown getCooldownOfReward(RewardType rewardType) {
-        return new Cooldown(data.get(rewardType.toString()));
+        return new Cooldown(Long.parseLong(String.valueOf(data.get(rewardType.toString()))));
     }
 
     public Set<RewardType> getAvailableRewards(){
         Set<RewardType> availableRewards = new HashSet<>();
-        for (Map.Entry<String, Long> entry : data.entrySet()) {
+        for (Map.Entry<String, Object> entry : data.entrySet()) {
             if (RewardType.findByName(entry.getKey()) == null) continue;
-            if (new Cooldown(entry.getValue()).isClaimable()) availableRewards.add(RewardType.findByName(entry.getKey()));
+            if (new Cooldown(Long.parseLong(String.valueOf(entry.getValue()))).isClaimable()) availableRewards.add(RewardType.findByName(entry.getKey()));
         }
         return availableRewards;
     }
 
     public boolean isEnabledJoinNotification() {
-        return 1 == data.get("join-notification");
+        return 1 == Long.parseLong(String.valueOf(data.get("joinNotification")));
     }
 
     public void setEnabledJoinNotification(boolean set) {
-        data.put("join-notification", set ? 1L : 0);
+        data.put("joinNotification", set ? "1" : "0");
     }
 
     public boolean isEnabledAutoClaim() {
-        return 1 == data.get("auto-claim");
+        return 1 == Long.parseLong(String.valueOf(data.get("autoClaim")));
     }
 
     public void setEnabledAutoClaim(boolean set) {
-        data.put("auto-claim", set ? 1L : 0);
+        data.put("autoClaim", set ? "1" : "0");
     }
 
-    public void updateCooldowns(Map<String, Long> changes) {
+    public void updateCooldowns(Map<String, Object> changes) {
         data.putAll(changes);
     }
 }

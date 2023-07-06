@@ -38,6 +38,8 @@ public class ItemBuilder {
             if (glow) {
                 Objects.requireNonNull(this.meta).addEnchant(Enchantment.LURE, 1, false);
                 this.meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            } else {
+                this.meta.getEnchants().forEach((enchant, level) -> this.meta.removeEnchant(enchant));
             }
             return this;
         }

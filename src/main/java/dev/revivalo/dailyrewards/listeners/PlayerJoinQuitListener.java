@@ -9,9 +9,8 @@ import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import lombok.Getter;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -71,8 +70,10 @@ public class PlayerJoinQuitListener implements Listener {
                         bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + Config.JOIN_NOTIFICATION_COMMAND.asString().replace("%player%", player.getName())));
                     }
 
-                                player.spigot().sendMessage(joinMsg);
-                            }), Config.JOIN_NOTIFICATION_DELAY.asInt() * 20L);
+                    player.spigot().sendMessage(msg);
+                }
+
+            }, Config.JOIN_NOTIFICATION_DELAY.asInt() * 20L);
 
         });
     }

@@ -18,16 +18,19 @@ lang:
   incomplete-reward-reset: "%prefix% &cSpecify what you specifically want to reset (daily/weekly/monthly/all)"
   full-inventory-message: "%prefix% &cYou can not obtain the reward(s), your inventory is full!"
   claiming-in-disabled-world: "%prefix% &cYou can not obtain rewards in %world% world"
+  not-enough-required-time-to-claim: "%prefix% &cYou must spend at least %requiredMinutes% minutes on the server before you can collect rewards (%minutes% minutes remaining)"
   command-usage: "%prefix% &cValid usage: %usage%"
+  loading: "&bLoading..."
   back: "&cBack"
   help:
-    - "&e%prefix% &fList with all available commands:"
+    - "&fList with all available commands:"
     - "&f/rewards &7- Main GUI menu"
     - "&f/reward &7- obtain daily reward"
     - "&f/reward weekly &7- obtain weekly reward"
     - "&f/reward monthly &7- obtain monthly reward"
     - "&f/reward reset <player> <daily|weekly|monthly|all>"
     - "&f/reward reload &7- reloads configuration section"
+    - "&f/reward settings &7- opens settings menu"
   #
   # Settings menu
   #

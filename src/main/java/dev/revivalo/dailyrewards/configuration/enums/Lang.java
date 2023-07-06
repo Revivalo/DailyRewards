@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.PlaceholderAPI;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ public enum Lang {
 	PREFIX("prefix"),
 	HELP_MESSAGE("help"),
 	BACK("back"),
+	LOADING("loading"),
 	VALID_COMMAND_USAGE("command-usage"),
 	INCOMPLETE_REWARD_RESET("incomplete-reward-reset"),
 	REWARD_RESET("reward-reset"),
@@ -39,6 +41,7 @@ public enum Lang {
 	COOLDOWN_MESSAGE("cooldown-message"),
 	CLAIMING_IN_DISABLED_WORLD("claiming-in-disabled-world"),
 	AUTO_CLAIMED_NOTIFICATION("auto-claim-notification"),
+	NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM("not-enough-required-time-to-claim"),
 
 	DAILY_TITLE("daily-title"),
 	DAILY_SUBTITLE("daily-subtitle"),
@@ -92,10 +95,13 @@ public enum Lang {
 							coloredList.add(TextUtils.applyColor(uncoloredLine));
 						}
 						listsAsStrings.put(key, String.join("⎶", coloredList));
-						return;
-					}
-					messages.put(key, TextUtils.applyColor(langSection.getString(key).replace("%prefix%", PREFIX.asColoredString())));
+					} else
+						messages.put(key, TextUtils.applyColor(StringUtils.replace(langSection.getString(key), "%prefix%", Lang.PREFIX.asColoredString(), 1)));
 				});
+	}
+
+	public String asReplacedString(Map<String, String> definitions) {
+		return TextUtils.replaceString(messages.get(text), definitions);
 	}
 
 	public List<String> asReplacedList(final Map<String, String> definitions) {
@@ -103,7 +109,7 @@ public enum Lang {
 	}
 
 	public String asPlaceholderReplacedText(final Player player) {
-		return Hooks.getPLACEHOLDER_API_HOOK() != null ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
+		return Hooks.getPLACEHOLDER_API_HOOK().isOn() ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
 	}
 
 	public String asColoredString() {

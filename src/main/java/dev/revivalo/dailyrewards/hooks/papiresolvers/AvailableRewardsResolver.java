@@ -1,5 +1,6 @@
 package dev.revivalo.dailyrewards.hooks.papiresolvers;
 
+import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import org.bukkit.entity.Player;
 
@@ -13,6 +14,6 @@ public class AvailableRewardsResolver implements PlaceholderResolver {
 
     @Override
     public String resolve(Player p, String rawPlaceholder) {
-        return Optional.ofNullable(UserHandler.getUser(p.getUniqueId())).map(value -> String.valueOf(value.getAvailableRewards().size())).orElse("Loading...");
+        return Optional.ofNullable(UserHandler.getUser(p.getUniqueId())).map(value -> String.valueOf(value.getAvailableRewards().size())).orElse(Lang.LOADING.asColoredString());
     }
 }

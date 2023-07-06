@@ -25,6 +25,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitScheduler;
 
 @Getter
 public final class DailyRewardsPlugin extends JavaPlugin {
@@ -34,6 +35,8 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     private final int RESOURCE_ID = 81780;
 
     @Setter public static DailyRewardsPlugin plugin;
+    @Getter @Setter private static String latestVersion;
+
     @Getter @Setter private static ConsoleCommandSender console;
 
     @Getter @Setter private static RewardManager rewardManager;
@@ -56,18 +59,19 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
         Config.reload();
 
-        new UpdateChecker(RESOURCE_ID).getVersion(pluginVersion -> {
-            if (!Config.UPDATE_CHECKER.asBoolean()) return;
+        if (Config.UPDATE_CHECKER.asBoolean()) {
+            new UpdateChecker(RESOURCE_ID).getVersion(pluginVersion -> {
+                setLatestVersion(pluginVersion);
 
-            final String actualVersion = get().getDescription().getVersion();
-            final boolean isNewerVersion = new Version(pluginVersion).isHigherThan(actualVersion);
+                final String actualVersion = get().getDescription().getVersion();
+                final boolean isNewerVersion = new Version(pluginVersion).isHigherThan(actualVersion);
 
-            get().getLogger().info(isNewerVersion
-                    ? String.format("There is a new v%s update available (You are running v%s).\n" +
-                            "Outdated versions are no longer supported, get the latest one here: " +
-                            "https://www.spigotmc.org/resources/%%E2%%9A%%A1-daily-weekly-monthly-rewards-mysql-hex-colors-support-1-8-1-19-3.81780/",
-                            pluginVersion, actualVersion)
-                    : String.format("You are running the latest release (%s)", pluginVersion));
+                get().getLogger().info(isNewerVersion
+                        ? String.format("There is a new v%s update available (You are running v%s).\n" +
+                                "Outdated versions are no longer supported, get the latest one here: " +
+                                "https://www.spigotmc.org/resources/%%E2%%9A%%A1-daily-weekly-monthly-rewards-mysql-hex-colors-support-1-8-1-19-3.81780/",
+                        pluginVersion, actualVersion)
+                        : String.format("You are running the latest release (%s)", pluginVersion));
 
 
             VersionUtils.setLatestVersion(!isNewerVersion);

@@ -6,9 +6,7 @@ import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,12 +14,15 @@ import java.util.regex.Pattern;
 @UtilityClass
 public class TextUtils {
     private static final Pattern hexPattern = Pattern.compile("<#([A-Fa-f\\d]){6}>");
-    public static String applyColor(String message){
+    public static String applyColor(String message) {
+        if (message == null) {
+            return "Not found";
+        }
         if (VersionUtils.isHexSupport()) {
             Matcher matcher = hexPattern.matcher(message);
             while (matcher.find()) {
                 String color = message.substring(matcher.start(), matcher.end());
-                message = message.replace(color, ChatColor.of(color.replace("<", "").replace(">", "")) + "");
+                message = message.replace(color, String.valueOf(ChatColor.of(color.replace("<", "").replace(">", ""))));
                 matcher = hexPattern.matcher(message);
             }
         }

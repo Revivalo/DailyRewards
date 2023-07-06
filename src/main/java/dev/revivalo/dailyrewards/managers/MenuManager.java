@@ -28,7 +28,7 @@ public class MenuManager {
 			final Inventory inventory = Bukkit.createInventory(
 					new RewardsInventoryHolder(),
 					Config.MENU_SIZE.asInt(),
-					Lang.MENU_TITLE.asColoredString());
+					Lang.MENU_TITLE.asPlaceholderReplacedText(player));
 
 			if (Config.FILL_BACKGROUND.asBoolean()) {
 				for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)

@@ -59,7 +59,7 @@ public class InventoryClickListener implements Listener {
 			}
 
 			user.setEnabledJoinNotification(!user.isEnabledJoinNotification());
-			DataManager.updateValues(user.getPlayer().getUniqueId(), user, new HashMap<String, Long>(){{put("join-notification", user.isEnabledJoinNotification() ? 1L : 0);}});
+			DataManager.updateValues(user.getPlayer().getUniqueId(), user, new HashMap<String, Object>(){{put("joinNotification", user.isEnabledJoinNotification() ? 1L : 0);}});
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
 			if (!player.hasPermission("dailyreward.settings.autoClaim")) {
@@ -68,7 +68,7 @@ public class InventoryClickListener implements Listener {
 			}
 
 			user.setEnabledAutoClaim(!user.isEnabledAutoClaim());
-			DataManager.updateValues(user.getPlayer().getUniqueId(), user, new HashMap<String, Long>(){{put("auto-claim", user.isEnabledAutoClaim() ? 1L : 0);}});
+			DataManager.updateValues(user.getPlayer().getUniqueId(), user, new HashMap<String, Object>(){{put("autoClaim", user.isEnabledAutoClaim() ? 1L : 0);}});
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.SETTINGS_POSITION.asInt()) {
 			DailyRewardsPlugin.getMenuManager().openRewardsMenu(user.getPlayer());

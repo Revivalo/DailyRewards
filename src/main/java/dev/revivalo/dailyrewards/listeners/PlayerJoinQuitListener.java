@@ -33,12 +33,12 @@ public class PlayerJoinQuitListener implements Listener {
     public void onJoin(final PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
-        DataManager.loadPlayerDataAsync(player, cooldowns -> {
+        DataManager.loadPlayerDataAsync(player, data -> {
 
             User user = UserHandler.addUser(
                     new User(
                             player,
-                            cooldowns
+                            data
                     )
             );
 

@@ -83,7 +83,7 @@ public class RewardManager {
             }
 
             CooldownManager.setCooldown(player, type);
-            user.updateCooldowns(new HashMap<String, Long>() {{
+            user.updateCooldowns(new HashMap<String, Object>() {{
                 put(type.toString(), System.currentTimeMillis() + type.getCooldown());
             }});
             if (announce) {
@@ -119,19 +119,19 @@ public class RewardManager {
         if (!isPlayerOnline && !player.hasPlayedBefore())
             return Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", player.getName());
 
-        HashMap<String, Long> changes;
+        HashMap<String, Object> changes;
 
         if (typeString.equalsIgnoreCase("all")) {
-            changes = new HashMap<String, Long>() {{
-                put(RewardType.DAILY.toString(), 0L);
-                put(RewardType.WEEKLY.toString(), 0L);
-                put(RewardType.MONTHLY.toString(), 0L);
+            changes = new HashMap<String, Object>() {{
+                put(RewardType.DAILY.toString(), "0");
+                put(RewardType.WEEKLY.toString(), "0");
+                put(RewardType.MONTHLY.toString(), "0");
             }};
 
         } else {
             final RewardType type = RewardType.findByName(typeString);
             try {
-                changes = new HashMap<String, Long>() {{
+                changes = new HashMap<String, Object>() {{
                     put(type.toString(), 0L);
                 }};
 

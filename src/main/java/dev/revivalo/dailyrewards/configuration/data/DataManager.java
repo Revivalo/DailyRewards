@@ -13,7 +13,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -25,18 +24,14 @@ public class DataManager {
 	private static boolean usingMysql;
 
 	@SneakyThrows
-	public static void updateValues(final UUID id, User user, Map<String, Long> data) {
+	public static void updateValues(final UUID id, User user, Map<String, Object> data) {
 		if (isUsingMysql()) {
-			try {
-				MySQLManager.updateCooldown(id, data);
-			} catch (SQLException e) {
-				throw new RuntimeException(e);
-			}
+			MySQLManager.updatePlayer(id, data);
 		} else {
 			final PlayerData playerData = PlayerData.getConfig(id);
 			final ConfigurationSection rewardsSection = playerData.getConfigurationSection("rewards");
 
-			for (Map.Entry<String, Long> entry : data.entrySet())
+			for (Map.Entry<String, Object> entry : data.entrySet())
 				rewardsSection.set(entry.getKey(), entry.getValue());
 
 			playerData.save();
@@ -62,7 +57,7 @@ public class DataManager {
 
 			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.DAILY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.DAILY.getCooldown());
 			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.WEEKLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.WEEKLY.getCooldown());
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.DAILY.getCooldown());
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.MONTHLY.getCooldown());
 			if (!playerData.getConfigurationSection("rewards").isSet("auto-claim")) playerData.getConfigurationSection("rewards").set("auto-claim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? 1 : 0);
 			if (!playerData.getConfigurationSection("rewards").isSet("join-notification")) playerData.getConfigurationSection("rewards").set("join-notification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? 1 : 0);
 
@@ -73,16 +68,16 @@ public class DataManager {
 		}
 	}
 
-	public static Map<String, Long> getPlayerData(Player player){
-		Map<String, Long> data = new HashMap<>();
+	public static Map<String, Object> getPlayerData(Player player){
+		Map<String, Object> data = new HashMap<>();
 		if (isUsingMysql()) data = MySQLManager.getRewardsCooldown(player.getUniqueId());
 		else {
 			PlayerData playerData = PlayerData.getConfig(player.getUniqueId());
 			for (RewardType rewardType : RewardType.values()) {
-				data.put(rewardType.toString(), playerData.getLong("rewards." + rewardType));
+				data.put(rewardType.toString(), playerData.getString("rewards." + rewardType));
 			}
-			data.put("auto-claim", playerData.getLong("rewards.auto-claim"));
-			data.put("join-notification", playerData.getLong("rewards.join-notification"));
+			data.put("autoClaim", playerData.getString("rewards.auto-claim"));
+			data.put("joinNotification", playerData.getString("rewards.join-notification"));
 		}
 		return data;
 	}
@@ -90,10 +85,8 @@ public class DataManager {
 	public static void loadPlayerDataAsync(final Player player, final FindOneCallback callback) {
 		initiatePlayer(player);
 		Bukkit.getScheduler().runTaskAsynchronously(DailyRewardsPlugin.get(), () -> {
-			final Map<String, Long> result = getPlayerData(player);
-			Bukkit.getScheduler().runTask(DailyRewardsPlugin.get(), () -> {
-				callback.onQueryDone(result);
-			});
+			final Map<String, Object> result = getPlayerData(player);
+			Bukkit.getScheduler().runTask(DailyRewardsPlugin.get(), () -> callback.onQueryDone(result));
 		});
 	}
 }

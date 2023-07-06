@@ -15,7 +15,7 @@ public class ItemsAdderHook implements Hook<Void>{
     }
 
     private boolean hook(){
-        return VersionUtils.checkPlugin("ItemsAdder");
+        return VersionUtils.isLoaded("ItemsAdder");
     }
 
     @Override

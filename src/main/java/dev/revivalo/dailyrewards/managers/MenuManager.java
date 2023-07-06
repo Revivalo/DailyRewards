@@ -37,8 +37,8 @@ public class MenuManager {
 
 			final User user = UserHandler.getUser(player.getUniqueId());
 
-			if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean())
-				inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
+			if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean() && Config.SETTINGS_POSITION.asInt() < Config.MENU_SIZE.asInt())
+					inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
 
 			if (Config.DAILY_ENABLED.asBoolean()) {
 				final Cooldown dailyCooldown = user.getCooldownOfReward(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);

@@ -22,6 +22,10 @@ public class PlayerUtils {
         return false;
     }
 
+    public static float getPlayersPlayTimeInMinutes(final Player player) {
+        return (float) (player.getStatistic(Statistic.valueOf(VersionUtils.isLegacyVersion() ? "PLAY_ONE_TICK" : "PLAY_ONE_MINUTE")) / 20.0 / 60.0);
+    }
+
     public static void playSound(Player player, String sound){
         Sound soundToPlay;
         try {

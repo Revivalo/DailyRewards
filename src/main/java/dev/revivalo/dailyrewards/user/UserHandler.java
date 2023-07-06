@@ -16,9 +16,11 @@ public class UserHandler {
         return usersHashMap.get(uuid);
     }
 
-    public static User removeUser(final UUID uuid){
+    public static void removeUser(final UUID uuid){
         final User user = usersHashMap.remove(uuid);
-        DataManager.updateValues(uuid, user, user.getData());
-        return user;
+
+        if (user != null)
+            DataManager.updateValues(uuid, user, user.getData());
+
     }
 }

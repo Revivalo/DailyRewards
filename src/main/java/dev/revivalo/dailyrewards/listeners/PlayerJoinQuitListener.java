@@ -62,18 +62,14 @@ public class PlayerJoinQuitListener implements Listener {
             if (PlayerUtils.isPlayerInDisabledWorld(player, false))
                 return;
 
-            Bukkit.getScheduler().runTaskLater(
-                    DailyRewardsPlugin.get(),
-                    () -> Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{
-                                put("%rewards%", String.valueOf(availableRewards.size()));
-                            }})
-                            .stream()
-                            .map(TextComponent::new)
-                            .forEach(joinMsg -> {
-                                joinMsg.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.JOIN_NOTIFICATION_COMMAND.asString()));
-                                joinMsg.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                        new ComponentBuilder(Lang.JOIN_HOVER_MESSAGE.asPlaceholderReplacedText(player)).create())
-                                );
+            DailyRewardsPlugin.get().runDelayed(() -> {
+                PlayerUtils.playSound(player, Config.JOIN_NOTIFICATION_SOUND.asString());
+                for (String line : Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>(){{put("%rewards%", String.valueOf(availableRewards.size()));}})) {
+                    BaseComponent[] msg = TextComponent.fromLegacyText(line);
+
+                    for (BaseComponent bc : msg) {
+                        bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + Config.JOIN_NOTIFICATION_COMMAND.asString().replace("%player%", player.getName())));
+                    }
 
                                 player.spigot().sendMessage(joinMsg);
                             }), Config.JOIN_NOTIFICATION_DELAY.asInt() * 20L);

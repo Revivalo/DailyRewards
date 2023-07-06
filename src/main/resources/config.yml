@@ -30,6 +30,7 @@
 # OTHERWISE WILL BE REPLACED BY STONE IF INVALID NAME IS IN USE.
 #
 config:
+  # MySQL Settings
   use-mysql: false
   mysql-ip: 127.0.0.1
   mysql-port: 3306

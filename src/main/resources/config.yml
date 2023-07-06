@@ -10,8 +10,12 @@
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
-#  Upgraded to the ultimate edition and create your own rewards without limits,
-#  more at: https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-3.108055/
+#  Upgrade to the ultimate edition and create your own rewards without limitations.
+#  More at: https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-3.108055/
+#
+# You can use your own textured item models with following format:
+# CustomModel[<itemName>]{<ID>}
+# Example: daily-available-item: CustomModel[PAPER]{1010}
 #
 # Plugin also supports Oraxen's & ItemsAdder's custom
 # items, simply put the item's name from Oraxen's config

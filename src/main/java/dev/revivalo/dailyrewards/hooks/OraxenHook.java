@@ -7,7 +7,7 @@ public class OraxenHook implements Hook<Void> {
 
     private final boolean isHooked;
     OraxenHook(){
-        isHooked = VersionUtils.checkPlugin("Oraxen");
+        isHooked = VersionUtils.isLoaded("Oraxen");
     }
 
     @Override

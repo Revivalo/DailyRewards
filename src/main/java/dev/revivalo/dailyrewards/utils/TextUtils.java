@@ -54,4 +54,21 @@ public class TextUtils {
     public static void sendListToPlayer(final CommandSender player, final List<String> list) {
         list.forEach(player::sendMessage);
     }
+
+    public static Set<String> getPlaceholders(String message, String symbol) {
+        final String regex;
+        if (symbol.equalsIgnoreCase("%")) regex = "%\\w+%";
+        else if (symbol.equalsIgnoreCase("[")) regex = "\\[.*\\]";
+        else regex = "\\{.*\\}";
+        final Pattern pattern = Pattern.compile(regex);
+        final Set<String> words = new HashSet<>();
+
+        Matcher matcher = pattern.matcher(message);
+
+        while (matcher.find()) {
+            words.add(matcher.group());
+        }
+
+        return words;
+    }
 }

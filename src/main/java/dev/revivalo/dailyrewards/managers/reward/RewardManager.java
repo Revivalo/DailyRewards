@@ -50,6 +50,15 @@ public class RewardManager {
             return;
         }
 
+        final int requiredPlayTimeInMinutes = Config.FIRST_TIME_REQUIRED_PLAY_TIME.asInt();
+        if (requiredPlayTimeInMinutes != 0) {
+            final float actualPlayTimeInMinutes = PlayerUtils.getPlayersPlayTimeInMinutes(player);
+            if (actualPlayTimeInMinutes < requiredPlayTimeInMinutes) {
+                player.sendMessage(Lang.NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM.asReplacedString(new HashMap<String, String>(){{put("%requiredMinutes%", String.valueOf(requiredPlayTimeInMinutes)); put("%minutes%", String.valueOf(Math.round(requiredPlayTimeInMinutes - actualPlayTimeInMinutes)));}}));
+                return;
+            }
+        }
+
         if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean() && player.getInventory().firstEmpty() == -1) {
             player.sendMessage(Lang.FULL_INVENTORY_MESSAGE.asColoredString());
             return;

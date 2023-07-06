@@ -113,4 +113,11 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         return player.hasPermission(String.format("dailyreward.%s.premium", type)) ? "_PREMIUM" : "";
     }
 
+    public void runDelayed(Runnable runnable, long delay) {
+        getScheduler().runTaskLater(this, runnable, delay);
+    }
+
+    public BukkitScheduler getScheduler() {
+        return getServer().getScheduler();
+    }
 }

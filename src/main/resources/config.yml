@@ -51,6 +51,10 @@ config:
   join-notification-delay: 3
   unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT
   check-for-full-inventory: true
+  # How much time (in minutes) a player must have played
+  # on the server to be able to obtain rewards
+  # Set to 0 to disable it.
+  first-time-join-required-play-time: 100
   # Players won't be able to claim & open rewards
   # also won't receive notification
   disabled-worlds:

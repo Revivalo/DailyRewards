@@ -31,7 +31,7 @@ public class User {
         return availableRewards;
     }
 
-    public boolean isEnabledJoinNotification() {
+    public boolean hasEnabledJoinNotification() {
         return 1 == Long.parseLong(String.valueOf(data.get("joinNotification")));
     }
 
@@ -39,7 +39,7 @@ public class User {
         data.put("joinNotification", set ? "1" : "0");
     }
 
-    public boolean isEnabledAutoClaim() {
+    public boolean hasEnabledAutoClaim() {
         return 1 == Long.parseLong(String.valueOf(data.get("autoClaim")));
     }
 

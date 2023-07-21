@@ -1,5 +1,6 @@
 package dev.revivalo.dailyrewards.commandmanager.subcommands;
 
+import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
@@ -37,6 +38,9 @@ public class ReloadCommand implements SubCommand {
     public void perform(CommandSender sender, String[] args) {
         Config.reload();
         Lang.reload();
+
+        DailyRewardsPlugin.getMenuManager().loadBackgroundFiller();
+
         sender.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());
     }
 }

@@ -35,8 +35,8 @@ public class UpdateNotificator implements Listener {
 		TextComponent upgrade = new TextComponent("§6§lUpgrade");
 		upgrade.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-4.108055/"));
 
-		TextComponent donate = new TextComponent("§6§lDonate");
-		donate.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "http://www.paypal.me/revivalo"));
+		TextComponent donate = new TextComponent("§6§lSupport");
+		donate.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/kcxYUQTy6A"));
 
 
 		new BukkitRunnable() {

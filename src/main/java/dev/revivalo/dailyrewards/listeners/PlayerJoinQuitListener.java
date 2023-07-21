@@ -46,16 +46,16 @@ public class PlayerJoinQuitListener implements Listener {
             if (user.getAvailableRewards().size() == 0)
                 return;
 
-            if (user.isEnabledAutoClaim()) {
-                if (!player.hasPermission("dailyreward.autoclaim"))
-                    return;
+            if (user.hasEnabledAutoClaim()) {
+                if (!player.hasPermission("dailyreward.autoclaim")) {
 
-                Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
-                        DailyRewardsPlugin.getRewardManager().autoClaim(player, availableRewards), 3);
+                    Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
+                            DailyRewardsPlugin.getRewardManager().autoClaim(player, availableRewards), 3);
+                }
                 return;
             }
 
-            if (!user.isEnabledJoinNotification())
+            if (!user.hasEnabledJoinNotification())
                 return;
 
             if (PlayerUtils.isPlayerInDisabledWorld(player, false))
@@ -63,11 +63,13 @@ public class PlayerJoinQuitListener implements Listener {
 
             DailyRewardsPlugin.get().runDelayed(() -> {
                 PlayerUtils.playSound(player, Config.JOIN_NOTIFICATION_SOUND.asString());
-                for (String line : Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>(){{put("%rewards%", String.valueOf(availableRewards.size()));}})) {
+                for (String line : Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{
+                    put("%rewards%", String.valueOf(availableRewards.size()));
+                }})) {
                     BaseComponent[] msg = TextComponent.fromLegacyText(line);
 
                     for (BaseComponent bc : msg) {
-                        bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/" + Config.JOIN_NOTIFICATION_COMMAND.asString().replace("%player%", player.getName())));
+                        bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.JOIN_NOTIFICATION_COMMAND.asString().replace("%player%", player.getName())));
                     }
 
                     player.spigot().sendMessage(msg);

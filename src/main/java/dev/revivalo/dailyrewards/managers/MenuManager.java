@@ -9,6 +9,7 @@ import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -20,7 +21,10 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MenuManager {
-	private final ItemStack BACKGROUND_ITEM = ItemBuilder.from(Config.BACKGROUND_ITEM.asAnItem()).setName(" ").build();
+	private ItemStack backgroundItem;
+	public MenuManager() {
+		loadBackgroundFiller();
+	}
 
 	public void openRewardsMenu(final Player player) {
 		Bukkit.getScheduler().scheduleSyncDelayedTask(DailyRewardsPlugin.get(), () -> {
@@ -32,7 +36,7 @@ public class MenuManager {
 
 			if (Config.FILL_BACKGROUND.asBoolean()) {
 				for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)
-					inventory.setItem(i, BACKGROUND_ITEM);
+					inventory.setItem(i, backgroundItem);
 			}
 
 			final User user = UserHandler.getUser(player.getUniqueId());
@@ -141,7 +145,7 @@ public class MenuManager {
 
 		if (Config.FILL_BACKGROUND.asBoolean()) {
 			for (int i = 0; i < 44; i++)
-				settings.setItem(i, BACKGROUND_ITEM);
+				settings.setItem(i, backgroundItem);
 		}
 
 		final User user = UserHandler.getUser(player.getUniqueId());
@@ -150,9 +154,9 @@ public class MenuManager {
 
 		settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
 				.setName(Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString())
-				.setGlow(user.isEnabledJoinNotification())
+				.setGlow(user.hasEnabledJoinNotification())
 				.setLore(
-						user.isEnabledJoinNotification()
+						user.hasEnabledJoinNotification()
 								? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
 								: Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
 				).build()
@@ -160,15 +164,24 @@ public class MenuManager {
 
 		settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(new ItemStack(Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem()))
 				.setName(Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString())
-				.setGlow(user.isEnabledAutoClaim())
+				.setGlow(user.hasEnabledAutoClaim())
 				.setLore(
-						user.isEnabledAutoClaim()
+						user.hasEnabledAutoClaim()
 								? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
 								: Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
 				).build()
 		);
 
 		player.openInventory(settings);
+	}
+
+	public void loadBackgroundFiller() {
+		ItemBuilder.ItemBuilderBuilder backgroundItemBuilder = ItemBuilder.from(Config.BACKGROUND_ITEM.asAnItem());
+
+		if (backgroundItemBuilder.getType() != Material.AIR) {
+			backgroundItemBuilder.setName(" ");
+		}
+		backgroundItem = backgroundItemBuilder.build();
 	}
 
 	public static class RewardSettingsInventoryHolder implements InventoryHolder {

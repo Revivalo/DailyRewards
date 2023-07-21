@@ -1,6 +1,7 @@
 package dev.revivalo.dailyrewards.utils;
 
 import lombok.NonNull;
+import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
@@ -56,6 +57,10 @@ public class ItemBuilder {
 
         public String toString() {
             return "ItemBuilder.ItemBuilderBuilder(itemStack=" + this.itemStack + ", meta=" + this.meta + ")";
+        }
+
+        public Material getType() {
+            return this.itemStack.getType();
         }
     }
 }

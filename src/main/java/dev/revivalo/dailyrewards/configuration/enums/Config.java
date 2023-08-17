@@ -10,7 +10,6 @@ import dev.revivalo.dailyrewards.configuration.YamlFile;
 import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import io.th0rgal.oraxen.api.OraxenItems;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -19,7 +18,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
 
-@RequiredArgsConstructor
 public enum Config {
     MENU_SIZE("menu-size"),
     FILL_BACKGROUND("fill-background-enabled"),
@@ -97,6 +95,10 @@ public enum Config {
 
     private final String text;
 
+    Config(String text) {
+        this.text = text;
+    }
+
     public static void reload() {
         configYamlFile.reload();
         final YamlConfiguration configuration = configYamlFile.getConfiguration();
@@ -132,9 +134,9 @@ public enum Config {
                             meta.setCustomModelData(data);
                             itemStack.setItemMeta(meta);
                             items.put(key, itemStack);
-                        } else if (Hooks.getITEMS_ADDER_HOOK().isOn() && ItemsAdder.isCustomItem(itemName)) {
+                        } else if (Hooks.getItemsAdderHook().isOn() && ItemsAdder.isCustomItem(itemName)) {
                             items.put(key, CustomStack.getInstance(itemName).getItemStack());
-                        } else if (Hooks.getORAXEN_HOOK().isOn() && OraxenItems.exists(itemName)) {
+                        } else if (Hooks.getOraxenHook().isOn() && OraxenItems.exists(itemName)) {
                             items.put(key, OraxenItems.getItemById(itemName).build());
                         } else {
                             items.put(key, XMaterial.matchXMaterial(itemName.toUpperCase(Locale.ENGLISH)).orElse(XMaterial.STONE).parseItem());

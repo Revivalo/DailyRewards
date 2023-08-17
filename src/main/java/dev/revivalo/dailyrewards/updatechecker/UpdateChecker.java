@@ -1,7 +1,6 @@
 package dev.revivalo.dailyrewards.updatechecker;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
@@ -10,9 +9,12 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-@RequiredArgsConstructor
 public class UpdateChecker {
 	private final int RESOURCE_ID;
+
+	public UpdateChecker(int RESOURCE_ID) {
+		this.RESOURCE_ID = RESOURCE_ID;
+	}
 
 	public void getVersion(final Consumer<String> consumer) {
 		final String link = String.format("https://api.spigotmc.org/legacy/update.php?resource=%d", this.RESOURCE_ID);

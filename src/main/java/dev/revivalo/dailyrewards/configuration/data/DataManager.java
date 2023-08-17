@@ -3,12 +3,10 @@ package dev.revivalo.dailyrewards.configuration.data;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.managers.database.MySQLManager;
+import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -20,10 +18,8 @@ import java.util.UUID;
 
 public class DataManager {
 
-	@Getter @Setter
 	private static boolean usingMysql;
 
-	@SneakyThrows
 	public static void updateValues(final UUID id, User user, Map<String, Object> data) {
 		if (isUsingMysql()) {
 			MySQLManager.updatePlayer(id, data);
@@ -55,11 +51,11 @@ public class DataManager {
 
 			final long currentTimeInMillis = System.currentTimeMillis();
 
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.DAILY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.DAILY.getCooldown());
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.WEEKLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.WEEKLY.getCooldown());
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.MONTHLY.getCooldown());
-			if (!playerData.getConfigurationSection("rewards").isSet("auto-claim")) playerData.getConfigurationSection("rewards").set("auto-claim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? 1 : 0);
-			if (!playerData.getConfigurationSection("rewards").isSet("join-notification")) playerData.getConfigurationSection("rewards").set("join-notification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? 1 : 0);
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.DAILY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.DAILY_COOLDOWN.asLong() * 60 * 60 * 1000);
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.WEEKLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.WEEKLY_COOLDOWN.asLong() * 60 * 60 * 1000);
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.MONTHLY_COOLDOWN.asLong() * 60 * 60 * 1000);
+			if (!playerData.getConfigurationSection("rewards").isSet("autoClaim")) playerData.getConfigurationSection("rewards").set("autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? 1 : 0);
+			if (!playerData.getConfigurationSection("rewards").isSet("joinNotification")) playerData.getConfigurationSection("rewards").set("joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? 1 : 0);
 
 //			if (playerData.isSet("rewards.auto-claim")) playerData.set("auto-claim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean());
 //			if (playerData.isSet("join-notification")) playerData.set("join-notification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean());
@@ -73,11 +69,12 @@ public class DataManager {
 		if (isUsingMysql()) data = MySQLManager.getRewardsCooldown(player.getUniqueId());
 		else {
 			PlayerData playerData = PlayerData.getConfig(player.getUniqueId());
-			for (RewardType rewardType : RewardType.values()) {
+			for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
+				final RewardType rewardType = reward.getRewardType();
 				data.put(rewardType.toString(), playerData.getString("rewards." + rewardType));
 			}
-			data.put("autoClaim", playerData.getString("rewards.auto-claim"));
-			data.put("joinNotification", playerData.getString("rewards.join-notification"));
+			data.put("autoClaim", playerData.getString("rewards.autoClaim"));
+			data.put("joinNotification", playerData.getString("rewards.joinNotification"));
 		}
 		return data;
 	}
@@ -88,5 +85,13 @@ public class DataManager {
 			final Map<String, Object> result = getPlayerData(player);
 			Bukkit.getScheduler().runTask(DailyRewardsPlugin.get(), () -> callback.onQueryDone(result));
 		});
+	}
+
+	public static boolean isUsingMysql() {
+		return usingMysql;
+	}
+
+	public static void setUsingMysql(boolean usingMysql) {
+		DataManager.usingMysql = usingMysql;
 	}
 }

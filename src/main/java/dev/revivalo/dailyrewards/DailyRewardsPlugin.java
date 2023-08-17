@@ -18,8 +18,6 @@ import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
 import io.github.g00fy2.versioncompare.Version;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
@@ -27,22 +25,25 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
-@Getter
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+
 public final class DailyRewardsPlugin extends JavaPlugin {
     /*
 
      */
     private final int RESOURCE_ID = 81780;
 
-    @Setter public static DailyRewardsPlugin plugin;
-    @Getter @Setter private static String latestVersion;
+    public static DailyRewardsPlugin plugin;
+    private static String latestVersion;
 
-    @Getter @Setter private static ConsoleCommandSender console;
+    private static ConsoleCommandSender console;
 
-    @Getter @Setter private static RewardManager rewardManager;
-    @Getter @Setter private static MenuManager menuManager;
+    private static RewardManager rewardManager;
+    private static MenuManager menuManager;
 
-    @Setter private PluginManager pluginManager;
+    private PluginManager pluginManager;
 
     public static DailyRewardsPlugin get() {
         return DailyRewardsPlugin.plugin;
@@ -118,7 +119,71 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         getScheduler().runTaskLater(this, runnable, delay);
     }
 
+    public void runAsync(Runnable runnable) {
+        getScheduler().runTaskAsynchronously(this, runnable);
+    }
+
+
+    public <T> CompletableFuture<T> completableFuture(Callable<T> callable) {
+        CompletableFuture<T> future = new CompletableFuture<>();
+        runAsync(() -> {
+            try {
+                future.complete(callable.call());
+            } catch (Exception e) {
+                if (e instanceof RuntimeException) {
+                    throw (RuntimeException) e;
+                }
+                throw new CompletionException(e);
+            }
+        });
+        return future;
+    }
+
     public BukkitScheduler getScheduler() {
         return getServer().getScheduler();
+    }
+
+    public static void setPlugin(DailyRewardsPlugin plugin) {
+        DailyRewardsPlugin.plugin = plugin;
+    }
+
+    public static String getLatestVersion() {
+        return latestVersion;
+    }
+
+    public static void setLatestVersion(String latestVersion) {
+        DailyRewardsPlugin.latestVersion = latestVersion;
+    }
+
+    public static ConsoleCommandSender getConsole() {
+        return console;
+    }
+
+    public static void setConsole(ConsoleCommandSender console) {
+        DailyRewardsPlugin.console = console;
+    }
+
+    public static RewardManager getRewardManager() {
+        return rewardManager;
+    }
+
+    public static void setRewardManager(RewardManager rewardManager) {
+        DailyRewardsPlugin.rewardManager = rewardManager;
+    }
+
+    public static MenuManager getMenuManager() {
+        return menuManager;
+    }
+
+    public static void setMenuManager(MenuManager menuManager) {
+        DailyRewardsPlugin.menuManager = menuManager;
+    }
+
+    public PluginManager getPluginManager() {
+        return pluginManager;
+    }
+
+    public void setPluginManager(PluginManager pluginManager) {
+        this.pluginManager = pluginManager;
     }
 }

@@ -11,6 +11,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class PlayerUtils {
@@ -36,6 +37,18 @@ public class PlayerUtils {
             soundToPlay = VersionUtils.isOldVersion() ? Sound.valueOf("NOTE_PLING") : VersionUtils.isLegacyVersion() ? Sound.valueOf("BLOCK_NOTE_PLING") : Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
         }
         player.playSound(player.getLocation(), soundToPlay, 2f, 2f);
+    }
+
+    public static boolean doesPlayerHaveEnoughPlayTime(final Player player) {
+        final int requiredPlayTimeInMinutes = Config.FIRST_TIME_REQUIRED_PLAY_TIME.asInt();
+        if (requiredPlayTimeInMinutes != 0) {
+            final float actualPlayTimeInMinutes = PlayerUtils.getPlayersPlayTimeInMinutes(player);
+            if (actualPlayTimeInMinutes < requiredPlayTimeInMinutes) {
+                player.sendMessage(Lang.NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM.asReplacedString(new HashMap<String, String>(){{put("%requiredMinutes%", String.valueOf(requiredPlayTimeInMinutes)); put("%minutes%", String.valueOf(Math.round(requiredPlayTimeInMinutes - actualPlayTimeInMinutes)));}}));
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void spawnFirework(Location location){

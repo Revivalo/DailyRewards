@@ -8,30 +8,39 @@ public class Reward {
     private final RewardType rewardType;
     private final boolean availableAfterFirstJoin;
     private final String placeholder;
-    private final int cooldown;
+    private final long cooldown;
     private final String cooldownFormat;
     private final int position;
+    private final String sound;
+    private final String title;
+    private final String subtitle;
+    private final String collectedMessage;
+    private final String collectedPremiumMessage;
     private final ItemStack availableItem;
     private final ItemStack unavailableItem;
     private final String availableDisplayName;
     private final String unavailableDisplayName;
     private final List<String> availableLore;
+    private final List<String> availablePremiumLore;
     private final List<String> unavailableLore;
+    private final List<String> unavailablePremiumLore;
     private final List<String> defaultRewards;
     private final List<String> premiumRewards;
 
     public Reward(RewardType rewardType,
                   boolean availableAfterFirstJoin,
                   String placeholder,
-                  int cooldown,
+                  long cooldown,
                   String cooldownFormat,
                   int position,
-                  ItemStack availableItem,
+                  String sound, String title, String subtitle, String collectedMessage, String collectedPremiumMessage, ItemStack availableItem,
                   ItemStack unavailableItem,
                   String availableDisplayName,
                   String unavailableDisplayName,
                   List<String> availableLore,
+                  List<String> availablePremiumLore,
                   List<String> unavailableLore,
+                  List<String> unavailablePremiumLore,
                   List<String> defaultRewards,
                   List<String> premiumRewards) {
         this.rewardType = rewardType;
@@ -40,12 +49,19 @@ public class Reward {
         this.cooldown = cooldown * 60 * 60 * 1000;
         this.cooldownFormat = cooldownFormat;
         this.position = position;
+        this.sound = sound;
+        this.title = title;
+        this.subtitle = subtitle;
+        this.collectedMessage = collectedMessage;
+        this.collectedPremiumMessage = collectedPremiumMessage;
         this.availableItem = availableItem;
         this.unavailableItem = unavailableItem;
         this.availableDisplayName = availableDisplayName;
         this.unavailableDisplayName = unavailableDisplayName;
         this.availableLore = availableLore;
+        this.availablePremiumLore = availablePremiumLore;
         this.unavailableLore = unavailableLore;
+        this.unavailablePremiumLore = unavailablePremiumLore;
         this.defaultRewards = defaultRewards;
         this.premiumRewards = premiumRewards;
     }
@@ -66,7 +82,7 @@ public class Reward {
         return placeholder;
     }
 
-    public int getCooldown() {
+    public long getCooldown() {
         return cooldown;
     }
 
@@ -76,6 +92,26 @@ public class Reward {
 
     public int getPosition() {
         return position;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
+    }
+
+    public String getCollectedMessage() {
+        return collectedMessage;
+    }
+
+    public String getCollectedPremiumMessage() {
+        return collectedPremiumMessage;
     }
 
     public ItemStack getAvailableItem() {
@@ -104,6 +140,14 @@ public class Reward {
 
     public List<String> getAvailableLore() {
         return availableLore;
+    }
+
+    public List<String> getAvailablePremiumLore() {
+        return availablePremiumLore;
+    }
+
+    public List<String> getUnavailablePremiumLore() {
+        return unavailablePremiumLore;
     }
 
     public List<String> getUnavailableLore() {

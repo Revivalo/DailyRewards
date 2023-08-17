@@ -8,7 +8,6 @@ import dev.revivalo.dailyrewards.managers.MenuManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
-import lombok.Getter;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 
 public class InventoryClickListener implements Listener {
 
-	@Getter public static final InventoryClickListener instance = new InventoryClickListener();
+	public static final InventoryClickListener instance = new InventoryClickListener();
 
 	@EventHandler (ignoreCancelled = true)
 	public void onInventoryClick(final InventoryClickEvent event){
@@ -27,11 +26,11 @@ public class InventoryClickListener implements Listener {
 		event.setCancelled(true);
 		final Player player = (Player) event.getWhoClicked();
 		int slot = event.getSlot();
-		if (slot == Config.DAILY_POSITION.asInt() && Config.DAILY_ENABLED.asBoolean()){
+		if (slot == Config.DAILY_POSITION.asInt()){
 			DailyRewardsPlugin.getRewardManager().claim(player, RewardType.DAILY, false, true);
-		} else if (slot == Config.WEEKLY_POSITION.asInt() && Config.WEEKLY_ENABLED.asBoolean()){
+		} else if (slot == Config.WEEKLY_POSITION.asInt()){
 			DailyRewardsPlugin.getRewardManager().claim(player, RewardType.WEEKLY, false, true);
-		} else if (slot == Config.MONTHLY_POSITION.asInt() && Config.MONTHLY_ENABLED.asBoolean()){
+		} else if (slot == Config.MONTHLY_POSITION.asInt()){
 			DailyRewardsPlugin.getRewardManager().claim(player, RewardType.MONTHLY, false, true);
 		} else if (slot == Config.SETTINGS_POSITION.asInt()) {
 			DailyRewardsPlugin.getMenuManager().openSettings(player);
@@ -73,5 +72,9 @@ public class InventoryClickListener implements Listener {
 		} else if (slot == Config.SETTINGS_POSITION.asInt()) {
 			DailyRewardsPlugin.getMenuManager().openRewardsMenu(user.getPlayer());
 		}
+	}
+
+	public static InventoryClickListener getInstance() {
+		return instance;
 	}
 }

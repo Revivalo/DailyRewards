@@ -4,7 +4,6 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.YamlFile;
 import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
-import lombok.RequiredArgsConstructor;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
@@ -13,7 +12,6 @@ import org.bukkit.entity.Player;
 
 import java.util.*;
 
-@RequiredArgsConstructor
 public enum Lang {
 	PREFIX("prefix"),
 	HELP_MESSAGE("help"),
@@ -72,11 +70,16 @@ public enum Lang {
 	MONTHLY_AVAILABLE_PREMIUM_LORE("monthly-available-premium-lore"),
 	MONTHLY_DISPLAY_NAME_UNAVAILABLE("monthly-displayname-unavailable"),
 	MONTHLY_UNAVAILABLE_LORE("monthly-unavailable-lore"),
-	FULL_INVENTORY_MESSAGE("full-inventory-message");
+	FULL_INVENTORY_MESSAGE("full-inventory-message"),
+	UNCLAIMED_REWARDS_NOTIFICATION_HOVER_TEXT("");
 
 	private static final Map<String, String> messages = new HashMap<>();
 	private static final Map<String, String> listsAsStrings = new HashMap<>();
 	private final String text;
+
+	Lang(String text) {
+		this.text = text;
+	}
 
 	public static void reload() {
 		final YamlConfiguration configuration = new YamlFile("lang.yml",
@@ -109,7 +112,7 @@ public enum Lang {
 	}
 
 	public String asPlaceholderReplacedText(final Player player) {
-		return Hooks.getPLACEHOLDER_API_HOOK().isOn() ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
+		return Hooks.getPlaceholderApiHook().isOn() ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
 	}
 
 	public String asColoredString() {

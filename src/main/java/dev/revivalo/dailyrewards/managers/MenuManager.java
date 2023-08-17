@@ -4,10 +4,11 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
-import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.ItemBuilder;
+import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -44,88 +45,41 @@ public class MenuManager {
 			if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean() && Config.SETTINGS_POSITION.asInt() < Config.MENU_SIZE.asInt())
 					inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
 
-			if (Config.DAILY_ENABLED.asBoolean()) {
-				final Cooldown dailyCooldown = user.getCooldownOfReward(RewardType.DAILY); //CooldownManager.getCooldown(player, RewardType.DAILY);
-				final AtomicReference<BukkitTask> atomicTask = new AtomicReference<>();
+			for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
+				user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
+					final AtomicReference<BukkitTask> task = new AtomicReference<>();
 
-				atomicTask.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
-					if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
-						atomicTask.get().cancel();
-						return;
-					}
-					//dailyCooldown.reduce(timer*50);
+					task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
+						if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
+							task.get().cancel();
+							return;
+						}
 
-					boolean claimable = dailyCooldown.getTimeLeftInMillis() <= 0;
-					inventory.setItem(Config.DAILY_POSITION.asInt(),
-							ItemBuilder.from(
-											claimable
-													? Config.DAILY_AVAILABLE_ITEM.asAnItem()
-													: Config.DAILY_UNAVAILABLE_ITEM.asAnItem()
-									)
-									.setGlow(claimable)
-									.setName(
-											claimable
-													? Lang.DAILY_DISPLAY_NAME_AVAILABLE.asPlaceholderReplacedText(player)
-													: Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderReplacedText(player)
-									).setLore(
-											claimable
-													? Lang.valueOf(String.format("DAILY_AVAILABLE%s_LORE", DailyRewardsPlugin.isPremium(player, RewardType.DAILY))).asReplacedList(Collections.emptyMap())
-													: Lang.DAILY_UNAVAILABLE_LORE.asReplacedList(new HashMap<String, String>() {{
-												put("%cooldown%", dailyCooldown.getFormat(Config.DAILY_COOLDOWN_FORMAT.asString()));
-											}})
-									)
-									.build()
-					);
-				}, 0, timer));
-			}
+						boolean claimable = cooldown.isClaimable();
+						inventory.setItem(reward.getPosition(),
+								ItemBuilder.from(
+												claimable
+														? reward.getAvailableItem()
+														: reward.getUnavailableItem()
+										)
+										.setGlow(claimable)
+										.setName(
+												claimable
+														? reward.getAvailableDisplayName()
+														: reward.getUnavailableDisplayName()
+										)
+										.setLore(
+												claimable
+														? reward.getAvailableLore()
+														: TextUtils.replaceList(reward.getUnavailableLore(), new HashMap<String, String>() {{
+													put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
+												}})
+										)
+										.build()
+						);
 
-			if (Config.WEEKLY_ENABLED.asBoolean()) {
-				final Cooldown weeklyCooldown = user.getCooldownOfReward(RewardType.WEEKLY);
-				//final Cooldown weeklyCooldown = CooldownManager.getCooldown(player, RewardType.WEEKLY);
-				inventory.setItem(Config.WEEKLY_POSITION.asInt(),
-						ItemBuilder.from(
-										weeklyCooldown.isClaimable()
-												? Config.WEEKLY_AVAILABLE_ITEM.asAnItem()
-												: Config.WEEKLY_UNAVAILABLE_ITEM.asAnItem())
-								.setGlow(weeklyCooldown.isClaimable())
-								.setName(
-										weeklyCooldown.isClaimable()
-												? Lang.WEEKLY_DISPLAY_NAME_AVAILABLE.asPlaceholderReplacedText(player)
-												: Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderReplacedText(player)
-								).setLore(
-										weeklyCooldown.isClaimable()
-												? Lang.valueOf(String.format("WEEKLY_AVAILABLE%s_LORE", DailyRewardsPlugin.isPremium(player, RewardType.WEEKLY))).asReplacedList(Collections.emptyMap())
-												: Lang.WEEKLY_UNAVAILABLE_LORE.asReplacedList(new HashMap<String, String>() {{
-											put("%cooldown%", weeklyCooldown.getFormat(Config.WEEKLY_COOLDOWN_FORMAT.asString()));
-										}})
-								)
-								.build()
-				);
-			}
-
-
-			if (Config.MONTHLY_ENABLED.asBoolean()) {
-				final Cooldown monthlyCooldown = user.getCooldownOfReward(RewardType.MONTHLY);
-				inventory.setItem(Config.MONTHLY_POSITION.asInt(),
-						ItemBuilder.from(
-										monthlyCooldown.isClaimable()
-												? Config.MONTHLY_AVAILABLE_ITEM.asAnItem()
-												: Config.MONTHLY_UNAVAILABLE_ITEM.asAnItem()
-								)
-								.setGlow(monthlyCooldown.isClaimable())
-								.setName(
-										monthlyCooldown.isClaimable()
-												? Lang.MONTHLY_DISPLAY_NAME_AVAILABLE.asPlaceholderReplacedText(player)
-												: Lang.MONTHLY_DISPLAY_NAME_UNAVAILABLE.asPlaceholderReplacedText(player)
-								).setLore(
-										monthlyCooldown.isClaimable()
-												? Lang.valueOf(String.format("MONTHLY_AVAILABLE%s_LORE", DailyRewardsPlugin.isPremium(player, RewardType.MONTHLY))).asReplacedList(Collections.emptyMap())
-												: Lang.MONTHLY_UNAVAILABLE_LORE.asReplacedList(new HashMap<String, String>() {{
-											put("%cooldown%", monthlyCooldown.getFormat(Config.MONTHLY_COOLDOWN_FORMAT.asString()));
-										}})
-								)
-								.build()
-				);
+					}, 0, timer));
+				}));
 			}
 
 			player.openInventory(inventory);

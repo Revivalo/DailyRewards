@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>DailyReward</artifactId>
-    <version>1.7.8</version>
+    <version>1.8.0</version>
     <packaging>jar</packaging>
 
     <name>DailyReward</name>
@@ -157,12 +157,6 @@
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
             <scope>shaded</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.LoneDev6</groupId>

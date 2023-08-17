@@ -3,7 +3,6 @@ package dev.revivalo.dailyrewards.managers;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
-import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
@@ -22,134 +21,135 @@ import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MenuManager {
-	private ItemStack backgroundItem;
-	public MenuManager() {
-		loadBackgroundFiller();
-	}
+    private ItemStack backgroundItem;
 
-	public void openRewardsMenu(final Player player) {
-		Bukkit.getScheduler().scheduleSyncDelayedTask(DailyRewardsPlugin.get(), () -> {
-			final int timer = 20;
-			final Inventory inventory = Bukkit.createInventory(
-					new RewardsInventoryHolder(),
-					Config.MENU_SIZE.asInt(),
-					Lang.MENU_TITLE.asPlaceholderReplacedText(player));
+    public MenuManager() {
+        loadBackgroundFiller();
+    }
 
-			if (Config.FILL_BACKGROUND.asBoolean()) {
-				for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)
-					inventory.setItem(i, backgroundItem);
-			}
+    public void openRewardsMenu(final Player player) {
+        Bukkit.getScheduler().scheduleSyncDelayedTask(DailyRewardsPlugin.get(), () -> {
+            final int timer = 20;
+            final Inventory inventory = Bukkit.createInventory(
+                    new RewardsInventoryHolder(),
+                    Config.MENU_SIZE.asInt(),
+                    Lang.MENU_TITLE.asPlaceholderReplacedText(player));
 
-			final User user = UserHandler.getUser(player.getUniqueId());
+            if (Config.FILL_BACKGROUND.asBoolean()) {
+                for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)
+                    inventory.setItem(i, backgroundItem);
+            }
 
-			if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean() && Config.SETTINGS_POSITION.asInt() < Config.MENU_SIZE.asInt())
-					inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
+            final User user = UserHandler.getUser(player.getUniqueId());
 
-			for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
-				user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
-					final AtomicReference<BukkitTask> task = new AtomicReference<>();
+            if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean() && Config.SETTINGS_POSITION.asInt() < Config.MENU_SIZE.asInt())
+                inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
 
-					task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
-						if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
-							task.get().cancel();
-							return;
-						}
+            for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
+                user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
+                    final AtomicReference<BukkitTask> task = new AtomicReference<>();
 
-						boolean claimable = cooldown.isClaimable();
-						inventory.setItem(reward.getPosition(),
-								ItemBuilder.from(
-												claimable
-														? reward.getAvailableItem()
-														: reward.getUnavailableItem()
-										)
-										.setGlow(claimable)
-										.setName(
-												claimable
-														? reward.getAvailableDisplayName()
-														: reward.getUnavailableDisplayName()
-										)
-										.setLore(
-												claimable
-														? reward.getAvailableLore()
-														: TextUtils.replaceList(reward.getUnavailableLore(), new HashMap<String, String>() {{
-													put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
-												}})
-										)
-										.build()
-						);
+                    task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
+                        if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
+                            task.get().cancel();
+                            return;
+                        }
 
-					}, 0, timer));
-				}));
-			}
+                        boolean claimable = cooldown.isClaimable();
+                        inventory.setItem(reward.getPosition(),
+                                ItemBuilder.from(
+                                                claimable
+                                                        ? reward.getAvailableItem()
+                                                        : reward.getUnavailableItem()
+                                        )
+                                        .setGlow(claimable)
+                                        .setName(
+                                                claimable
+                                                        ? reward.getAvailableDisplayName()
+                                                        : reward.getUnavailableDisplayName()
+                                        )
+                                        .setLore(
+                                                claimable
+                                                        ? (DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
+                                                        : TextUtils.replaceList((DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
+                                                    put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
+                                                }})
+                                        )
+                                        .build()
+                        );
 
-			player.openInventory(inventory);
-		});
-	}
+                    }, 0, timer));
+                }));
+            }
 
-	public void openSettings(Player player) {
-		if (!player.hasPermission("dailyreward.settings")) {
-			player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
-			return;
-		}
+            player.openInventory(inventory);
+        });
+    }
 
-		final Inventory settings = Bukkit.createInventory(
-				new RewardSettingsInventoryHolder(),
-				Config.MENU_SIZE.asInt(),
-				Lang.SETTINGS_TITLE.asColoredString());
+    public void openSettings(Player player) {
+        if (!player.hasPermission("dailyreward.settings")) {
+            player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
+            return;
+        }
 
-		if (Config.FILL_BACKGROUND.asBoolean()) {
-			for (int i = 0; i < 44; i++)
-				settings.setItem(i, backgroundItem);
-		}
+        final Inventory settings = Bukkit.createInventory(
+                new RewardSettingsInventoryHolder(),
+                Config.MENU_SIZE.asInt(),
+                Lang.SETTINGS_TITLE.asColoredString());
 
-		final User user = UserHandler.getUser(player.getUniqueId());
+        if (Config.FILL_BACKGROUND.asBoolean()) {
+            for (int i = 0; i < 44; i++)
+                settings.setItem(i, backgroundItem);
+        }
 
-		settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
+        final User user = UserHandler.getUser(player.getUniqueId());
 
-		settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
-				.setName(Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString())
-				.setGlow(user.hasEnabledJoinNotification())
-				.setLore(
-						user.hasEnabledJoinNotification()
-								? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
-								: Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
-				).build()
-		);
+        settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
 
-		settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(new ItemStack(Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem()))
-				.setName(Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString())
-				.setGlow(user.hasEnabledAutoClaim())
-				.setLore(
-						user.hasEnabledAutoClaim()
-								? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
-								: Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
-				).build()
-		);
+        settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
+                .setName(Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString())
+                .setGlow(user.hasEnabledJoinNotification())
+                .setLore(
+                        user.hasEnabledJoinNotification()
+                                ? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
+                                : Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+                ).build()
+        );
 
-		player.openInventory(settings);
-	}
+        settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(new ItemStack(Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem()))
+                .setName(Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString())
+                .setGlow(user.hasEnabledAutoClaim())
+                .setLore(
+                        user.hasEnabledAutoClaim()
+                                ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
+                                : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+                ).build()
+        );
 
-	public void loadBackgroundFiller() {
-		ItemBuilder.ItemBuilderBuilder backgroundItemBuilder = ItemBuilder.from(Config.BACKGROUND_ITEM.asAnItem());
+        player.openInventory(settings);
+    }
 
-		if (backgroundItemBuilder.getType() != Material.AIR) {
-			backgroundItemBuilder.setName(" ");
-		}
-		backgroundItem = backgroundItemBuilder.build();
-	}
+    public void loadBackgroundFiller() {
+        ItemBuilder.ItemBuilderBuilder backgroundItemBuilder = ItemBuilder.from(Config.BACKGROUND_ITEM.asAnItem());
 
-	public static class RewardSettingsInventoryHolder implements InventoryHolder {
+        if (backgroundItemBuilder.getType() != Material.AIR) {
+            backgroundItemBuilder.setName(" ");
+        }
+        backgroundItem = backgroundItemBuilder.build();
+    }
 
-		@Override
-		public Inventory getInventory() {
-			return null;
-		}
-	}
+    public static class RewardSettingsInventoryHolder implements InventoryHolder {
 
-	public static class RewardsInventoryHolder implements InventoryHolder {
-		@Override
-		public Inventory getInventory() {
-			return null;
-		}
-	}
+        @Override
+        public Inventory getInventory() {
+            return null;
+        }
+    }
+
+    public static class RewardsInventoryHolder implements InventoryHolder {
+        @Override
+        public Inventory getInventory() {
+            return null;
+        }
+    }
 }

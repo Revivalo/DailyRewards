@@ -8,7 +8,6 @@ import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
-import lombok.SneakyThrows;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -56,29 +55,6 @@ public class MySQLManager {
 			//connection.prepareStatement("ALTER TABLE Rewards ADD COLUMN `autoClaim` boolean DEFAULT " + Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() + ";").executeBatch();
 			//connection.prepareStatement("ALTER TABLE Rewards ADD COLUMN `joinNotification` boolean DEFAULT " + Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() + ";").executeBatch();
 			DataManager.setUsingMysql(true);
-			/*File dir = new File(DailyRewardsPlugin.getPlugin(DailyRewardsPlugin.class).getDataFolder(), "userdata");
-			File[] directoryListing = dir.listFiles();
-			if (directoryListing != null) {
-				for (File file : directoryListing) {
-					ConfigurationSection rewardsConfigurationSection = YamlConfiguration.loadConfiguration(file).getConfigurationSection("rewards");
-					final String fileName = file.getName();
-					final String uuid = fileName.substring(0, fileName.length() - 4);
-					if (!playerExists(uuid))
-						connection.prepareStatement(INSERT
-								.replace("%columns%", "id, daily, weekly, monthly")
-								.replace(
-										"%values%",
-										"'"
-												+ uuid + "', '"
-												+ rewardsConfigurationSection.getLong("daily")
-												+ "', '"
-												+ rewardsConfigurationSection.getLong("weekly")
-												+ "', '"
-												+ rewardsConfigurationSection.getLong("monthly")
-												+ "'"))
-								.executeUpdate();
-				}
-			}*/
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
@@ -93,9 +69,9 @@ public class MySQLManager {
 			String statement = INSERT
 					.replace("%columns%", "id, daily, weekly, monthly")
 					.replace("%values%", "'" + uuid + "'" + ", " +
-							(Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.DAILY.getCooldown()) + ", " +
-							(Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.WEEKLY.getCooldown()) + ", " +
-							(Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + RewardType.MONTHLY.getCooldown()));
+							(Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.DAILY_COOLDOWN.asLong() * 60 * 60 * 1000) + ", " +
+							(Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.WEEKLY_COOLDOWN.asLong() * 60 * 60 * 1000) + ", " +
+							(Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.MONTHLY_COOLDOWN.asLong() * 60 * 60 * 1000));
 			connection.prepareStatement(statement)
 					.execute();
 		} catch (SQLException ex) {
@@ -192,8 +168,7 @@ public class MySQLManager {
 		}
 	}
 
-	@SneakyThrows(SQLException.class)
-	private static Connection getConnection() {
+	private static Connection getConnection() throws SQLException {
 		if (dataSource == null) {
 			throw new SQLException("Unable to get a connection from the pool because the dataSource is null");
 		}

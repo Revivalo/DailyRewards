@@ -39,6 +39,7 @@ public class ReloadCommand implements SubCommand {
         Config.reload();
         Lang.reload();
 
+        DailyRewardsPlugin.getRewardManager().loadRewards();
         DailyRewardsPlugin.getMenuManager().loadBackgroundFiller();
 
         sender.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());

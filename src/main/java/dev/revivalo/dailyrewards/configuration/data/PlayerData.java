@@ -1,10 +1,11 @@
 package dev.revivalo.dailyrewards.configuration.data;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import lombok.SneakyThrows;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 public class PlayerData extends YamlConfiguration {
@@ -42,17 +43,24 @@ public class PlayerData extends YamlConfiguration {
 		}
 	}
 
-	@SneakyThrows
 	private void reload() {
 		synchronized (this) {
-			this.load(file);
-		}
+			try {
+				this.load(file);
+			} catch (IOException | InvalidConfigurationException e) {
+				throw new RuntimeException(e);
+			}
+        }
 	}
 
-	@SneakyThrows
+
 	public void save() {
 		synchronized (this) {
-			this.save(file);
+			try {
+				this.save(file);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 

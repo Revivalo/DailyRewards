@@ -1,31 +1,53 @@
 package dev.revivalo.dailyrewards.user;
 
+import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
-import lombok.Getter;
 import org.bukkit.entity.Player;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 public class User {
-    @Getter private final Player player;
-    @Getter private final Map<String, Object> data;
+    private final Player player;
+    private Map<String, Object> data;
 
     public User(Player player, Map<String, Object> data) {
         this.player = player;
         this.data = data;
     }
 
-    public Cooldown getCooldownOfReward(RewardType rewardType) {
-        return new Cooldown(Long.parseLong(String.valueOf(data.get(rewardType.toString()))));
+    public CompletableFuture<Cooldown> getCooldownOfReward(RewardType rewardType) {
+        if (data.get(rewardType.toString()) != null) {
+            // If the data is available locally
+            return CompletableFuture.completedFuture(
+                    new Cooldown(Long.parseLong(String.valueOf(data.get(rewardType.toString()))))
+            );
+        }
+
+        // If the data is not available locally
+        return DailyRewardsPlugin.get().completableFuture(() -> {
+            // This assumes DataHandler.getPlayerData(UUID uuid) returns the needed data
+            // Replace with the appropriate method to fetch data and adapt accordingly
+            Map<String, Object> fetchedData = DataManager.getPlayerData(player); // Replace 'someUUID' with appropriate UUID
+            setData(fetchedData);
+
+            if (fetchedData.isEmpty()) {
+                return null; // Or a default Cooldown value
+            }
+            return new Cooldown(Long.parseLong(String.valueOf(fetchedData.get(rewardType.toString()))));
+        });
     }
+
 
     public Set<RewardType> getAvailableRewards(){
         Set<RewardType> availableRewards = new HashSet<>();
         for (Map.Entry<String, Object> entry : data.entrySet()) {
-            if (RewardType.findByName(entry.getKey()) == null) continue;
+            final RewardType rewardType = RewardType.findByName(entry.getKey());
+            if (rewardType == null) continue;
             if (new Cooldown(Long.parseLong(String.valueOf(entry.getValue()))).isClaimable()) availableRewards.add(RewardType.findByName(entry.getKey()));
         }
         return availableRewards;
@@ -49,5 +71,17 @@ public class User {
 
     public void updateCooldowns(Map<String, Object> changes) {
         data.putAll(changes);
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public Map<String, Object> getData() {
+        return data;
+    }
+
+    public void setData(Map<String, Object> data) {
+        this.data = data;
     }
 }

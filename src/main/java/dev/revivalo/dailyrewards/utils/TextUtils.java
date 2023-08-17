@@ -1,7 +1,6 @@
 package dev.revivalo.dailyrewards.utils;
 
 import com.google.common.base.Splitter;
-import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
@@ -12,8 +11,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-@UtilityClass
 public class TextUtils {
     private static final Pattern GRADIENT_PATTERN = Pattern.compile("<(#[A-Fa-f0-9]{6})>(.*?)</(#[A-Fa-f0-9]{6})>");
     private static final Pattern LEGACY_GRADIENT_PATTERN = Pattern.compile("<(&[A-Za-z0-9])>(.*?)</(&[A-Za-z0-9])>");
@@ -153,6 +152,23 @@ public class TextUtils {
         final String[] values = definitions.values().toArray(new String[]{});
 
         return Splitter.on("⎶").splitToList(StringUtils.replaceEach(listAsStringToReplace, keys, values));
+    }
+
+    public static List<String> replaceList(List<String> lore, final Map<String, String> definitions) {
+        String patternString = "%(" + String.join("|", definitions.keySet()) + ")%";
+        Pattern pattern = Pattern.compile(patternString);
+
+        return lore.stream()
+                .map(line -> {
+                    Matcher matcher = pattern.matcher(line);
+                    StringBuffer sb = new StringBuffer();
+                    while (matcher.find()) {
+                        matcher.appendReplacement(sb, definitions.get(matcher.group(1)));
+                    }
+                    matcher.appendTail(sb);
+                    return sb.toString();
+                })
+                .collect(Collectors.toList());
     }
 
     public static void sendListToPlayer(final CommandSender player, final List<String> list) {

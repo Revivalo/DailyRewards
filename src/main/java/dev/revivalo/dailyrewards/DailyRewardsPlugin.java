@@ -111,8 +111,9 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         getPluginManager().registerEvents(UpdateNotificator.getInstance(), this);
     }
 
-    public static String isPremium(final Player player, final RewardType type) {
-        return player.hasPermission(String.format("dailyreward.%s.premium", type)) ? "_PREMIUM" : "";
+
+    public static boolean isPremium(final Player player, final RewardType type) {
+        return player.hasPermission(String.format("dailyreward.%s.premium", type));
     }
 
     public void runDelayed(Runnable runnable, long delay) {

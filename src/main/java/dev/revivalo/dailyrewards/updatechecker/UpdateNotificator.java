@@ -3,7 +3,6 @@ package dev.revivalo.dailyrewards.updatechecker;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
-import lombok.Getter;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -15,7 +14,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 public class UpdateNotificator implements Listener {
 
-	@Getter
 	public static final UpdateNotificator instance = new UpdateNotificator();
 
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
@@ -26,16 +24,16 @@ public class UpdateNotificator implements Listener {
 		if (!Config.UPDATE_CHECKER.asBoolean()) return;
 		if (VersionUtils.isLatestVersion()) return;
 
-		TextComponent download = new TextComponent("§6§lDownload");
+		TextComponent download = new TextComponent("§a§lDownload");
 		download.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-mysql-oraxen-itemsadder-support-1-8-1-19-4.81780/"));
 
-		TextComponent changelog = new TextComponent("§6§lChangelog");
+		TextComponent changelog = new TextComponent("§a§lChangelog");
 		changelog.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-mysql-oraxen-itemsadder-support-1-8-1-19-4.81780/updates"));
 
 		TextComponent upgrade = new TextComponent("§6§lUpgrade");
 		upgrade.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-4.108055/"));
 
-		TextComponent donate = new TextComponent("§6§lSupport");
+		TextComponent donate = new TextComponent("§a§lSupport");
 		donate.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/kcxYUQTy6A"));
 
 
@@ -43,11 +41,15 @@ public class UpdateNotificator implements Listener {
 			@Override
 			public void run() {
 				player.sendMessage(" ");
-				player.sendMessage("§7There is a new version of §6DailyRewards§7 available.");
+				player.sendMessage("§7There is a new version of §aDailyRewards§7 available.");
 				player.spigot().sendMessage(download, new TextComponent(" §8| "), upgrade, new TextComponent(" §8| "), changelog, new TextComponent(" §8| "), donate);
 				player.sendMessage("§8Latest version: §a" + DailyRewardsPlugin.getLatestVersion() + " §8| Your version: §c" + DailyRewardsPlugin.get().getDescription().getVersion());
 				player.sendMessage(" ");
 			}
 		}.runTaskLater(DailyRewardsPlugin.get(), 35);
+	}
+
+	public static UpdateNotificator getInstance() {
+		return instance;
 	}
 }

@@ -3,12 +3,11 @@ package dev.revivalo.dailyrewards.commandmanager.subcommands;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
-import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.managers.reward.Reward;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +36,7 @@ public class ResetCommand implements SubCommand {
     public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
         switch (index){
             case 0: return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            case 1: return Arrays.stream(RewardType.values()).map(RewardType::toString).collect(Collectors.toList());
+            case 1: return DailyRewardsPlugin.getRewardManager().getRewards().stream().map(Reward::getRewardName).collect(Collectors.toList());
         }
         return null;
     }

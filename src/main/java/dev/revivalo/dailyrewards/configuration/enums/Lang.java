@@ -23,7 +23,7 @@ public enum Lang {
 	UNAVAILABLE_PLAYER("unavailable-player"),
 	DISABLED_REWARD("reward-disabled"),
 	PERMISSION_MESSAGE("permission-msg"),
-	REWARDS_IS_NOT_SET("rewards-are-not-set"),
+	REWARDS_ARE_NOT_SET("rewards-are-not-set"),
 	RELOAD_MESSAGE("reload-msg"),
 	MENU_TITLE("menu-title"),
 	SETTINGS_TITLE("settings-title"),
@@ -50,7 +50,7 @@ public enum Lang {
 	DAILY_AVAILABLE_PREMIUM_LORE("daily-available-premium-lore"),
 	DAILY_DISPLAY_NAME_UNAVAILABLE("daily-displayname-unavailable"),
 	DAILY_UNAVAILABLE_LORE("daily-unavailable-lore"),
-
+	DAILY_PREMIUM_UNAVAILABLE_LORE("daily-unavailable-premium-lore"),
 	WEEKLY_TITLE("weekly-title"),
 	WEEKLY_SUBTITLE("weekly-subtitle"),
 	WEEKLY_COLLECTED("weekly-collected"),
@@ -60,6 +60,7 @@ public enum Lang {
 	WEEKLY_AVAILABLE_PREMIUM_LORE("weekly-available-premium-lore"),
 	WEEKLY_DISPLAY_NAME_UNAVAILABLE("weekly-displayname-unavailable"),
 	WEEKLY_UNAVAILABLE_LORE("weekly-unavailable-lore"),
+	WEEKLY_PREMIUM_UNAVAILABLE_LORE("weekly-unavailable-premium-lore"),
 
 	MONTHLY_TITLE("monthly-title"),
 	MONTHLY_SUBTITLE("monthly-subtitle"),
@@ -70,8 +71,8 @@ public enum Lang {
 	MONTHLY_AVAILABLE_PREMIUM_LORE("monthly-available-premium-lore"),
 	MONTHLY_DISPLAY_NAME_UNAVAILABLE("monthly-displayname-unavailable"),
 	MONTHLY_UNAVAILABLE_LORE("monthly-unavailable-lore"),
-	FULL_INVENTORY_MESSAGE("full-inventory-message"),
-	UNCLAIMED_REWARDS_NOTIFICATION_HOVER_TEXT("");
+	MONTHLY_PREMIUM_UNAVAILABLE_LORE("monthly-unavailable-premium-lore"),
+	FULL_INVENTORY_MESSAGE("full-inventory-message");
 
 	private static final Map<String, String> messages = new HashMap<>();
 	private static final Map<String, String> listsAsStrings = new HashMap<>();

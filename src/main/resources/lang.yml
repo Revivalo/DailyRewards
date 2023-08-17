@@ -1,38 +1,38 @@
 #
-# From version 1.16, HEX colors can also be used.
-# Instead of the &f format, use <#ffffff>
-# and for gradient: <#ffffff>Text where the gradient will be applied</#000000>
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+# and for gradient: <#ffffff>Text where will be applied gradient</#000000>
 #
 lang:
   prefix: "&e[&6&lDailyRewards&e]"
   auto-claim-notification:
     - " "
-    - "&a ✔ &f%rewards% reward(s) were successfully auto-claimed!"
+    - "&a ✔ &f%rewards% reward(s) has been successfully auto-claimed!"
     - " "
-  unclaimed-rewards-notification-hover-text: "&2Click to claim rewards!"
-  reward-reset: "&e%prefix% &fYou reset the &e%type%&f reward(s) for player &e%player%"
-  unavailable-player: "%prefix% &cThe player &n%player% &cis not available"
-  reward-disabled: "%prefix% &cReward cannot be claimed!"
-  permission-msg: "%prefix% &cYou don't have permission to use this command"
-  rewards-are-not-set: "%prefix% &cRewards haven't been set!"
-  reload-msg: "&e%prefix% &fThe plugin was successfully reloaded"
-  invalid-arguments: "%prefix% &cUse /reward help to see the list of available commands"
-  incomplete-reward-reset: "%prefix% &cSpecify which rewards you want to reset (daily/weekly/monthly/all)"
-  full-inventory-message: "%prefix% &cYou cannot claim the reward(s), your inventory is full!"
-  claiming-in-disabled-world: "%prefix% &cYou cannot claim rewards in the %world% world"
-  not-enough-required-time-to-claim: "%prefix% &cYou need to spend at least %requiredMinutes% minutes on the server before claiming rewards (%minutes% minutes remaining)"
-  command-usage: "%prefix% &cCorrect usage: %usage%"
+  unclaimed-rewards-notification-hover-text: "&2Click to obtain rewards!"
+  reward-reset: "&e%prefix% &fYou reset the &e%type%&f reward(s) of a player &e%player%"
+  unavailable-player: "%prefix% &cPlayer &n%player% &cis not available"
+  reward-disabled: "%prefix% &cReward cannot be obtained!"
+  permission-msg: "%prefix% &cYou are not permitted to use this command"
+  rewards-are-not-set: "%prefix% &cRewards are not set!"
+  reload-msg: "&e%prefix% &fPlugin was successfully reloaded"
+  invalid-arguments: "%prefix% &cUse /reward help to list syntax of available commands"
+  incomplete-reward-reset: "%prefix% &cSpecify what you specifically want to reset (daily/weekly/monthly/all)"
+  full-inventory-message: "%prefix% &cYou can not obtain the reward(s), your inventory is full!"
+  claiming-in-disabled-world: "%prefix% &cYou can not obtain rewards in %world% world"
+  not-enough-required-time-to-claim: "%prefix% &cYou must spend at least %requiredMinutes% minutes on the server before you can collect rewards (%minutes% minutes remaining)"
+  command-usage: "%prefix% &cValid usage: %usage%"
   loading: "&bLoading..."
   back: "&cBack"
   help:
-    - "&fList of all available commands:"
-    - "&f/rewards &7- Open the main GUI menu"
-    - "&f/reward &7- Claim daily reward"
-    - "&f/reward weekly &7- Claim weekly reward"
-    - "&f/reward monthly &7- Claim monthly reward"
+    - "&fList with all available commands:"
+    - "&f/rewards &7- Main GUI menu"
+    - "&f/reward &7- Obtain daily reward"
+    - "&f/reward weekly &7- Obtain weekly reward"
+    - "&f/reward monthly &7- Obtain monthly reward"
     - "&f/reward reset <player> <daily|weekly|monthly|all>"
-    - "&f/reward reload &7- Reload configuration"
-    - "&f/reward settings &7- Open settings menu"
+    - "&f/reward reload &7- Reloads configuration section"
+    - "&f/reward settings &7- Opens settings menu"
   #
   # Settings menu
   #
@@ -40,48 +40,48 @@ lang:
   settings-display-name: "&eSettings"
   join-notification-display-name: "&aJoin Notification"
   join-notification-enabled-lore:
-    - "&7Get notifications on join"
-    - "&7if there are unclaimed rewards"
+    - "&7Notify you on join"
+    - "&7if you have uncollected rewards"
     - " "
     - "&c► Click to disable"
   join-notification-disabled-lore:
-    - "&7Get notifications on join"
-    - "&7if there are unclaimed rewards"
+    - "&7Notify you on join"
+    - "&7if you have uncollected rewards"
     - " "
     - "&a► Click to enable"
   auto-claim-display-name: "&aAuto Claim"
   auto-claim-enabled-lore:
-    - "&7Automatically claim"
-    - "&7all available rewards on joining"
+    - "&7Will automatically claim"
+    - "&7all available rewards on join"
     - " "
     - "&c► Click to disable"
   auto-claim-disabled-lore:
-    - "&7Automatically claim"
-    - "&7all available rewards on joining"
+    - "&7Will automatically claim"
+    - "&7all available rewards on join"
     - " "
     - "&a► Click to enable"
   #
   # Rewards menu
   #
   menu-title: "Rewards"
-  join-hover-message: "&7Click to claim your rewards"
+  join-hover-message: "&7Click to collect your rewards"
   join-notification:
     - ' '
-    - '&2 - &a%rewards% reward(s) await! &f(Click here)'
+    - '&2 - &a%rewards% reward(s) are waiting for you! &f(Click here)'
     - ' '
-  cooldown-message: "%prefix% &cYou have to wait &l%type% &cfor &n%time% before claiming the reward"
+  cooldown-message: "%prefix% &cFor &l%type% &creward you have to wait &n%time%"
   daily-title: "&a&lRewards"
-  daily-subtitle: "&7You have claimed your &adaily&7 reward"
-  daily-collected: "&a%player% &7claimed their &a&ldaily reward!"
-  daily-premium-collected: "&a%player% &7claimed their &a&lpremium daily reward!"
+  daily-subtitle: "&7You have collected your &adaily&7 reward"
+  daily-collected: "&a%player% &7collected his &a&ldaily reward!"
+  daily-premium-collected: "&a%player% &7collected his &a&lpremium daily reward!"
   daily-displayname-available: "&a&lDAILY REWARD"
   daily-available-lore:
-    - "&7This reward contains:"
+    - "&7Reward contains:"
     - "&a 8x &fIron Ingot"
     - " "
-    - "&c❌ Premium reward not available"
+    - "&c❌ Premium reward unavailable"
   daily-available-premium-lore:
-    - "&7This reward contains:"
+    - "&7Reward contains:"
     - "&a 16x &fIron Ingot"
     - "&a  3x &fGold Ingot"
     - " "
@@ -90,18 +90,21 @@ lang:
   daily-unavailable-lore:
     - " "
     - "&cAvailable in: %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
   weekly-title: "&e&lRewards"
-  weekly-subtitle: "&7You have claimed your &eweekly &7reward"
-  weekly-collected: "&e%player% &7claimed their &e&lweekly reward!"
-  weekly-premium-collected: "&e%player% &7claimed their &e&lpremium weekly reward!"
+  weekly-subtitle: "&7You have collected your &eweekly &7reward"
+  weekly-collected: "&e%player% &7collected his &e&lweekly reward!"
+  weekly-premium-collected: "&e%player% &7collected his &e&lpremium weekly reward!"
   weekly-displayname-available: "&a&lWEEKLY REWARD"
   weekly-available-lore:
-    - "&7This reward contains:"
+    - "&7Reward contains:"
     - "&a 1x &fDiamond"
     - " "
-    - "&c❌ Premium reward not available"
+    - "&c❌ Premium reward unavailable"
   weekly-available-premium-lore:
-    - "&7This reward contains:"
+    - "&7Reward contains:"
     - "&a 5x &fDiamond"
     - "&a 3x &fEmerald"
     - " "
@@ -110,20 +113,23 @@ lang:
   weekly-unavailable-lore:
     - " "
     - "&cAvailable in: %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
   monthly-title: "&9&lRewards"
-  monthly-subtitle: "&7You have claimed your &9monthly &7reward"
-  monthly-collected: "&9%player% &7claimed their &9&lmonthly reward!"
-  monthly-premium-collected: "&9%player% &7claimed their &9&lpremium monthly reward!"
+  monthly-subtitle: "&7You have collected your &9monthly &7reward"
+  monthly-collected: "&9%player% &7collected his &9&lmonthly reward!"
+  monthly-premium-collected: "&9%player% &7collected his &9&lpremium monthly reward!"
   monthly-displayname-available: "&a&lMONTHLY REWARD"
   monthly-available-lore:
-    - "&7This reward contains:"
+    - "&7Reward contains:"
     - "&a  8x &fDiamond"
     - "&a 32x &fIron Ingot"
     - "&a 16x &fGold Ingot"
     - " "
-    - "&c❌ Premium reward not available"
+    - "&c❌ Premium reward unavailable"
   monthly-available-premium-lore:
-    - "&7This reward contains:"
+    - "&7Reward contains:"
     - "&a  1x &fNether Star"
     - "&a 16x &fDiamond"
     - "&a 64x &fIron Ingot"
@@ -132,5 +138,8 @@ lang:
     - "&e✔ Premium reward activated"
   monthly-displayname-unavailable: "&c&lMONTHLY REWARD"
   monthly-unavailable-lore:
+    - " "
+    - "&cAvailable in: %cooldown%"
+  monthly-unavailable-premium-lore:
     - " "
     - "&cAvailable in: %cooldown%"

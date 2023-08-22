@@ -46,7 +46,7 @@ public class Reward {
         this.rewardType = rewardType;
         this.availableAfterFirstJoin = availableAfterFirstJoin;
         this.placeholder = placeholder;
-        this.cooldown = cooldown * 60 * 60 * 1000;
+        this.cooldown = cooldown * 60L * 60L * 1000L;
         this.cooldownFormat = cooldownFormat;
         this.position = position;
         this.sound = sound;

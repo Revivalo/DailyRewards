@@ -51,9 +51,9 @@ public class DataManager {
 
 			final long currentTimeInMillis = System.currentTimeMillis();
 
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.DAILY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.DAILY_COOLDOWN.asLong() * 60 * 60 * 1000);
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.WEEKLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.WEEKLY_COOLDOWN.asLong() * 60 * 60 * 1000);
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.MONTHLY_COOLDOWN.asLong() * 60 * 60 * 1000);
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.DAILY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.DAILY_COOLDOWN.asLong());
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.WEEKLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.WEEKLY_COOLDOWN.asLong());
+			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.MONTHLY_COOLDOWN.asLong());
 			if (!playerData.getConfigurationSection("rewards").isSet("autoClaim")) playerData.getConfigurationSection("rewards").set("autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? 1 : 0);
 			if (!playerData.getConfigurationSection("rewards").isSet("joinNotification")) playerData.getConfigurationSection("rewards").set("joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? 1 : 0);
 

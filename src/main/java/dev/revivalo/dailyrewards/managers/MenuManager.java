@@ -33,7 +33,7 @@ public class MenuManager {
             final Inventory inventory = Bukkit.createInventory(
                     new RewardsInventoryHolder(),
                     Config.MENU_SIZE.asInt(),
-                    Lang.MENU_TITLE.asPlaceholderReplacedText(player));
+                    TextUtils.applyPlaceholdersToString(player, Lang.MENU_TITLE.asColoredString()));
 
             if (Config.FILL_BACKGROUND.asBoolean()) {
                 for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)
@@ -65,15 +65,15 @@ public class MenuManager {
                                         .setGlow(claimable)
                                         .setName(
                                                 claimable
-                                                        ? reward.getAvailableDisplayName()
-                                                        : reward.getUnavailableDisplayName()
+                                                        ? TextUtils.applyPlaceholdersToString(player, reward.getAvailableDisplayName())
+                                                        : TextUtils.applyPlaceholdersToString(player, reward.getUnavailableDisplayName())
                                         )
                                         .setLore(
                                                 claimable
-                                                        ? (DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
-                                                        : TextUtils.replaceList((DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
+                                                        ? TextUtils.applyPlaceholdersToList(player, DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
+                                                        : TextUtils.applyPlaceholdersToList(player, TextUtils.replaceList((DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
                                                     put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
-                                                }})
+                                                }}))
                                         )
                                         .build()
                         );

@@ -28,15 +28,12 @@ public class User {
             );
         }
 
-        // If the data is not available locally
         return DailyRewardsPlugin.get().completableFuture(() -> {
-            // This assumes DataHandler.getPlayerData(UUID uuid) returns the needed data
-            // Replace with the appropriate method to fetch data and adapt accordingly
-            Map<String, Object> fetchedData = DataManager.getPlayerData(player); // Replace 'someUUID' with appropriate UUID
+            Map<String, Object> fetchedData = DataManager.getPlayerData(player);
             setData(fetchedData);
 
             if (fetchedData.isEmpty()) {
-                return null; // Or a default Cooldown value
+                return null;
             }
             return new Cooldown(Long.parseLong(String.valueOf(fetchedData.get(rewardType.toString()))));
         });

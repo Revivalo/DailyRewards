@@ -14,6 +14,10 @@ public class Hooks {
         ITEMS_ADDER_HOOK = new ItemsAdderHook();
     }
 
+    public static <T> boolean isHookEnabled(Hook<T> hook) {
+        return hook != null && hook.isOn();
+    }
+
     public static PlaceholderApiHook getPlaceholderApiHook() {
         return PLACEHOLDER_API_HOOK;
     }

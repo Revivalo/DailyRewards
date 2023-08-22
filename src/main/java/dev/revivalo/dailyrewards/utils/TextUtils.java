@@ -1,9 +1,12 @@
 package dev.revivalo.dailyrewards.utils;
 
 import com.google.common.base.Splitter;
+import dev.revivalo.dailyrewards.hooks.Hooks;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.ChatColor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.awt.*;
 import java.util.*;
@@ -169,6 +172,16 @@ public class TextUtils {
                     return sb.toString();
                 })
                 .collect(Collectors.toList());
+    }
+
+    public static String applyPlaceholdersToString(Player player, String text) {
+        return Hooks.isHookEnabled(Hooks.getPlaceholderApiHook()) && PlaceholderAPI.containsPlaceholders(text) ? PlaceholderAPI.setPlaceholders(player, text) : text;
+    }
+
+    public static List<String> applyPlaceholdersToList(Player player, List<String> list) {
+        if (Hooks.isHookEnabled(Hooks.getPlaceholderApiHook())) {
+            return PlaceholderAPI.setPlaceholders(player, list);
+        } else return list;
     }
 
     public static void sendListToPlayer(final CommandSender player, final List<String> list) {

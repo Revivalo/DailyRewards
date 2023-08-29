@@ -75,6 +75,7 @@ lang:
   daily-collected: "&a%player% &7collected his &a&ldaily reward!"
   daily-premium-collected: "&a%player% &7collected his &a&lpremium daily reward!"
   daily-displayname-available: "&a&lDAILY REWARD"
+  daily-premium-displayname-available: "&e&lDAILY REWARD"
   daily-available-lore:
     - "&7Reward contains:"
     - "&a 8x &fIron Ingot"
@@ -98,6 +99,7 @@ lang:
   weekly-collected: "&e%player% &7collected his &e&lweekly reward!"
   weekly-premium-collected: "&e%player% &7collected his &e&lpremium weekly reward!"
   weekly-displayname-available: "&a&lWEEKLY REWARD"
+  weekly-premium-displayname-available: "&e&lWEEKLY REWARD"
   weekly-available-lore:
     - "&7Reward contains:"
     - "&a 1x &fDiamond"
@@ -121,6 +123,7 @@ lang:
   monthly-collected: "&9%player% &7collected his &9&lmonthly reward!"
   monthly-premium-collected: "&9%player% &7collected his &9&lpremium monthly reward!"
   monthly-displayname-available: "&a&lMONTHLY REWARD"
+  monthly-premium-displayname-available: "&e&lMONTHLY REWARD"
   monthly-available-lore:
     - "&7Reward contains:"
     - "&a  8x &fDiamond"

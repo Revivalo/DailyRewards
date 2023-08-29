@@ -19,6 +19,7 @@ public class Reward {
     private final ItemStack availableItem;
     private final ItemStack unavailableItem;
     private final String availableDisplayName;
+    private final String availablePremiumDisplayName;
     private final String unavailableDisplayName;
     private final List<String> availableLore;
     private final List<String> availablePremiumLore;
@@ -33,9 +34,15 @@ public class Reward {
                   long cooldown,
                   String cooldownFormat,
                   int position,
-                  String sound, String title, String subtitle, String collectedMessage, String collectedPremiumMessage, ItemStack availableItem,
+                  String sound,
+                  String title,
+                  String subtitle,
+                  String collectedMessage,
+                  String collectedPremiumMessage,
+                  ItemStack availableItem,
                   ItemStack unavailableItem,
                   String availableDisplayName,
+                  String availablePremiumDisplayName,
                   String unavailableDisplayName,
                   List<String> availableLore,
                   List<String> availablePremiumLore,
@@ -57,6 +64,7 @@ public class Reward {
         this.availableItem = availableItem;
         this.unavailableItem = unavailableItem;
         this.availableDisplayName = availableDisplayName;
+        this.availablePremiumDisplayName = availablePremiumDisplayName;
         this.unavailableDisplayName = unavailableDisplayName;
         this.availableLore = availableLore;
         this.availablePremiumLore = availablePremiumLore;
@@ -132,6 +140,10 @@ public class Reward {
 
     public String getAvailableDisplayName() {
         return availableDisplayName;
+    }
+
+    public String getAvailablePremiumDisplayName() {
+        return availablePremiumDisplayName;
     }
 
     public String getUnavailableDisplayName() {

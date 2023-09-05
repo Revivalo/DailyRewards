@@ -23,6 +23,9 @@ import java.util.concurrent.atomic.AtomicReference;
 public class MenuManager {
     private ItemStack backgroundItem;
 
+    private final InventoryHolder MAIN_MENU_HOLDER = new RewardsInventoryHolder();
+    private final InventoryHolder SETTINGS_MENU_HOLDER = new RewardSettingsInventoryHolder();
+
     public MenuManager() {
         loadBackgroundFiller();
     }
@@ -31,7 +34,7 @@ public class MenuManager {
         Bukkit.getScheduler().scheduleSyncDelayedTask(DailyRewardsPlugin.get(), () -> {
             final int timer = 20;
             final Inventory inventory = Bukkit.createInventory(
-                    new RewardsInventoryHolder(),
+                    MAIN_MENU_HOLDER,
                     Config.MENU_SIZE.asInt(),
                     TextUtils.applyPlaceholdersToString(player, Lang.MENU_TITLE.asColoredString()));
 
@@ -86,14 +89,14 @@ public class MenuManager {
         });
     }
 
-    public void openSettings(Player player) {
+    public void openSettings(final Player player) {
         if (!player.hasPermission("dailyreward.settings")) {
             player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
             return;
         }
 
         final Inventory settings = Bukkit.createInventory(
-                new RewardSettingsInventoryHolder(),
+                SETTINGS_MENU_HOLDER,
                 Config.MENU_SIZE.asInt(),
                 Lang.SETTINGS_TITLE.asColoredString());
 

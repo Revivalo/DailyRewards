@@ -4,10 +4,7 @@ import java.util.Arrays;
 
 
 public enum RewardType {
-	DAILY(),
-	WEEKLY(),
-	MONTHLY();
-
+	DAILY(), WEEKLY(), MONTHLY();
 
 	public static RewardType findByName(String name) {
 		return Arrays.stream(RewardType.values())

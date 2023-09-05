@@ -19,10 +19,6 @@ public class Cooldown {
 		return timeLeftInMillis.get() - System.currentTimeMillis();
 	}
 
-	public void reduce(int millis){
-		timeLeftInMillis.addAndGet(-millis);
-	}
-
 	public String getFormat(String format) {
 		return TextUtils.formatTime(format, getTimeLeftInMillis());
 	}

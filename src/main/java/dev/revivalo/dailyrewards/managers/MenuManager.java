@@ -97,11 +97,11 @@ public class MenuManager {
 
         final Inventory settings = Bukkit.createInventory(
                 SETTINGS_MENU_HOLDER,
-                Config.MENU_SIZE.asInt(),
+                Config.SETTINGS_MENU_SIZE.asInt(),
                 Lang.SETTINGS_TITLE.asColoredString());
 
         if (Config.FILL_BACKGROUND.asBoolean()) {
-            for (int i = 0; i < 44; i++)
+            for (int i = 0; i <= Config.SETTINGS_MENU_SIZE.asInt(); i++)
                 settings.setItem(i, backgroundItem);
         }
 

@@ -44,6 +44,10 @@
                             <shadedPattern>dev.revivalo.dailyrewards.shaded.hikari</shadedPattern>
                         </relocation>
                         <relocation>
+                            <pattern>com.tchristofferson</pattern>
+                            <shadedPattern>dev.revivalo.dailyrewards.shaded.configupdater</shadedPattern>
+                        </relocation>
+                        <relocation>
                             <pattern>dev.dbassett</pattern>
                             <shadedPattern>dev.revivalo.dailyrewards.shaded.skullcreator</shadedPattern>
                         </relocation>

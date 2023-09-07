@@ -19,7 +19,10 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 public enum Config {
+    LANGUAGE("language"),
+
     MENU_SIZE("menu-size"),
+    SETTINGS_MENU_SIZE("settings-menu-size"),
     FILL_BACKGROUND("fill-background-enabled"),
     BACKGROUND_ITEM("background-item"),
     JOIN_NOTIFICATION_BY_DEFAULT("join-notification-by-default"),

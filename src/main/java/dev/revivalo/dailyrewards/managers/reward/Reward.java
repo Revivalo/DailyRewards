@@ -21,6 +21,7 @@ public class Reward {
     private final String availableDisplayName;
     private final String availablePremiumDisplayName;
     private final String unavailableDisplayName;
+    private final String unavailablePremiumDisplayName;
     private final List<String> availableLore;
     private final List<String> availablePremiumLore;
     private final List<String> unavailableLore;
@@ -44,7 +45,7 @@ public class Reward {
                   String availableDisplayName,
                   String availablePremiumDisplayName,
                   String unavailableDisplayName,
-                  List<String> availableLore,
+                  String unavailablePremiumDisplayName, List<String> availableLore,
                   List<String> availablePremiumLore,
                   List<String> unavailableLore,
                   List<String> unavailablePremiumLore,
@@ -66,6 +67,7 @@ public class Reward {
         this.availableDisplayName = availableDisplayName;
         this.availablePremiumDisplayName = availablePremiumDisplayName;
         this.unavailableDisplayName = unavailableDisplayName;
+        this.unavailablePremiumDisplayName = unavailablePremiumDisplayName;
         this.availableLore = availableLore;
         this.availablePremiumLore = availablePremiumLore;
         this.unavailableLore = unavailableLore;
@@ -148,6 +150,10 @@ public class Reward {
 
     public String getUnavailableDisplayName() {
         return unavailableDisplayName;
+    }
+
+    public String getUnavailablePremiumDisplayName() {
+        return unavailablePremiumDisplayName;
     }
 
     public List<String> getAvailableLore() {

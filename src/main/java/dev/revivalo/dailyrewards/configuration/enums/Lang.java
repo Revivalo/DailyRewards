@@ -50,6 +50,8 @@ public enum Lang {
 	DAILY_AVAILABLE_PREMIUM_LORE("daily-available-premium-lore"),
 	DAILY_PREMIUM_DISPLAY_NAME_AVAILABLE("daily-premium-displayname-available"),
 	DAILY_DISPLAY_NAME_UNAVAILABLE("daily-displayname-unavailable"),
+	DAILY_PREMIUM_DISPLAY_NAME_UNAVAILABLE("daily-premium-displayname-unavailable"),
+
 	DAILY_UNAVAILABLE_LORE("daily-unavailable-lore"),
 	DAILY_PREMIUM_UNAVAILABLE_LORE("daily-unavailable-premium-lore"),
 
@@ -63,6 +65,8 @@ public enum Lang {
 	WEEKLY_AVAILABLE_LORE("weekly-available-lore"),
 	WEEKLY_AVAILABLE_PREMIUM_LORE("weekly-available-premium-lore"),
 	WEEKLY_DISPLAY_NAME_UNAVAILABLE("weekly-displayname-unavailable"),
+	WEEKLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE("weekly-premium-displayname-unavailable"),
+
 	WEEKLY_UNAVAILABLE_LORE("weekly-unavailable-lore"),
 	WEEKLY_PREMIUM_UNAVAILABLE_LORE("weekly-unavailable-premium-lore"),
 
@@ -76,6 +80,7 @@ public enum Lang {
 	MONTHLY_AVAILABLE_LORE("monthly-available-lore"),
 	MONTHLY_AVAILABLE_PREMIUM_LORE("monthly-available-premium-lore"),
 	MONTHLY_DISPLAY_NAME_UNAVAILABLE("monthly-displayname-unavailable"),
+	MONTHLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE("monthly-premium-displayname-unavailable"),
 	MONTHLY_UNAVAILABLE_LORE("monthly-unavailable-lore"),
 	MONTHLY_PREMIUM_UNAVAILABLE_LORE("monthly-unavailable-premium-lore"),
 	FULL_INVENTORY_MESSAGE("full-inventory-message");

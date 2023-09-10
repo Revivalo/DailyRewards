@@ -88,6 +88,7 @@ lang:
     - " "
     - "&e✔ Premium reward available"
   daily-displayname-unavailable: "&c&lDAILY REWARD"
+  daily-premium-displayname-unavailable: "&4&lDAILY REWARD"
   daily-unavailable-lore:
     - " "
     - "&cAvailable in: %cooldown%"
@@ -112,6 +113,7 @@ lang:
     - " "
     - "&e✔ Premium reward available"
   weekly-displayname-unavailable: "&c&lWEEKLY REWARD"
+  weekly-premium-displayname-unavailable: "&4&lWEEKLY REWARD"
   weekly-unavailable-lore:
     - " "
     - "&cAvailable in: %cooldown%"
@@ -140,6 +142,7 @@ lang:
     - " "
     - "&e✔ Premium reward activated"
   monthly-displayname-unavailable: "&c&lMONTHLY REWARD"
+  monthly-premium-displayname-unavailable: "&4&lMONTHLY REWARD"
   monthly-unavailable-lore:
     - " "
     - "&cAvailable in: %cooldown%"

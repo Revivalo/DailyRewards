@@ -101,7 +101,7 @@ public class MenuManager {
                 Lang.SETTINGS_TITLE.asColoredString());
 
         if (Config.FILL_BACKGROUND.asBoolean()) {
-            for (int i = 0; i <= Config.SETTINGS_MENU_SIZE.asInt(); i++)
+            for (int i = 0; i < Config.SETTINGS_MENU_SIZE.asInt(); i++)
                 settings.setItem(i, backgroundItem);
         }
 

@@ -19,8 +19,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 
 public enum Config {
-    LANGUAGE("language"),
-
     MENU_SIZE("menu-size"),
     SETTINGS_MENU_SIZE("settings-menu-size"),
     FILL_BACKGROUND("fill-background-enabled"),

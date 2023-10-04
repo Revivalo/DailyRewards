@@ -1,6 +1,7 @@
 package dev.revivalo.dailyrewards.user;
 
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -16,11 +17,14 @@ public class UserHandler {
         return usersHashMap.get(uuid);
     }
 
+    public static User getUser(final Player player) {
+        return getUser(player.getUniqueId());
+    }
+
     public static void removeUser(final UUID uuid){
         final User user = usersHashMap.remove(uuid);
 
         if (user != null)
             DataManager.updateValues(uuid, user, user.getData());
-
     }
 }

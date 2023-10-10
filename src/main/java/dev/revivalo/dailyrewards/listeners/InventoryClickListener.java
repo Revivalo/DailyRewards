@@ -8,6 +8,7 @@ import dev.revivalo.dailyrewards.managers.MenuManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,7 +53,7 @@ public class InventoryClickListener implements Listener {
 
 		int slot = event.getSlot();
 		if (slot == Config.JOIN_NOTIFICATION_POSITION.asInt()) {
-			if (!player.hasPermission("dailyreward.settings.joinNotification")) {
+			if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)) {
 				player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
 				return;
 			}
@@ -61,7 +62,7 @@ public class InventoryClickListener implements Listener {
 			DataManager.updateValues(user.getPlayer().getUniqueId(), user, new HashMap<String, Object>(){{put("joinNotification", user.hasEnabledJoinNotification() ? 1L : 0);}});
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
-			if (!player.hasPermission("dailyreward.settings.autoClaim")) {
+			if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)) {
 				player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
 				return;
 			}

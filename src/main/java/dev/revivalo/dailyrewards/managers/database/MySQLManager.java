@@ -30,6 +30,13 @@ public class MySQLManager {
 		String username = Config.MYSQL_USERNAME.asString();
 		String password = Config.MYSQL_PASSWORD.asString();
 
+		int maxPoolSize = Config.MYSQL_POOL_SETTINGS_MAXIMUM_POOL_SIZE.asInt();
+		int minimumIdle = Config.MYSQL_POOL_SETTINGS_MINIMUM_IDLE.asInt();
+		long maxLifetime = Config.MYSQL_POOL_SETTINGS_MAXIMUM_LIFETIME.asLong();
+		long connectionTimeout = Config.MYSQL_POOL_SETTINGS_CONNECTION_TIMEOUT.asLong();
+
+		Map<String, String> properties = Config.MYSQL_PROPERTIES.asStringMap();
+
 		HikariConfig config = new HikariConfig();
 
 		if (VersionUtils.isLegacyVersion()) config.setDriverClassName("com.mysql.jdbc.Driver");

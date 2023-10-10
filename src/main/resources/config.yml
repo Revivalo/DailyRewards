@@ -43,6 +43,21 @@ config:
   mysql-username: user
   mysql-password: password
 
+  # MySQL's connection pool settings
+  mysql-pool-settings-maximum-pool-size: 10
+  mysql-pool-settings-minimum-idle: 5
+  mysql-pool-settings-maximum-lifetime: 1800000
+  mysql-pool-settings-connection-timeout: 5000
+
+  # Additional MySQL properties
+  mysql-properties:
+    useUnicode: true
+    characterEncoding: utf8
+
+  #
+  # Global settings section
+  #
+
   update-checker: true
 
   menu-size: 45

@@ -43,7 +43,7 @@ public enum Config {
     SETTINGS_BACK_ITEM("settings-back-item"),
     SETTINGS_BACK_POSITION("settings-back-position"),
 
-    USE_MYSQL("use-mysql"),
+    BACKEND("backend"),
     MYSQL_IP("mysql-ip"),
     MYSQL_PORT("mysql-port"),
     MYSQL_DBNAME("mysql-database-name"),
@@ -144,6 +144,16 @@ public enum Config {
                         }
                     }
                 });
+    }
+
+    public Map<String, String> asStringMap() {
+        Map<String, String> map = new HashMap<>();
+        ConfigurationSection section = configYamlFile.getConfiguration().getConfigurationSection(asString());
+        if (section == null) return map;
+        for (String key : section.getKeys(false)) {
+            map.put(key, section.getString(key));
+        }
+        return map;
     }
 
     public List<String> asReplacedList(final Map<String, String> definitions) {

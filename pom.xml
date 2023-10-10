@@ -197,5 +197,26 @@
             <artifactId>ahocorasick</artifactId>
             <version>0.6.3</version>
         </dependency>-->
+        <dependency>
+            <groupId>io.th0rgal</groupId>
+            <artifactId>Oraxen</artifactId>
+            <version>1.150.4</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/oraxen-1.150.4.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>su.nexmedia</groupId>
+            <artifactId>NexAuth</artifactId>
+            <version>2.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/NexAuth-2.0.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>fr.xephi</groupId>
+            <artifactId>AuthMe</artifactId>
+            <version>5.6.0-beta2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/AuthMe-5.6.0-beta2.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

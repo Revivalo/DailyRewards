@@ -28,6 +28,9 @@ public class MySQLManager {
 		if (!Config.BACKEND.asString().equalsIgnoreCase("SQLITE"))
 			return;
 
+		String host = Config.MYSQL_IP.asString();
+		String port = Config.MYSQL_PORT.asString();
+		String databaseName = Config.MYSQL_DBNAME.asString();
 		String username = Config.MYSQL_USERNAME.asString();
 		String password = Config.MYSQL_PASSWORD.asString();
 

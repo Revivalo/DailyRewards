@@ -2,6 +2,7 @@ package dev.revivalo.dailyrewards.commandmanager.subcommands;
 
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.Collections;
@@ -25,7 +26,7 @@ public class HelpCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "dailyreward.help";
+        return PermissionUtils.Permission.HELP.get();
     }
 
     @Override

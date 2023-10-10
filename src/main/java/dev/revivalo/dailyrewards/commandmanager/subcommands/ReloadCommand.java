@@ -4,6 +4,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class ReloadCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "dailyreward.manage";
+        return PermissionUtils.Permission.RELOAD_PLUGIN.get();
     }
 
     @Override

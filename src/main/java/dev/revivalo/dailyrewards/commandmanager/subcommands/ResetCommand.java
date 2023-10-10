@@ -4,6 +4,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -29,7 +30,7 @@ public class ResetCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return "dailyreward.manage";
+        return PermissionUtils.Permission.RESET_FOR_OTHERS.get();
     }
 
     @Override

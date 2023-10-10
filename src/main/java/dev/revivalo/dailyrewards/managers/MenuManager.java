@@ -7,6 +7,7 @@ import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.ItemBuilder;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -90,7 +91,7 @@ public class MenuManager {
     }
 
     public void openSettings(final Player player) {
-        if (!player.hasPermission("dailyreward.settings")) {
+        if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.SETTINGS_MENU)) {
             player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
             return;
         }

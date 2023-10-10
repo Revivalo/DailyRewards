@@ -43,19 +43,45 @@ public class MySQLManager {
 
 		HikariConfig config = new HikariConfig();
 
-		if (VersionUtils.isLegacyVersion()) config.setDriverClassName("com.mysql.jdbc.Driver");
-		else config.setDriverClassName("com.mysql.cj.jdbc.Driver");
-
-		config.setJdbcUrl("jdbc:mysql://" + Config.MYSQL_IP.asString() + ":" + Config.MYSQL_PORT.asString() + "/" + Config.MYSQL_DBNAME.asString() +
-				"?testConnectOnCheckout=true" +
+		String credentials = host + ":" + port + "/" + databaseName;
+		String parameters = "?testConnectOnCheckout=true" +
 				"&idleConnectionTestPeriod=3600" +
-				"&allowReconnect=true" +
-				"&autoReconnect=true");
+				"&rewriteBatchedStatements=true";
+
+		BackendType backendType = BackendType.valueOf(Config.BACKEND.asUppercase());
+		String databaseType = "";
+		String driverClassName = "";
+		switch (backendType) {
+			case MYSQL:
+				if (VersionUtils.isLegacyVersion()) driverClassName = "com.mysql.jdbc.Driver";
+				else driverClassName = "com.mysql.cj.jdbc.Driver";
+				databaseType = "jdbc:mysql://";
+				break;
+			case MARIADB:
+				driverClassName = "org.mariadb.jdbc.Driver";
+				databaseType = "jdbc:mariadb://";
+				break;
+			case POSTGRESQL:
+				driverClassName = "org.postgresql.Driver";
+				databaseType = "jdbc:postgresql://";
+				break;
+		}
+
+		config.setDriverClassName(driverClassName);
+		config.setJdbcUrl(databaseType + credentials + parameters);
 
 		config.setUsername(username);
 		config.setPassword(password);
 
+		config.setPoolName("ultimaterewards-pool");
+		config.setMaximumPoolSize(maxPoolSize);
+		config.setMinimumIdle(minimumIdle);
+		config.setMaxLifetime(maxLifetime);
+		config.setConnectionTimeout(connectionTimeout);
+
 		config.setIdleTimeout(0);
+
+		properties.forEach(config::addDataSourceProperty);
 
 		dataSource = new HikariDataSource(config);
 
@@ -63,8 +89,6 @@ public class MySQLManager {
 			connection.prepareStatement(CREATE_TABLE).execute();
 			addNewRewardColumn(new HashMap<String, String>(){{put("joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? "1" : "0");}});
 			addNewRewardColumn(new HashMap<String, String>(){{put("autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? "1" : "0");}});
-			//connection.prepareStatement("ALTER TABLE Rewards ADD COLUMN `autoClaim` boolean DEFAULT " + Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() + ";").executeBatch();
-			//connection.prepareStatement("ALTER TABLE Rewards ADD COLUMN `joinNotification` boolean DEFAULT " + Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() + ";").executeBatch();
 			DataManager.setUsingMysql(true);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

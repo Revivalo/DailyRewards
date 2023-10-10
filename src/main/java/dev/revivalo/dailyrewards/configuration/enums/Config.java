@@ -50,6 +50,12 @@ public enum Config {
     MYSQL_USERNAME("mysql-username"),
     MYSQL_PASSWORD("mysql-password"),
     UPDATE_CHECKER("update-checker"),
+    MYSQL_POOL_SETTINGS_MAXIMUM_POOL_SIZE("mysql-pool-settings-maximum-pool-size"),
+    MYSQL_POOL_SETTINGS_MINIMUM_IDLE("mysql-pool-settings-minimum-idle"),
+    MYSQL_POOL_SETTINGS_MAXIMUM_LIFETIME("mysql-pool-settings-maximum-lifetime"),
+    MYSQL_POOL_SETTINGS_CONNECTION_TIMEOUT("mysql-pool-settings-connection-timeout"),
+
+    MYSQL_PROPERTIES("mysql-properties"),
 
     DAILY_ENABLED("daily-enabled"),
     DAILY_COOLDOWN("daily-cooldown"),

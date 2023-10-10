@@ -30,8 +30,13 @@
 # OTHERWISE WILL BE REPLACED BY STONE IF INVALID NAME IS IN USE.
 #
 config:
-  # MySQL Settings
-  use-mysql: false
+  #
+  # Database section
+  #
+
+  # What type of database do you want to use?
+  # Valid values: SQLITE, MYSQL, MARIADB, POSTGRESQL
+  backend: SQLITE
   mysql-ip: 127.0.0.1
   mysql-port: 3306
   mysql-database-name: database

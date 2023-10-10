@@ -25,7 +25,8 @@ public class MySQLManager {
 	private static HikariDataSource dataSource;
 
 	public static void init(){
-		if (!Config.USE_MYSQL.asBoolean()) return;
+		if (!Config.BACKEND.asString().equalsIgnoreCase("SQLITE"))
+			return;
 
 		String username = Config.MYSQL_USERNAME.asString();
 		String password = Config.MYSQL_PASSWORD.asString();

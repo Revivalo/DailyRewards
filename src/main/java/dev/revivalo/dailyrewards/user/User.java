@@ -70,10 +70,6 @@ public class User {
         data.putAll(changes);
     }
 
-    public boolean hasPermission(String permission) {
-        return player.hasPermission(permission);
-    }
-
     public Player getPlayer() {
         return player;
     }

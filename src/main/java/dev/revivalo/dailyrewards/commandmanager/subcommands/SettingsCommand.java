@@ -2,6 +2,7 @@ package dev.revivalo.dailyrewards.commandmanager.subcommands;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -25,7 +26,7 @@ public class SettingsCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return null;
+        return PermissionUtils.Permission.SETTINGS_MENU.get();
     }
 
     @Override

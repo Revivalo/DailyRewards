@@ -1,9 +1,11 @@
 package dev.revivalo.dailyrewards.listeners;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.api.events.ReminderReceiveEvent;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
@@ -43,23 +45,25 @@ public class PlayerJoinQuitListener implements Listener {
             );
 
             final Set<RewardType> availableRewards = user.getAvailableRewards();
-
-            if (user.getAvailableRewards().isEmpty())
+            if (availableRewards.isEmpty())
                 return;
 
-            if (user.hasEnabledAutoClaim()) {
-                if (player.hasPermission("dailyreward.autoclaim")) {
-
-                    Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
-                            DailyRewardsPlugin.getRewardManager().autoClaim(player, availableRewards), 3);
+            if (!Hooks.isAuthUsed()) {
+                if (DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(user)) {
+                    return;
                 }
-                return;
             }
 
             if (!user.hasEnabledJoinNotification())
                 return;
 
             if (PlayerUtils.isPlayerInDisabledWorld(player, false))
+                return;
+
+            ReminderReceiveEvent reminderReceiveEvent = new ReminderReceiveEvent(player, availableRewards);
+            Bukkit.getPluginManager().callEvent(reminderReceiveEvent);
+
+            if (reminderReceiveEvent.isCancelled())
                 return;
 
             DailyRewardsPlugin.get().runDelayed(() -> {

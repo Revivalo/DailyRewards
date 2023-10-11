@@ -7,6 +7,7 @@ import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.bukkit.Bukkit;
@@ -24,7 +25,20 @@ public class RewardManager {
         loadRewards();
     }
 
-    public void autoClaim(final Player player, Set<RewardType> rewardTypes) {
+    public boolean processAutoClaimForUser(User user) {
+        if (!user.hasEnabledAutoClaim())
+            return false;
+
+        if (user.getAvailableRewards().isEmpty())
+            return false;
+
+        Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
+                DailyRewardsPlugin.getRewardManager().claimRewardsAutomatically(user.getPlayer(), user.getAvailableRewards()), 3);
+        return false;
+
+    }
+
+    public void claimRewardsAutomatically(final Player player, Set<RewardType> rewardTypes) {
         if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player))
             return;
 
@@ -32,17 +46,16 @@ public class RewardManager {
             player.sendMessage(Lang.FULL_INVENTORY_MESSAGE.asColoredString());
             return;
         }
-
         final String formattedRewards = rewardTypes.stream()
                 .map(this::getRewardsPlaceholder)
                 .collect(Collectors.joining(", "));
-
         rewardTypes.forEach(rewardType -> this.claim(player, rewardType, false, false));
         TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
                 .asReplacedList(new HashMap<String, String>() {{
                     put("%rewards%", String.format(formattedRewards));
                 }}));
     }
+
 
     @SuppressWarnings("deprecation")
     public void claim(final Player player, RewardType type, boolean fromCommand, boolean announce) {
@@ -59,8 +72,10 @@ public class RewardManager {
             return;
         }
 
-        if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player))
-            return;
+        if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.REQUIRED_PLAYTIME_BYPASS)) {
+            if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player))
+                return;
+        }
 
         if (PlayerUtils.isPlayerInDisabledWorld(player, true))
             return;
@@ -74,7 +89,9 @@ public class RewardManager {
 
         user.getCooldownOfReward(type).thenAccept(cooldown -> {
             if (cooldown.isClaimable()) {
-                final Collection<String> rewardCommands = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>(){{put("player", player.getName());}});
+                final Collection<String> rewardCommands = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
+                    put("player", player.getName());
+                }});
 
 
                 if (rewardCommands.isEmpty()) {
@@ -98,10 +115,10 @@ public class RewardManager {
 
             } else {
                 if (fromCommand) {
-                    player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(new HashMap<String, String>(){{
-                                put("%type%", getRewardsPlaceholder(type));
-                                put("%time%", cooldown.getFormat(reward.getCooldownFormat()));
-                            }}));
+                    player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(new HashMap<String, String>() {{
+                        put("%type%", getRewardsPlaceholder(type));
+                        put("%time%", cooldown.getFormat(reward.getCooldownFormat()));
+                    }}));
                     return;
                 }
                 PlayerUtils.playSound(player, Config.UNAVAILABLE_REWARD_SOUND.asUppercase());
@@ -148,9 +165,12 @@ public class RewardManager {
     public void loadRewards() {
 
         rewards.clear();
-        if (Config.DAILY_ENABLED.asBoolean()) rewards.add(new Reward(RewardType.DAILY, Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean(), Config.DAILY_COOLDOWN_FORMAT.asString(), Config.DAILY_COOLDOWN.asInt(), Config.DAILY_COOLDOWN_FORMAT.asString(), Config.DAILY_POSITION.asInt(), Config.DAILY_SOUND.asUppercase(), Lang.DAILY_TITLE.asColoredString(), Lang.DAILY_SUBTITLE.asColoredString(), Lang.DAILY_COLLECTED.asColoredString(), Lang.DAILY_PREMIUM_COLLECTED.asColoredString(), Config.DAILY_AVAILABLE_ITEM.asAnItem(), Config.DAILY_UNAVAILABLE_ITEM.asAnItem(), Lang.DAILY_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.DAILY_PREMIUM_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.DAILY_PREMIUM_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.DAILY_AVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.DAILY_AVAILABLE_PREMIUM_LORE.asReplacedList(Collections.emptyMap()), Lang.DAILY_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.DAILY_PREMIUM_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Config.DAILY_REWARDS.asReplacedList(Collections.emptyMap()), Config.DAILY_PREMIUM_REWARDS.asReplacedList(Collections.emptyMap())));
-        if (Config.WEEKLY_ENABLED.asBoolean()) rewards.add(new Reward(RewardType.WEEKLY, Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean(), Config.WEEKLY_COOLDOWN_FORMAT.asString(), Config.WEEKLY_COOLDOWN.asInt(), Config.WEEKLY_COOLDOWN_FORMAT.asString(), Config.WEEKLY_POSITION.asInt(), Config.WEEKLY_SOUND.asUppercase(), Lang.WEEKLY_TITLE.asColoredString(), Lang.WEEKLY_SUBTITLE.asColoredString(), Lang.WEEKLY_COLLECTED.asColoredString(), Lang.WEEKLY_PREMIUM_COLLECTED.asColoredString(), Config.WEEKLY_AVAILABLE_ITEM.asAnItem(), Config.WEEKLY_UNAVAILABLE_ITEM.asAnItem(), Lang.WEEKLY_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.WEEKLY_PREMIUM_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.WEEKLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.WEEKLY_AVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.WEEKLY_AVAILABLE_PREMIUM_LORE.asReplacedList(Collections.emptyMap()), Lang.WEEKLY_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.WEEKLY_PREMIUM_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Config.WEEKLY_REWARDS.asReplacedList(Collections.emptyMap()), Config.WEEKLY_PREMIUM_REWARDS.asReplacedList(Collections.emptyMap())));
-        if (Config.MONTHLY_ENABLED.asBoolean()) rewards.add(new Reward(RewardType.MONTHLY, Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean(), Config.MONTHLY_COOLDOWN_FORMAT.asString(), Config.MONTHLY_COOLDOWN.asInt(), Config.MONTHLY_COOLDOWN_FORMAT.asString(), Config.MONTHLY_POSITION.asInt(), Config.MONTHLY_SOUND.asUppercase(), Lang.MONTHLY_TITLE.asColoredString(), Lang.MONTHLY_SUBTITLE.asColoredString(), Lang.MONTHLY_COLLECTED.asColoredString(), Lang.MONTHLY_PREMIUM_COLLECTED.asColoredString(), Config.MONTHLY_AVAILABLE_ITEM.asAnItem(), Config.MONTHLY_UNAVAILABLE_ITEM.asAnItem(), Lang.MONTHLY_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.MONTHLY_PREMIUM_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.MONTHLY_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.MONTHLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.MONTHLY_AVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.MONTHLY_AVAILABLE_PREMIUM_LORE.asReplacedList(Collections.emptyMap()), Lang.MONTHLY_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.MONTHLY_PREMIUM_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Config.MONTHLY_REWARDS.asReplacedList(Collections.emptyMap()), Config.MONTHLY_PREMIUM_REWARDS.asReplacedList(Collections.emptyMap())));
+        if (Config.DAILY_ENABLED.asBoolean())
+            rewards.add(new Reward(RewardType.DAILY, Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean(), Config.DAILY_COOLDOWN_FORMAT.asString(), Config.DAILY_COOLDOWN.asInt(), Config.DAILY_COOLDOWN_FORMAT.asString(), Config.DAILY_POSITION.asInt(), Config.DAILY_SOUND.asUppercase(), Lang.DAILY_TITLE.asColoredString(), Lang.DAILY_SUBTITLE.asColoredString(), Lang.DAILY_COLLECTED.asColoredString(), Lang.DAILY_PREMIUM_COLLECTED.asColoredString(), Config.DAILY_AVAILABLE_ITEM.asAnItem(), Config.DAILY_UNAVAILABLE_ITEM.asAnItem(), Lang.DAILY_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.DAILY_PREMIUM_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.DAILY_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.DAILY_PREMIUM_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.DAILY_AVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.DAILY_AVAILABLE_PREMIUM_LORE.asReplacedList(Collections.emptyMap()), Lang.DAILY_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.DAILY_PREMIUM_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Config.DAILY_REWARDS.asReplacedList(Collections.emptyMap()), Config.DAILY_PREMIUM_REWARDS.asReplacedList(Collections.emptyMap())));
+        if (Config.WEEKLY_ENABLED.asBoolean())
+            rewards.add(new Reward(RewardType.WEEKLY, Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean(), Config.WEEKLY_COOLDOWN_FORMAT.asString(), Config.WEEKLY_COOLDOWN.asInt(), Config.WEEKLY_COOLDOWN_FORMAT.asString(), Config.WEEKLY_POSITION.asInt(), Config.WEEKLY_SOUND.asUppercase(), Lang.WEEKLY_TITLE.asColoredString(), Lang.WEEKLY_SUBTITLE.asColoredString(), Lang.WEEKLY_COLLECTED.asColoredString(), Lang.WEEKLY_PREMIUM_COLLECTED.asColoredString(), Config.WEEKLY_AVAILABLE_ITEM.asAnItem(), Config.WEEKLY_UNAVAILABLE_ITEM.asAnItem(), Lang.WEEKLY_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.WEEKLY_PREMIUM_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.WEEKLY_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.WEEKLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.WEEKLY_AVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.WEEKLY_AVAILABLE_PREMIUM_LORE.asReplacedList(Collections.emptyMap()), Lang.WEEKLY_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.WEEKLY_PREMIUM_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Config.WEEKLY_REWARDS.asReplacedList(Collections.emptyMap()), Config.WEEKLY_PREMIUM_REWARDS.asReplacedList(Collections.emptyMap())));
+        if (Config.MONTHLY_ENABLED.asBoolean())
+            rewards.add(new Reward(RewardType.MONTHLY, Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean(), Config.MONTHLY_COOLDOWN_FORMAT.asString(), Config.MONTHLY_COOLDOWN.asInt(), Config.MONTHLY_COOLDOWN_FORMAT.asString(), Config.MONTHLY_POSITION.asInt(), Config.MONTHLY_SOUND.asUppercase(), Lang.MONTHLY_TITLE.asColoredString(), Lang.MONTHLY_SUBTITLE.asColoredString(), Lang.MONTHLY_COLLECTED.asColoredString(), Lang.MONTHLY_PREMIUM_COLLECTED.asColoredString(), Config.MONTHLY_AVAILABLE_ITEM.asAnItem(), Config.MONTHLY_UNAVAILABLE_ITEM.asAnItem(), Lang.MONTHLY_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.MONTHLY_PREMIUM_DISPLAY_NAME_AVAILABLE.asColoredString(), Lang.MONTHLY_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.MONTHLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE.asColoredString(), Lang.MONTHLY_AVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.MONTHLY_AVAILABLE_PREMIUM_LORE.asReplacedList(Collections.emptyMap()), Lang.MONTHLY_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Lang.MONTHLY_PREMIUM_UNAVAILABLE_LORE.asReplacedList(Collections.emptyMap()), Config.MONTHLY_REWARDS.asReplacedList(Collections.emptyMap()), Config.MONTHLY_PREMIUM_REWARDS.asReplacedList(Collections.emptyMap())));
 
     }
 

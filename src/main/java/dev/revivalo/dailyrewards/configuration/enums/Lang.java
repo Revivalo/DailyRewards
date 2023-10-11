@@ -111,7 +111,7 @@ public enum Lang {
 						}
 						listsAsStrings.put(key, String.join("⎶", coloredList));
 					} else
-						messages.put(key, TextUtils.applyColor(StringUtils.replace(langSection.getString(key), "%prefix%", Lang.PREFIX.asColoredString(), 1)));
+						messages.put(key, StringUtils.replace(langSection.getString(key), "%prefix%", Lang.PREFIX.asColoredString(), 1));
 				});
 	}
 
@@ -128,6 +128,6 @@ public enum Lang {
 	}
 
 	public String asColoredString() {
-		return messages.get(text);
+		return TextUtils.applyColor(messages.get(text));
 	}
 }

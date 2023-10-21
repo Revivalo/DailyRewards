@@ -92,7 +92,7 @@ config:
   settings-enabled-in-menu: true
   settings-position: 40
   settings-item: REPEATER
-  settings-join-notification-item: BELL
+  settings-join-notification-item: OAK_DOOR
   settings-auto-claim-item: REDSTONE_TORCH
   settings-back-item: STONE_BUTTON
   settings-back-position: 40

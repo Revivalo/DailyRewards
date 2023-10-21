@@ -1,6 +1,9 @@
 package dev.revivalo.dailyrewards.managers.reward;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.api.events.AutoClaimEvent;
+import dev.revivalo.dailyrewards.api.events.PlayerClaimRewardEvent;
+import dev.revivalo.dailyrewards.api.events.PlayerPreClaimRewardEvent;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
@@ -30,6 +33,12 @@ public class RewardManager {
             return false;
 
         if (user.getAvailableRewards().isEmpty())
+            return false;
+
+        AutoClaimEvent autoClaimEvent = new AutoClaimEvent(user.getPlayer(), user.getAvailableRewards());
+        Bukkit.getPluginManager().callEvent(autoClaimEvent);
+
+        if (autoClaimEvent.isCancelled())
             return false;
 
         Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
@@ -66,6 +75,16 @@ public class RewardManager {
             return;
         }
 
+        final List<String> rewardCommands = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
+            put("player", player.getName());
+        }});
+
+        PlayerPreClaimRewardEvent playerPreClaimRewardEvent = new PlayerPreClaimRewardEvent(player, reward.getRewardType(), rewardCommands);
+        Bukkit.getPluginManager().callEvent(playerPreClaimRewardEvent);
+
+        if (playerPreClaimRewardEvent.isCancelled())
+            return;
+
         if (!player.hasPermission("dailyreward." + type)) {
             if (!fromCommand) return;
             player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
@@ -89,14 +108,13 @@ public class RewardManager {
 
         user.getCooldownOfReward(type).thenAccept(cooldown -> {
             if (cooldown.isClaimable()) {
-                final Collection<String> rewardCommands = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
-                    put("player", player.getName());
-                }});
-
 
                 if (rewardCommands.isEmpty()) {
                     player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString());
                 } else {
+                    PlayerClaimRewardEvent playerClaimRewardEvent = new PlayerClaimRewardEvent(player, reward.getRewardType());
+                    Bukkit.getPluginManager().callEvent(playerClaimRewardEvent);
+
                     rewardCommands.forEach(command -> Bukkit.dispatchCommand(DailyRewardsPlugin.getConsole(), command));
                 }
 

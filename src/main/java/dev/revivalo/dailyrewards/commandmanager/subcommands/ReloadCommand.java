@@ -2,7 +2,6 @@ package dev.revivalo.dailyrewards.commandmanager.subcommands;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
-import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.command.CommandSender;
@@ -37,11 +36,7 @@ public class ReloadCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        Config.reload();
-        Lang.reload();
-
-        DailyRewardsPlugin.getRewardManager().loadRewards();
-        DailyRewardsPlugin.getMenuManager().loadBackgroundFiller();
+        DailyRewardsPlugin.get().reloadPlugin();
 
         sender.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());
     }

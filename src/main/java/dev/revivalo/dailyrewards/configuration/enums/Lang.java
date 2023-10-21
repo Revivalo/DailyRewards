@@ -116,7 +116,7 @@ public enum Lang {
 	}
 
 	public String asReplacedString(Map<String, String> definitions) {
-		return TextUtils.replaceString(messages.get(text), definitions);
+		return TextUtils.applyColor(TextUtils.replaceString(messages.get(text), definitions));
 	}
 
 	public List<String> asReplacedList(final Map<String, String> definitions) {

@@ -5,6 +5,7 @@ import dev.revivalo.dailyrewards.commandmanager.commands.RewardsMainCommand;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
+import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.listeners.InventoryClickListener;
 import dev.revivalo.dailyrewards.listeners.PlayerJoinQuitListener;
@@ -186,5 +187,13 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
     public void setPluginManager(PluginManager pluginManager) {
         this.pluginManager = pluginManager;
+    }
+
+    public void reloadPlugin() {
+        Config.reload();
+        Lang.reload();
+
+        DailyRewardsPlugin.getRewardManager().loadRewards();
+        DailyRewardsPlugin.getMenuManager().loadBackgroundFiller();
     }
 }

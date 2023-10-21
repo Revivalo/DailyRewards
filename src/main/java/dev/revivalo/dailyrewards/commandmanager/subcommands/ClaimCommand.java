@@ -5,7 +5,6 @@ import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
-import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -31,7 +30,7 @@ public class ClaimCommand implements SubCommand {
 
     @Override
     public String getPermission() {
-        return PermissionUtils.Permission.CLAIM_REWARDS.get();
+        return null;
     }
 
     @Override

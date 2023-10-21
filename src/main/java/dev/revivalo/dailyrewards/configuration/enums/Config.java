@@ -183,7 +183,7 @@ public enum Config {
     }
 
     public long asLong() {
-        return Long.parseLong(asString()) * 3600000;
+        return Long.parseLong(asString());
     }
 
     public int asInt() {

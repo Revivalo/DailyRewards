@@ -25,7 +25,7 @@ public class MySQLManager {
 	private static HikariDataSource dataSource;
 
 	public static void init(){
-		if (!Config.BACKEND.asString().equalsIgnoreCase("SQLITE"))
+		if (Config.BACKEND.asString().equalsIgnoreCase("SQLITE"))
 			return;
 
 		String host = Config.MYSQL_IP.asString();

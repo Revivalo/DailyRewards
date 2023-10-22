@@ -73,7 +73,7 @@ public class MySQLManager {
 		config.setUsername(username);
 		config.setPassword(password);
 
-		config.setPoolName("ultimaterewards-pool");
+		config.setPoolName("dailyrewards-pool");
 		config.setMaximumPoolSize(maxPoolSize);
 		config.setMinimumIdle(minimumIdle);
 		config.setMaxLifetime(maxLifetime);

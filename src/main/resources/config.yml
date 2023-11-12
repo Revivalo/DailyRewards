@@ -66,7 +66,7 @@ config:
   join-notification-sound: BLOCK_NOTE_BLOCK_PLING
   join-notification-by-default: true
   join-notification-position: 21
-  join-notification-command: "/rewards"
+  join-notification-command: "/dailyrewards:rewards"
   auto-claim-rewards-on-join-by-default: false
   auto-claim-rewards-position: 23
   announce-enabled: true

@@ -67,7 +67,7 @@ lang:
   join-hover-message: "&7Click to collect your rewards"
   join-notification:
     - ' '
-    - '&2 - &a%rewards% reward(s) are waiting for you! &f(Click here)'
+    - '&2 Hey %player%, &a%rewards% reward(s) are waiting for you! &f(Click here)'
     - ' '
   cooldown-message: "%prefix% &cFor &l%type% &creward you have to wait &n%time%"
   daily-title: "&a&lRewards"

@@ -69,6 +69,7 @@ public class PlayerJoinQuitListener implements Listener {
             DailyRewardsPlugin.get().runDelayed(() -> {
                 PlayerUtils.playSound(player, Config.JOIN_NOTIFICATION_SOUND.asString());
                 for (String line : Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{
+                    put("%player%", player.getName());
                     put("%rewards%", String.valueOf(availableRewards.size()));
                 }})) {
                     BaseComponent[] msg = TextComponent.fromLegacyText(line);

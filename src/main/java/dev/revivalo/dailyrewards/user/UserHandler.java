@@ -2,8 +2,10 @@ package dev.revivalo.dailyrewards.user;
 
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Optional;
 import java.util.UUID;
 
 public class UserHandler {
@@ -17,8 +19,12 @@ public class UserHandler {
         return usersHashMap.get(uuid);
     }
 
-    public static User getUser(final Player player) {
-        return getUser(player.getUniqueId());
+    @Nullable
+    public static User getUser(@Nullable Player player) {
+        return Optional.ofNullable(player)
+                .map(Player::getUniqueId)
+                .map(UserHandler::getUser)
+                .orElse(null);
     }
 
     public static void removeUser(final UUID uuid){

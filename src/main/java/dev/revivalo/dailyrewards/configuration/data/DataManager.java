@@ -6,36 +6,39 @@ import dev.revivalo.dailyrewards.managers.database.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
-import dev.revivalo.dailyrewards.user.UserHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 public class DataManager {
 
 	private static boolean usingMysql;
 
-	public static void updateValues(final UUID id, User user, Map<String, Object> data) {
+	public static boolean updateValues(final UUID id, User user, Map<String, Object> data) {
 		if (isUsingMysql()) {
-			MySQLManager.updatePlayer(id, data);
+			return MySQLManager.updatePlayer(id, data);
 		} else {
 			final PlayerData playerData = PlayerData.getConfig(id);
 			final ConfigurationSection rewardsSection = playerData.getConfigurationSection("rewards");
 
-			for (Map.Entry<String, Object> entry : data.entrySet())
-				rewardsSection.set(entry.getKey(), entry.getValue());
-
-			playerData.save();
+			try {
+				for (Map.Entry<String, Object> entry : data.entrySet())
+					rewardsSection.set(entry.getKey(), entry.getValue());
+				playerData.save();
+			} catch (NullPointerException ignored) {
+				return false;
+			}
 		}
 
-		if (Bukkit.getOfflinePlayer(id).isOnline()) {
-			Optional.ofNullable(user).orElse(UserHandler.getUser(id)).updateCooldowns(data);
+		if (user != null && user.isOnline()) {
+			user.updateCooldowns(data);
 		}
+
+		return true;
 	}
 
 	public static void initiatePlayer(final Player player){

@@ -40,7 +40,9 @@ public class ResetCommand implements SubCommand {
     public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
         switch (index){
             case 0: return Bukkit.getOnlinePlayers().stream().map(HumanEntity::getName).collect(Collectors.toList());
-            case 1: return DailyRewardsPlugin.getRewardManager().getRewards().stream().map(Reward::getRewardName).collect(Collectors.toList());
+            case 1: return Stream.concat(DailyRewardsPlugin.getRewardManager().getRewards().stream().map(Reward::getRewardName), Stream.of("all"))
+                    .collect(Collectors.toList());
+
         }
         return null;
     }

@@ -127,7 +127,7 @@ public class MySQLManager {
 		}
 	}
 
-	public static void updatePlayer(UUID uniqueId, Map<String, Object> changes) {
+	public static boolean updatePlayer(UUID uniqueId, Map<String, Object> changes) {
 
 		final StringBuilder builder = new StringBuilder();
 		Iterator<String> keys = changes.keySet().iterator();
@@ -155,7 +155,10 @@ public class MySQLManager {
 			).executeUpdate();
 		} catch (SQLException ex) {
 			DailyRewardsPlugin.get().getLogger().warning("Failed to update cooldown for " + uniqueId + "!\n" + ex.getLocalizedMessage());
+			return false;
 		}
+
+		return true;
 	}
 
 	public static Map<String, Object> getRewardsCooldown(final UUID uuid) {

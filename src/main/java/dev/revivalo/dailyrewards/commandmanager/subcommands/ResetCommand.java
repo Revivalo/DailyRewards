@@ -4,13 +4,16 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
+import dev.revivalo.dailyrewards.managers.reward.actions.ResetAction;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
+import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ResetCommand implements SubCommand {
     @Override
@@ -48,6 +51,13 @@ public class ResetCommand implements SubCommand {
             sender.sendMessage(Lang.VALID_COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
             return;
         }
-        sender.sendMessage(DailyRewardsPlugin.getRewardManager().resetPlayer(Bukkit.getOfflinePlayer(args[0]), args[1]));
+
+        final String playerName = args[0];
+        PlayerUtils.getOfflinePlayer(playerName).thenAccept(
+                offlinePlayer ->
+                        new ResetAction(sender).preCheck(offlinePlayer, args[1], true)
+        );
+
+        //sender.sendMessage(DailyRewardsPlugin.getRewardManager().resetPlayer(Bukkit.getOfflinePlayer(args[0]), args[1]));
     }
 }

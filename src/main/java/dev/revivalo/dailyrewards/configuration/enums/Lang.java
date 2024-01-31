@@ -107,7 +107,7 @@ public enum Lang {
 							|| key.endsWith("help")) {
 						final List<String> coloredList = new ArrayList<>();
 						for (final String uncoloredLine : langSection.getStringList(key)){
-							coloredList.add(TextUtils.applyColor(uncoloredLine));
+							coloredList.add(TextUtils.colorize(uncoloredLine));
 						}
 						listsAsStrings.put(key, String.join("⎶", coloredList));
 					} else
@@ -116,7 +116,7 @@ public enum Lang {
 	}
 
 	public String asReplacedString(Map<String, String> definitions) {
-		return TextUtils.applyColor(TextUtils.replaceString(messages.get(text), definitions));
+		return TextUtils.colorize(TextUtils.replaceString(messages.get(text), definitions));
 	}
 
 	public List<String> asReplacedList(final Map<String, String> definitions) {
@@ -128,6 +128,6 @@ public enum Lang {
 	}
 
 	public String asColoredString() {
-		return TextUtils.applyColor(messages.get(text));
+		return TextUtils.colorize(messages.get(text));
 	}
 }

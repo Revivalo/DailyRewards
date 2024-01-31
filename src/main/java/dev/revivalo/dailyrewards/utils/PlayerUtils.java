@@ -51,6 +51,14 @@ public class PlayerUtils {
         return true;
     }
 
+    public static CompletableFuture<OfflinePlayer> getOfflinePlayer(final UUID uuid) {
+        return DailyRewardsPlugin.get().completableFuture(() -> Bukkit.getOfflinePlayer(uuid));
+    }
+
+    public static CompletableFuture<OfflinePlayer> getOfflinePlayer(final String playerName) {
+        return DailyRewardsPlugin.get().completableFuture(() -> Bukkit.getOfflinePlayer(playerName));
+    }
+
     public static void spawnFirework(Location location){
         Firework fw = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
         fw.setMetadata("nodamage", new FixedMetadataValue(DailyRewardsPlugin.get(), true));

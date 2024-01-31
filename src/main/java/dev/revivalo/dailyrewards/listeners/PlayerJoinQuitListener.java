@@ -63,8 +63,13 @@ public class PlayerJoinQuitListener implements Listener {
             ReminderReceiveEvent reminderReceiveEvent = new ReminderReceiveEvent(player, availableRewards);
             Bukkit.getPluginManager().callEvent(reminderReceiveEvent);
 
-            if (reminderReceiveEvent.isCancelled())
+            if (reminderReceiveEvent.isCancelled()) {
                 return;
+            }
+
+            if (user.hasEnabledAutoClaim()) {
+                return;
+            }
 
             DailyRewardsPlugin.get().runDelayed(() -> {
                 PlayerUtils.playSound(player, Config.JOIN_NOTIFICATION_SOUND.asString());

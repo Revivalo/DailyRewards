@@ -92,8 +92,8 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         console.sendMessage(" ");
         console.sendMessage(" ");
         console.sendMessage(" ");
-        console.sendMessage(ChatColor.GOLD + "[DailyRewards] Update your version to ULTIMATE and remove limitations!");
-        console.sendMessage(ChatColor.GOLD + "[DailyRewards] Get it from here: https://bit.ly/ultimate-rewards");
+        console.sendMessage(ChatColor.GOLD + "[DailyRewards] Unleash the full potential of DailyRewards by upgrading to ULTIMATE!");
+        console.sendMessage(ChatColor.GOLD + "[DailyRewards] Get it from https://bit.ly/ultimate-rewards");
         console.sendMessage(" ");
         console.sendMessage(" ");
         console.sendMessage(" ");
@@ -129,10 +129,13 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         getScheduler().runTaskLater(this, runnable, delay);
     }
 
+    public void runSync(Runnable runnable) {
+        getScheduler().runTask(this, runnable);
+    }
+
     public void runAsync(Runnable runnable) {
         getScheduler().runTaskAsynchronously(this, runnable);
     }
-
 
     public <T> CompletableFuture<T> completableFuture(Callable<T> callable) {
         CompletableFuture<T> future = new CompletableFuture<>();

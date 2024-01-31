@@ -13,6 +13,8 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class PlayerUtils {
     public static boolean isPlayerInDisabledWorld(final Player player, boolean announce) {

@@ -50,6 +50,10 @@ public class User {
         return availableRewards;
     }
 
+    public boolean isOnline() {
+        return player.isOnline();
+    }
+
     public boolean hasEnabledJoinNotification() {
         return 1 == Long.parseLong(String.valueOf(data.get("joinNotification")));
     }

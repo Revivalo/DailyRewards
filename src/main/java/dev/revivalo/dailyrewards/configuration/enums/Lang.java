@@ -22,7 +22,7 @@ public enum Lang {
 	REWARD_RESET("reward-reset"),
 	UNAVAILABLE_PLAYER("unavailable-player"),
 	DISABLED_REWARD("reward-disabled"),
-	PERMISSION_MESSAGE("permission-msg"),
+	INSUFFICIENT_PERMISSION_MESSAGE("permission-msg"),
 	REWARDS_ARE_NOT_SET("rewards-are-not-set"),
 	RELOAD_MESSAGE("reload-msg"),
 	MENU_TITLE("menu-title"),

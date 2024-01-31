@@ -92,7 +92,7 @@ public class MenuManager {
 
     public void openSettings(final Player player) {
         if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.SETTINGS_MENU)) {
-            player.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
             return;
         }
 

@@ -5,6 +5,7 @@ import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.managers.reward.actions.ClaimAction;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

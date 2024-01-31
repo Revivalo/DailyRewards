@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 
 public class RewardsMainCommand extends MainCommand {
     public RewardsMainCommand() {
-        super(Lang.PERMISSION_MESSAGE.asColoredString(), new StartingWithStringArgumentMatcher());
+        super(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(), new StartingWithStringArgumentMatcher());
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RewardsMainCommand extends MainCommand {
             return;
 
         if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.OPENS_MAIN_REWARD_MENU)) {
-            sender.sendMessage(Lang.PERMISSION_MESSAGE.asColoredString());
+            sender.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
             return;
         }
 

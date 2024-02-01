@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 
 public enum RewardType {
-	DAILY("dailyrewards.daily"),
-	WEEKLY("dailyrewards.weekly"),
-	MONTHLY("dailyrewards.monthly");
+	DAILY("dailyreward.daily"),
+	WEEKLY("dailyreward.weekly"),
+	MONTHLY("dailyreward.monthly");
 
 	private final String permission;
 

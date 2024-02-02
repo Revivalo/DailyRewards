@@ -83,7 +83,8 @@ public enum Lang {
 	MONTHLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE("monthly-premium-displayname-unavailable"),
 	MONTHLY_UNAVAILABLE_LORE("monthly-unavailable-lore"),
 	MONTHLY_PREMIUM_UNAVAILABLE_LORE("monthly-unavailable-premium-lore"),
-	FULL_INVENTORY_MESSAGE("full-inventory-message");
+	FULL_INVENTORY_MESSAGE("full-inventory-message"),
+	FULL_INVENTORY_MESSAGE_AUTO_CLAIM("full-inventory-message-auto-claim");
 
 	private static final Map<String, String> messages = new HashMap<>();
 	private static final Map<String, String> listsAsStrings = new HashMap<>();

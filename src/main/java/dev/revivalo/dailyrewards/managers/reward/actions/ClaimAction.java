@@ -125,6 +125,6 @@ public class ClaimAction implements RewardAction<RewardType> {
 
     @Override
     public PermissionUtils.Permission getPermission() {
-        return PermissionUtils.Permission.CLAIM_REWARDS;
+        return null;
     }
 }

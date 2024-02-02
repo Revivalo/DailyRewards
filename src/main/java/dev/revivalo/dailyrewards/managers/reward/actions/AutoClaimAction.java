@@ -9,13 +9,14 @@ import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import dev.revivalo.dailyrewards.utils.TextUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.util.HashMap;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class AutoClaimAction implements RewardAction<Set<RewardType>> {
 
@@ -31,26 +32,40 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
             return;
         }
 
-        if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean() && player.getInventory().firstEmpty() == -1) {
-            player.sendMessage(Lang.FULL_INVENTORY_MESSAGE.asColoredString());
-            return;
+        StringBuilder formattedRewards = new StringBuilder();
+
+        BukkitScheduler scheduler = Bukkit.getScheduler();
+        int delay = 2;
+
+        for (RewardType rewardType : rewardTypes) {
+            scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
+                if (player.hasPermission(rewardType.getPermission())) {
+                    if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean() && player.getInventory().firstEmpty() == -1) {
+                        player.sendMessage(Lang.FULL_INVENTORY_MESSAGE_AUTO_CLAIM.asColoredString().replace("%reward%", rewardType.toString()));
+                        return;
+                    }
+
+                    formattedRewards.append(DailyRewardsPlugin.getRewardManager().getRewardsPlaceholder(rewardType)).append(", ");
+
+                    new ClaimAction(player)
+                            .disableAnnounce()
+                            .preCheck(player, rewardType, false);
+                }
+            }, delay);
+
+            delay += 2;
         }
 
-        final String formattedRewards = rewardTypes.stream()
-                .map(DailyRewardsPlugin.getRewardManager()::getRewardsPlaceholder)
-                .collect(Collectors.joining(", "));
+        scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
+            if (formattedRewards.length() > 0) {
+                formattedRewards.setLength(formattedRewards.length() - 2); // Odstranění posledních dvou znaků (", ")
 
-        rewardTypes.forEach(
-                rewardType ->
-                        new ClaimAction(player)
-                                .disableAnnounce()
-                                .preCheck(player, rewardType, false)
-        );
-
-        TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
-                .asReplacedList(new HashMap<String, String>() {{
-                    put("%rewards%", String.format(formattedRewards));
-                }}));
+                TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
+                        .asReplacedList(new HashMap<String, String>() {{
+                            put("%rewards%", formattedRewards.toString());
+                        }}));
+            }
+        }, delay);
     }
 
     @Override

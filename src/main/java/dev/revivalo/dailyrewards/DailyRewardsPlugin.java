@@ -10,7 +10,7 @@ import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.listeners.InventoryClickListener;
 import dev.revivalo.dailyrewards.listeners.PlayerJoinQuitListener;
 import dev.revivalo.dailyrewards.managers.MenuManager;
-import dev.revivalo.dailyrewards.managers.database.MySQLManager;
+import dev.revivalo.dailyrewards.managers.backend.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
@@ -36,7 +36,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
      */
     private final int RESOURCE_ID = 81780;
 
-    public static DailyRewardsPlugin plugin;
+    private static DailyRewardsPlugin plugin;
     private static String latestVersion;
 
     private static ConsoleCommandSender console;

@@ -19,6 +19,7 @@ lang:
   invalid-arguments: "%prefix% &cUse /reward help to list syntax of available commands"
   incomplete-reward-reset: "%prefix% &cSpecify what you specifically want to reset (daily/weekly/monthly/all)"
   full-inventory-message: "%prefix% &cYou can not obtain the reward(s), your inventory is full!"
+  full-inventory-message-auto-claim: "%prefix% Reward: &c%reward% cannot be auto-claimed due to a full inventory!"
   claiming-in-disabled-world: "%prefix% &cYou can not obtain rewards in %world% world"
   not-enough-required-time-to-claim: "%prefix% &cYou must spend at least %requiredMinutes% minutes on the server before you can collect rewards (%minutes% minutes remaining)"
   command-usage: "%prefix% &cValid usage: %usage%"

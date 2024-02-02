@@ -1,4 +1,4 @@
-package dev.revivalo.dailyrewards.managers.database;
+package dev.revivalo.dailyrewards.managers.backend;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -87,8 +87,17 @@ public class MySQLManager {
 
 		try (Connection connection = getConnection()) {
 			connection.prepareStatement(CREATE_TABLE).execute();
-			addNewRewardColumn(new HashMap<String, String>(){{put("joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? "1" : "0");}});
-			addNewRewardColumn(new HashMap<String, String>(){{put("autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? "1" : "0");}});
+			addNewRewardColumn(
+					new HashMap<String, String>() {{
+						put("joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? "1" : "0");
+					}}
+			);
+			addNewRewardColumn(
+					new HashMap<String, String>() {{
+						put("autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? "1" : "0");
+					}}
+			);
+
 			DataManager.setUsingMysql(true);
 		} catch (SQLException e) {
 			throw new RuntimeException(e);

@@ -5,14 +5,21 @@ import org.bukkit.command.CommandSender;
 
 public class PermissionUtils {
     public static boolean hasPermission(CommandSender commandSender, Permission permission){
-        if (commandSender.isOp())
+        if (permission == null) {
             return true;
+        }
 
-        else if (commandSender.hasPermission(Permission.ADMIN_PERMISSION.get()))
+        if (commandSender.isOp()) {
             return true;
+        }
 
-        else
+        else if (commandSender.hasPermission(Permission.ADMIN_PERMISSION.get())) {
+            return true;
+        }
+
+        else {
             return commandSender.hasPermission(permission.get());
+        }
     }
 
     public static boolean hasPermission(User user, Permission permission) {

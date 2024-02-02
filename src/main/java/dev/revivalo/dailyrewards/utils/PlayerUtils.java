@@ -46,7 +46,14 @@ public class PlayerUtils {
         if (requiredPlayTimeInMinutes != 0) {
             final float actualPlayTimeInMinutes = PlayerUtils.getPlayersPlayTimeInMinutes(player);
             if (actualPlayTimeInMinutes < requiredPlayTimeInMinutes) {
-                player.sendMessage(Lang.NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM.asReplacedString(new HashMap<String, String>(){{put("%requiredMinutes%", String.valueOf(requiredPlayTimeInMinutes)); put("%minutes%", String.valueOf(Math.round(requiredPlayTimeInMinutes - actualPlayTimeInMinutes)));}}));
+                player.sendMessage(
+                        Lang.NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM.asReplacedString(
+                                new HashMap<String, String>() {{
+                                    put("%requiredMinutes%", String.valueOf(requiredPlayTimeInMinutes));
+                                    put("%minutes%", String.valueOf(Math.round(requiredPlayTimeInMinutes - actualPlayTimeInMinutes)));
+                                }}
+                        )
+                );
                 return false;
             }
         }

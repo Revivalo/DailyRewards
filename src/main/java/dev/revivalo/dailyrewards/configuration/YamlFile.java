@@ -24,8 +24,12 @@ public class YamlFile {
 
 		boolean update = true;
 		switch (this.updateMethod){
-			case NEVER: update = false; break;
-			case ON_LOAD: update = !file.exists(); break;
+			case NEVER:
+				update = false;
+				break;
+			case ON_LOAD:
+				update = !file.exists();
+				break;
 		}
 
 		try {

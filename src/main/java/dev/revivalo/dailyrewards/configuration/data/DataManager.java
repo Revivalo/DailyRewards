@@ -2,7 +2,7 @@ package dev.revivalo.dailyrewards.configuration.data;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
-import dev.revivalo.dailyrewards.managers.database.MySQLManager;
+import dev.revivalo.dailyrewards.managers.backend.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;

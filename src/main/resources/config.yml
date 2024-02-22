@@ -114,13 +114,26 @@ config:
   daily-unavailable-item: "MINECART"
   # Following commands will be executed when player claims his
   # reward with dailyreward.daily permission
+  #
+  # Available actions:
+  # [console] - entered statement will be executed from console
+  # [player] - statement performed as player command execution
+  # [message] - messages the player with specified text
+  # [actionbar] - shows the text in actionbar for the player
+  # [title] - sends primary title with entered text
+  # [subtitle] - sends secondary title with entered text
+  # [sound] - plays specified sound for the player
+  # [firework] - launches a firework above the player
+  #
   daily-rewards:
-    - "give %player% iron_ingot 8"
+    - "[console] give %player% iron_ingot 8"
+    - "[actionbar] &aClaimed daily reward!"
   # In the other hand, when player has dailyreward.daily.premium
   # this commands will be executed (same way for weekly and monthly rewards)
   daily-premium-rewards:
-    - "give %player% iron_ingot 16"
-    - "give %player% gold_ingot 3"
+    - "[console] give %player% iron_ingot 16"
+    - "[console] give %player% gold_ingot 3"
+    - "[actionbar] &aClaimed daily reward!"
   #
   #
   # WEEKLY REWARD SECTION
@@ -138,10 +151,10 @@ config:
   weekly-available-item: "CHEST_MINECART"
   weekly-unavailable-item: "MINECART"
   weekly-rewards:
-    - "give %player% diamond 1"
+    - "[console] give %player% diamond 1"
   weekly-premium-rewards:
-    - "give %player% diamond 5"
-    - "give %player% emerald 3"
+    - "[console] give %player% diamond 5"
+    - "[console] give %player% emerald 3"
   #
   #
   # MONTHLY REWARD SECTION
@@ -159,11 +172,11 @@ config:
   monthly-available-item: "CHEST_MINECART"
   monthly-unavailable-item: "MINECART"
   monthly-rewards:
-    - "give %player% diamond 8"
-    - "give %player% iron_ingot 32"
-    - "give %player% gold_ingot 16"
+    - "[console] give %player% diamond 8"
+    - "[console] give %player% iron_ingot 32"
+    - "[console] give %player% gold_ingot 16"
   monthly-premium-rewards:
-    - "give %player% nether_star 1"
-    - "give %player% diamond 16"
-    - "give %player% iron_ingot 64"
-    - "give %player% gold_ingot 32"
+    - "[console] give %player% nether_star 1"
+    - "[console] give %player% diamond 16"
+    - "[console] give %player% iron_ingot 64"
+    - "[console] give %player% gold_ingot 32"

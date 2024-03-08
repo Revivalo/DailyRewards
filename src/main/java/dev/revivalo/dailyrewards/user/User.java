@@ -70,7 +70,7 @@ public class User {
         data.put("autoClaim", set ? "1" : "0");
     }
 
-    public void updateCooldowns(Map<String, Object> changes) {
+    public void updateData(Map<String, Object> changes) {
         data.putAll(changes);
     }
 

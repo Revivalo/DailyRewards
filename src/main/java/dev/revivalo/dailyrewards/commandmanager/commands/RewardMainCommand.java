@@ -17,6 +17,7 @@ public class RewardMainCommand extends MainCommand {
     @Override
     protected void registerSubCommands() {
         subCommands.add(new ClaimCommand());
+        subCommands.add(new ImportCommand());
         subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());
         subCommands.add(new ResetCommand());

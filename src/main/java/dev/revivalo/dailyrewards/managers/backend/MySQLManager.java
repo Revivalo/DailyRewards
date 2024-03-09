@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
 
@@ -105,8 +106,9 @@ public class MySQLManager {
 	}
 
 	public static void createPlayer(final String uuid) {
-		if (MySQLManager.playerExists(uuid))
+		if (MySQLManager.playerExists(uuid)) {
 			return;
+		}
 
 		final long currentTimeInMillis = System.currentTimeMillis();
 		try (Connection connection = getConnection()) {
@@ -137,6 +139,9 @@ public class MySQLManager {
 	}
 
 	public static boolean updatePlayer(UUID uniqueId, Map<String, Object> changes) {
+		Optional.ofNullable(UserHandler.getUser(uniqueId)).ifPresent(
+				user -> user.updateData(changes)
+		);
 
 		final StringBuilder builder = new StringBuilder();
 		Iterator<String> keys = changes.keySet().iterator();
@@ -158,7 +163,7 @@ public class MySQLManager {
 						put("%values%", builder.toString());
 						put("%selector%", uniqueId.toString());
 					}});
-			//Bukkit.getLogger().info(command);
+			//DailyRewardsPlugin.get().getLogger().info(command);
 			connection.prepareStatement(
 					command
 			).executeUpdate();

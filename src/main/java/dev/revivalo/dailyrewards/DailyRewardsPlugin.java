@@ -125,6 +125,10 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         return player.hasPermission(String.format("dailyreward.%s.premium", type));
     }
 
+    public void executeCommandAsConsole(String command) {
+        getServer().dispatchCommand(getServer().getConsoleSender(), command);
+    }
+
     public void runDelayed(Runnable runnable, long delay) {
         getScheduler().runTaskLater(this, runnable, delay);
     }

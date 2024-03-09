@@ -2,15 +2,14 @@ package dev.revivalo.dailyrewards.configuration.enums;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.YamlFile;
-import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
-import me.clip.placeholderapi.PlaceholderAPI;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public enum Lang {
 	PREFIX("prefix"),
@@ -86,8 +85,10 @@ public enum Lang {
 	FULL_INVENTORY_MESSAGE("full-inventory-message"),
 	FULL_INVENTORY_MESSAGE_AUTO_CLAIM("full-inventory-message-auto-claim");
 
+	private static final YamlFile langYamlFile = new YamlFile("lang.yml",
+			DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 	private static final Map<String, String> messages = new HashMap<>();
-	private static final Map<String, String> listsAsStrings = new HashMap<>();
+	private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
 	private final String text;
 
 	Lang(String text) {
@@ -95,40 +96,29 @@ public enum Lang {
 	}
 
 	public static void reload() {
-		final YamlConfiguration configuration = new YamlFile("lang.yml",
-				DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME)
-				.getConfiguration();
+		langYamlFile.reload();
+		final YamlConfiguration configuration = langYamlFile.getConfiguration();
 
 		ConfigurationSection langSection = configuration.getConfigurationSection("lang");
-		Objects.requireNonNull(langSection)
-				.getKeys(true)
+
+		langSection
+				.getKeys(false)
 				.forEach(key -> {
-					if (key.endsWith("lore")
-							|| key.endsWith("notification")
-							|| key.endsWith("help")) {
-						final List<String> coloredList = new ArrayList<>();
-						for (final String uncoloredLine : langSection.getStringList(key)){
-							coloredList.add(TextUtils.colorize(uncoloredLine));
-						}
-						listsAsStrings.put(key, String.join("⎶", coloredList));
+					if (langSection.isList(key)) {
+						listsStoredAsStrings.put(key, String.join("ᴪ", langSection.getStringList(key)));
 					} else
 						messages.put(key, StringUtils.replace(langSection.getString(key), "%prefix%", Lang.PREFIX.asColoredString(), 1));
 				});
 	}
 
-	public String asReplacedString(Map<String, String> definitions) {
-		return TextUtils.colorize(TextUtils.replaceString(messages.get(text), definitions));
-	}
-
 	public List<String> asReplacedList(final Map<String, String> definitions) {
-		return TextUtils.replaceList(listsAsStrings.get(this.text), definitions);
-	}
-
-	public String asPlaceholderReplacedText(final Player player) {
-		return Hooks.getPlaceholderApiHook().isOn() ? PlaceholderAPI.setPlaceholders(player, messages.get(text)) : messages.get(text);
+		return TextUtils.colorize(TextUtils.replaceListAsString(listsStoredAsStrings.get(text), definitions));
 	}
 
 	public String asColoredString() {
 		return TextUtils.colorize(messages.get(text));
+	}
+	public String asReplacedString(Map<String, String> definitions) {
+		return TextUtils.colorize(TextUtils.replaceString(messages.get(text), definitions));
 	}
 }

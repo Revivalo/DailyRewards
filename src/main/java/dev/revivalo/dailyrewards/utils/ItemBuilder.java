@@ -30,11 +30,6 @@ public class ItemBuilder {
             return this;
         }
 
-        public ItemBuilderBuilder setAmount(final int amount) {
-            this.itemStack.setAmount(amount);
-            return this;
-        }
-
         public ItemBuilderBuilder setGlow(final boolean glow) {
             if (glow) {
                 Objects.requireNonNull(this.meta).addEnchant(Enchantment.LURE, 1, false);

@@ -6,7 +6,7 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>DailyReward</artifactId>
-    <version>1.9.2</version>
+    <version>1.9.5</version>
     <packaging>jar</packaging>
 
     <name>DailyReward</name>
@@ -148,19 +148,19 @@
             <groupId>com.tchristofferson</groupId>
             <artifactId>ConfigUpdater</artifactId>
             <version>1.1-SNAPSHOT</version>
-            <scope>compile</scope>
+            <scope>shaded</scope>
         </dependency>
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
-            <version>3.0.1</version>
+            <version>3.0.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>4.0.3</version>
-            <scope>shaded</scope>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.LoneDev6</groupId>

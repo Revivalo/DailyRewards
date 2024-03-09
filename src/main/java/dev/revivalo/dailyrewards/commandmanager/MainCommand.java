@@ -74,8 +74,8 @@ public abstract class MainCommand implements TabExecutor {
         return result;
     }
 
-    public void registerMainCommand(JavaPlugin main, String cmdName) {
-        PluginCommand cmd = main.getCommand(cmdName);
+    public void registerMainCommand(JavaPlugin plugin, String cmdName) {
+        PluginCommand cmd = plugin.getCommand(cmdName);
 
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
@@ -88,9 +88,5 @@ public abstract class MainCommand implements TabExecutor {
 
     protected SubCommand getDefaultSyntax() {
         return subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase("default")).findAny().orElse(null);
-    }
-
-    public Set<SubCommand> getSubCommands () {
-        return new HashSet<>(subCommands);
     }
 }

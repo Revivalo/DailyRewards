@@ -11,6 +11,7 @@ import java.util.*;
 public class PlayerData extends YamlConfiguration {
 
 	private static final Map<UUID, PlayerData> configurations = new HashMap<>();
+	private static final File userDataFolder = new File(DailyRewardsPlugin.get().getDataFolder(), "userdata");
 
 	private final UUID uuid;
 	private final File file;
@@ -18,9 +19,7 @@ public class PlayerData extends YamlConfiguration {
 	public PlayerData(UUID uniqueId) {
 		super();
 		this.uuid = uniqueId;
-		this.file = new File(
-				DailyRewardsPlugin.get().getDataFolder(),
-				String.format("userdata%s%s.yml", File.separator, uniqueId.toString()));
+		this.file = new File(userDataFolder, String.format("%s.yml", uniqueId));
 		if (file.exists()) this.reload();
 	}
 
@@ -34,6 +33,10 @@ public class PlayerData extends YamlConfiguration {
 			configurations.put(uniqueId, dataConfig);
 			return dataConfig;
 		}
+	}
+
+	public static List<File> getFiles() {
+		return Arrays.asList(userDataFolder.listFiles());
 	}
 
 	public static void removeConfigs() {

@@ -72,6 +72,7 @@ config:
   announce-enabled: true
   # In seconds
   join-notification-delay: 3
+  join-auto-claim-delay: 3
   unavailable-reward-sound: ENTITY_ENDER_DRAGON_HURT
   check-for-full-inventory: true
   # How much time (in minutes) a player must have played

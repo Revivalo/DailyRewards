@@ -27,6 +27,7 @@ public enum Config {
     JOIN_NOTIFICATION_COMMAND("join-notification-command"),
     ANNOUNCE_ENABLED("announce-enabled"),
     JOIN_NOTIFICATION_DELAY("join-notification-delay"),
+    JOIN_AUTO_CLAIM_DELAY("join-auto-claim-delay"),
     UNAVAILABLE_REWARD_SOUND("unavailable-reward-sound"),
     AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT("auto-claim-rewards-on-join-by-default"),
     AUTO_CLAIM_REWARDS_POSITION("auto-claim-rewards-position"),

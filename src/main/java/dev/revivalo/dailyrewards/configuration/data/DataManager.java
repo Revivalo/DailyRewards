@@ -13,12 +13,17 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 public class DataManager {
 
 	private static boolean usingMysql;
 
 	public static boolean updateValues(final UUID id, User user, Map<String, Object> data) {
+		if (user != null && user.isOnline()) {
+			user.updateData(data);
+		}
+
 		if (isUsingMysql()) {
 			return MySQLManager.updatePlayer(id, data);
 		} else {
@@ -34,11 +39,37 @@ public class DataManager {
 			}
 		}
 
-		if (user != null && user.isOnline()) {
-			user.updateCooldowns(data);
+		return true;
+	}
+
+	public static void importToDatabase() {
+		if (!usingMysql) {
+			return;
 		}
 
-		return true;
+		DailyRewardsPlugin.get().getLogger().info("Starting import from files...");
+
+		CountDownLatch latch = new CountDownLatch(PlayerData.getFiles().size());
+
+		PlayerData.getFiles().parallelStream().forEach(file -> {
+			String fileName = file.getName();
+			String uuidString = fileName.substring(0, fileName.length() - 4);
+			UUID uuid = UUID.fromString(uuidString);
+			MySQLManager.createPlayer(uuidString);
+
+			ConfigurationSection data = PlayerData.getConfig(uuid).getConfigurationSection("rewards");
+
+			MySQLManager.updatePlayer(UUID.fromString(uuidString), data.getValues(false));
+
+			latch.countDown();
+		});
+
+		try {
+			latch.await();
+			DailyRewardsPlugin.get().getLogger().info("Import from files completed successfully.");
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static void initiatePlayer(final Player player){

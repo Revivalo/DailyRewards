@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.api.events.PlayerPreClaimRewardEvent;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
+import dev.revivalo.dailyrewards.managers.reward.ActionsExecutor;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
@@ -45,11 +46,11 @@ public class ClaimAction implements RewardAction<RewardType> {
             return;
         }
 
-        final List<String> rewardCommands = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
+        final List<String> rewardActions = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
             put("player", player.getName());
         }});
 
-        PlayerPreClaimRewardEvent playerPreClaimRewardEvent = new PlayerPreClaimRewardEvent(player, reward.getRewardType(), rewardCommands);
+        PlayerPreClaimRewardEvent playerPreClaimRewardEvent = new PlayerPreClaimRewardEvent(player, reward.getRewardType(), rewardActions);
         Bukkit.getPluginManager().callEvent(playerPreClaimRewardEvent);
 
         if (playerPreClaimRewardEvent.isCancelled()) {
@@ -78,13 +79,19 @@ public class ClaimAction implements RewardAction<RewardType> {
         user.getCooldownOfReward(type).thenAccept(cooldown -> {
             if (cooldown.isClaimable()) {
 
-                if (rewardCommands.isEmpty()) {
+                if (rewardActions.isEmpty()) {
                     player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString());
                 } else {
                     PlayerClaimRewardEvent playerClaimRewardEvent = new PlayerClaimRewardEvent(player, reward.getRewardType());
                     Bukkit.getPluginManager().callEvent(playerClaimRewardEvent);
 
-                    rewardCommands.forEach(command -> Bukkit.dispatchCommand(DailyRewardsPlugin.getConsole(), command));
+                    ActionsExecutor.executeActions(
+                            player,
+                            reward.getRewardName(),
+                            TextUtils.findAndReturnActions(rewardActions)
+                    );
+
+                    //rewardCommands.forEach(command -> Bukkit.dispatchCommand(DailyRewardsPlugin.getConsole(), command));
                 }
 
                 CooldownManager.setCooldown(user, reward);

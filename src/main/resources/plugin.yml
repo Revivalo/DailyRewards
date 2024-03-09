@@ -1,11 +1,17 @@
 name: DailyRewards
 version: ${project.version}
-main: dev.revivalo.dailyrewards.DailyRewardsPlugin
-api-version: 1.13
-softdepend: [PlaceholderAPI, Oraxen, ItemsAdder]
+
 authors: [Revivalo]
 description: Reward system for players
 website: https://discord.gg/TfUC8uJ
+
+main: dev.revivalo.dailyrewards.DailyRewardsPlugin
+api-version: 1.13
+softdepend:
+  - PlaceholderAPI
+  - Oraxen
+  - ItemsAdder
+
 commands:
   reward:
     aliases: [rw]

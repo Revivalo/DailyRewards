@@ -28,8 +28,13 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
         }
 
         final Player player = offlinePlayer.getPlayer();
-        if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player)) {
+        if (player == null) {
             return;
+        }
+
+        if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.REQUIRED_PLAYTIME_BYPASS)) {
+            if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player))
+                return;
         }
 
         StringBuilder formattedRewards = new StringBuilder();
@@ -58,7 +63,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
 
         scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
             if (formattedRewards.length() > 0) {
-                formattedRewards.setLength(formattedRewards.length() - 2); // Odstranění posledních dvou znaků (", ")
+                formattedRewards.setLength(formattedRewards.length() - 2);
 
                 TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
                         .asReplacedList(new HashMap<String, String>() {{

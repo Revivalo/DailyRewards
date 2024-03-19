@@ -76,8 +76,8 @@ public class MenuManager {
                                                 claimable
                                                         ? TextUtils.applyPlaceholdersToList(player, DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
                                                         : TextUtils.applyPlaceholdersToList(player, TextUtils.replaceList((DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
-                                                                put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
-                                                            }}))
+                                                    put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
+                                                }}))
                                         )
                                         .build()
                         );
@@ -111,7 +111,11 @@ public class MenuManager {
         settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
 
         settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
-                .setName(Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString())
+                .setName(
+                        PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
+                                ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString()
+                                : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString()
+                )
                 .setGlow(user.hasEnabledJoinNotification())
                 .setLore(
                         user.hasEnabledJoinNotification()

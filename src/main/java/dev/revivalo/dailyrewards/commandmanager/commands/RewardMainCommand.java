@@ -18,10 +18,10 @@ public class RewardMainCommand extends MainCommand {
     protected void registerSubCommands() {
         subCommands.add(new ClaimCommand());
         subCommands.add(new ImportCommand());
-        subCommands.add(new HelpCommand());
         subCommands.add(new ReloadCommand());
         subCommands.add(new ResetCommand());
         subCommands.add(new SettingsCommand());
+        subCommands.add(new HelpCommand());
     }
 
     @Override

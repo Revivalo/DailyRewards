@@ -33,9 +33,9 @@ public class RewardManager {
         AutoClaimEvent autoClaimEvent = new AutoClaimEvent(user.getPlayer(), user.getAvailableRewards());
         Bukkit.getPluginManager().callEvent(autoClaimEvent);
 
-        if (autoClaimEvent.isCancelled())
+        if (autoClaimEvent.isCancelled()) {
             return false;
-
+        }
 
         Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
                 new AutoClaimAction().execute(user.getPlayer(), user.getAvailableRewards(), false), Config.JOIN_AUTO_CLAIM_DELAY.asInt() * 20L);

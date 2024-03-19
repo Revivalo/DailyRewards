@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class HelpCommand implements SubCommand {
+
     @Override
     public String getName() {
         return "help";

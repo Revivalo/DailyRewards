@@ -4,73 +4,98 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.managers.reward.actions.checkers.Checker;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ClaimActionResponse;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
-import dev.revivalo.dailyrewards.utils.PlayerUtils;
-import dev.revivalo.dailyrewards.utils.TextUtils;
+import dev.revivalo.dailyrewards.utils.VersionUtils;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.util.*;
 
 public class AutoClaimAction implements RewardAction<Set<RewardType>> {
 
     @Override
-    public void execute(OfflinePlayer offlinePlayer, Set<RewardType> rewardTypes, boolean fromCommand) {
+    public ActionResponse execute(OfflinePlayer offlinePlayer, Set<RewardType> rewardTypes, boolean fromCommand) {
         final User user = UserHandler.getUser(offlinePlayer.getUniqueId());
-        if (!user.isOnline()) {
-            return;
+        if (user == null) {
+            return ActionResponse.UNAVAILABLE_PLAYER;
         }
 
-        final Player player = offlinePlayer.getPlayer();
-        if (player == null) {
-            return;
-        }
-
-        if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.REQUIRED_PLAYTIME_BYPASS)) {
-            if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player))
-                return;
-        }
-
-        StringBuilder formattedRewards = new StringBuilder();
+        final Player player = user.getPlayer();
 
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        int delay = 2;
-
-        for (RewardType rewardType : rewardTypes) {
-            scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
-                if (player.hasPermission(rewardType.getPermission())) {
-                    if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean() && player.getInventory().firstEmpty() == -1) {
-                        player.sendMessage(Lang.FULL_INVENTORY_MESSAGE_AUTO_CLAIM.asColoredString().replace("%reward%", rewardType.toString()));
-                        return;
-                    }
-
-                    formattedRewards.append(DailyRewardsPlugin.getRewardManager().getRewardsPlaceholder(rewardType)).append(", ");
-
-                    new ClaimAction(player)
-                            .disableAnnounce()
-                            .preCheck(player, rewardType, false);
-                }
-            }, delay);
-
-            delay += 2;
-        }
 
         scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
-            if (formattedRewards.length() > 0) {
-                formattedRewards.setLength(formattedRewards.length() - 2);
+            Set<RewardType> claimedRewards = new HashSet<>();
+            Map<RewardType, ActionResponse> notClaimedRewards = new HashMap<>();
+            for (RewardType rewardType : rewardTypes) {
 
-                TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
-                        .asReplacedList(new HashMap<String, String>() {{
-                            put("%rewards%", formattedRewards.toString());
-                        }}));
+                if (player.hasPermission(rewardType.getPermission())) {
+
+                    ActionResponse response = new ClaimAction(player)
+                            .disableAnnounce()
+                            .preCheck(player, rewardType, false);
+
+                    if (ActionResponse.isProceeded(response)) {
+                        claimedRewards.add(rewardType);
+                    } else {
+                        notClaimedRewards.put(rewardType, response);
+                    }
+
+                }
             }
-        }, delay);
+
+            if (!notClaimedRewards.isEmpty()) {
+                BaseComponent[] msg = TextComponent.fromLegacyText(Lang.AUTO_CLAIM_FAILED.asColoredString());
+                StringBuilder notClaimRewardsBuffer = new StringBuilder();
+
+                if (!VersionUtils.isLegacyVersion()) {
+                    String format = Lang.AUTO_CLAIM_FAILED_HOVER_TEXT_LIST_FORMAT.asColoredString();
+                    for (Map.Entry<RewardType, ActionResponse> notClaimedReward : notClaimedRewards.entrySet()) {
+                        notClaimRewardsBuffer
+                                .append(" \n")
+                                .append(format
+                                        .replace("%reward%", notClaimedReward.getKey().toString())
+                                        .replace("%reason%", notClaimedReward.getValue().toString())
+                                );
+                    }
+                    for (BaseComponent bc : msg) {
+                        bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
+                                Lang.AUTO_CLAIM_FAILED_HOVER_TEXT.asColoredString()
+                                        .replace("%format%",
+                                                notClaimRewardsBuffer.toString())))
+                        );
+                    }
+                }
+
+                player.spigot().sendMessage(msg);
+                //player.sendMessage(Lang.AUTO_CLAIM_FAILED.asColoredString());
+            }
+        }, Config.JOIN_AUTO_CLAIM_DELAY.asInt() * 20L);
+
+//        scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
+//            if (formattedRewards.length() > 0) {
+//                formattedRewards.setLength(formattedRewards.length() - 2);
+//
+//                TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
+//                        .asReplacedList(new HashMap<String, String>() {{
+//                            put("%rewards%", formattedRewards.toString());
+//                        }}));
+//            }
+//        }, delay);
+
+        return ClaimActionResponse.PROCEEDED;
     }
 
     @Override
@@ -81,5 +106,10 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
     @Override
     public PermissionUtils.Permission getPermission() {
         return null;
+    }
+
+    @Override
+    public List<Checker> getCheckers() {
+        return Collections.emptyList();
     }
 }

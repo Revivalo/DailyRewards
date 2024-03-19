@@ -3,12 +3,17 @@ package dev.revivalo.dailyrewards.managers.reward.actions;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.managers.reward.actions.checkers.Checker;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ResetActionResponse;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
 public class ResetAction implements RewardAction<String> {
     private final CommandSender executor;
@@ -18,12 +23,12 @@ public class ResetAction implements RewardAction<String> {
     }
 
     @Override
-    public void execute(OfflinePlayer offlinePlayer, String typeString, boolean fromCommand) {
+    public ActionResponse execute(OfflinePlayer offlinePlayer, String typeString, boolean fromCommand) {
         final boolean isPlayerOnline = offlinePlayer.isOnline();
 
         if (!isPlayerOnline && !offlinePlayer.hasPlayedBefore()) {
             executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", offlinePlayer.getName()));
-            return;
+            return ActionResponse.UNAVAILABLE_PLAYER;
         }
 
         HashMap<String, Object> changes;
@@ -44,7 +49,7 @@ public class ResetAction implements RewardAction<String> {
 
             } catch (IllegalArgumentException ex) {
                 executor.sendMessage(Lang.INCOMPLETE_REWARD_RESET.asColoredString());
-                return;
+                return ResetActionResponse.INCOMPLETE_REWARD_RESET;
             }
         }
 
@@ -59,6 +64,8 @@ public class ResetAction implements RewardAction<String> {
         } else {
             executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", offlinePlayer.getName()));
         }
+
+        return ActionResponse.PROCEEDED;
     }
 
     @Override
@@ -69,5 +76,10 @@ public class ResetAction implements RewardAction<String> {
     @Override
     public PermissionUtils.Permission getPermission() {
         return PermissionUtils.Permission.RESET_FOR_OTHERS;
+    }
+
+    @Override
+    public List<Checker> getCheckers() {
+        return Collections.emptyList();
     }
 }

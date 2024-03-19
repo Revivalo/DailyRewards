@@ -9,6 +9,11 @@ import dev.revivalo.dailyrewards.managers.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.managers.reward.ActionsExecutor;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.managers.reward.actions.checkers.AvailableSlotsInInventoryChecker;
+import dev.revivalo.dailyrewards.managers.reward.actions.checkers.Checker;
+import dev.revivalo.dailyrewards.managers.reward.actions.checkers.DisabledWorldCheck;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ClaimActionResponse;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
@@ -19,21 +24,30 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
 public class ClaimAction implements RewardAction<RewardType> {
     private final CommandSender executor;
+    private final List<Checker> checkers;
     private boolean announce = true;
     public ClaimAction(CommandSender executor) {
         this.executor = executor;
+
+        checkers = new ArrayList<Checker>() {{
+            List<String> disabledWorlds = Config.DISABLED_WORLDS.asReplacedList(Collections.emptyMap());
+            if (!disabledWorlds.isEmpty()) add(new DisabledWorldCheck(disabledWorlds));
+            if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean()) add(new AvailableSlotsInInventoryChecker());
+        }};
     }
 
     @Override
-    public void execute(OfflinePlayer offlinePlayer, RewardType type, boolean fromCommand) {
+    public ActionResponse execute(OfflinePlayer offlinePlayer, RewardType type, boolean fromCommand) {
         final User user = UserHandler.getUser(offlinePlayer.getUniqueId());
         if (!user.isOnline()) {
-            return;
+            return ClaimActionResponse.UNAVAILABLE_PLAYER;
         }
 
         final Player player = offlinePlayer.getPlayer();
@@ -43,7 +57,7 @@ public class ClaimAction implements RewardAction<RewardType> {
 
         if (reward == null) {
             player.sendMessage(Lang.DISABLED_REWARD.asColoredString());
-            return;
+            return ClaimActionResponse.UNAVAILABLE_REWARD;
         }
 
         final List<String> rewardActions = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
@@ -54,26 +68,13 @@ public class ClaimAction implements RewardAction<RewardType> {
         Bukkit.getPluginManager().callEvent(playerPreClaimRewardEvent);
 
         if (playerPreClaimRewardEvent.isCancelled()) {
-            return;
+            return ClaimActionResponse.UNKNOWN;
         }
 
         if (!player.hasPermission(type.getPermission())) {
             //if (!fromCommand) return;
             player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
-            return;
-        }
-
-        if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.REQUIRED_PLAYTIME_BYPASS)) {
-            if (!PlayerUtils.doesPlayerHaveEnoughPlayTime(player))
-                return;
-        }
-
-        if (PlayerUtils.isPlayerInDisabledWorld(player, true))
-            return;
-
-        if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean() && player.getInventory().firstEmpty() == -1) {
-            player.sendMessage(Lang.FULL_INVENTORY_MESSAGE.asColoredString());
-            return;
+            return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
         }
 
         user.getCooldownOfReward(type).thenAccept(cooldown -> {
@@ -118,6 +119,8 @@ public class ClaimAction implements RewardAction<RewardType> {
                 PlayerUtils.playSound(player, Config.UNAVAILABLE_REWARD_SOUND.asUppercase());
             }
         });
+
+        return ActionResponse.PROCEEDED;
     }
 
     public ClaimAction disableAnnounce() {
@@ -133,5 +136,10 @@ public class ClaimAction implements RewardAction<RewardType> {
     @Override
     public PermissionUtils.Permission getPermission() {
         return null;
+    }
+
+    @Override
+    public List<Checker> getCheckers() {
+        return checkers;
     }
 }

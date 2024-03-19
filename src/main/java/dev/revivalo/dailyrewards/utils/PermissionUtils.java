@@ -26,9 +26,9 @@ public class PermissionUtils {
         RELOAD_PLUGIN("dailyreward.reload"),
         OPENS_MAIN_REWARD_MENU("dailyreward.use"),
         SETTINGS_MENU("dailyreward.settings"),
-        JOIN_NOTIFICATION_SETTING("dailyreward.settings.joinnotification"),
-        AUTO_CLAIM_SETTING("dailyreward.settings.autoclaim"),
-        REQUIRED_PLAYTIME_BYPASS("dailyreward.requiredplaytime.bypass"),
+        JOIN_NOTIFICATION_SETTING("dailyreward.settings.joinNotification"),
+        AUTO_CLAIM_SETTING("dailyreward.settings.autoClaim"),
+        REQUIRED_PLAYTIME_BYPASS("dailyreward.requiredPlaytime.bypass"),
         RESET_FOR_OTHERS("dailyreward.manage"),
         HELP("dailyreward.help");
 

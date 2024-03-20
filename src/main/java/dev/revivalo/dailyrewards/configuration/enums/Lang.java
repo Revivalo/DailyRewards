@@ -30,6 +30,7 @@ public enum Lang {
 	AUTO_CLAIM_FAILED("auto-claim-failed"),
 	AUTO_CLAIM_FAILED_HOVER_TEXT("auto-claim-failed-hover-text"),
 	AUTO_CLAIM_FAILED_HOVER_TEXT_LIST_FORMAT("auto-claim-failed-hover-text-list-format"),
+	JOIN_AUTO_CLAIMED_NOTIFICATION("join-auto-claim-notification"),
 	JOIN_NOTIFICATION_SETTING_NAME("join-notification-setting-name"),
 	JOIN_AUTO_CLAIM_SETTING_NAME("join-auto-claim-setting-name"),
 	NO_PERMISSION_SETTING_DISPLAY_NAME("no-permission-setting-display-name"),
@@ -44,9 +45,14 @@ public enum Lang {
 	JOIN_NOTIFICATION("join-notification"),
 	COOLDOWN_MESSAGE("cooldown-message"),
 	CLAIMING_IN_DISABLED_WORLD("claiming-in-disabled-world"),
-	AUTO_CLAIMED_NOTIFICATION("auto-claim-notification"),
 	NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM("not-enough-required-time-to-claim"),
+	LOCATED_IN_RESTRICTED_WORLD("located-in-restricted-world"),
+	INSUFFICIENT_PLAY_TIME("insufficient-play-time"),
+	INSUFFICIENT_PERMISSIONS("insufficient-permissions"),
+	NOT_ENOUGH_FREE_INVENTORY_SLOTS("not-enough-free-inventory-slots"),
+	UNAVAILABLE_REWARD("unavailable-reward"),
 
+	DAILY_NAME("daily-name"),
 	DAILY_TITLE("daily-title"),
 	DAILY_SUBTITLE("daily-subtitle"),
 	DAILY_COLLECTED("daily-collected"),
@@ -61,6 +67,7 @@ public enum Lang {
 	DAILY_UNAVAILABLE_LORE("daily-unavailable-lore"),
 	DAILY_PREMIUM_UNAVAILABLE_LORE("daily-unavailable-premium-lore"),
 
+	WEEKLY_NAME("weekly-name"),
 	WEEKLY_TITLE("weekly-title"),
 	WEEKLY_SUBTITLE("weekly-subtitle"),
 	WEEKLY_COLLECTED("weekly-collected"),
@@ -76,6 +83,7 @@ public enum Lang {
 	WEEKLY_UNAVAILABLE_LORE("weekly-unavailable-lore"),
 	WEEKLY_PREMIUM_UNAVAILABLE_LORE("weekly-unavailable-premium-lore"),
 
+	MONTHLY_NAME("monthly-name"),
 	MONTHLY_TITLE("monthly-title"),
 	MONTHLY_SUBTITLE("monthly-subtitle"),
 	MONTHLY_COLLECTED("monthly-collected"),
@@ -89,8 +97,7 @@ public enum Lang {
 	MONTHLY_PREMIUM_DISPLAY_NAME_UNAVAILABLE("monthly-premium-displayname-unavailable"),
 	MONTHLY_UNAVAILABLE_LORE("monthly-unavailable-lore"),
 	MONTHLY_PREMIUM_UNAVAILABLE_LORE("monthly-unavailable-premium-lore"),
-	FULL_INVENTORY_MESSAGE("full-inventory-message"),
-	FULL_INVENTORY_MESSAGE_AUTO_CLAIM("full-inventory-message-auto-claim");
+	FULL_INVENTORY_MESSAGE("full-inventory-message");
 
 	private static final YamlFile langYamlFile = new YamlFile("lang.yml",
 			DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
@@ -107,6 +114,10 @@ public enum Lang {
 		final YamlConfiguration configuration = langYamlFile.getConfiguration();
 
 		ConfigurationSection langSection = configuration.getConfigurationSection("lang");
+		if (langSection == null) {
+			DailyRewardsPlugin.get().getLogger().info("Invalid configuration in " + langYamlFile.getFilePath());
+			return;
+		}
 
 		langSection
 				.getKeys(false)

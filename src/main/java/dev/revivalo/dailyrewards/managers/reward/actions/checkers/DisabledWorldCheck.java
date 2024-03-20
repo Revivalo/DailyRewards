@@ -2,6 +2,7 @@ package dev.revivalo.dailyrewards.managers.reward.actions.checkers;
 
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ClaimActionResponse;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.entity.Player;
 
@@ -32,11 +33,11 @@ public class DisabledWorldCheck implements Checker {
 
     @Override
     public ActionResponse getClaimActionResponse() {
-        return null;
+        return ClaimActionResponse.LOCATED_IN_DISABLED_WORLD;
     }
 
     @Override
     public PermissionUtils.Permission getBypassPermission() {
-        return null;
+        return PermissionUtils.Permission.DISABLED_WORLDS_BYPASS;
     }
 }

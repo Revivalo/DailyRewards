@@ -32,6 +32,6 @@ public class AvailableSlotsInInventoryChecker implements Checker {
 
     @Override
     public PermissionUtils.Permission getBypassPermission() {
-        return PermissionUtils.Permission.REQUIRED_PLAYTIME_BYPASS;
+        return PermissionUtils.Permission.REQUIRED_FREE_SLOTS_BYPASS;
     }
 }

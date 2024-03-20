@@ -3,6 +3,7 @@ package dev.revivalo.dailyrewards.managers.reward.actions.checkers;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
+import dev.revivalo.dailyrewards.managers.reward.actions.responses.ClaimActionResponse;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import org.bukkit.entity.Player;
@@ -39,11 +40,11 @@ public class EnoughPlayTimeChecker implements Checker {
 
     @Override
     public ActionResponse getClaimActionResponse() {
-        return null;
+        return ClaimActionResponse.INSUFFICIENT_PLAY_TIME;
     }
 
     @Override
     public PermissionUtils.Permission getBypassPermission() {
-        return null;
+        return PermissionUtils.Permission.REQUIRED_PLAYTIME_BYPASS;
     }
 }

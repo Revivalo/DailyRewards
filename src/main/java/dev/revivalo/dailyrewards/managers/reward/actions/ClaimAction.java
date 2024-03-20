@@ -33,6 +33,7 @@ public class ClaimAction implements RewardAction<RewardType> {
     private final CommandSender executor;
     private final List<Checker> checkers;
     private boolean announce = true;
+    private boolean menuShouldOpen = Config.OPEN_MENU_AFTER_CLAIMING.asBoolean();
     public ClaimAction(CommandSender executor) {
         this.executor = executor;
 

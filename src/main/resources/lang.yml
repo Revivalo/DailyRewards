@@ -13,13 +13,12 @@ lang:
   reward-reset: "&e%prefix% &fYou reset the &e%type%&f reward(s) of a player &e%player%"
   unavailable-player: "%prefix% &cPlayer &n%player%&c is not available"
   reward-disabled: "%prefix% &cReward cannot be obtained!"
-  permission-msg: "%prefix% &cYou are not permitted to use this command"
+  permission-msg: "%prefix% &cYou are not permitted to perform this action."
   rewards-are-not-set: "%prefix% &cRewards are not set!"
   reload-msg: "&e%prefix% &fPlugin was successfully reloaded"
   invalid-arguments: "%prefix% &cUse /reward help to list syntax of available commands"
   incomplete-reward-reset: "%prefix% &cSpecify what you specifically want to reset (daily/weekly/monthly/all)"
   full-inventory-message: "%prefix% &cYou can not obtain the reward(s), your inventory is full!"
-  full-inventory-message-auto-claim: "%prefix% Reward: &c%reward% cannot be auto-claimed due to a full inventory!"
   claiming-in-disabled-world: "%prefix% &cYou can not obtain rewards in %world% world"
   not-enough-required-time-to-claim: "%prefix% &cYou must spend at least %requiredMinutes% minutes on the server before you can collect rewards (%minutes% minutes remaining)"
   command-usage: "%prefix% &cValid usage: %usage%"
@@ -34,13 +33,17 @@ lang:
     - "&f/reward reload &7- Reloads configuration section"
     - "&f/reward settings &7- Opens settings menu"
   #
-  # Settings menu
+  # Settings
   #
   settings-title: "Settings"
   settings-display-name: "&eSettings"
-  auto-claim-failed: "%prefix% &cSome rewards could not be auto claimed, hover for details."
+  auto-claim-failed: "%prefix% &cSome reward(s) could not be auto claimed, hover for details."
   auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
   auto-claim-failed-hover-text: "&cFollowing rewards cannot be auto claimed: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Following reward(s) has been auto-claimed: &f%listOfRewards%"
+    - " "
   join-notification-setting-name: "Join Notification"
   join-auto-claim-setting-name: "Join Auto Claim"
   no-permission-setting-display-name: "&c&l%settingType%"
@@ -69,6 +72,12 @@ lang:
     - "&7all available rewards on join"
     - " "
     - "&a► Click to enable"
+
+  located-in-restricted-world: "Reward is unavailable in current world"
+  insufficient-play-time: "Not enough play-time to claim"
+  insufficient-permissions: "Insufficient permissions"
+  not-enough-free-inventory-slots: "Not enough free inventory slots"
+  unavailable-reward: "Reward is unavailable"
   #
   # Rewards menu
   #
@@ -79,6 +88,7 @@ lang:
     - '&2 Hey %player%, &a%rewards% reward(s) are waiting for you! &f(Click here)'
     - ' '
   cooldown-message: "%prefix% &cFor &l%type% &creward you have to wait &n%time%"
+  daily-name: "Daily Reward"
   daily-title: "&a&lRewards"
   daily-subtitle: "&7You have collected your &adaily&7 reward"
   daily-collected: "&a%player% &7collected his &a&ldaily reward!"
@@ -104,6 +114,7 @@ lang:
   daily-unavailable-premium-lore:
     - " "
     - "&cAvailable in: %cooldown%"
+  weekly-name: "Weekly Reward"
   weekly-title: "&e&lRewards"
   weekly-subtitle: "&7You have collected your &eweekly &7reward"
   weekly-collected: "&e%player% &7collected his &e&lweekly reward!"
@@ -129,9 +140,10 @@ lang:
   weekly-unavailable-premium-lore:
     - " "
     - "&cAvailable in: %cooldown%"
+  monthly-name: "Monthly Reward"
   monthly-title: "&9&lRewards"
   monthly-subtitle: "&7You have collected your &9monthly &7reward"
-  monthly-collected: "&9%player% &7collected his &9&lmonthly reward!"
+  monthly-collected: "&9%player% &7has claimed &9&lmonthly reward!"
   monthly-premium-collected: "&9%player% &7collected his &9&lpremium monthly reward!"
   monthly-displayname-available: "&a&lMONTHLY REWARD"
   monthly-premium-displayname-available: "&e&lMONTHLY REWARD"

@@ -12,6 +12,7 @@ import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.managers.reward.actions.checkers.AvailableSlotsInInventoryChecker;
 import dev.revivalo.dailyrewards.managers.reward.actions.checkers.Checker;
 import dev.revivalo.dailyrewards.managers.reward.actions.checkers.DisabledWorldCheck;
+import dev.revivalo.dailyrewards.managers.reward.actions.checkers.EnoughPlayTimeChecker;
 import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
 import dev.revivalo.dailyrewards.managers.reward.actions.responses.ClaimActionResponse;
 import dev.revivalo.dailyrewards.user.User;

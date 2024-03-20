@@ -45,8 +45,9 @@ public class PlayerJoinQuitListener implements Listener {
             );
 
             final Set<RewardType> availableRewards = user.getAvailableRewards();
-            if (availableRewards.isEmpty())
+            if (availableRewards.isEmpty()) {
                 return;
+            }
 
             if (!Hooks.isAuthUsed()) {
                 if (DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(user)) {
@@ -54,11 +55,9 @@ public class PlayerJoinQuitListener implements Listener {
                 }
             }
 
-            if (!user.hasEnabledJoinNotification())
+            if (!user.hasEnabledJoinNotification()) {
                 return;
-
-            if (PlayerUtils.isPlayerInDisabledWorld(player, false))
-                return;
+            }
 
             ReminderReceiveEvent reminderReceiveEvent = new ReminderReceiveEvent(player, availableRewards);
             Bukkit.getPluginManager().callEvent(reminderReceiveEvent);

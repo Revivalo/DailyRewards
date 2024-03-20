@@ -9,6 +9,7 @@ import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
+import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -44,10 +45,6 @@ public class PlayerJoinQuitListener implements Listener {
                     )
             );
 
-            if (PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)) {
-                return;
-            }
-
             final Set<RewardType> availableRewards = user.getAvailableRewards();
             if (availableRewards.isEmpty()) {
                 return;
@@ -57,6 +54,10 @@ public class PlayerJoinQuitListener implements Listener {
                 if (DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(user)) {
                     return;
                 }
+            }
+
+            if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)) {
+                return;
             }
 
             if (!user.hasEnabledJoinNotification()) {
@@ -70,9 +71,6 @@ public class PlayerJoinQuitListener implements Listener {
                 return;
             }
 
-            if (user.hasEnabledAutoClaim()) {
-                return;
-            }
 
             DailyRewardsPlugin.get().runDelayed(() -> {
                 PlayerUtils.playSound(player, Config.JOIN_NOTIFICATION_SOUND.asString());
@@ -103,5 +101,4 @@ public class PlayerJoinQuitListener implements Listener {
     public static PlayerJoinQuitListener getInstance() {
         return instance;
     }
-
 }

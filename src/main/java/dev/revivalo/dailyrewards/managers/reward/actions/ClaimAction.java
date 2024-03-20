@@ -77,6 +77,17 @@ public class ClaimAction implements RewardAction<RewardType> {
             return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
         }
 
+        for (Checker checker : getCheckers()) {
+            if (PermissionUtils.hasPermission(player, checker.getBypassPermission())) {
+                continue;
+            }
+
+            if (!checker.check(player)) {
+                if (announce) player.sendMessage(checker.getFailedCheckMessage());
+                return checker.getClaimActionResponse();
+            }
+        }
+
         user.getCooldownOfReward(type).thenAccept(cooldown -> {
             if (cooldown.isClaimable()) {
 

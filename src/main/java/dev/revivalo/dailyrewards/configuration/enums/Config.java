@@ -1,7 +1,6 @@
 package dev.revivalo.dailyrewards.configuration.enums;
 
 import com.cryptomorin.xseries.XMaterial;
-import com.google.common.base.Splitter;
 import dev.dbassett.skullcreator.SkullCreator;
 import dev.lone.itemsadder.api.CustomStack;
 import dev.lone.itemsadder.api.ItemsAdder;
@@ -16,7 +15,10 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 public enum Config {
     MENU_SIZE("menu-size"),
@@ -98,8 +100,8 @@ public enum Config {
 
     private static final YamlFile configYamlFile = new YamlFile("config.yml",
             DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
-    private static final Map<String, String> messages = new HashMap<>();
-    private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
+    private static final Map<String, String> strings = new HashMap<>();
+    private static final Map<String, List<String>> lists = new HashMap<>();
     private static final Map<String, ItemStack> items = new HashMap<>();
 
     private final String text;
@@ -112,16 +114,18 @@ public enum Config {
         configYamlFile.reload();
         final YamlConfiguration configuration = configYamlFile.getConfiguration();
 
-        final ConfigurationSection configurationSection = configuration.getConfigurationSection("config");
-        Objects.requireNonNull(configurationSection)
+        ConfigurationSection configSection = configuration.getConfigurationSection("config");
+
+        configSection
                 .getKeys(false)
                 .forEach(key -> {
-                    if (key.endsWith("lore") || key.endsWith("rewards") || key.endsWith("notifications") || key.endsWith("help") || key.endsWith("worlds")) {
-                        listsStoredAsStrings.put(key, String.join("⎶", configurationSection.getStringList(key)));
-                    } else messages.put(key, configurationSection.getString(key));
+                    if (configSection.isList(key)) {
+                        lists.put(key, configSection.getStringList(key));
+                    } else
+                        strings.put(key, configSection.getString(key));
                 });
 
-        loadItems(configurationSection);
+        loadItems(configSection);
 
         Lang.reload();
     }
@@ -164,12 +168,12 @@ public enum Config {
         return map;
     }
 
-    public List<String> asReplacedList(final Map<String, String> definitions) {
-        return Splitter.on("⎶").splitToList(TextUtils.replaceString(listsStoredAsStrings.get(this.text), definitions));
+    public List<String> asReplacedList(Map<String, String> definitions) {
+        return lists.get(text);
     }
 
     public String asString() {
-        return messages.get(text);
+        return strings.get(text);
     }
 
     public ItemStack asAnItem() {

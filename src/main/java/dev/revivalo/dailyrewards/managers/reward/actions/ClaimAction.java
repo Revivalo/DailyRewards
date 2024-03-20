@@ -40,6 +40,7 @@ public class ClaimAction implements RewardAction<RewardType> {
             List<String> disabledWorlds = Config.DISABLED_WORLDS.asReplacedList(Collections.emptyMap());
             if (!disabledWorlds.isEmpty()) add(new DisabledWorldCheck(disabledWorlds));
             if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean()) add(new AvailableSlotsInInventoryChecker());
+            if (Config.FIRST_TIME_REQUIRED_PLAY_TIME.asInt() > 0) add(new EnoughPlayTimeChecker());
         }};
     }
 

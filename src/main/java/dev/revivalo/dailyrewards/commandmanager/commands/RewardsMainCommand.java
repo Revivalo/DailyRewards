@@ -5,7 +5,6 @@ import dev.revivalo.dailyrewards.commandmanager.MainCommand;
 import dev.revivalo.dailyrewards.commandmanager.argumentmatchers.StartingWithStringArgumentMatcher;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
-import dev.revivalo.dailyrewards.utils.PlayerUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -27,9 +26,6 @@ public class RewardsMainCommand extends MainCommand {
         }
 
         final Player player = (Player) sender;
-
-        if (PlayerUtils.isPlayerInDisabledWorld(player, true))
-            return;
 
         if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.OPENS_MAIN_REWARD_MENU)) {
             sender.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());

@@ -88,7 +88,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
             if (!claimedRewards.isEmpty()) {
                 StringBuilder claimedRewardsBuilder = new StringBuilder();
                 for (RewardType availableReward : claimedRewards) {
-                    claimedRewardsBuilder.append("\n ").append(availableReward.name());
+                    claimedRewardsBuilder.append("\n ").append(availableReward.getName());
                 }
                 TextUtils.sendListToPlayer(player, Lang.JOIN_AUTO_CLAIMED_NOTIFICATION
                         .asReplacedList(new HashMap<String, String>() {{

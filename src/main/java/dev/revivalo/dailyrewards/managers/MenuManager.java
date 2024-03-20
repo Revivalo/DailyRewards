@@ -110,27 +110,33 @@ public class MenuManager {
 
         settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
 
-        settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem())
+        settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) ? Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem() : new ItemStack(Material.BARRIER))
                 .setName(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
                                 ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString()
-                                : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString()
+                                : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString().replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString())
                 )
-                .setGlow(user.hasEnabledJoinNotification())
+                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) && user.hasEnabledAutoClaim())
                 .setLore(
-                        user.hasEnabledJoinNotification()
+                        PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
+                                ? user.hasEnabledJoinNotification()
                                 ? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
                                 : Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING.get());}})
                 ).build()
         );
 
-        settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(new ItemStack(Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem()))
-                .setName(Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString())
-                .setGlow(user.hasEnabledAutoClaim())
+        settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) ? Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem() : new ItemStack(Material.BARRIER))
+                .setName(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
+                        ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString()
+                        : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString().replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString()))
+                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) && user.hasEnabledAutoClaim())
                 .setLore(
-                        user.hasEnabledAutoClaim()
-                                ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+                        PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
+                                ? user.hasEnabledAutoClaim()
+                                    ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
+                                    : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", PermissionUtils.Permission.AUTO_CLAIM_SETTING.get());}})
                 ).build()
         );
 

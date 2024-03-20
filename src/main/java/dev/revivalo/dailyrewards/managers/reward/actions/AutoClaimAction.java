@@ -10,6 +10,7 @@ import dev.revivalo.dailyrewards.managers.reward.actions.responses.ClaimActionRe
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
+import dev.revivalo.dailyrewards.utils.TextUtils;
 import dev.revivalo.dailyrewards.utils.VersionUtils;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -26,7 +27,7 @@ import java.util.*;
 public class AutoClaimAction implements RewardAction<Set<RewardType>> {
 
     @Override
-    public ActionResponse execute(OfflinePlayer offlinePlayer, Set<RewardType> rewardTypes, boolean fromCommand) {
+    public ActionResponse execute(OfflinePlayer offlinePlayer, Set<RewardType> rewardTypes) {
         final User user = UserHandler.getUser(offlinePlayer.getUniqueId());
         if (user == null) {
             return ActionResponse.UNAVAILABLE_PLAYER;
@@ -45,7 +46,8 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
 
                     ActionResponse response = new ClaimAction(player)
                             .disableAnnounce()
-                            .preCheck(player, rewardType, false);
+                            .disableMenuOpening()
+                            .preCheck(player, rewardType);
 
                     if (ActionResponse.isProceeded(response)) {
                         claimedRewards.add(rewardType);
@@ -66,8 +68,8 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
                         notClaimRewardsBuffer
                                 .append(" \n")
                                 .append(format
-                                        .replace("%reward%", notClaimedReward.getKey().toString())
-                                        .replace("%reason%", notClaimedReward.getValue().toString())
+                                        .replace("%reward%", notClaimedReward.getKey().getName())
+                                        .replace("%reason%", ((ClaimActionResponse) notClaimedReward.getValue()).getMessage())
                                 );
                     }
                     for (BaseComponent bc : msg) {
@@ -82,20 +84,27 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
                 player.spigot().sendMessage(msg);
                 //player.sendMessage(Lang.AUTO_CLAIM_FAILED.asColoredString());
             }
+
+            if (!claimedRewards.isEmpty()) {
+                StringBuilder claimedRewardsBuilder = new StringBuilder();
+                for (RewardType availableReward : claimedRewards) {
+                    claimedRewardsBuilder.append("\n ").append(availableReward.name());
+                }
+                TextUtils.sendListToPlayer(player, Lang.JOIN_AUTO_CLAIMED_NOTIFICATION
+                        .asReplacedList(new HashMap<String, String>() {{
+                                            put("%listOfRewards%", claimedRewardsBuilder.toString());
+                                        }}
+                        )
+                );
+            }
         }, Config.JOIN_AUTO_CLAIM_DELAY.asInt() * 20L);
 
-//        scheduler.runTaskLater(DailyRewardsPlugin.get(), () -> {
-//            if (formattedRewards.length() > 0) {
-//                formattedRewards.setLength(formattedRewards.length() - 2);
-//
-//                TextUtils.sendListToPlayer(player, Lang.AUTO_CLAIMED_NOTIFICATION
-//                        .asReplacedList(new HashMap<String, String>() {{
-//                            put("%rewards%", formattedRewards.toString());
-//                        }}));
-//            }
-//        }, delay);
-
         return ClaimActionResponse.PROCEEDED;
+    }
+
+    @Override
+    public boolean menuShouldOpen() {
+        return false;
     }
 
     @Override
@@ -105,7 +114,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
 
     @Override
     public PermissionUtils.Permission getPermission() {
-        return null;
+        return PermissionUtils.Permission.AUTO_CLAIM_SETTING;
     }
 
     @Override

@@ -23,6 +23,7 @@ public enum Config {
     SETTINGS_MENU_SIZE("settings-menu-size"),
     FILL_BACKGROUND("fill-background-enabled"),
     BACKGROUND_ITEM("background-item"),
+    OPEN_MENU_AFTER_CLAIMING("open-menu-after-claiming"),
     JOIN_NOTIFICATION_BY_DEFAULT("join-notification-by-default"),
     JOIN_NOTIFICATION_COMMAND("join-notification-command"),
     ANNOUNCE_ENABLED("announce-enabled"),

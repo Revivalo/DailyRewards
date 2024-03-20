@@ -1,6 +1,7 @@
 package dev.revivalo.dailyrewards.managers.reward.actions;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.reward.actions.checkers.Checker;
 import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionResponse;
@@ -11,22 +12,24 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 public interface RewardAction<T> {
-    default ActionResponse preCheck(OfflinePlayer player, T extra, boolean fromCommand) {
+    default ActionResponse preCheck(OfflinePlayer player, T extra) {
         if (!PermissionUtils.hasPermission(getExecutor(), getPermission())) {
             getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
             return ActionResponse.NO_PERMISSION;
         }
 
-        ActionResponse response = execute(player, extra, fromCommand);
+        ActionResponse response = execute(player, extra);
 
-        if (!fromCommand) {
+        if (menuShouldOpen() && Config.OPEN_MENU_AFTER_CLAIMING.asBoolean()) {
             DailyRewardsPlugin.getMenuManager().openRewardsMenu(player.getPlayer());
         }
 
         return response;
     }
 
-    ActionResponse execute(OfflinePlayer player, T extra, boolean fromCommand);
+    ActionResponse execute(OfflinePlayer player, T extra);
+
+    boolean menuShouldOpen();
 
     CommandSender getExecutor();
 

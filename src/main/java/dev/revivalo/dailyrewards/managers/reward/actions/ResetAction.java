@@ -23,7 +23,7 @@ public class ResetAction implements RewardAction<String> {
     }
 
     @Override
-    public ActionResponse execute(OfflinePlayer offlinePlayer, String typeString, boolean fromCommand) {
+    public ActionResponse execute(OfflinePlayer offlinePlayer, String typeString) {
         final boolean isPlayerOnline = offlinePlayer.isOnline();
 
         if (!isPlayerOnline && !offlinePlayer.hasPlayedBefore()) {
@@ -66,6 +66,11 @@ public class ResetAction implements RewardAction<String> {
         }
 
         return ActionResponse.PROCEEDED;
+    }
+
+    @Override
+    public boolean menuShouldOpen() {
+        return false;
     }
 
     @Override

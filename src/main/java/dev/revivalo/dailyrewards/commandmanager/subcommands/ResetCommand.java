@@ -57,7 +57,7 @@ public class ResetCommand implements SubCommand {
         final String playerName = args[0];
         PlayerUtils.getOfflinePlayer(playerName).thenAccept(
                 offlinePlayer ->
-                        new ResetAction(sender).preCheck(offlinePlayer, args[1], true)
+                        new ResetAction(sender).preCheck(offlinePlayer, args[1])
         );
 
         //sender.sendMessage(DailyRewardsPlugin.getRewardManager().resetPlayer(Bukkit.getOfflinePlayer(args[0]), args[1]));

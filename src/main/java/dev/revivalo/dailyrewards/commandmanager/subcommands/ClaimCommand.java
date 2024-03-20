@@ -52,7 +52,8 @@ public class ClaimCommand implements SubCommand {
             sender.sendMessage("[DailyRewards] Command is only executable in-game!");
             return;
         }
-        new ClaimAction(sender).preCheck((Player) sender, rewardType, true);
-        //DailyRewardsPlugin.getRewardManager().claim((Player) sender, rewardType, true, true);
+        new ClaimAction(sender)
+                .disableMenuOpening()
+                .preCheck((Player) sender, rewardType);
     }
 }

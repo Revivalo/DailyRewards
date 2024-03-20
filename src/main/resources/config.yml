@@ -63,6 +63,7 @@ config:
   menu-size: 45
   fill-background-enabled: true
   background-item: GRAY_STAINED_GLASS_PANE
+  open-menu-after-claiming: true
   join-notification-sound: BLOCK_NOTE_BLOCK_PLING
   join-notification-by-default: true
   join-notification-position: 21

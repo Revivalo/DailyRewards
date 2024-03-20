@@ -44,7 +44,7 @@ public class ClaimAction implements RewardAction<RewardType> {
     }
 
     @Override
-    public ActionResponse execute(OfflinePlayer offlinePlayer, RewardType type, boolean fromCommand) {
+    public ActionResponse execute(OfflinePlayer offlinePlayer, RewardType type) {
         final User user = UserHandler.getUser(offlinePlayer.getUniqueId());
         if (!user.isOnline()) {
             return ClaimActionResponse.UNAVAILABLE_PLAYER;
@@ -106,10 +106,10 @@ public class ClaimAction implements RewardAction<RewardType> {
                         Bukkit.broadcastMessage((DailyRewardsPlugin.isPremium(player, type) ? reward.getCollectedPremiumMessage() : reward.getCollectedMessage()).replace("%player%", player.getName()));
                     }
                 }
-                if (!fromCommand) player.closeInventory();
+                if (!menuShouldOpen) player.closeInventory();
 
             } else {
-                if (fromCommand) {
+                if (menuShouldOpen) {
                     player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(new HashMap<String, String>() {{
                         put("%type%", DailyRewardsPlugin.getRewardManager().getRewardsPlaceholder(type));
                         put("%time%", cooldown.getFormat(reward.getCooldownFormat()));
@@ -123,8 +123,18 @@ public class ClaimAction implements RewardAction<RewardType> {
         return ActionResponse.PROCEEDED;
     }
 
+    @Override
+    public boolean menuShouldOpen() {
+        return menuShouldOpen;
+    }
+
     public ClaimAction disableAnnounce() {
         this.announce = false;
+        return this;
+    }
+
+    public ClaimAction disableMenuOpening() {
+        this.menuShouldOpen = false;
         return this;
     }
 

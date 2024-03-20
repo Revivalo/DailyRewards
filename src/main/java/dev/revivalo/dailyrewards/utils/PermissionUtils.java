@@ -4,7 +4,7 @@ import org.bukkit.command.CommandSender;
 
 public class PermissionUtils {
     public static boolean hasPermission(CommandSender commandSender, Permission permission){
-        if (permission == null) {
+        if (permission == null || commandSender == null) {
             return true;
         }
 

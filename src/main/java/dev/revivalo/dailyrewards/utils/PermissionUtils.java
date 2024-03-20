@@ -29,6 +29,8 @@ public class PermissionUtils {
         JOIN_NOTIFICATION_SETTING("dailyreward.settings.joinNotification"),
         AUTO_CLAIM_SETTING("dailyreward.settings.autoClaim"),
         REQUIRED_PLAYTIME_BYPASS("dailyreward.requiredPlaytime.bypass"),
+        REQUIRED_FREE_SLOTS_BYPASS("dailyreward.requiredFreeSlots.bypass"),
+        DISABLED_WORLDS_BYPASS("dailyreward.disabledWorlds.bypass"),
         RESET_FOR_OTHERS("dailyreward.manage"),
         HELP("dailyreward.help");
 

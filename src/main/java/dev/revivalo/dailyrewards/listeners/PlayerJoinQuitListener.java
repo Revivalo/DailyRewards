@@ -44,6 +44,10 @@ public class PlayerJoinQuitListener implements Listener {
                     )
             );
 
+            if (PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)) {
+                return;
+            }
+
             final Set<RewardType> availableRewards = user.getAvailableRewards();
             if (availableRewards.isEmpty()) {
                 return;

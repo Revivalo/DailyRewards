@@ -30,7 +30,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
     public ActionResponse execute(OfflinePlayer offlinePlayer, Set<RewardType> rewardTypes) {
         final User user = UserHandler.getUser(offlinePlayer.getUniqueId());
         if (user == null) {
-            return ActionResponse.UNAVAILABLE_PLAYER;
+            return ActionResponse.Type.UNAVAILABLE_PLAYER;
         }
 
         final Player player = user.getPlayer();
@@ -99,7 +99,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
             }
         }, Config.JOIN_AUTO_CLAIM_DELAY.asInt() * 20L);
 
-        return ClaimActionResponse.PROCEEDED;
+        return ActionResponse.Type.PROCEEDED;
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.List;
@@ -152,7 +153,7 @@ public enum Lang {
 		//return TextUtils.colorize(messages.get(text));
 	}
 
-	public String asReplacedString(Map<String, String> definitions) {
-		return TextUtils.colorize(TextUtils.replaceString(messages.get(text), definitions));
+	public String asReplacedString(Player player, Map<String, String> definitions) {
+		return textModifier.modifyText(player, TextUtils.replaceString(messages.get(text), definitions));
 	}
 }

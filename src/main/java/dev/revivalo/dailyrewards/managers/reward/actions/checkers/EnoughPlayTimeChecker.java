@@ -21,7 +21,7 @@ public class EnoughPlayTimeChecker implements Checker {
             if (actualPlayTimeInMinutes < requiredPlayTimeInMinutes) {
                 failedCheckMessage =
                         Lang.NOT_ENOUGH_REQUIRED_TIME_TO_CLAIM.asReplacedString(
-                                new HashMap<String, String>() {{
+                                player, new HashMap<String, String>() {{
                                     put("%requiredMinutes%", String.valueOf(requiredPlayTimeInMinutes));
                                     put("%minutes%", String.valueOf(Math.round(requiredPlayTimeInMinutes - actualPlayTimeInMinutes)));
                                 }}

@@ -126,16 +126,6 @@ public class RewardManager {
         return rewards.stream().filter(reward -> reward.getRewardType() == rewardType).findFirst();
     }
 
-    public String getRewardsPlaceholder(final RewardType reward) {
-        switch (reward) {
-            case DAILY:
-                return Config.DAILY_PLACEHOLDER.asString();
-            case WEEKLY:
-                return Config.WEEKLY_PLACEHOLDER.asString();
-        }
-        return Config.MONTHLY_PLACEHOLDER.asString();
-    }
-
     public Set<Reward> getRewards() {
         return rewards;
     }

@@ -28,7 +28,7 @@ public class ResetAction implements RewardAction<String> {
 
         if (!isPlayerOnline && !offlinePlayer.hasPlayedBefore()) {
             executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", offlinePlayer.getName()));
-            return ActionResponse.UNAVAILABLE_PLAYER;
+            return ActionResponse.Type.UNAVAILABLE_PLAYER;
         }
 
         HashMap<String, Object> changes;
@@ -65,7 +65,7 @@ public class ResetAction implements RewardAction<String> {
             executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", offlinePlayer.getName()));
         }
 
-        return ActionResponse.PROCEEDED;
+        return ActionResponse.Type.PROCEEDED;
     }
 
     @Override

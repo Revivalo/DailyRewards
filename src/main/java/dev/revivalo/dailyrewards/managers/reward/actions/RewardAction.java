@@ -14,8 +14,8 @@ import java.util.List;
 public interface RewardAction<T> {
     default ActionResponse preCheck(OfflinePlayer player, T extra) {
         if (!PermissionUtils.hasPermission(getExecutor(), getPermission())) {
-            getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
-            return ActionResponse.NO_PERMISSION;
+            getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
+            return ActionResponse.Type.NO_PERMISSION;
         }
 
         ActionResponse response = execute(player, extra);

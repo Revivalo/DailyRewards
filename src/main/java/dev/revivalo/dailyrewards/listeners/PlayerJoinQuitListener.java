@@ -81,7 +81,7 @@ public class PlayerJoinQuitListener implements Listener {
                     BaseComponent[] msg = TextComponent.fromLegacyText(line);
 
                     for (BaseComponent bc : msg) {
-                        if (!VersionUtils.isLegacyVersion()) bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(Lang.JOIN_HOVER_MESSAGE.asColoredString())));
+                        if (!VersionUtils.isLegacyVersion()) bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(Lang.JOIN_HOVER_MESSAGE.asColoredString(player))));
                         bc.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, Config.JOIN_NOTIFICATION_COMMAND.asString().replace("%player%", player.getName())));
                     }
 

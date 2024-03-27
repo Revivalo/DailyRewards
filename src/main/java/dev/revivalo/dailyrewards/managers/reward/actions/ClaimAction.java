@@ -50,7 +50,7 @@ public class ClaimAction implements RewardAction<RewardType> {
     public ActionResponse execute(OfflinePlayer offlinePlayer, RewardType type) {
         final User user = UserHandler.getUser(offlinePlayer.getUniqueId());
         if (!user.isOnline()) {
-            return ClaimActionResponse.UNAVAILABLE_PLAYER;
+            return ActionResponse.Type.UNAVAILABLE_PLAYER;
         }
 
         final Player player = offlinePlayer.getPlayer();
@@ -59,7 +59,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                 .orElse(null);
 
         if (reward == null) {
-            player.sendMessage(Lang.DISABLED_REWARD.asColoredString());
+            player.sendMessage(Lang.DISABLED_REWARD.asColoredString(player));
             return ClaimActionResponse.UNAVAILABLE_REWARD;
         }
 
@@ -76,7 +76,7 @@ public class ClaimAction implements RewardAction<RewardType> {
 
         if (!player.hasPermission(type.getPermission())) {
             //if (!fromCommand) return;
-            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
             return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
         }
 
@@ -95,7 +95,7 @@ public class ClaimAction implements RewardAction<RewardType> {
             if (cooldown.isClaimable()) {
 
                 if (rewardActions.isEmpty()) {
-                    player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString());
+                    player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString(player));
                 } else {
                     PlayerClaimRewardEvent playerClaimRewardEvent = new PlayerClaimRewardEvent(player, reward.getRewardType());
                     Bukkit.getPluginManager().callEvent(playerClaimRewardEvent);
@@ -124,8 +124,8 @@ public class ClaimAction implements RewardAction<RewardType> {
 
             } else {
                 if (menuShouldOpen) {
-                    player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(new HashMap<String, String>() {{
-                        put("%type%", DailyRewardsPlugin.getRewardManager().getRewardsPlaceholder(type));
+                    player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
+                        put("%type%", type.getPlaceholder());
                         put("%time%", cooldown.getFormat(reward.getCooldownFormat()));
                     }}));
                     return;
@@ -134,7 +134,7 @@ public class ClaimAction implements RewardAction<RewardType> {
             }
         });
 
-        return ActionResponse.PROCEEDED;
+        return ActionResponse.Type.PROCEEDED;
     }
 
     @Override

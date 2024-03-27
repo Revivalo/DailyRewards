@@ -37,7 +37,7 @@ public class MenuManager {
             final Inventory inventory = Bukkit.createInventory(
                     MAIN_MENU_HOLDER,
                     Config.MENU_SIZE.asInt(),
-                    TextUtils.applyPlaceholdersToString(player, Lang.MENU_TITLE.asColoredString()));
+                    TextUtils.applyPlaceholdersToString(player, Lang.MENU_TITLE.asColoredString(player)));
 
             if (Config.FILL_BACKGROUND.asBoolean()) {
                 for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)
@@ -47,14 +47,14 @@ public class MenuManager {
             final User user = UserHandler.getUser(player.getUniqueId());
 
             if (Config.SETTINGS_ENABLED_IN_MENU.asBoolean() && Config.SETTINGS_POSITION.asInt() < Config.MENU_SIZE.asInt())
-                inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString()).build());
+                inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString(player)).build());
 
             for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
                 user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
                     final AtomicReference<BukkitTask> task = new AtomicReference<>();
 
                     task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
-                        if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString())) {
+                        if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString(player))) {
                             task.get().cancel();
                             return;
                         }
@@ -92,14 +92,14 @@ public class MenuManager {
 
     public void openSettings(final Player player) {
         if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.SETTINGS_MENU)) {
-            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
             return;
         }
 
         final Inventory settings = Bukkit.createInventory(
                 SETTINGS_MENU_HOLDER,
                 Config.SETTINGS_MENU_SIZE.asInt(),
-                Lang.SETTINGS_TITLE.asColoredString());
+                Lang.SETTINGS_TITLE.asColoredString(player));
 
         if (Config.FILL_BACKGROUND.asBoolean()) {
             for (int i = 0; i < Config.SETTINGS_MENU_SIZE.asInt(); i++)
@@ -108,13 +108,13 @@ public class MenuManager {
 
         final User user = UserHandler.getUser(player.getUniqueId());
 
-        settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString()).build());
+        settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString(player)).build());
 
         settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) ? Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem() : new ItemStack(Material.BARRIER))
                 .setName(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
-                                ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString()
-                                : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString().replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString())
+                                ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString(player)
+                                : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString(player))
                 )
                 .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) && user.hasEnabledAutoClaim())
                 .setLore(
@@ -128,8 +128,8 @@ public class MenuManager {
 
         settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) ? Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem() : new ItemStack(Material.BARRIER))
                 .setName(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
-                        ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString()
-                        : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString().replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString()))
+                        ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString(player)
+                        : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString(player)))
                 .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) && user.hasEnabledAutoClaim())
                 .setLore(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)

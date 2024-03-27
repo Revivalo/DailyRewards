@@ -59,11 +59,11 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
             }
 
             if (!notClaimedRewards.isEmpty()) {
-                BaseComponent[] msg = TextComponent.fromLegacyText(Lang.AUTO_CLAIM_FAILED.asColoredString());
+                BaseComponent[] msg = TextComponent.fromLegacyText(Lang.AUTO_CLAIM_FAILED.asColoredString(player));
                 StringBuilder notClaimRewardsBuffer = new StringBuilder();
 
                 if (!VersionUtils.isLegacyVersion()) {
-                    String format = Lang.AUTO_CLAIM_FAILED_HOVER_TEXT_LIST_FORMAT.asColoredString();
+                    String format = Lang.AUTO_CLAIM_FAILED_HOVER_TEXT_LIST_FORMAT.asColoredString(player);
                     for (Map.Entry<RewardType, ActionResponse> notClaimedReward : notClaimedRewards.entrySet()) {
                         notClaimRewardsBuffer
                                 .append(" \n")
@@ -74,7 +74,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
                     }
                     for (BaseComponent bc : msg) {
                         bc.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(
-                                Lang.AUTO_CLAIM_FAILED_HOVER_TEXT.asColoredString()
+                                Lang.AUTO_CLAIM_FAILED_HOVER_TEXT.asColoredString(player)
                                         .replace("%format%",
                                                 notClaimRewardsBuffer.toString())))
                         );

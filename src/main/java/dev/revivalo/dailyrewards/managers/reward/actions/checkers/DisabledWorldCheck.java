@@ -20,7 +20,7 @@ public class DisabledWorldCheck implements Checker {
     public boolean check(Player player) {
         final String playerWorldName = player.getWorld().getName();
         if (disabledWorlds.stream().anyMatch(worldName -> worldName.equalsIgnoreCase(playerWorldName))) {
-            failedCheckMessage = Lang.CLAIMING_IN_DISABLED_WORLD.asColoredString().replace("%world%", playerWorldName);
+            failedCheckMessage = Lang.CLAIMING_IN_DISABLED_WORLD.asColoredString(player).replace("%world%", playerWorldName);
             return false;
         }
         return true;

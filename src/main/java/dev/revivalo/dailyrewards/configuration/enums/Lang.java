@@ -1,9 +1,14 @@
 package dev.revivalo.dailyrewards.configuration.enums;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.configuration.ColorTextModifier;
+import dev.revivalo.dailyrewards.configuration.PlaceholderColorTextModifier;
+import dev.revivalo.dailyrewards.configuration.TextModifier;
 import dev.revivalo.dailyrewards.configuration.YamlFile;
+import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -98,18 +103,22 @@ public enum Lang {
 	MONTHLY_UNAVAILABLE_LORE("monthly-unavailable-lore"),
 	MONTHLY_PREMIUM_UNAVAILABLE_LORE("monthly-unavailable-premium-lore"),
 	FULL_INVENTORY_MESSAGE("full-inventory-message");
-
 	private static final YamlFile langYamlFile = new YamlFile("lang.yml",
 			DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 	private static final Map<String, String> messages = new HashMap<>();
 	private static final Map<String, String> listsStoredAsStrings = new HashMap<>();
 	private final String text;
+	private static TextModifier textModifier;
 
 	Lang(String text) {
 		this.text = text;
 	}
 
 	public static void reload() {
+		if (Hooks.isHookEnabled(Hooks.getPlaceholderApiHook())) {
+			textModifier = new PlaceholderColorTextModifier();
+		} else textModifier = new ColorTextModifier();
+
 		langYamlFile.reload();
 		final YamlConfiguration configuration = langYamlFile.getConfiguration();
 
@@ -134,8 +143,15 @@ public enum Lang {
 	}
 
 	public String asColoredString() {
-		return TextUtils.colorize(messages.get(text));
+		return textModifier.modifyText(null, messages.get(text));
+		//return TextUtils.colorize(messages.get(text));
 	}
+
+	public String asColoredString(OfflinePlayer player) {
+		return textModifier.modifyText(player, messages.get(text));
+		//return TextUtils.colorize(messages.get(text));
+	}
+
 	public String asReplacedString(Map<String, String> definitions) {
 		return TextUtils.colorize(TextUtils.replaceString(messages.get(text), definitions));
 	}

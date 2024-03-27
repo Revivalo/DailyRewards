@@ -13,7 +13,7 @@ public class AvailableRewardsResolver implements PlaceholderResolver {
     }
 
     @Override
-    public String resolve(Player p, String rawPlaceholder) {
-        return Optional.ofNullable(UserHandler.getUser(p.getUniqueId())).map(value -> String.valueOf(value.getAvailableRewards().size())).orElse(Lang.LOADING.asColoredString());
+    public String resolve(Player player, String rawPlaceholder) {
+        return Optional.ofNullable(UserHandler.getUser(player.getUniqueId())).map(value -> String.valueOf(value.getAvailableRewards().size())).orElse(Lang.LOADING.asColoredString(player));
     }
 }

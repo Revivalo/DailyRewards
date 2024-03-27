@@ -28,7 +28,7 @@ public class RewardsMainCommand extends MainCommand {
         final Player player = (Player) sender;
 
         if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.OPENS_MAIN_REWARD_MENU)) {
-            sender.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+            sender.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
             return;
         }
 

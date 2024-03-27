@@ -13,7 +13,7 @@ public class AvailableSlotsInInventoryChecker implements Checker {
     @Override
     public boolean check(Player player) {
         if (player.getInventory().firstEmpty() == -1) {
-            failedCheckMessage = Lang.FULL_INVENTORY_MESSAGE.asColoredString();
+            failedCheckMessage = Lang.FULL_INVENTORY_MESSAGE.asColoredString(player);
             return false;
         }
 

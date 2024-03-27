@@ -55,7 +55,7 @@ public class InventoryClickListener implements Listener {
 		int slot = event.getSlot();
 		if (slot == Config.JOIN_NOTIFICATION_POSITION.asInt()) {
 			if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)) {
-				player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+				player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
 				return;
 			}
 
@@ -70,7 +70,7 @@ public class InventoryClickListener implements Listener {
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
 			if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)) {
-				player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+				player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
 				return;
 			}
 

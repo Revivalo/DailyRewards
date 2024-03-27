@@ -59,7 +59,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                 .orElse(null);
 
         if (reward == null) {
-            player.sendMessage(Lang.DISABLED_REWARD.asColoredString());
+            player.sendMessage(Lang.DISABLED_REWARD.asColoredString(player));
             return ClaimActionResponse.UNAVAILABLE_REWARD;
         }
 
@@ -76,7 +76,7 @@ public class ClaimAction implements RewardAction<RewardType> {
 
         if (!player.hasPermission(type.getPermission())) {
             //if (!fromCommand) return;
-            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
             return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
         }
 
@@ -95,7 +95,7 @@ public class ClaimAction implements RewardAction<RewardType> {
             if (cooldown.isClaimable()) {
 
                 if (rewardActions.isEmpty()) {
-                    player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString());
+                    player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString(player));
                 } else {
                     PlayerClaimRewardEvent playerClaimRewardEvent = new PlayerClaimRewardEvent(player, reward.getRewardType());
                     Bukkit.getPluginManager().callEvent(playerClaimRewardEvent);

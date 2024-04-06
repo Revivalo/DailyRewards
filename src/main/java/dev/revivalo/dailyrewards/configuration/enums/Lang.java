@@ -117,6 +117,7 @@ public enum Lang {
 
 	public static void reload() {
 		if (Hooks.isHookEnabled(Hooks.getPlaceholderApiHook())) {
+			DailyRewardsPlugin.get().getLogger().info("Using PAPI text modifier");
 			textModifier = new PlaceholderColorTextModifier();
 		} else textModifier = new ColorTextModifier();
 

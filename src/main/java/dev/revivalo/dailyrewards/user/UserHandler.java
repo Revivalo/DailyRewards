@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserHandler {
+public final class UserHandler {
     private static final HashMap<UUID, User> usersHashMap = new HashMap<>();
     public static User addUser(final User user){
         usersHashMap.put(user.getPlayer().getUniqueId(), user);

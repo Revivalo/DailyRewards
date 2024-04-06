@@ -77,7 +77,7 @@ public class ClaimAction implements RewardAction<RewardType> {
         if (!PermissionUtils.hasPermission(player, type.getPermission())) {
         //if (!player.hasPermission(type.getPermission())) {
             //if (!fromCommand) return;
-            player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
+            if (announce) player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
             return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
         }
 

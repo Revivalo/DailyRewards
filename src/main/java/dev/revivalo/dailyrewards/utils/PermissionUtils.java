@@ -3,7 +3,7 @@ package dev.revivalo.dailyrewards.utils;
 import org.bukkit.command.CommandSender;
 
 public class PermissionUtils {
-    public static boolean hasPermission(CommandSender commandSender, Permission permission){
+    public static boolean hasPermission(CommandSender commandSender, String permission) {
         if (permission == null || commandSender == null) {
             return true;
         }
@@ -17,8 +17,12 @@ public class PermissionUtils {
         }
 
         else {
-            return commandSender.hasPermission(permission.get());
+            return commandSender.hasPermission(permission);
         }
+    }
+
+    public static boolean hasPermission(CommandSender commandSender, Permission permission){
+        return hasPermission(commandSender, permission == null ? null : permission.get());
     }
 
     public enum Permission {

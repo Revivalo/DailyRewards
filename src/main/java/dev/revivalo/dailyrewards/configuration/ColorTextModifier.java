@@ -15,5 +15,4 @@ public class ColorTextModifier implements TextModifier {
     public List<String> modifyList(OfflinePlayer player, List<String> list) {
         return TextUtils.colorize(list);
     }
-
 }

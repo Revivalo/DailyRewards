@@ -1,60 +1,64 @@
 package dev.revivalo.dailyrewards.managers.reward;
 
+import dev.revivalo.dailyrewards.configuration.enums.Config;
+import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Collections;
 import java.util.List;
 
 public class Reward {
     private final RewardType rewardType;
-    private final boolean availableAfterFirstJoin;
-    private final String placeholder;
-    private final long cooldown;
-    private final String cooldownFormat;
-    private final int position;
-    private final String sound;
-    private final String title;
-    private final String subtitle;
-    private final String collectedMessage;
-    private final String collectedPremiumMessage;
-    private final ItemStack availableItem;
-    private final ItemStack unavailableItem;
-    private final String availableDisplayName;
-    private final String availablePremiumDisplayName;
-    private final String unavailableDisplayName;
-    private final String unavailablePremiumDisplayName;
-    private final List<String> availableLore;
-    private final List<String> availablePremiumLore;
-    private final List<String> unavailableLore;
-    private final List<String> unavailablePremiumLore;
-    private final List<String> defaultRewards;
-    private final List<String> premiumRewards;
+    private final Config availableAfterFirstJoin;
+    private final Config placeholder;
+    private final Config cooldown;
+    private final Config cooldownFormat;
+    private final Config position;
+    private final Config sound;
+    private final Lang title;
+    private final Lang subtitle;
+    private final Lang collectedMessage;
+    private final Lang collectedPremiumMessage;
+    private final Config availableItem;
+    private final Config unavailableItem;
+    private final Lang availableDisplayName;
+    private final Lang availablePremiumDisplayName;
+    private final Lang unavailableDisplayName;
+    private final Lang unavailablePremiumDisplayName;
+    private final Lang availableLore;
+    private final Lang availablePremiumLore;
+    private final Lang unavailableLore;
+    private final Lang unavailablePremiumLore;
+    private final Config defaultRewards;
+    private final Config premiumRewards;
 
     public Reward(RewardType rewardType,
-                  boolean availableAfterFirstJoin,
-                  String placeholder,
-                  long cooldown,
-                  String cooldownFormat,
-                  int position,
-                  String sound,
-                  String title,
-                  String subtitle,
-                  String collectedMessage,
-                  String collectedPremiumMessage,
-                  ItemStack availableItem,
-                  ItemStack unavailableItem,
-                  String availableDisplayName,
-                  String availablePremiumDisplayName,
-                  String unavailableDisplayName,
-                  String unavailablePremiumDisplayName, List<String> availableLore,
-                  List<String> availablePremiumLore,
-                  List<String> unavailableLore,
-                  List<String> unavailablePremiumLore,
-                  List<String> defaultRewards,
-                  List<String> premiumRewards) {
+                  Config availableAfterFirstJoin,
+                  Config placeholder,
+                  Config cooldown,
+                  Config cooldownFormat,
+                  Config position,
+                  Config sound,
+                  Lang title,
+                  Lang subtitle,
+                  Lang collectedMessage,
+                  Lang collectedPremiumMessage,
+                  Config availableItem,
+                  Config unavailableItem,
+                  Lang availableDisplayName,
+                  Lang availablePremiumDisplayName,
+                  Lang unavailableDisplayName,
+                  Lang unavailablePremiumDisplayName,
+                  Lang availableLore,
+                  Lang availablePremiumLore,
+                  Lang unavailableLore,
+                  Lang unavailablePremiumLore,
+                  Config defaultRewards,
+                  Config premiumRewards) {
         this.rewardType = rewardType;
         this.availableAfterFirstJoin = availableAfterFirstJoin;
         this.placeholder = placeholder;
-        this.cooldown = cooldown * 60L * 60L * 1000L;
+        this.cooldown = cooldown;
         this.cooldownFormat = cooldownFormat;
         this.position = position;
         this.sound = sound;
@@ -85,90 +89,90 @@ public class Reward {
     }
 
     public boolean isAvailableAfterFirstJoin() {
-        return availableAfterFirstJoin;
+        return availableAfterFirstJoin.asBoolean();
     }
 
     public String getPlaceholder() {
-        return placeholder;
+        return placeholder.asString();
     }
 
     public long getCooldown() {
-        return cooldown;
+        return cooldown.asLong() * 60L * 60L * 1000L;
     }
 
     public String getCooldownFormat() {
-        return cooldownFormat;
+        return cooldownFormat.asString();
     }
 
     public int getPosition() {
-        return position;
+        return position.asInt();
     }
 
     public String getSound() {
-        return sound;
+        return sound.asString();
     }
 
     public String getTitle() {
-        return title;
+        return title.asColoredString();
     }
 
     public String getSubtitle() {
-        return subtitle;
+        return subtitle.asColoredString();
     }
 
     public String getCollectedMessage() {
-        return collectedMessage;
+        return collectedMessage.asColoredString();
     }
 
     public String getCollectedPremiumMessage() {
-        return collectedPremiumMessage;
+        return collectedPremiumMessage.asColoredString();
     }
 
     public ItemStack getAvailableItem() {
-        return availableItem;
+        return availableItem.asAnItem();
     }
 
     public ItemStack getUnavailableItem() {
-        return unavailableItem;
+        return unavailableItem.asAnItem();
     }
 
     public List<String> getDefaultRewards() {
-        return defaultRewards;
+        return defaultRewards.asReplacedList(Collections.emptyMap());
     }
 
     public List<String> getPremiumRewards() {
-        return premiumRewards;
+        return premiumRewards.asReplacedList(Collections.emptyMap());
     }
 
     public String getAvailableDisplayName() {
-        return availableDisplayName;
+        return availableDisplayName.asColoredString();
     }
 
     public String getAvailablePremiumDisplayName() {
-        return availablePremiumDisplayName;
+        return availablePremiumDisplayName.asColoredString();
     }
 
     public String getUnavailableDisplayName() {
-        return unavailableDisplayName;
+        return unavailableDisplayName.asColoredString();
     }
 
     public String getUnavailablePremiumDisplayName() {
-        return unavailablePremiumDisplayName;
+        return unavailablePremiumDisplayName.asColoredString();
     }
 
     public List<String> getAvailableLore() {
-        return availableLore;
+        return availableLore.asReplacedList(Collections.emptyMap());
     }
 
     public List<String> getAvailablePremiumLore() {
-        return availablePremiumLore;
+        return availablePremiumLore.asReplacedList(Collections.emptyMap());
     }
 
     public List<String> getUnavailablePremiumLore() {
-        return unavailablePremiumLore;
+        return unavailablePremiumLore.asReplacedList(Collections.emptyMap());
     }
 
     public List<String> getUnavailableLore() {
-        return unavailableLore;
+        return unavailableLore.asReplacedList(Collections.emptyMap());
     }
 }

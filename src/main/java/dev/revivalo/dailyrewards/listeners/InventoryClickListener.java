@@ -39,13 +39,15 @@ public class InventoryClickListener implements Listener {
 		}
 	}
 
-	@EventHandler (ignoreCancelled = true)
+	@EventHandler
 	public void inventoryClick(final InventoryClickEvent event) {
-		if (!(event.getInventory().getHolder() instanceof MenuManager.RewardSettingsInventoryHolder))
+		if (!(event.getInventory().getHolder() instanceof MenuManager.RewardSettingsInventoryHolder)) {
 			return;
+		}
 
-		if (event.getCurrentItem() == null)
+		if (event.getCurrentItem() == null) {
 			return;
+		}
 
 		event.setCancelled(true);
 
@@ -67,6 +69,7 @@ public class InventoryClickListener implements Listener {
 						put("joinNotification", user.hasEnabledJoinNotification() ? 1L : 0);
 					}}
 			);
+
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
 			if (!PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)) {

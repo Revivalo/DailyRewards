@@ -63,7 +63,7 @@ public class ClaimAction implements RewardAction<RewardType> {
             return ClaimActionResponse.UNAVAILABLE_REWARD;
         }
 
-        final List<String> rewardActions = TextUtils.replaceList(DailyRewardsPlugin.isPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
+        final List<String> rewardActions = TextUtils.replaceList(PermissionUtils.hasPremium(player, type) ? reward.getPremiumRewards() : reward.getDefaultRewards(), new HashMap<String, String>() {{
             put("player", player.getName());
         }});
 
@@ -118,7 +118,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                     player.sendTitle(reward.getTitle(), reward.getSubtitle());
 
                     if (Config.ANNOUNCE_ENABLED.asBoolean()) {
-                        Bukkit.broadcastMessage((DailyRewardsPlugin.isPremium(player, type) ? reward.getCollectedPremiumMessage() : reward.getCollectedMessage()).replace("%player%", player.getName()));
+                        Bukkit.broadcastMessage((PermissionUtils.hasPremium(player, type) ? reward.getCollectedPremiumMessage() : reward.getCollectedMessage()).replace("%player%", player.getName()));
                     }
                 }
                 if (!menuShouldOpen) player.closeInventory();

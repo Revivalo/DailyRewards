@@ -59,6 +59,7 @@ public class MenuManager {
                             return;
                         }
 
+                        boolean premiumVariant = PermissionUtils.hasPremium(player, reward.getRewardType());
                         boolean claimable = cooldown.isClaimable();
                         inventory.setItem(reward.getPosition(),
                                 ItemBuilder.from(
@@ -69,13 +70,13 @@ public class MenuManager {
                                         .setGlow(claimable)
                                         .setName(
                                                 claimable
-                                                        ? TextUtils.applyPlaceholdersToString(player, DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getAvailablePremiumDisplayName() : reward.getAvailableDisplayName())
+                                                        ? TextUtils.applyPlaceholdersToString(player, premiumVariant ? reward.getAvailablePremiumDisplayName() : reward.getAvailableDisplayName())
                                                         : TextUtils.applyPlaceholdersToString(player, reward.getUnavailableDisplayName())
                                         )
                                         .setLore(
                                                 claimable
-                                                        ? TextUtils.applyPlaceholdersToList(player, DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
-                                                        : TextUtils.applyPlaceholdersToList(player, TextUtils.replaceList((DailyRewardsPlugin.isPremium(player, reward.getRewardType()) ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
+                                                        ? TextUtils.applyPlaceholdersToList(player, premiumVariant ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
+                                                        : TextUtils.applyPlaceholdersToList(player, TextUtils.replaceList((premiumVariant ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
                                                     put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
                                                 }}))
                                         )

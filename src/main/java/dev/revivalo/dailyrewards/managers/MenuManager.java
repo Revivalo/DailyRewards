@@ -116,7 +116,7 @@ public class MenuManager {
                                 ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString(player)
                                 : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString(player))
                 )
-                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) && user.hasEnabledAutoClaim())
+                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) && user.hasEnabledJoinNotification())
                 .setLore(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
                                 ? user.hasEnabledJoinNotification()

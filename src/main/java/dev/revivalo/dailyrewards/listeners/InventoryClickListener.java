@@ -21,7 +21,7 @@ public class InventoryClickListener implements Listener {
 
 	public static final InventoryClickListener instance = new InventoryClickListener();
 
-	@EventHandler (ignoreCancelled = true)
+	@EventHandler
 	public void onInventoryClick(final InventoryClickEvent event){
 		if (!(event.getInventory().getHolder() instanceof MenuManager.RewardsInventoryHolder)) return;
 		if (event.getCurrentItem() == null) return;

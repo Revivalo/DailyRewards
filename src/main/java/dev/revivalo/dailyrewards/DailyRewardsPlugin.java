@@ -12,7 +12,6 @@ import dev.revivalo.dailyrewards.listeners.PlayerJoinQuitListener;
 import dev.revivalo.dailyrewards.managers.MenuManager;
 import dev.revivalo.dailyrewards.managers.backend.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.RewardManager;
-import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
 import dev.revivalo.dailyrewards.user.User;
@@ -21,7 +20,6 @@ import dev.revivalo.dailyrewards.utils.VersionUtils;
 import io.github.g00fy2.versioncompare.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -118,11 +116,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         getPluginManager().registerEvents(InventoryClickListener.getInstance(), this);
         getPluginManager().registerEvents(PlayerJoinQuitListener.getInstance(), this);
         getPluginManager().registerEvents(UpdateNotificator.getInstance(), this);
-    }
-
-
-    public static boolean isPremium(final Player player, final RewardType type) {
-        return player.hasPermission(String.format("dailyreward.%s.premium", type));
     }
 
     public void executeCommandAsConsole(String command) {

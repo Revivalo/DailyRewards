@@ -1,6 +1,8 @@
 package dev.revivalo.dailyrewards.utils;
 
+import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class PermissionUtils {
     public static boolean hasPermission(CommandSender commandSender, String permission) {
@@ -23,6 +25,10 @@ public class PermissionUtils {
 
     public static boolean hasPermission(CommandSender commandSender, Permission permission){
         return hasPermission(commandSender, permission == null ? null : permission.get());
+    }
+
+    public static boolean hasPremium(final Player player, final RewardType type) {
+        return hasPermission(player, String.format("dailyreward.%s.premium", type));
     }
 
     public enum Permission {

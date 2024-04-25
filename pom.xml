@@ -6,11 +6,11 @@
 
     <groupId>dev.revivalo</groupId>
     <artifactId>DailyReward</artifactId>
-    <version>1.9.7</version>
+    <version>1.9.8</version>
     <packaging>jar</packaging>
 
     <name>DailyReward</name>
-    <description>Reward system for player</description>
+    <description>Reward system</description>
     <url>https://discord.com/invite/TfUC8uJ</url>
 
     <properties>

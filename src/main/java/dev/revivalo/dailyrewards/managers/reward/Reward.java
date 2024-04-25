@@ -104,8 +104,8 @@ public class Reward {
         return cooldownFormat.asString();
     }
 
-    public int getPosition() {
-        return position.asInt();
+    public List<Integer> getPosition() {
+        return position.asReplacedList(Collections.emptyMap()).stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
     public String getSound() {

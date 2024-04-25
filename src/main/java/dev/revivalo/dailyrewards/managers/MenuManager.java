@@ -50,41 +50,43 @@ public class MenuManager {
                 inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString(player)).build());
 
             for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
-                user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
-                    final AtomicReference<BukkitTask> task = new AtomicReference<>();
+                for (int slot : reward.getPosition()) {
+                    user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
+                        final AtomicReference<BukkitTask> task = new AtomicReference<>();
 
-                    task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
-                        if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString(player))) {
-                            task.get().cancel();
-                            return;
-                        }
+                        task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
+                            if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString(player))) {
+                                task.get().cancel();
+                                return;
+                            }
 
-                        boolean premiumVariant = PermissionUtils.hasPremium(player, reward.getRewardType());
-                        boolean claimable = cooldown.isClaimable();
-                        inventory.setItem(reward.getPosition(),
-                                ItemBuilder.from(
-                                                claimable
-                                                        ? reward.getAvailableItem()
-                                                        : reward.getUnavailableItem()
-                                        )
-                                        .setGlow(claimable)
-                                        .setName(
-                                                claimable
-                                                        ? TextUtils.applyPlaceholdersToString(player, premiumVariant ? reward.getAvailablePremiumDisplayName() : reward.getAvailableDisplayName())
-                                                        : TextUtils.applyPlaceholdersToString(player, reward.getUnavailableDisplayName())
-                                        )
-                                        .setLore(
-                                                claimable
-                                                        ? TextUtils.applyPlaceholdersToList(player, premiumVariant ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
-                                                        : TextUtils.applyPlaceholdersToList(player, TextUtils.replaceList((premiumVariant ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
-                                                    put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
-                                                }}))
-                                        )
-                                        .build()
-                        );
+                            boolean premiumVariant = PermissionUtils.hasPremium(player, reward.getRewardType());
+                            boolean claimable = cooldown.isClaimable();
+                            inventory.setItem(slot,
+                                    ItemBuilder.from(
+                                                    claimable
+                                                            ? reward.getAvailableItem()
+                                                            : reward.getUnavailableItem()
+                                            )
+                                            .setGlow(claimable)
+                                            .setName(
+                                                    claimable
+                                                            ? TextUtils.applyPlaceholdersToString(player, premiumVariant ? reward.getAvailablePremiumDisplayName() : reward.getAvailableDisplayName())
+                                                            : TextUtils.applyPlaceholdersToString(player, reward.getUnavailableDisplayName())
+                                            )
+                                            .setLore(
+                                                    claimable
+                                                            ? TextUtils.applyPlaceholdersToList(player, premiumVariant ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
+                                                            : TextUtils.applyPlaceholdersToList(player, TextUtils.replaceList((premiumVariant ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
+                                                        put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
+                                                    }}))
+                                            )
+                                            .build()
+                            );
 
-                    }, 0, timer));
-                }));
+                        }, 0, timer));
+                    }));
+                }
             }
 
             player.openInventory(inventory);

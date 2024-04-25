@@ -110,7 +110,8 @@ config:
   # In hours
   daily-cooldown: 24
   daily-cooldown-format: "%hours%:%minutes%:%seconds%"
-  daily-position: 20
+  daily-positions:
+    - 20
   daily-sound: ENTITY_PLAYER_LEVELUP
   daily-available-item: "CHEST_MINECART"
   daily-unavailable-item: "MINECART"
@@ -148,7 +149,8 @@ config:
   # In hours
   weekly-cooldown: 168
   weekly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
-  weekly-position: 22
+  weekly-positions:
+    - 22
   weekly-sound: ENTITY_FIREWORK_ROCKET_LARGE_BLAST
   weekly-available-item: "CHEST_MINECART"
   weekly-unavailable-item: "MINECART"
@@ -169,7 +171,8 @@ config:
   # In hours
   monthly-cooldown: 720
   monthly-cooldown-format: "%days% days %hours% hours %minutes% minutes"
-  monthly-position: 24
+  monthly-positions:
+    - 24
   monthly-sound: ENTITY_FIREWORK_ROCKET_BLAST
   monthly-available-item: "CHEST_MINECART"
   monthly-unavailable-item: "MINECART"

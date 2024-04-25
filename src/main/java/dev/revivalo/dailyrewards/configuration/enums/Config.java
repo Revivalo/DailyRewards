@@ -15,10 +15,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public enum Config {
     MENU_SIZE("menu-size"),
@@ -66,7 +64,7 @@ public enum Config {
     DAILY_COOLDOWN_FORMAT("daily-cooldown-format"),
     DAILY_AVAILABLE_AFTER_FIRST_JOIN("daily-available-after-first-join"),
     DAILY_PLACEHOLDER("daily-placeholder"),
-    DAILY_POSITION("daily-position"),
+    DAILY_POSITIONS("daily-positions"),
     DAILY_SOUND("daily-sound"),
     DAILY_AVAILABLE_ITEM("daily-available-item"),
     DAILY_UNAVAILABLE_ITEM("daily-unavailable-item"),
@@ -80,7 +78,7 @@ public enum Config {
     WEEKLY_PLACEHOLDER("weekly-placeholder"),
     WEEKLY_AVAILABLE_ITEM("weekly-available-item"),
     WEEKLY_UNAVAILABLE_ITEM("weekly-unavailable-item"),
-    WEEKLY_POSITION("weekly-position"),
+    WEEKLY_POSITIONS("weekly-positions"),
     WEEKLY_SOUND("weekly-sound"),
     WEEKLY_REWARDS("weekly-rewards"),
     WEEKLY_PREMIUM_REWARDS("weekly-premium-rewards"),
@@ -92,7 +90,7 @@ public enum Config {
     MONTHLY_PLACEHOLDER("monthly-placeholder"),
     MONTHLY_AVAILABLE_ITEM("monthly-available-item"),
     MONTHLY_UNAVAILABLE_ITEM("monthly-unavailable-item"),
-    MONTHLY_POSITION("monthly-position"),
+    MONTHLY_POSITIONS("monthly-positions"),
     MONTHLY_SOUND("monthly-sound"),
     MONTHLY_REWARDS("monthly-rewards"),
     MONTHLY_PREMIUM_REWARDS("monthly-premium-rewards"),
@@ -194,5 +192,9 @@ public enum Config {
 
     public int asInt() {
         return Integer.parseInt(asString());
+    }
+
+    public List<Integer> asIntegerList() {
+        return asReplacedList(Collections.emptyMap()).stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 }

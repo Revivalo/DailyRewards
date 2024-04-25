@@ -73,7 +73,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                         pluginVersion, actualVersion)
                         : String.format("You are running the latest release (%s)", pluginVersion));
 
-
                 VersionUtils.setLatestVersion(!isNewerVersion);
             });
         }

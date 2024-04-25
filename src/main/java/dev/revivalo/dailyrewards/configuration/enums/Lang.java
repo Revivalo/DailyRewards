@@ -8,7 +8,6 @@ import dev.revivalo.dailyrewards.configuration.YamlFile;
 import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -146,12 +145,10 @@ public enum Lang {
 
 	public String asColoredString() {
 		return textModifier.modifyText(null, messages.get(text));
-		//return TextUtils.colorize(messages.get(text));
 	}
 
-	public String asColoredString(OfflinePlayer player) {
+	public String asColoredString(Player player) {
 		return textModifier.modifyText(player, messages.get(text));
-		//return TextUtils.colorize(messages.get(text));
 	}
 
 	public String asReplacedString(Player player, Map<String, String> definitions) {

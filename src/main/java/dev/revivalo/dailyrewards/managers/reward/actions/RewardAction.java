@@ -8,13 +8,14 @@ import dev.revivalo.dailyrewards.managers.reward.actions.responses.ActionRespons
 import dev.revivalo.dailyrewards.utils.PermissionUtils;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
 public interface RewardAction<T> {
     default ActionResponse preCheck(OfflinePlayer player, T extra) {
         if (!PermissionUtils.hasPermission(getExecutor(), getPermission())) {
-            getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
+            getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString((Player) getExecutor()));
             return ActionResponse.Type.NO_PERMISSION;
         }
 

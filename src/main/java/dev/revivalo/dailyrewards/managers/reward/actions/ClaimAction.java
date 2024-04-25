@@ -118,7 +118,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                     player.sendTitle(reward.getTitle(), reward.getSubtitle());
 
                     if (Config.ANNOUNCE_ENABLED.asBoolean()) {
-                        Bukkit.broadcastMessage((PermissionUtils.hasPremium(player, type) ? reward.getCollectedPremiumMessage() : reward.getCollectedMessage()).replace("%player%", player.getName()));
+                        Bukkit.broadcastMessage((PermissionUtils.hasPremium(player, type) ? reward.getCollectedPremiumMessage(player) : reward.getCollectedMessage(player)).replace("%player%", player.getName()));
                     }
                 }
                 if (!menuShouldOpen) player.closeInventory();

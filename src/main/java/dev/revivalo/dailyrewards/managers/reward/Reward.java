@@ -2,10 +2,12 @@ package dev.revivalo.dailyrewards.managers.reward;
 
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Reward {
     private final RewardType rewardType;
@@ -120,12 +122,12 @@ public class Reward {
         return subtitle.asColoredString();
     }
 
-    public String getCollectedMessage() {
-        return collectedMessage.asColoredString();
+    public String getCollectedMessage(Player player) {
+        return collectedMessage.asColoredString(player);
     }
 
-    public String getCollectedPremiumMessage() {
-        return collectedPremiumMessage.asColoredString();
+    public String getCollectedPremiumMessage(Player player) {
+        return collectedPremiumMessage.asColoredString(player);
     }
 
     public ItemStack getAvailableItem() {

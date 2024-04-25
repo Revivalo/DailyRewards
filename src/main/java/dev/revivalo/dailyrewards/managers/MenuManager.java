@@ -125,7 +125,9 @@ public class MenuManager {
                                 ? user.hasEnabledJoinNotification()
                                 ? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
                                 : Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING.get());}})
+                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>() {{
+                            put("%permission%", PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING.get());
+                        }})
                 ).build()
         );
 
@@ -137,9 +139,11 @@ public class MenuManager {
                 .setLore(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
                                 ? user.hasEnabledAutoClaim()
-                                    ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
-                                    : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>(){{put("%permission%", PermissionUtils.Permission.AUTO_CLAIM_SETTING.get());}})
+                                ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
+                                : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
+                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>() {{
+                            put("%permission%", PermissionUtils.Permission.AUTO_CLAIM_SETTING.get());
+                        }})
                 ).build()
         );
 

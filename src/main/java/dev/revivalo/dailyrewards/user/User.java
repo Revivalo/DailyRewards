@@ -22,7 +22,6 @@ public class User {
 
     public CompletableFuture<Cooldown> getCooldownOfReward(RewardType rewardType) {
         if (data.get(rewardType.toString()) != null) {
-            // If the data is available locally
             return CompletableFuture.completedFuture(
                     new Cooldown(Long.parseLong(String.valueOf(data.get(rewardType.toString()))))
             );

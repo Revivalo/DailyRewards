@@ -12,7 +12,7 @@ public class CooldownManager {
 		DataManager.updateValues(
 				user.getPlayer().getUniqueId(),
 				user,
-				new HashMap<String, Object>(){{
+				new HashMap<String, Object>() {{
 					put(reward.getRewardName(), System.currentTimeMillis() + reward.getCooldown());
 				}}
 		);

@@ -71,7 +71,6 @@ public class PlayerJoinQuitListener implements Listener {
                 return;
             }
 
-
             DailyRewardsPlugin.get().runDelayed(() -> {
                 PlayerUtils.playSound(player, Config.JOIN_NOTIFICATION_SOUND.asString());
                 for (String line : Lang.JOIN_NOTIFICATION.asReplacedList(new HashMap<String, String>() {{

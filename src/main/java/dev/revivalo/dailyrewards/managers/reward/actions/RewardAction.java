@@ -14,6 +14,10 @@ import java.util.List;
 
 public interface RewardAction<T> {
     default ActionResponse preCheck(OfflinePlayer player, T extra) {
+        if (player == null) {
+            getExecutor().sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", "null"));
+            return ActionResponse.Type.UNAVAILABLE_PLAYER;
+        }
         if (!PermissionUtils.hasPermission(getExecutor(), getPermission())) {
             getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString((Player) getExecutor()));
             return ActionResponse.Type.NO_PERMISSION;

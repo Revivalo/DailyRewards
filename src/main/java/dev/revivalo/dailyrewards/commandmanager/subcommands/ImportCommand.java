@@ -35,6 +35,6 @@ public class ImportCommand implements SubCommand {
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        DataManager.importToDatabase();
+        DataManager.importToDatabase(sender);
     }
 }

@@ -124,7 +124,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                 if (!menuShouldOpen) player.closeInventory();
 
             } else {
-                if (menuShouldOpen) {
+                if (!menuShouldOpen) {
                     player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
                         put("%type%", type.getPlaceholder());
                         put("%time%", cooldown.getFormat(reward.getCooldownFormat()));

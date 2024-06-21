@@ -2,10 +2,12 @@ package dev.revivalo.dailyrewards.user;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.managers.Setting;
 import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -53,20 +55,25 @@ public class User {
         return player.isOnline();
     }
 
-    public boolean hasEnabledJoinNotification() {
-        return 1 == Long.parseLong(String.valueOf(data.get("joinNotification")));
+    /**
+     *
+     * @return True if the setting was enabled
+     */
+    public boolean toggleSetting(Setting setting, boolean set) {
+        data.put(setting.getTag(), set ? "1" : "0");
+        DataManager.updateValues(
+                player.getUniqueId(),
+                this,
+                new HashMap<String, Object>() {{
+                    put(setting.getTag(), hasSettingEnabled(setting) ? 1L : 0);
+                }}
+        );
+
+        return set;
     }
 
-    public void setEnabledJoinNotification(boolean set) {
-        data.put("joinNotification", set ? "1" : "0");
-    }
-
-    public boolean hasEnabledAutoClaim() {
-        return 1 == Long.parseLong(String.valueOf(data.get("autoClaim")));
-    }
-
-    public void setEnabledAutoClaim(boolean set) {
-        data.put("autoClaim", set ? "1" : "0");
+    public boolean hasSettingEnabled(Setting setting) {
+        return 1 == Long.parseLong(String.valueOf(data.get(setting.getTag())));
     }
 
     public void updateData(Map<String, Object> changes) {

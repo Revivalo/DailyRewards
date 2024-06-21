@@ -109,6 +109,9 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     private void registerCommands() {
         new RewardMainCommand().registerMainCommand(this, "reward");
         new RewardsMainCommand().registerMainCommand(this, "rewards");
+
+        new RewardMainCommand().registerMainCommand(this, "dreward");
+        new RewardsMainCommand().registerMainCommand(this, "drewards");
     }
 
     private void implementListeners() {

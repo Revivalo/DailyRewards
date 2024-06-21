@@ -17,3 +17,6 @@ commands:
     aliases: [rw]
   rewards:
     aliases: [rws]
+  dreward:
+    aliases: [dailyrewards]
+  drewards:

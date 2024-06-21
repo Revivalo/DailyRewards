@@ -22,6 +22,7 @@ public class RewardMainCommand extends MainCommand {
         subCommands.add(new ResetCommand());
         subCommands.add(new SettingsCommand());
         subCommands.add(new HelpCommand());
+        subCommands.add(new ToggleCommand());
     }
 
     @Override

@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.hooks.Hooks;
+import dev.revivalo.dailyrewards.managers.Setting;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
@@ -60,7 +61,7 @@ public class PlayerJoinQuitListener implements Listener {
                 return;
             }
 
-            if (!user.hasEnabledJoinNotification()) {
+            if (!user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
                 return;
             }
 

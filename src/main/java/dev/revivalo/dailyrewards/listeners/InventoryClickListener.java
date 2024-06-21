@@ -1,10 +1,10 @@
 package dev.revivalo.dailyrewards.listeners;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import dev.revivalo.dailyrewards.managers.MenuManager;
+import dev.revivalo.dailyrewards.managers.Setting;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.managers.reward.actions.ClaimAction;
 import dev.revivalo.dailyrewards.user.User;
@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
-import java.util.HashMap;
 
 public class InventoryClickListener implements Listener {
 
@@ -61,14 +59,7 @@ public class InventoryClickListener implements Listener {
 				return;
 			}
 
-			user.setEnabledJoinNotification(!user.hasEnabledJoinNotification());
-			DataManager.updateValues(
-					player.getUniqueId(),
-					user,
-					new HashMap<String, Object>() {{
-						put("joinNotification", user.hasEnabledJoinNotification() ? 1L : 0);
-					}}
-			);
+			user.toggleSetting(Setting.JOIN_NOTIFICATION, !user.hasSettingEnabled(Setting.JOIN_NOTIFICATION));
 
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
@@ -77,16 +68,8 @@ public class InventoryClickListener implements Listener {
 				return;
 			}
 
-			user.setEnabledAutoClaim(!user.hasEnabledAutoClaim());
+			user.toggleSetting(Setting.AUTO_CLAIM, !user.hasSettingEnabled(Setting.AUTO_CLAIM));
 
-			DataManager.updateValues(
-					player.getUniqueId(),
-					user,
-					new HashMap<String, Object>() {{
-						put("autoClaim", user.hasEnabledAutoClaim() ? 1L : 0);
-					}}
-
-			);
 			DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
 		} else if (slot == Config.SETTINGS_POSITION.asInt()) {
 			DailyRewardsPlugin.getMenuManager().openRewardsMenu(user.getPlayer());

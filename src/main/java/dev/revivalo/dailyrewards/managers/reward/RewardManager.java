@@ -4,6 +4,7 @@ import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.api.events.AutoClaimEvent;
 import dev.revivalo.dailyrewards.configuration.enums.Config;
 import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import dev.revivalo.dailyrewards.managers.Setting;
 import dev.revivalo.dailyrewards.managers.reward.actions.AutoClaimAction;
 import dev.revivalo.dailyrewards.user.User;
 import org.bukkit.Bukkit;
@@ -21,7 +22,7 @@ public class RewardManager {
     }
 
     public boolean processAutoClaimForUser(User user) {
-        if (!user.hasEnabledAutoClaim()) {
+        if (!user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
             return false;
         }
 

@@ -119,10 +119,10 @@ public class MenuManager {
                                 ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString(player)
                                 : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString(player))
                 )
-                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) && user.hasEnabledJoinNotification())
+                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) && user.hasSettingEnabled(Setting.JOIN_NOTIFICATION))
                 .setLore(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
-                                ? user.hasEnabledJoinNotification()
+                                ? user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)
                                 ? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
                                 : Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
                                 : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>() {{
@@ -135,10 +135,10 @@ public class MenuManager {
                 .setName(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
                         ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString(player)
                         : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString(player)))
-                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) && user.hasEnabledAutoClaim())
+                .setGlow(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) && user.hasSettingEnabled(Setting.AUTO_CLAIM))
                 .setLore(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
-                                ? user.hasEnabledAutoClaim()
+                                ? user.hasSettingEnabled(Setting.AUTO_CLAIM)
                                 ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
                                 : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
                                 : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>() {{

@@ -63,15 +63,23 @@ public final class DailyRewardsPlugin extends JavaPlugin {
             new UpdateChecker(RESOURCE_ID).getVersion(pluginVersion -> {
                 setLatestVersion(pluginVersion);
 
-                final String actualVersion = get().getDescription().getVersion();
-                final boolean isNewerVersion = new Version(pluginVersion).isHigherThan(actualVersion);
+                final String actualVersion = getDescription().getVersion();
+                Version version = new Version(pluginVersion);
+                final boolean isNewerVersion = version.isHigherThan(actualVersion);
+                final boolean isDevelopmentBuild = version.isLowerThan(actualVersion);
 
-                get().getLogger().info(isNewerVersion
-                        ? String.format("There is a new v%s update available (You are running v%s).\n" +
+                if (isDevelopmentBuild) {
+                    getLogger().info(String.format("You are running a development build (%s).", actualVersion));
+                } else {
+
+                    if (isNewerVersion) {
+                        getLogger().info(String.format("There is a new v%s update available (You are running v%s).\n" +
                                 "Outdated versions are no longer supported, get the latest one here: " +
-                                "https://www.spigotmc.org/resources/%%E2%%9A%%A1-daily-weekly-monthly-rewards-mysql-hex-colors-support-1-8-1-19-3.81780/",
-                        pluginVersion, actualVersion)
-                        : String.format("You are running the latest release (%s)", pluginVersion));
+                                "https://www.spigotmc.org/resources/%%E2%%9A%%A1-daily-weekly-monthly-rewards-mysql-hex-colors-support-1-8-1-19-3.81780/", pluginVersion, actualVersion));
+                    } else {
+                        getLogger().info(String.format("You are running the latest release (%s).", pluginVersion));
+                    }
+                }
 
                 VersionUtils.setLatestVersion(!isNewerVersion);
             });

@@ -46,6 +46,7 @@ public class User {
         for (Map.Entry<String, Object> entry : data.entrySet()) {
             final RewardType rewardType = RewardType.findByName(entry.getKey());
             if (rewardType == null) continue;
+            if (!rewardType.isEnabled()) continue;
             if (new Cooldown(Long.parseLong(String.valueOf(entry.getValue()))).isClaimable()) availableRewards.add(RewardType.findByName(entry.getKey()));
         }
         return availableRewards;

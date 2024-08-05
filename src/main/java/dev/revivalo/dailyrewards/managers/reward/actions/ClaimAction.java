@@ -59,7 +59,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                 .orElse(null);
 
         if (reward == null) {
-            player.sendMessage(Lang.DISABLED_REWARD.asColoredString(player));
+            player.sendMessage(Lang.REWARD_DISABLED.asColoredString(player));
             return ClaimActionResponse.UNAVAILABLE_REWARD;
         }
 
@@ -77,7 +77,7 @@ public class ClaimAction implements RewardAction<RewardType> {
         if (!PermissionUtils.hasPermission(player, type.getPermission())) {
         //if (!player.hasPermission(type.getPermission())) {
             //if (!fromCommand) return;
-            if (announce) player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(player));
+            if (announce) player.sendMessage(Lang.PERMISSION_MSG.asColoredString(player));
             return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
         }
 

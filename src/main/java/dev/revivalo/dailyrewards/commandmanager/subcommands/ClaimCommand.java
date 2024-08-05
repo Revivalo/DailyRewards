@@ -49,7 +49,7 @@ public class ClaimCommand implements SubCommand {
         try {
             rewardType = RewardType.valueOf(args[0].toUpperCase(Locale.ENGLISH));
         } catch (Exception exception){
-            sender.sendMessage(Lang.VALID_COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
+            sender.sendMessage(Lang.COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
             return;
         }
 
@@ -63,7 +63,7 @@ public class ClaimCommand implements SubCommand {
         } else if (args.length == 2) {
             claimingPlayer = Bukkit.getPlayerExact(args[1]);
         } else {
-            sender.sendMessage(Lang.VALID_COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
+            sender.sendMessage(Lang.COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
             return;
         }
 

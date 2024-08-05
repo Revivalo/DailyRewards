@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class RewardMainCommand extends MainCommand {
     public RewardMainCommand() {
-        super(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString(), new StartingWithStringArgumentMatcher());
+        super(Lang.PERMISSION_MSG.asColoredString(), new StartingWithStringArgumentMatcher());
     }
 
     @Override

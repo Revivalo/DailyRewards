@@ -38,6 +38,6 @@ public class ReloadCommand implements SubCommand {
     public void perform(CommandSender sender, String[] args) {
         DailyRewardsPlugin.get().reloadPlugin();
 
-        sender.sendMessage(Lang.RELOAD_MESSAGE.asColoredString());
+        sender.sendMessage(Lang.RELOAD_MSG.asColoredString());
     }
 }

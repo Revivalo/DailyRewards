@@ -90,7 +90,7 @@ public class AutoClaimAction implements RewardAction<Set<RewardType>> {
                 for (RewardType availableReward : claimedRewards) {
                     claimedRewardsBuilder.append("\n ").append(availableReward.getName());
                 }
-                TextUtils.sendListToPlayer(player, Lang.JOIN_AUTO_CLAIMED_NOTIFICATION
+                TextUtils.sendListToPlayer(player, Lang.JOIN_AUTO_CLAIM_NOTIFICATION
                         .asReplacedList(new HashMap<String, String>() {{
                                             put("%listOfRewards%", claimedRewardsBuilder.toString());
                                         }}

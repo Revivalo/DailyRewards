@@ -52,7 +52,7 @@ public class ToggleCommand implements SubCommand {
         }
 
         if (args.length < 1) {
-            sender.sendMessage(Lang.VALID_COMMAND_USAGE.asColoredString());
+            sender.sendMessage(Lang.COMMAND_USAGE.asColoredString());
             return;
         }
 
@@ -60,7 +60,7 @@ public class ToggleCommand implements SubCommand {
             Setting setting = Setting.valueOf(args[0].toUpperCase(Locale.ENGLISH));
             final Player player = (Player) sender;
             if (!PermissionUtils.hasPermission(player, "dailyreward.settings." + setting.getTag())) {
-                player.sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString());
+                player.sendMessage(Lang.PERMISSION_MSG.asColoredString());
                 return;
             }
             User user = UserHandler.getUser(player);

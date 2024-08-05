@@ -19,7 +19,7 @@ public interface RewardAction<T> {
             return ActionResponse.Type.UNAVAILABLE_PLAYER;
         }
         if (!PermissionUtils.hasPermission(getExecutor(), getPermission())) {
-            getExecutor().sendMessage(Lang.INSUFFICIENT_PERMISSION_MESSAGE.asColoredString((Player) getExecutor()));
+            getExecutor().sendMessage(Lang.PERMISSION_MSG.asColoredString((Player) getExecutor()));
             return ActionResponse.Type.NO_PERMISSION;
         }
 

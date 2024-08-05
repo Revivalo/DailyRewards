@@ -50,7 +50,7 @@ public class ResetCommand implements SubCommand {
     @Override
     public void perform(CommandSender sender, String[] args) {
         if (args.length != 2){
-            sender.sendMessage(Lang.VALID_COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
+            sender.sendMessage(Lang.COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
             return;
         }
 

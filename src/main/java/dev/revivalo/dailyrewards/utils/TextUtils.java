@@ -1,6 +1,7 @@
 package dev.revivalo.dailyrewards.utils;
 
 import com.google.common.base.Splitter;
+import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.hooks.Hooks;
 import dev.revivalo.dailyrewards.managers.reward.ActionType;
 import dev.revivalo.dailyrewards.managers.reward.RewardAction;
@@ -240,10 +241,14 @@ public class TextUtils {
                 statement = line.trim();
             }
 
-            actionList.add(RewardAction.builder()
-                    .setActionType(ActionType.valueOf(action.toUpperCase(Locale.ENGLISH)))
-                    .setExecutedCommand(statement)
-                    .build());
+            try {
+                actionList.add(RewardAction.builder()
+                        .setActionType(ActionType.valueOf(action.toUpperCase(Locale.ENGLISH)))
+                        .setExecutedCommand(statement)
+                        .build());
+            } catch (IllegalArgumentException ex) {
+                DailyRewardsPlugin.get().getLogger().info(action + " is invalid reward action!");
+            }
         }
         return actionList;
     }

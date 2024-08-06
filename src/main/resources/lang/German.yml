@@ -1,0 +1,175 @@
+#
+# Ab Version 1.16 können Sie auch HEX-Farben verwenden.
+# Anstelle des Formats &f verwenden Sie <#ffffff>
+# und für den Farbverlauf: <#ffffff>Text, auf den der Farbverlauf angewendet wird</#000000>
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% Belohnung(en) wurden erfolgreich automatisch beansprucht!"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Klicken, um Belohnungen zu erhalten!"
+  reward-reset: "&e%prefix% &fSie haben die &e%type%&f Belohnung(en) von Spieler &e%player% zurückgesetzt"
+  unavailable-player: "%prefix% &cSpieler ist nicht verfügbar!"
+  unavailable-setting: "%prefix% &cDiese Einstellung existiert nicht!"
+  reward-disabled: "%prefix% &cBelohnung kann nicht beansprucht werden!"
+  permission-msg: "%prefix% &cSie haben keine Berechtigung, diese Aktion auszuführen."
+  rewards-are-not-set: "%prefix% &cBelohnungen sind nicht festgelegt!"
+  reload-msg: "&e%prefix% &fPlugin wurde erfolgreich neu geladen"
+  incomplete-reward-reset: "%prefix% &cGeben Sie an, was genau Sie zurücksetzen möchten (daily/weekly/monthly/all)"
+  full-inventory-message: "%prefix% &cSie können die Belohnung(en) nicht erhalten, Ihr Inventar ist voll!"
+  claiming-in-disabled-world: "%prefix% &cSie können im Welt %world% keine Belohnungen erhalten"
+  not-enough-required-time-to-claim: "%prefix% &cSie müssen mindestens %requiredMinutes% Minuten auf dem Server verbringen, bevor Sie Belohnungen sammeln können (%minutes% Minuten verbleibend)"
+  command-usage: "%prefix% &cGültige Nutzung: %usage%"
+  loading: "&bLaden..."
+  back: "&cZurück"
+  help-message:
+    - "&fListe aller verfügbaren Befehle:"
+    - "&f/rewards &7- Hauptmenü"
+    - "&f/reward claim <Belohnung>&7- Bestimmte Belohnung erhalten"
+    - "&f/reward reset <Spieler> <daily|weekly|monthly|all>"
+    - "&f/reward import - &7Importiert Dateidaten in die Datenbank"
+    - "&f/reward reload &7- Konfiguration neu laden"
+    - "&f/reward settings &7- Öffnet das Einstellungsmenü"
+    - "&f/reward toggle <Einstellung> &7- Bestimmte Einstellung umschalten"
+  #
+  # Einstellungen
+  #
+  settings-title: "Einstellungen"
+  settings-display-name: "&eEinstellungen"
+  setting-enabled: "%prefix% &aSie haben %setting% aktiviert!"
+  setting-disabled: "%prefix% &cSie haben %setting% deaktiviert!"
+  auto-claim-failed: "%prefix% &cEinige Belohnungen konnten nicht automatisch beansprucht werden, zeigen Sie Details an."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cFolgende Belohnungen können nicht automatisch beansprucht werden: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Folgende Belohnung(en) wurden automatisch beansprucht: &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Beitrittsbenachrichtigung"
+  join-auto-claim-setting-name: "Automatisches Beanspruchen bei Beitritt"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cSie können diese Einstellung nicht umschalten!"
+    - "&cFehlende Berechtigung: %permission%"
+  join-notification-display-name: "&aBeitrittsbenachrichtigung"
+  join-notification-enabled-lore:
+    - "&7Benachrichtigt Sie beim Beitritt,"
+    - "&7wenn Sie ungesammelte Belohnungen haben"
+    - " "
+    - "&c► Klicken, um zu deaktivieren"
+  join-notification-disabled-lore:
+    - "&7Benachrichtigt Sie beim Beitritt,"
+    - "&7wenn Sie ungesammelte Belohnungen haben"
+    - " "
+    - "&a► Klicken, um zu aktivieren"
+  auto-claim-display-name: "&aAutomatisches Beanspruchen bei Beitritt"
+  auto-claim-enabled-lore:
+    - "&7Beansprucht automatisch"
+    - "&7alle verfügbaren Belohnungen bei Beitritt"
+    - " "
+    - "&c► Klicken, um zu deaktivieren"
+  auto-claim-disabled-lore:
+    - "&7Beansprucht automatisch"
+    - "&7alle verfügbaren Belohnungen bei Beitritt"
+    - " "
+    - "&a► Klicken, um zu aktivieren"
+
+  located-in-restricted-world: "Belohnung ist in dieser Welt nicht verfügbar"
+  insufficient-play-time: "Nicht genug Spielzeit, um zu beanspruchen"
+  insufficient-permissions: "Unzureichende Berechtigungen"
+  not-enough-free-inventory-slots: "Nicht genug freie Inventarplätze"
+  unavailable-reward: "Belohnung ist nicht verfügbar"
+  #
+  # Belohnungsmenü
+  #
+  menu-title: "Belohnungen"
+  join-hover-message: "&7Klicken, um Ihre Belohnungen zu erhalten"
+  join-notification:
+    - ' '
+    - '&2 Hallo %player%, &a%rewards% Belohnung(en) warten auf Sie! &f(Klicken Sie hier)'
+    - ' '
+  cooldown-message: "%prefix% &cFür &l%type% &cBelohnung müssen Sie &n%time% warten"
+  daily-name: "Tägliche Belohnung"
+  daily-title: "&a&lBelohnungen"
+  daily-subtitle: "&7Sie haben Ihre &atägliche&7 Belohnung erhalten"
+  daily-collected: "&a%player% &7hat seine &a&ltägliche Belohnung erhalten!"
+  daily-premium-collected: "&a%player% &7hat seine &a&lpremium tägliche Belohnung erhalten!"
+  daily-displayname-available: "&a&lTÄGLICHE BELONUNG"
+  daily-premium-displayname-available: "&e&lTÄGLICHE BELONUNG"
+  daily-available-lore:
+    - "&7Belohnung enthält:"
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ Premium-Belohnung nicht verfügbar"
+  daily-available-premium-lore:
+    - "&7Belohnung enthält:"
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ Premium-Belohnung verfügbar"
+  daily-displayname-unavailable: "&c&lTÄGLICHE BELONUNG"
+  daily-premium-displayname-unavailable: "&4&lTÄGLICHE BELONUNG"
+  daily-unavailable-lore:
+    - " "
+    - "&cVerfügbar in: %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cVerfügbar in: %cooldown%"
+  weekly-name: "Wöchentliche Belohnung"
+  weekly-title: "&e&lBelohnungen"
+  weekly-subtitle: "&7Sie haben Ihre &ewöchentliche&7 Belohnung erhalten"
+  weekly-collected: "&e%player% &7hat seine &e&lwöchentliche Belohnung erhalten!"
+  weekly-premium-collected: "&e%player% &7hat seine &e&lpremium wöchentliche Belohnung erhalten!"
+  weekly-displayname-available: "&a&lWÖCHENTLICHE BELONUNG"
+  weekly-premium-displayname-available: "&e&lWÖCHENTLICHE BELONUNG"
+  weekly-available-lore:
+    - "&7Belohnung enthält:"
+    - "&a 1x &fDiamond"
+    - " "
+    - "&c❌ Premium-Belohnung nicht verfügbar"
+  weekly-available-premium-lore:
+    - "&7Belohnung enthält:"
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ Premium-Belohnung verfügbar"
+  weekly-displayname-unavailable: "&c&lWÖCHENTLICHE BELONUNG"
+  weekly-premium-displayname-unavailable: "&4&lWÖCHENTLICHE BELONUNG"
+  weekly-unavailable-lore:
+    - " "
+    - "&cVerfügbar in: %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cVerfügbar in: %cooldown%"
+  monthly-name: "Monatliche Belohnung"
+  monthly-title: "&9&lBelohnungen"
+  monthly-subtitle: "&7Sie haben Ihre &9monatliche&7 Belohnung erhalten"
+  monthly-collected: "&9%player% &7hat seine &9&lmonatliche Belohnung erhalten!"
+  monthly-premium-collected: "&9%player% &7hat seine &9&lpremium monatliche Belohnung erhalten!"
+  monthly-displayname-available: "&a&lMONATLICHE BELONUNG"
+  monthly-premium-displayname-available: "&e&lMONATLICHE BELONUNG"
+  monthly-available-lore:
+    - "&7Belohnung enthält:"
+    - "&a  8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ Premium-Belohnung nicht verfügbar"
+  monthly-available-premium-lore:
+    - "&7Belohnung enthält:"
+    - "&a  1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ Premium-Belohnung aktiviert"
+  monthly-displayname-unavailable: "&c&lMONATLICHE BELONUNG"
+  monthly-premium-displayname-unavailable: "&4&lMONATLICHE BELONUNG"
+  monthly-unavailable-lore:
+    - " "
+    - "&cVerfügbar in: %cooldown%"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cVerfügbar in: %cooldown%"

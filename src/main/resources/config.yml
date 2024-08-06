@@ -58,6 +58,8 @@ config:
   # Global settings section
   #
 
+  language: English
+
   update-checker: true
 
   menu-size: 45

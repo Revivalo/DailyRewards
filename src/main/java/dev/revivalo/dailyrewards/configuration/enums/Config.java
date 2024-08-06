@@ -36,6 +36,7 @@ public enum Config {
     JOIN_NOTIFICATION_SOUND("join-notification-sound"),
     DISABLED_WORLDS("disabled-worlds"),
     FIRST_TIME_REQUIRED_PLAY_TIME("first-time-join-required-play-time"),
+    LANGUAGE,
 
     SETTINGS_ENABLED_IN_MENU("settings-enabled-in-menu"),
     SETTINGS_POSITION("settings-position"),

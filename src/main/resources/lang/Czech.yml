@@ -1,0 +1,175 @@
+#
+# Od verze 1.16 můžete také používat HEX barvy.
+# Namísto formátu &f použijte <#ffffff>
+# a pro gradient: <#ffffff>Text, kde bude použit gradient</#000000>
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% odměn bylo úspěšně automaticky vybráno!"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Klikněte pro získání odměn!"
+  reward-reset: "&e%prefix% &fOdměna hráče &e%player%&f pro &e%type%&f byla resetována"
+  unavailable-player: "%prefix% &cHráč není dostupný!"
+  unavailable-setting: "%prefix% &cToto nastavení neexistuje!"
+  reward-disabled: "%prefix% &cOdměnu nelze získat!"
+  permission-msg: "%prefix% &cNemáte oprávnění provést tuto akci."
+  rewards-are-not-set: "%prefix% &cOdměny nejsou nastaveny!"
+  reload-msg: "&e%prefix% &fPlugin byl úspěšně znovu načten"
+  incomplete-reward-reset: "%prefix% &cUveďte, co přesně chcete resetovat (denní/týdenní/měsíční/vše)"
+  full-inventory-message: "%prefix% &cNemůžete získat odměnu, váš inventář je plný!"
+  claiming-in-disabled-world: "%prefix% &cNemůžete získat odměny ve světě %world%"
+  not-enough-required-time-to-claim: "%prefix% &cMusíte strávit alespoň %requiredMinutes% minut na serveru, než budete moci získat odměny (zbývá %minutes% minut)"
+  command-usage: "%prefix% &cSprávné použití: %usage%"
+  loading: "&bNačítání..."
+  back: "&cZpět"
+  help-message:
+    - "&fSeznam všech dostupných příkazů:"
+    - "&f/rewards &7- Hlavní menu GUI"
+    - "&f/reward claim <odměna>&7- Získání určité odměny"
+    - "&f/reward reset <hráč> <denní|týdenní|měsíční|vše>"
+    - "&f/reward import - &7Importuje data ze souboru do databáze"
+    - "&f/reward reload &7- Znovu načte konfigurační sekci"
+    - "&f/reward settings &7- Otevře nastavení"
+    - "&f/reward toggle <nastavení> &7- Přepne určité nastavení"
+  #
+  # Nastavení
+  #
+  settings-title: "Nastavení"
+  settings-display-name: "&eNastavení"
+  setting-enabled: "%prefix% &aPovolili jste %setting%!"
+  setting-disabled: "%prefix% &cZakázali jste %setting%!"
+  auto-claim-failed: "%prefix% &cNěkteré odměny nebylo možné automaticky vybrat, podržte pro detaily."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cNásledující odměny nelze automaticky vybrat: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Následující odměny byly automaticky vybrány: &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Upozornění při připojení"
+  join-auto-claim-setting-name: "Automatické získání při připojení"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cToto nastavení nelze přepnout!"
+    - "&cChybí oprávnění: %permission%"
+  join-notification-display-name: "&aUpozornění při připojení"
+  join-notification-enabled-lore:
+    - "&7Upozorní vás při připojení"
+    - "&7pokud máte nevybrané odměny"
+    - " "
+    - "&c► Klikněte pro deaktivaci"
+  join-notification-disabled-lore:
+    - "&7Upozorní vás při připojení"
+    - "&7pokud máte nevybrané odměny"
+    - " "
+    - "&a► Klikněte pro aktivaci"
+  auto-claim-display-name: "&aAutomatické získání při připojení"
+  auto-claim-enabled-lore:
+    - "&7Automaticky získá"
+    - "&7všechny dostupné odměny při připojení"
+    - " "
+    - "&c► Klikněte pro deaktivaci"
+  auto-claim-disabled-lore:
+    - "&7Automaticky získá"
+    - "&7všechny dostupné odměny při připojení"
+    - " "
+    - "&a► Klikněte pro aktivaci"
+
+  located-in-restricted-world: "Odměna není dostupná v aktuálním světě"
+  insufficient-play-time: "Nedostatečný čas na hraní pro získání"
+  insufficient-permissions: "Nedostatečná oprávnění"
+  not-enough-free-inventory-slots: "Nedostatek volných míst v inventáři"
+  unavailable-reward: "Odměna není dostupná"
+  #
+  # Menu odměn
+  #
+  menu-title: "Odměny"
+  join-hover-message: "&7Klikněte pro vyzvednutí svých odměn"
+  join-notification:
+    - ' '
+    - '&2 Ahoj %player%, &a%rewards% odměn na tebe čeká! &f(Klikni sem)'
+    - ' '
+  cooldown-message: "%prefix% &cPro &l%type% &codměnu musíte počkat &n%time%"
+  daily-name: "Denní odměna"
+  daily-title: "&a&lOdměny"
+  daily-subtitle: "&7Získali jste svou &adenní&7 odměnu"
+  daily-collected: "&a%player% &7získal svou &a&ldenní odměnu!"
+  daily-premium-collected: "&a%player% &7získal svou &a&lprémiovou denní odměnu!"
+  daily-displayname-available: "&a&lDENNÍ ODMĚNA"
+  daily-premium-displayname-available: "&e&lDENNÍ ODMĚNA"
+  daily-available-lore:
+    - "&7Odměna obsahuje:"
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ Prémiová odměna není dostupná"
+  daily-available-premium-lore:
+    - "&7Odměna obsahuje:"
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ Prémiová odměna dostupná"
+  daily-displayname-unavailable: "&c&lDENNÍ ODMĚNA"
+  daily-premium-displayname-unavailable: "&4&lDENNÍ ODMĚNA"
+  daily-unavailable-lore:
+    - " "
+    - "&cDostupná za: %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cDostupná za: %cooldown%"
+  weekly-name: "Týdenní odměna"
+  weekly-title: "&e&lOdměny"
+  weekly-subtitle: "&7Získali jste svou &etýdenní &7odměnu"
+  weekly-collected: "&e%player% &7získal svou &e&ltýdenní odměnu!"
+  weekly-premium-collected: "&e%player% &7získal svou &e&lprémiovou týdenní odměnu!"
+  weekly-displayname-available: "&a&lTÝDENNÍ ODMĚNA"
+  weekly-premium-displayname-available: "&e&lTÝDENNÍ ODMĚNA"
+  weekly-available-lore:
+    - "&7Odměna obsahuje:"
+    - "&a 1x &fDiamand"
+    - " "
+    - "&c❌ Prémiová odměna není dostupná"
+  weekly-available-premium-lore:
+    - "&7Odměna obsahuje:"
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ Prémiová odměna dostupná"
+  weekly-displayname-unavailable: "&c&lTÝDENNÍ ODMĚNA"
+  weekly-premium-displayname-unavailable: "&4&lTÝDENNÍ ODMĚNA"
+  weekly-unavailable-lore:
+    - " "
+    - "&cDostupná za: %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cDostupná za: %cooldown%"
+  monthly-name: "Měsíční odměna"
+  monthly-title: "&9&lOdměny"
+  monthly-subtitle: "&7Získali jste svou &9měsíční &7odměnu"
+  monthly-collected: "&9%player% &7získal &9&lměsíční odměnu!"
+  monthly-premium-collected: "&9%player% &7získal svou &9&lprémiovou měsíční odměnu!"
+  monthly-displayname-available: "&a&lMĚSÍČNÍ ODMĚNA"
+  monthly-premium-displayname-available: "&e&lMĚSÍČNÍ ODMĚNA"
+  monthly-available-lore:
+    - "&7Odměna obsahuje:"
+    - "&a  8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ Prémiová odměna není dostupná"
+  monthly-available-premium-lore:
+    - "&7Odměna obsahuje:"
+    - "&a  1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ Prémiová odměna aktivována"
+  monthly-displayname-unavailable: "&c&lMĚSÍČNÍ ODMĚNA"
+  monthly-premium-displayname-unavailable: "&4&lMĚSÍČNÍ ODMĚNA"
+  monthly-unavailable-lore:
+    - " "
+    - "&cDostupná za: %cooldown%"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cDostupná za: %cooldown%"

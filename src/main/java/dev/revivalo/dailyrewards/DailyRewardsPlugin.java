@@ -59,6 +59,26 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
         Config.reload();
 
+        List<String> files = new ArrayList<String>() {{
+            add("English");
+            add("Czech");
+            add("Turkish");
+            add("Polish");
+            add("Russian");
+            add("French");
+            add("German");
+            add("Chinese");
+        }};
+
+        for (String fileName : files) {
+            File file = new File(DailyRewardsPlugin.get().getDataFolder(), "lang" + File.separator + fileName + ".yml");
+            try {
+                ConfigUpdater.update(this, "lang" + File.separator + fileName + ".yml", file, Collections.emptyList());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         if (Config.UPDATE_CHECKER.asBoolean()) {
             new UpdateChecker(RESOURCE_ID).getVersion(pluginVersion -> {
                 setLatestVersion(pluginVersion);

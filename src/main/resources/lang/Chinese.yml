@@ -1,0 +1,175 @@
+#
+# 从1.16版本开始，您还可以使用HEX颜色。
+# 替换 &f 格式使用 <#ffffff>
+# 对于渐变：<#ffffff>文本将在这里应用渐变</#000000>
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% 奖励已成功自动领取！"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2点击领取奖励！"
+  reward-reset: "&e%prefix% &f您已重置玩家 &e%player% 的 &e%type%&f 奖励"
+  unavailable-player: "%prefix% &c玩家不可用！"
+  unavailable-setting: "%prefix% &c该设置不存在！"
+  reward-disabled: "%prefix% &c奖励无法获得！"
+  permission-msg: "%prefix% &c您没有权限执行此操作。"
+  rewards-are-not-set: "%prefix% &c奖励尚未设置！"
+  reload-msg: "&e%prefix% &f插件已成功重新加载"
+  incomplete-reward-reset: "%prefix% &c请指定您要重置的内容（daily/weekly/monthly/all）"
+  full-inventory-message: "%prefix% &c无法领取奖励，您的背包已满！"
+  claiming-in-disabled-world: "%prefix% &c您不能在 %world% 世界中领取奖励"
+  not-enough-required-time-to-claim: "%prefix% &c您必须在服务器上待满至少 %requiredMinutes% 分钟才能领取奖励（还剩 %minutes% 分钟）"
+  command-usage: "%prefix% &c有效用法：%usage%"
+  loading: "&b加载中..."
+  back: "&c返回"
+  help:
+    - "&f所有可用命令列表："
+    - "&f/rewards &7- 主要GUI菜单"
+    - "&f/reward claim <奖励>&7- 领取特定奖励"
+    - "&f/reward reset <玩家> <daily|weekly|monthly|all>"
+    - "&f/reward import - &7将文件数据导入数据库"
+    - "&f/reward reload &7- 重新加载配置部分"
+    - "&f/reward settings &7- 打开设置菜单"
+    - "&f/reward toggle <设置> &7- 切换特定设置"
+  #
+  # 设置
+  #
+  settings-title: "设置"
+  settings-display-name: "&e设置"
+  setting-enabled: "%prefix% &a您已启用 %setting%！"
+  setting-disabled: "%prefix% &c您已禁用 %setting%！"
+  auto-claim-failed: "%prefix% &c某些奖励无法自动领取，悬停以获取详细信息。"
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&c以下奖励无法自动领取：%format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ 以下奖励已自动领取：&f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "加入通知"
+  join-auto-claim-setting-name: "加入自动领取"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&c您不能切换这种类型的设置！"
+    - "&c缺少权限：%permission%"
+  join-notification-display-name: "&a加入通知"
+  join-notification-enabled-lore:
+    - "&7当您加入时通知您"
+    - "&7如果您有未领取的奖励"
+    - " "
+    - "&c► 点击以禁用"
+  join-notification-disabled-lore:
+    - "&7当您加入时通知您"
+    - "&7如果您有未领取的奖励"
+    - " "
+    - "&a► 点击以启用"
+  auto-claim-display-name: "&a加入自动领取"
+  auto-claim-enabled-lore:
+    - "&7将自动领取"
+    - "&7所有可用奖励"
+    - " "
+    - "&c► 点击以禁用"
+  auto-claim-disabled-lore:
+    - "&7将自动领取"
+    - "&7所有可用奖励"
+    - " "
+    - "&a► 点击以启用"
+
+  located-in-restricted-world: "奖励在当前世界中不可用"
+  insufficient-play-time: "游戏时间不足，无法领取"
+  insufficient-permissions: "权限不足"
+  not-enough-free-inventory-slots: "背包空间不足"
+  unavailable-reward: "奖励不可用"
+  #
+  # 奖励菜单
+  #
+  menu-title: "奖励"
+  join-hover-message: "&7点击领取您的奖励"
+  join-notification:
+    - ' '
+    - '&2 你好 %player%， &a%rewards% 奖励在等你！ &f(点击这里)'
+    - ' '
+  cooldown-message: "%prefix% &c对于 &l%type% &c奖励，您需要等待 &n%time%"
+  daily-name: "每日奖励"
+  daily-title: "&a&l奖励"
+  daily-subtitle: "&7您已领取您的 &adaily&7 奖励"
+  daily-collected: "&a%player% &7已领取他的 &a&ldaily 奖励！"
+  daily-premium-collected: "&a%player% &7已领取他的 &a&lpremium 每日奖励！"
+  daily-displayname-available: "&a&l每日奖励"
+  daily-premium-displayname-available: "&e&l每日奖励"
+  daily-available-lore:
+    - "&7奖励包含："
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ 高级奖励不可用"
+  daily-available-premium-lore:
+    - "&7奖励包含："
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ 高级奖励可用"
+  daily-displayname-unavailable: "&c&l每日奖励"
+  daily-premium-displayname-unavailable: "&4&l每日奖励"
+  daily-unavailable-lore:
+    - " "
+    - "&c可在 %cooldown% 后领取"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&c可在 %cooldown% 后领取"
+  weekly-name: "每周奖励"
+  weekly-title: "&e&l奖励"
+  weekly-subtitle: "&7您已领取您的 &e每周奖励&7"
+  weekly-collected: "&e%player% &7已领取他的 &e&l每周奖励！"
+  weekly-premium-collected: "&e%player% &7已领取他的 &e&lpremium 每周奖励！"
+  weekly-displayname-available: "&a&l每周奖励"
+  weekly-premium-displayname-available: "&e&l每周奖励"
+  weekly-available-lore:
+    - "&7奖励包含："
+    - "&a 1x &fDiamond"
+    - " "
+    - "&c❌ 高级奖励不可用"
+  weekly-available-premium-lore:
+    - "&7奖励包含："
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ 高级奖励可用"
+  weekly-displayname-unavailable: "&c&l每周奖励"
+  weekly-premium-displayname-unavailable: "&4&l每周奖励"
+  weekly-unavailable-lore:
+    - " "
+    - "&c可在 %cooldown% 后领取"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&c可在 %cooldown% 后领取"
+  monthly-name: "每月奖励"
+  monthly-title: "&9&l奖励"
+  monthly-subtitle: "&7您已领取您的 &9每月奖励&7"
+  monthly-collected: "&9%player% &7已领取他的 &9&l每月奖励！"
+  monthly-premium-collected: "&9%player% &7已领取他的 &9&lpremium 每月奖励！"
+  monthly-displayname-available: "&a&l每月奖励"
+  monthly-premium-displayname-available: "&e&l每月奖励"
+  monthly-available-lore:
+    - "&7奖励包含："
+    - "&a 8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ 高级奖励不可用"
+  monthly-available-premium-lore:
+    - "&7奖励包含："
+    - "&a 1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ 高级奖励已激活"
+  monthly-displayname-unavailable: "&c&l每月奖励"
+  monthly-premium-displayname-unavailable: "&4&l每月奖励"
+  monthly-unavailable-lore:
+    - " "
+    - "&c可在 %cooldown% 后领取"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&c可在 %cooldown% 后领取"

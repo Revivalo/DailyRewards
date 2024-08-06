@@ -1,0 +1,175 @@
+#
+# Od wersji 1.16 możesz także używać kolorów HEX.
+# Zamiast formatu &f użyj <#ffffff>
+# a dla gradientu: <#ffffff>Tekst, na który zostanie zastosowany gradient</#000000>
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% nagród zostało pomyślnie automatycznie odebranych!"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Kliknij, aby odebrać nagrody!"
+  reward-reset: "&e%prefix% &fNagroda dla gracza &e%player%&f za &e%type%&f została zresetowana"
+  unavailable-player: "%prefix% &cGracz nie jest dostępny!"
+  unavailable-setting: "%prefix% &cTo ustawienie nie istnieje!"
+  reward-disabled: "%prefix% &cNie można odebrać nagrody!"
+  permission-msg: "%prefix% &cNie masz uprawnień do wykonania tej akcji."
+  rewards-are-not-set: "%prefix% &cNagrody nie są ustawione!"
+  reload-msg: "&e%prefix% &fPlugin został pomyślnie przeładowany"
+  incomplete-reward-reset: "%prefix% &cOkreśl, co dokładnie chcesz zresetować (dzienna/tygodniowa/miesięczna/wszystkie)"
+  full-inventory-message: "%prefix% &cNie możesz odebrać nagrody, twój ekwipunek jest pełny!"
+  claiming-in-disabled-world: "%prefix% &cNie możesz odebrać nagród w świecie %world%"
+  not-enough-required-time-to-claim: "%prefix% &cMusisz spędzić co najmniej %requiredMinutes% minut na serwerze, zanim będziesz mógł odebrać nagrody (pozostało %minutes% minut)"
+  command-usage: "%prefix% &cPrawidłowe użycie: %usage%"
+  loading: "&bŁadowanie..."
+  back: "&cWróć"
+  help-message:
+    - "&fLista wszystkich dostępnych komend:"
+    - "&f/rewards &7- Główne menu GUI"
+    - "&f/reward claim <nagroda>&7- Odbierz konkretną nagrodę"
+    - "&f/reward reset <gracz> <dzienna|tygodniowa|miesięczna|wszystkie>"
+    - "&f/reward import - &7Importuje dane z pliku do bazy danych"
+    - "&f/reward reload &7- Przeładowuje sekcję konfiguracji"
+    - "&f/reward settings &7- Otwiera menu ustawień"
+    - "&f/reward toggle <ustawienie> &7- Przełącza dane ustawienie"
+  #
+  # Ustawienia
+  #
+  settings-title: "Ustawienia"
+  settings-display-name: "&eUstawienia"
+  setting-enabled: "%prefix% &aWłączyłeś %setting%!"
+  setting-disabled: "%prefix% &cWyłączyłeś %setting%!"
+  auto-claim-failed: "%prefix% &cNiektórych nagród nie można było automatycznie odebrać, najedź kursorem, aby zobaczyć szczegóły."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cNastępujących nagród nie można automatycznie odebrać: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Następujące nagrody zostały automatycznie odebrane: &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Powiadomienie przy wejściu"
+  join-auto-claim-setting-name: "Automatyczne odbieranie przy wejściu"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cNie możesz przełączać tego ustawienia!"
+    - "&cBrakujące uprawnienie: %permission%"
+  join-notification-display-name: "&aPowiadomienie przy wejściu"
+  join-notification-enabled-lore:
+    - "&7Powiadomi cię przy wejściu"
+    - "&7jeśli masz nieodebrane nagrody"
+    - " "
+    - "&c► Kliknij, aby wyłączyć"
+  join-notification-disabled-lore:
+    - "&7Powiadomi cię przy wejściu"
+    - "&7jeśli masz nieodebrane nagrody"
+    - " "
+    - "&a► Kliknij, aby włączyć"
+  auto-claim-display-name: "&aAutomatyczne odbieranie przy wejściu"
+  auto-claim-enabled-lore:
+    - "&7Automatycznie odbierze"
+    - "&7wszystkie dostępne nagrody przy wejściu"
+    - " "
+    - "&c► Kliknij, aby wyłączyć"
+  auto-claim-disabled-lore:
+    - "&7Automatycznie odbierze"
+    - "&7wszystkie dostępne nagrody przy wejściu"
+    - " "
+    - "&a► Kliknij, aby włączyć"
+
+  located-in-restricted-world: "Nagroda jest niedostępna w bieżącym świecie"
+  insufficient-play-time: "Niewystarczający czas gry do odebrania"
+  insufficient-permissions: "Niewystarczające uprawnienia"
+  not-enough-free-inventory-slots: "Brak wystarczającej ilości wolnych miejsc w ekwipunku"
+  unavailable-reward: "Nagroda jest niedostępna"
+  #
+  # Menu nagród
+  #
+  menu-title: "Nagrody"
+  join-hover-message: "&7Kliknij, aby odebrać swoje nagrody"
+  join-notification:
+    - ' '
+    - '&2 Hej %player%, &a%rewards% nagród czeka na ciebie! &f(Kliknij tutaj)'
+    - ' '
+  cooldown-message: "%prefix% &cAby odebrać &l%type% &cnagrodę, musisz poczekać &n%time%"
+  daily-name: "Dzienna nagroda"
+  daily-title: "&a&lNagrody"
+  daily-subtitle: "&7Odebrałeś swoją &adzienną&7 nagrodę"
+  daily-collected: "&a%player% &7odebrał swoją &a&ldzienną nagrodę!"
+  daily-premium-collected: "&a%player% &7odebrał swoją &a&lprestiżową dzienną nagrodę!"
+  daily-displayname-available: "&a&lDZIENNA NAGRODA"
+  daily-premium-displayname-available: "&e&lDZIENNA NAGRODA"
+  daily-available-lore:
+    - "&7Nagroda zawiera:"
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ Prestiżowa nagroda niedostępna"
+  daily-available-premium-lore:
+    - "&7Nagroda zawiera:"
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ Prestiżowa nagroda dostępna"
+  daily-displayname-unavailable: "&c&lDZIENNA NAGRODA"
+  daily-premium-displayname-unavailable: "&4&lDZIENNA NAGRODA"
+  daily-unavailable-lore:
+    - " "
+    - "&cDostępna za: %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cDostępna za: %cooldown%"
+  weekly-name: "Tygodniowa nagroda"
+  weekly-title: "&e&lNagrody"
+  weekly-subtitle: "&7Odebrałeś swoją &etygodniową &7nagrodę"
+  weekly-collected: "&e%player% &7odebrał swoją &e&ltygodniową nagrodę!"
+  weekly-premium-collected: "&e%player% &7odebrał swoją &e&lprestiżową tygodniową nagrodę!"
+  weekly-displayname-available: "&a&lTYGODNIOWA NAGRODA"
+  weekly-premium-displayname-available: "&e&lTYGODNIOWA NAGRODA"
+  weekly-available-lore:
+    - "&7Nagroda zawiera:"
+    - "&a 1x &fDiamond"
+    - " "
+    - "&c❌ Prestiżowa nagroda niedostępna"
+  weekly-available-premium-lore:
+    - "&7Nagroda zawiera:"
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ Prestiżowa nagroda dostępna"
+  weekly-displayname-unavailable: "&c&lTYGODNIOWA NAGRODA"
+  weekly-premium-displayname-unavailable: "&4&lTYGODNIOWA NAGRODA"
+  weekly-unavailable-lore:
+    - " "
+    - "&cDostępna za: %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cDostępna za: %cooldown%"
+  monthly-name: "Miesięczna nagroda"
+  monthly-title: "&9&lNagrody"
+  monthly-subtitle: "&7Odebrałeś swoją &9miesięczną &7nagrodę"
+  monthly-collected: "&9%player% &7odebrał &9&lmiesięczną nagrodę!"
+  monthly-premium-collected: "&9%player% &7odebrał swoją &9&lprestiżową miesięczną nagrodę!"
+  monthly-displayname-available: "&a&lMIESIĘCZNA NAGRODA"
+  monthly-premium-displayname-available: "&e&lMIESIĘCZNA NAGRODA"
+  monthly-available-lore:
+    - "&7Nagroda zawiera:"
+    - "&a  8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ Prestiżowa nagroda niedostępna"
+  monthly-available-premium-lore:
+    - "&7Nagroda zawiera:"
+    - "&a  1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ Prestiżowa nagroda aktywowana"
+  monthly-displayname-unavailable: "&c&lMIESIĘCZNA NAGRODA"
+  monthly-premium-displayname-unavailable: "&4&lMIESIĘCZNA NAGRODA"
+  monthly-unavailable-lore:
+    - " "
+    - "&cDostępna za: %cooldown%"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cDostępna za: %cooldown%"

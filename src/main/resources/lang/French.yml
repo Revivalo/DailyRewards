@@ -1,0 +1,175 @@
+#
+# À partir de la version 1.16, vous pouvez également utiliser des couleurs HEX.
+# Au lieu du format &f, utilisez <#ffffff>
+# et pour le dégradé : <#ffffff>Texte où le dégradé sera appliqué</#000000>
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% récompense(s) a été(e) automatiquement réclamée avec succès !"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Cliquez pour obtenir des récompenses !"
+  reward-reset: "&e%prefix% &fVous avez réinitialisé la(s) récompense(s) &e%type%&f d'un joueur &e%player%"
+  unavailable-player: "%prefix% &cLe joueur n'est pas disponible !"
+  unavailable-setting: "%prefix% &cCe paramètre n'existe pas !"
+  reward-disabled: "%prefix% &cLa récompense ne peut pas être obtenue !"
+  permission-msg: "%prefix% &cVous n'êtes pas autorisé à effectuer cette action."
+  rewards-are-not-set: "%prefix% &cLes récompenses ne sont pas définies !"
+  reload-msg: "&e%prefix% &fLe plugin a été rechargé avec succès"
+  incomplete-reward-reset: "%prefix% &cPrécisez ce que vous souhaitez réinitialiser (daily/weekly/monthly/all)"
+  full-inventory-message: "%prefix% &cVous ne pouvez pas obtenir les récompenses, votre inventaire est plein !"
+  claiming-in-disabled-world: "%prefix% &cVous ne pouvez pas obtenir de récompenses dans le monde %world%"
+  not-enough-required-time-to-claim: "%prefix% &cVous devez passer au moins %requiredMinutes% minutes sur le serveur avant de pouvoir réclamer des récompenses (%minutes% minutes restantes)"
+  command-usage: "%prefix% &cUtilisation valide : %usage%"
+  loading: "&bChargement..."
+  back: "&cRetour"
+  help-message:
+    - "&fListe de toutes les commandes disponibles :"
+    - "&f/rewards &7- Menu principal"
+    - "&f/reward claim <récompense>&7- Obtient une récompense spécifique"
+    - "&f/reward reset <joueur> <daily|weekly|monthly|all>"
+    - "&f/reward import - &7Importe les données du fichier dans la base de données"
+    - "&f/reward reload &7- Recharge la configuration"
+    - "&f/reward settings &7- Ouvre le menu des paramètres"
+    - "&f/reward toggle <paramètre> &7- Active ou désactive un paramètre spécifique"
+  #
+  # Paramètres
+  #
+  settings-title: "Paramètres"
+  settings-display-name: "&eParamètres"
+  setting-enabled: "%prefix% &aVous avez activé %setting% !"
+  setting-disabled: "%prefix% &cVous avez désactivé %setting% !"
+  auto-claim-failed: "%prefix% &cCertaines récompenses n'ont pas pu être réclamées automatiquement, survolez pour plus de détails."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cLes récompenses suivantes ne peuvent pas être réclamées automatiquement : %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Les récompenses suivantes ont été automatiquement réclamées : &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Notification de connexion"
+  join-auto-claim-setting-name: "Réclamation automatique à la connexion"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cVous ne pouvez pas activer ou désactiver ce type de paramètre !"
+    - "&cAutorisation manquante : %permission%"
+  join-notification-display-name: "&aNotification de connexion"
+  join-notification-enabled-lore:
+    - "&7Vous avertir à la connexion"
+    - "&7si vous avez des récompenses non réclamées"
+    - " "
+    - "&c► Cliquez pour désactiver"
+  join-notification-disabled-lore:
+    - "&7Vous avertir à la connexion"
+    - "&7si vous avez des récompenses non réclamées"
+    - " "
+    - "&a► Cliquez pour activer"
+  auto-claim-display-name: "&aRéclamation automatique à la connexion"
+  auto-claim-enabled-lore:
+    - "&7Réclame automatiquement"
+    - "&7toutes les récompenses disponibles à la connexion"
+    - " "
+    - "&c► Cliquez pour désactiver"
+  auto-claim-disabled-lore:
+    - "&7Réclame automatiquement"
+    - "&7toutes les récompenses disponibles à la connexion"
+    - " "
+    - "&a► Cliquez pour activer"
+
+  located-in-restricted-world: "Récompense non disponible dans le monde actuel"
+  insufficient-play-time: "Pas assez de temps de jeu pour réclamer"
+  insufficient-permissions: "Permissions insuffisantes"
+  not-enough-free-inventory-slots: "Pas assez de places libres dans l'inventaire"
+  unavailable-reward: "Récompense non disponible"
+  #
+  # Menu des récompenses
+  #
+  menu-title: "Récompenses"
+  join-hover-message: "&7Cliquez pour récupérer vos récompenses"
+  join-notification:
+    - ' '
+    - '&2 Bonjour %player%, &a%rewards% récompense(s) vous attendent ! &f(Cliquez ici)'
+    - ' '
+  cooldown-message: "%prefix% &cPour la récompense &l%type% &cvous devez attendre &n%time%"
+  daily-name: "Récompense quotidienne"
+  daily-title: "&a&lRécompenses"
+  daily-subtitle: "&7Vous avez récupéré votre &arecompense quotidienne&7"
+  daily-collected: "&a%player% &7a récupéré sa &arecompense quotidienne&7 !"
+  daily-premium-collected: "&a%player% &7a récupéré sa &apremium récompense quotidienne&7 !"
+  daily-displayname-available: "&a&lRÉCOMPENSE QUOTIDIENNE"
+  daily-premium-displayname-available: "&e&lRÉCOMPENSE QUOTIDIENNE"
+  daily-available-lore:
+    - "&7La récompense contient :"
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ Récompense premium non disponible"
+  daily-available-premium-lore:
+    - "&7La récompense contient :"
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ Récompense premium disponible"
+  daily-displayname-unavailable: "&c&lRÉCOMPENSE QUOTIDIENNE"
+  daily-premium-displayname-unavailable: "&4&lRÉCOMPENSE QUOTIDIENNE"
+  daily-unavailable-lore:
+    - " "
+    - "&cDisponible dans : %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cDisponible dans : %cooldown%"
+  weekly-name: "Récompense hebdomadaire"
+  weekly-title: "&e&lRécompenses"
+  weekly-subtitle: "&7Vous avez récupéré votre &e récompense hebdomadaire &7"
+  weekly-collected: "&e%player% &7a récupéré sa &e&lrécompense hebdomadaire !"
+  weekly-premium-collected: "&e%player% &7a récupéré sa &e&lpremium récompense hebdomadaire !"
+  weekly-displayname-available: "&a&lRÉCOMPENSE HEBDOMADAIRE"
+  weekly-premium-displayname-available: "&e&lRÉCOMPENSE HEBDOMADAIRE"
+  weekly-available-lore:
+    - "&7La récompense contient :"
+    - "&a 1x &fDiamond"
+    - " "
+    - "&c❌ Récompense premium non disponible"
+  weekly-available-premium-lore:
+    - "&7La récompense contient :"
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ Récompense premium disponible"
+  weekly-displayname-unavailable: "&c&lRÉCOMPENSE HEBDOMADAIRE"
+  weekly-premium-displayname-unavailable: "&4&lRÉCOMPENSE HEBDOMADAIRE"
+  weekly-unavailable-lore:
+    - " "
+    - "&cDisponible dans : %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cDisponible dans : %cooldown%"
+  monthly-name: "Récompense mensuelle"
+  monthly-title: "&9&lRécompenses"
+  monthly-subtitle: "&7Vous avez récupéré votre &9récompense mensuelle&7"
+  monthly-collected: "&9%player% &7a récupéré sa &9&lrécompense mensuelle !"
+  monthly-premium-collected: "&9%player% &7a récupéré sa &9&lpremium récompense mensuelle !"
+  monthly-displayname-available: "&a&lRÉCOMPENSE MENSUELLE"
+  monthly-premium-displayname-available: "&e&lRÉCOMPENSE MENSUELLE"
+  monthly-available-lore:
+    - "&7La récompense contient :"
+    - "&a 8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ Récompense premium non disponible"
+  monthly-available-premium-lore:
+    - "&7La récompense contient :"
+    - "&a 1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ Récompense premium activée"
+  monthly-displayname-unavailable: "&c&lRÉCOMPENSE MENSUELLE"
+  monthly-premium-displayname-unavailable: "&4&lRÉCOMPENSE MENSUELLE"
+  monthly-unavailable-lore:
+    - " "
+    - "&cDisponible dans : %cooldown%"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cDisponible dans : %cooldown%"

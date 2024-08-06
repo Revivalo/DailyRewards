@@ -1,0 +1,175 @@
+#
+# 1.16 sürümünden itibaren HEX renklerini de kullanabilirsiniz.
+# &f formatı yerine <#ffffff> kullanın
+# ve gradyan için: <#ffffff>Gradyanın uygulanacağı metin</#000000>
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% ödül(ler) otomatik olarak başarıyla alındı!"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Ödülleri almak için tıklayın!"
+  reward-reset: "&e%prefix% &fOyuncunun &e%type%&f ödülünü sıfırladınız: &e%player%"
+  unavailable-player: "%prefix% &cOyuncu mevcut değil!"
+  unavailable-setting: "%prefix% &cBu ayar mevcut değil!"
+  reward-disabled: "%prefix% &cÖdül alınamıyor!"
+  permission-msg: "%prefix% &cBu işlemi yapma izniniz yok."
+  rewards-are-not-set: "%prefix% &cÖdüller ayarlanmadı!"
+  reload-msg: "&e%prefix% &fEklenti başarıyla yeniden yüklendi"
+  incomplete-reward-reset: "%prefix% &cTam olarak neyi sıfırlamak istediğinizi belirtin (günlük/haftalık/aylık/tümü)"
+  full-inventory-message: "%prefix% &cÖdülü alamazsınız, envanteriniz dolu!"
+  claiming-in-disabled-world: "%prefix% &c%world% dünyasında ödül alamazsınız"
+  not-enough-required-time-to-claim: "%prefix% &cÖdülleri alabilmek için sunucuda en az %requiredMinutes% dakika geçirmeniz gerekiyor (kalan süre: %minutes% dakika)"
+  command-usage: "%prefix% &cGeçerli kullanım: %usage%"
+  loading: "&bYükleniyor..."
+  back: "&cGeri"
+  help-message:
+    - "&fMevcut tüm komutların listesi:"
+    - "&f/rewards &7- Ana GUI menüsü"
+    - "&f/reward claim <ödül>&7- Belirli bir ödül alır"
+    - "&f/reward reset <oyuncu> <günlük|haftalık|aylık|tümü>"
+    - "&f/reward import - &7Verileri veritabanına aktarır"
+    - "&f/reward reload &7- Konfigürasyon bölümünü yeniden yükler"
+    - "&f/reward settings &7- Ayarlar menüsünü açar"
+    - "&f/reward toggle <ayar> &7- Belirli bir ayarı değiştirir"
+  #
+  # Ayarlar
+  #
+  settings-title: "Ayarlar"
+  settings-display-name: "&eAyarlar"
+  setting-enabled: "%prefix% &a%setting% etkinleştirildi!"
+  setting-disabled: "%prefix% &c%setting% devre dışı bırakıldı!"
+  auto-claim-failed: "%prefix% &cBazı ödüller otomatik olarak alınamadı, detaylar için üzerine gelin."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cAşağıdaki ödüller otomatik olarak alınamadı: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Aşağıdaki ödüller otomatik olarak alındı: &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Giriş Bildirimi"
+  join-auto-claim-setting-name: "Girişte Otomatik Alma"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cBu ayarı değiştirmeniz mümkün değil!"
+    - "&cEksik izin: %permission%"
+  join-notification-display-name: "&aGiriş Bildirimi"
+  join-notification-enabled-lore:
+    - "&7Eğer toplanmamış ödülleriniz varsa"
+    - "&7giriş yaptığınızda sizi bilgilendirir"
+    - " "
+    - "&c► Devre dışı bırakmak için tıklayın"
+  join-notification-disabled-lore:
+    - "&7Eğer toplanmamış ödülleriniz varsa"
+    - "&7giriş yaptığınızda sizi bilgilendirir"
+    - " "
+    - "&a► Etkinleştirmek için tıklayın"
+  auto-claim-display-name: "&aGirişte Otomatik Alma"
+  auto-claim-enabled-lore:
+    - "&7Girişte tüm mevcut ödülleri"
+    - "&7otomatik olarak alır"
+    - " "
+    - "&c► Devre dışı bırakmak için tıklayın"
+  auto-claim-disabled-lore:
+    - "&7Girişte tüm mevcut ödülleri"
+    - "&7otomatik olarak alır"
+    - " "
+    - "&a► Etkinleştirmek için tıklayın"
+
+  located-in-restricted-world: "Ödül, mevcut dünyada kullanılamıyor"
+  insufficient-play-time: "Ödül almak için yeterli oyun süresi yok"
+  insufficient-permissions: "Yetersiz izinler"
+  not-enough-free-inventory-slots: "Yeterli boş envanter yuvası yok"
+  unavailable-reward: "Ödül mevcut değil"
+  #
+  # Ödüller menüsü
+  #
+  menu-title: "Ödüller"
+  join-hover-message: "&7Ödüllerinizi almak için tıklayın"
+  join-notification:
+    - ' '
+    - '&2 Merhaba %player%, &a%rewards% ödül seni bekliyor! &f(Buraya tıklayın)'
+    - ' '
+  cooldown-message: "%prefix% &c&l%type% &cödülü almak için beklemeniz gerekiyor &n%time%"
+  daily-name: "Günlük Ödül"
+  daily-title: "&a&lÖdüller"
+  daily-subtitle: "&7Günlük ödülünüzü aldınız"
+  daily-collected: "&a%player% &7günlük ödülünü aldı!"
+  daily-premium-collected: "&a%player% &7günlük premium ödülünü aldı!"
+  daily-displayname-available: "&a&lGÜNLÜK ÖDÜL"
+  daily-premium-displayname-available: "&e&lGÜNLÜK ÖDÜL"
+  daily-available-lore:
+    - "&7Ödül içeriği:"
+    - "&a 8x &fIron Ingot"
+    - " "
+    - "&c❌ Premium ödül mevcut değil"
+  daily-available-premium-lore:
+    - "&7Ödül içeriği:"
+    - "&a 16x &fIron Ingot"
+    - "&a  3x &fGold Ingot"
+    - " "
+    - "&e✔ Premium ödül mevcut"
+  daily-displayname-unavailable: "&c&lGÜNLÜK ÖDÜL"
+  daily-premium-displayname-unavailable: "&4&lGÜNLÜK ÖDÜL"
+  daily-unavailable-lore:
+    - " "
+    - "&cMevcut: %cooldown% sonra"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cMevcut: %cooldown% sonra"
+  weekly-name: "Haftalık Ödül"
+  weekly-title: "&e&lÖdüller"
+  weekly-subtitle: "&7Haftalık ödülünüzü aldınız"
+  weekly-collected: "&e%player% &7haftalık ödülünü aldı!"
+  weekly-premium-collected: "&e%player% &7haftalık premium ödülünü aldı!"
+  weekly-displayname-available: "&a&lHAFTALIK ÖDÜL"
+  weekly-premium-displayname-available: "&e&lHAFTALIK ÖDÜL"
+  weekly-available-lore:
+    - "&7Ödül içeriği:"
+    - "&a 1x &fDiamond"
+    - " "
+    - "&c❌ Premium ödül mevcut değil"
+  weekly-available-premium-lore:
+    - "&7Ödül içeriği:"
+    - "&a 5x &fDiamond"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ Premium ödül mevcut"
+  weekly-displayname-unavailable: "&c&lHAFTALIK ÖDÜL"
+  weekly-premium-displayname-unavailable: "&4&lHAFTALIK ÖDÜL"
+  weekly-unavailable-lore:
+    - " "
+    - "&cMevcut: %cooldown% sonra"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cMevcut: %cooldown% sonra"
+  monthly-name: "Aylık Ödül"
+  monthly-title: "&9&lÖdüller"
+  monthly-subtitle: "&7Aylık ödülünüzü aldınız"
+  monthly-collected: "&9%player% &7aylık ödülünü aldı!"
+  monthly-premium-collected: "&9%player% &7aylık premium ödülünü aldı!"
+  monthly-displayname-available: "&a&lAYLIK ÖDÜL"
+  monthly-premium-displayname-available: "&e&lAYLIK ÖDÜL"
+  monthly-available-lore:
+    - "&7Ödül içeriği:"
+    - "&a  8x &fDiamond"
+    - "&a 32x &fIron Ingot"
+    - "&a 16x &fGold Ingot"
+    - " "
+    - "&c❌ Premium ödül mevcut değil"
+  monthly-available-premium-lore:
+    - "&7Ödül içeriği:"
+    - "&a  1x &fNether Star"
+    - "&a 16x &fDiamond"
+    - "&a 64x &fIron Ingot"
+    - "&a 32x &fGold Ingot"
+    - " "
+    - "&e✔ Premium ödül aktif"
+  monthly-displayname-unavailable: "&c&lAYLIK ÖDÜL"
+  monthly-premium-displayname-unavailable: "&4&lAYLIK ÖDÜL"
+  monthly-unavailable-lore:
+    - " "
+    - "&cMevcut: %cooldown% sonra"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cMevcut: %cooldown% sonra"

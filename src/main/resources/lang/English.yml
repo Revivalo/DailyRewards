@@ -24,7 +24,7 @@ lang:
   command-usage: "%prefix% &cValid usage: %usage%"
   loading: "&bLoading..."
   back: "&cBack"
-  help:
+  help-message:
     - "&fList with all available commands:"
     - "&f/rewards &7- Main GUI menu"
     - "&f/reward claim <reward>&7- Obtains certain reward"

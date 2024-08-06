@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 public class RewardsMainCommand extends MainCommand {
     public RewardsMainCommand() {
-        super(Lang.PERMISSION_MSG.asColoredString(), new StartingWithStringArgumentMatcher());
+        super(Lang.PERMISSION_MSG, new StartingWithStringArgumentMatcher());
     }
 
     @Override

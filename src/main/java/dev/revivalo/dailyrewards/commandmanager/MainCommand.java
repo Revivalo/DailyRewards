@@ -1,5 +1,6 @@
 package dev.revivalo.dailyrewards.commandmanager;
 
+import dev.revivalo.dailyrewards.configuration.enums.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -13,10 +14,10 @@ import java.util.stream.Collectors;
 public abstract class MainCommand implements TabExecutor {
     protected final Set<SubCommand> subCommands = new HashSet<>();
 
-    protected final String noPermMessage;
+    protected final Lang noPermMessage;
     protected final ArgumentMatcher argumentMatcher;
 
-    public MainCommand(String noPermissionMessage, ArgumentMatcher argumentMatcher) {
+    public MainCommand(Lang noPermissionMessage, ArgumentMatcher argumentMatcher) {
         this.noPermMessage = noPermissionMessage;
         this.argumentMatcher = argumentMatcher;
 
@@ -38,7 +39,7 @@ public abstract class MainCommand implements TabExecutor {
         if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission()))
             subCommand.perform(sender, Arrays.copyOfRange(args, 1, args.length));
         else
-            sender.sendMessage(noPermMessage);
+            sender.sendMessage(noPermMessage.asColoredString());
 
         return true;
     }
@@ -79,7 +80,7 @@ public abstract class MainCommand implements TabExecutor {
 
         cmd.setExecutor(this);
         cmd.setTabCompleter(this);
-        cmd.setPermissionMessage(noPermMessage);
+        cmd.setPermissionMessage(noPermMessage.asColoredString());
     }
 
     protected abstract void registerSubCommands();

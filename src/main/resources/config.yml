@@ -96,8 +96,13 @@ config:
   settings-enabled-in-menu: true
   settings-position: 40
   settings-item: REPEATER
-  settings-join-notification-item: OAK_DOOR
-  settings-auto-claim-item: REDSTONE_TORCH
+
+  settings-join-notification-enabled-item: LIME_DYE
+  settings-join-notification-disabled-item: GRAY_DYE
+
+  settings-auto-claim-enabled-item: LIME_DYE
+  settings-auto-claim-disabled-item: GRAY_DYE
+
   settings-back-item: STONE_BUTTON
   settings-back-position: 40
   #

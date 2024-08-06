@@ -113,7 +113,10 @@ public class MenuManager {
 
         settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString(player)).build());
 
-        settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING) ? Config.SETTINGS_JOIN_NOTIFICATION_ITEM.asAnItem() : new ItemStack(Material.BARRIER))
+        settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(
+                PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
+                        ? (user.hasSettingEnabled(Setting.JOIN_NOTIFICATION) ? Config.SETTINGS_JOIN_NOTIFICATION_ENABLED_ITEM.asAnItem() : Config.SETTINGS_JOIN_NOTIFICATION_DISABLED_ITEM.asAnItem())
+                        : new ItemStack(Material.BARRIER))
                 .setName(
                         PermissionUtils.hasPermission(player, PermissionUtils.Permission.JOIN_NOTIFICATION_SETTING)
                                 ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString(player)
@@ -131,7 +134,10 @@ public class MenuManager {
                 ).build()
         );
 
-        settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING) ? Config.SETTINGS_AUTO_CLAIM_ITEM.asAnItem() : new ItemStack(Material.BARRIER))
+        settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(
+                PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
+                        ? (user.hasSettingEnabled(Setting.AUTO_CLAIM) ? Config.SETTINGS_AUTO_CLAIM_ENABLED_ITEM.asAnItem() : Config.SETTINGS_AUTO_CLAIM_DISABLED_ITEM.asAnItem())
+                        : new ItemStack(Material.BARRIER))
                 .setName(PermissionUtils.hasPermission(player, PermissionUtils.Permission.AUTO_CLAIM_SETTING)
                         ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString(player)
                         : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString(player)))

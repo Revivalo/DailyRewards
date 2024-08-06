@@ -1,5 +1,6 @@
 package dev.revivalo.dailyrewards;
 
+import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.dailyrewards.commandmanager.commands.RewardMainCommand;
 import dev.revivalo.dailyrewards.commandmanager.commands.RewardsMainCommand;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;

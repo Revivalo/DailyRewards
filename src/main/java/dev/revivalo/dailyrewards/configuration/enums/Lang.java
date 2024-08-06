@@ -110,6 +110,10 @@ public enum Lang {
 
 	private static TextModifier textModifier;
 
+	private String getName() {
+		return this.name();
+	}
+
 	public static void reload(Config language) {
         YamlFile langYamlFile = new YamlFile("lang" + File.separator + language.asString() + ".yml",
                 DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
@@ -140,18 +144,18 @@ public enum Lang {
 	}
 
 	public List<String> asReplacedList(final Map<String, String> definitions) {
-		return TextUtils.colorize(TextUtils.replaceListAsString(listsStoredAsStrings.get(this.name()), definitions));
+		return TextUtils.colorize(TextUtils.replaceListAsString(listsStoredAsStrings.get(getName()), definitions));
 	}
 
 	public String asColoredString() {
-		return textModifier.modifyText(null, messages.get(this.name()));
+		return textModifier.modifyText(null, messages.get(getName()));
 	}
 
 	public String asColoredString(Player player) {
-		return textModifier.modifyText(player, messages.get(this.name()));
+		return textModifier.modifyText(player, messages.get(getName()));
 	}
 
 	public String asReplacedString(Player player, Map<String, String> definitions) {
-		return textModifier.modifyText(player, TextUtils.replaceString(messages.get(this.name()), definitions));
+		return textModifier.modifyText(player, TextUtils.replaceString(messages.get(getName()), definitions));
 	}
 }

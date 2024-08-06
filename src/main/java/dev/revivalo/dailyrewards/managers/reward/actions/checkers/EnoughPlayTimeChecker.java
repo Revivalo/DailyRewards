@@ -15,7 +15,7 @@ public class EnoughPlayTimeChecker implements Checker {
 
     @Override
     public boolean check(Player player) {
-        final int requiredPlayTimeInMinutes = Config.FIRST_TIME_REQUIRED_PLAY_TIME.asInt();
+        final int requiredPlayTimeInMinutes = Config.FIRST_TIME_JOIN_REQUIRED_PLAY_TIME.asInt();
         if (requiredPlayTimeInMinutes != 0) {
             final float actualPlayTimeInMinutes = PlayerUtils.getPlayersPlayTimeInMinutes(player);
             if (actualPlayTimeInMinutes < requiredPlayTimeInMinutes) {

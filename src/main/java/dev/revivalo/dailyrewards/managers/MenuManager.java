@@ -39,7 +39,7 @@ public class MenuManager {
                     Config.MENU_SIZE.asInt(),
                     TextUtils.applyPlaceholdersToString(player, Lang.MENU_TITLE.asColoredString(player)));
 
-            if (Config.FILL_BACKGROUND.asBoolean()) {
+            if (Config.FILL_BACKGROUND_ENABLED.asBoolean()) {
                 for (int i = 0; i < Config.MENU_SIZE.asInt(); i++)
                     inventory.setItem(i, backgroundItem);
             }
@@ -104,7 +104,7 @@ public class MenuManager {
                 Config.SETTINGS_MENU_SIZE.asInt(),
                 Lang.SETTINGS_TITLE.asColoredString(player));
 
-        if (Config.FILL_BACKGROUND.asBoolean()) {
+        if (Config.FILL_BACKGROUND_ENABLED.asBoolean()) {
             for (int i = 0; i < Config.SETTINGS_MENU_SIZE.asInt(); i++)
                 settings.setItem(i, backgroundItem);
         }

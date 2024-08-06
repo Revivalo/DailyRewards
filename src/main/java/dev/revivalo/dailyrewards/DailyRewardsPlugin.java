@@ -235,7 +235,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
     public void reloadPlugin() {
         Config.reload();
-        Lang.reload();
 
         DailyRewardsPlugin.getRewardManager().loadRewards();
         DailyRewardsPlugin.getMenuManager().loadBackgroundFiller();

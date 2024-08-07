@@ -6,6 +6,7 @@ import dev.revivalo.dailyrewards.managers.backend.MySQLManager;
 import dev.revivalo.dailyrewards.managers.reward.Reward;
 import dev.revivalo.dailyrewards.managers.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
+import dev.revivalo.dailyrewards.utils.TextUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -45,11 +46,11 @@ public class DataManager {
 
 	public static void importToDatabase(CommandSender sender) {
 		if (!usingMysql) {
-			sender.sendMessage("§cYou need to have MySQL setup first!");
+			sender.sendMessage(TextUtils.colorize("&cYou need to have MySQL setup first!"));
 			return;
 		}
 
-		sender.sendMessage("§aStarting import from files...");
+		sender.sendMessage(TextUtils.colorize("&aStarting import from files..."));
 
 		CountDownLatch latch = new CountDownLatch(PlayerData.getFiles().size());
 
@@ -68,9 +69,9 @@ public class DataManager {
 
 		try {
 			latch.await();
-			sender.sendMessage("§aImport from files completed successfully.");
+			sender.sendMessage(TextUtils.colorize("&aImport from files completed successfully."));
 		} catch (InterruptedException e) {
-			sender.sendMessage("§cThe import process has been interrupted.\n" + e.getMessage());
+			sender.sendMessage(TextUtils.colorize("&The import process has been interrupted.\n" + e.getMessage()));
 		}
 	}
 

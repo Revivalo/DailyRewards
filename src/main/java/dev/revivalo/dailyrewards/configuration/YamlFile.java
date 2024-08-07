@@ -42,6 +42,7 @@ public class YamlFile {
 		try {
 			configuration.load(file);
 		} catch (FileNotFoundException ex) {
+			Bukkit.getLogger().log(Level.SEVERE, "Cannot find " + file, ex);
 		} catch (IOException ex) {
 			Bukkit.getLogger().log(Level.SEVERE, "Cannot load " + file, ex);
 		} catch (InvalidConfigurationException ex) {

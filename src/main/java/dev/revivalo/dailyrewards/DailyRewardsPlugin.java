@@ -62,8 +62,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
         Hooks.hook();
 
-        Config.reload();
-
         List<String> files = new ArrayList<String>() {{
             add("English");
             add("Czech");
@@ -83,6 +81,8 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                 throw new RuntimeException(e);
             }
         }
+
+        Config.reload();
 
         if (Config.UPDATE_CHECKER.asBoolean()) {
             new UpdateChecker(RESOURCE_ID).getVersion(pluginVersion -> {

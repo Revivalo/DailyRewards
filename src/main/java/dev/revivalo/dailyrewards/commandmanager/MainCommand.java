@@ -1,6 +1,6 @@
 package dev.revivalo.dailyrewards.commandmanager;
 
-import dev.revivalo.dailyrewards.configuration.enums.Lang;
+import dev.revivalo.dailyrewards.configuration.file.Lang;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;

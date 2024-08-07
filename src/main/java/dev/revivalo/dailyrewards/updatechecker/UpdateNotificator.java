@@ -1,9 +1,9 @@
 package dev.revivalo.dailyrewards.updatechecker;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import dev.revivalo.dailyrewards.configuration.enums.Config;
-import dev.revivalo.dailyrewards.utils.TextUtils;
-import dev.revivalo.dailyrewards.utils.VersionUtils;
+import dev.revivalo.dailyrewards.configuration.file.Config;
+import dev.revivalo.dailyrewards.util.TextUtil;
+import dev.revivalo.dailyrewards.util.VersionUtil;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
@@ -23,18 +23,18 @@ public class UpdateNotificator implements Listener {
 
 		if (!player.isOp()) return;
 		if (!Config.UPDATE_CHECKER.asBoolean()) return;
-		if (VersionUtils.isLatestVersion()) return;
+		if (VersionUtil.isLatestVersion()) return;
 
-		TextComponent download = new TextComponent(TextUtils.colorize("&a&lDownload"));
+		TextComponent download = new TextComponent(TextUtil.colorize("&a&lDownload"));
 		download.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-mysql-oraxen-itemsadder-support-1-8-1-19-4.81780/"));
 
-		TextComponent changelog = new TextComponent(TextUtils.colorize("&a&lChangelog"));
+		TextComponent changelog = new TextComponent(TextUtil.colorize("&a&lChangelog"));
 		changelog.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9A%A1-daily-weekly-monthly-rewards-mysql-oraxen-itemsadder-support-1-8-1-19-4.81780/updates"));
 
-		TextComponent upgrade = new TextComponent(TextUtils.colorize("&6&lUpgrade"));
+		TextComponent upgrade = new TextComponent(TextUtil.colorize("&6&lUpgrade"));
 		upgrade.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-4.108055/"));
 
-		TextComponent donate = new TextComponent(TextUtils.colorize("&a&lSupport"));
+		TextComponent donate = new TextComponent(TextUtil.colorize("&a&lSupport"));
 		donate.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/kcxYUQTy6A"));
 
 
@@ -42,9 +42,9 @@ public class UpdateNotificator implements Listener {
 			@Override
 			public void run() {
 				player.sendMessage(" ");
-				player.sendMessage(TextUtils.colorize("&7There is a new version of &aDailyRewards&7 available."));
-				player.spigot().sendMessage(download, new TextComponent(TextUtils.colorize(" &8| ")), upgrade, new TextComponent(TextUtils.colorize(" &8| ")), changelog, new TextComponent(TextUtils.colorize(" &8| ")), donate);
-				player.sendMessage(TextUtils.colorize("&8Latest version: &a" + DailyRewardsPlugin.getLatestVersion() + " &8| Your version: &c" + DailyRewardsPlugin.get().getDescription().getVersion()));
+				player.sendMessage(TextUtil.colorize("&7There is a new version of &aDailyRewards&7 available."));
+				player.spigot().sendMessage(download, new TextComponent(TextUtil.colorize(" &8| ")), upgrade, new TextComponent(TextUtil.colorize(" &8| ")), changelog, new TextComponent(TextUtil.colorize(" &8| ")), donate);
+				player.sendMessage(TextUtil.colorize("&8Latest version: &a" + DailyRewardsPlugin.getLatestVersion() + " &8| Your version: &c" + DailyRewardsPlugin.get().getDescription().getVersion()));
 				player.sendMessage(" ");
 			}
 		}.runTaskLater(DailyRewardsPlugin.get(), 35);

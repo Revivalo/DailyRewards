@@ -1,22 +1,22 @@
 package dev.revivalo.dailyrewards;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
-import dev.revivalo.dailyrewards.commandmanager.commands.RewardMainCommand;
-import dev.revivalo.dailyrewards.commandmanager.commands.RewardsMainCommand;
+import dev.revivalo.dailyrewards.commandmanager.command.RewardMainCommand;
+import dev.revivalo.dailyrewards.commandmanager.command.RewardsMainCommand;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.data.PlayerData;
-import dev.revivalo.dailyrewards.configuration.enums.Config;
-import dev.revivalo.dailyrewards.hooks.Hooks;
-import dev.revivalo.dailyrewards.listeners.InventoryClickListener;
-import dev.revivalo.dailyrewards.listeners.PlayerJoinQuitListener;
-import dev.revivalo.dailyrewards.managers.MenuManager;
-import dev.revivalo.dailyrewards.managers.backend.MySQLManager;
-import dev.revivalo.dailyrewards.managers.reward.RewardManager;
+import dev.revivalo.dailyrewards.configuration.file.Config;
+import dev.revivalo.dailyrewards.hook.Hook;
+import dev.revivalo.dailyrewards.listener.InventoryClickListener;
+import dev.revivalo.dailyrewards.listener.PlayerJoinQuitListener;
+import dev.revivalo.dailyrewards.manager.MenuManager;
+import dev.revivalo.dailyrewards.manager.backend.MySQLManager;
+import dev.revivalo.dailyrewards.manager.reward.RewardManager;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
 import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
-import dev.revivalo.dailyrewards.utils.VersionUtils;
+import dev.revivalo.dailyrewards.util.VersionUtil;
 import io.github.g00fy2.versioncompare.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
@@ -60,7 +60,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         setConsole(get().getServer().getConsoleSender());
         setPluginManager(getServer().getPluginManager());
 
-        Hooks.hook();
+        Hook.hook();
 
         List<String> files = new ArrayList<String>() {{
             add("English");
@@ -106,7 +106,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                     }
                 }
 
-                VersionUtils.setLatestVersion(!isNewerVersion);
+                VersionUtil.setLatestVersion(!isNewerVersion);
             });
         }
 

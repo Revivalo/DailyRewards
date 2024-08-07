@@ -1,12 +1,12 @@
 package dev.revivalo.dailyrewards.configuration.data;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import dev.revivalo.dailyrewards.configuration.enums.Config;
-import dev.revivalo.dailyrewards.managers.backend.MySQLManager;
-import dev.revivalo.dailyrewards.managers.reward.Reward;
-import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.configuration.file.Config;
+import dev.revivalo.dailyrewards.manager.backend.MySQLManager;
+import dev.revivalo.dailyrewards.manager.reward.Reward;
+import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.user.User;
-import dev.revivalo.dailyrewards.utils.TextUtils;
+import dev.revivalo.dailyrewards.util.TextUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -46,11 +46,11 @@ public class DataManager {
 
 	public static void importToDatabase(CommandSender sender) {
 		if (!usingMysql) {
-			sender.sendMessage(TextUtils.colorize("&cYou need to have MySQL setup first!"));
+			sender.sendMessage(TextUtil.colorize("&cYou need to have MySQL setup first!"));
 			return;
 		}
 
-		sender.sendMessage(TextUtils.colorize("&aStarting import from files..."));
+		sender.sendMessage(TextUtil.colorize("&aStarting import from files..."));
 
 		CountDownLatch latch = new CountDownLatch(PlayerData.getFiles().size());
 
@@ -69,9 +69,9 @@ public class DataManager {
 
 		try {
 			latch.await();
-			sender.sendMessage(TextUtils.colorize("&aImport from files completed successfully."));
+			sender.sendMessage(TextUtil.colorize("&aImport from files completed successfully."));
 		} catch (InterruptedException e) {
-			sender.sendMessage(TextUtils.colorize("&The import process has been interrupted.\n" + e.getMessage()));
+			sender.sendMessage(TextUtil.colorize("&The import process has been interrupted.\n" + e.getMessage()));
 		}
 	}
 

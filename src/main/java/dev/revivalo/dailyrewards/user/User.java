@@ -2,9 +2,9 @@ package dev.revivalo.dailyrewards.user;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
-import dev.revivalo.dailyrewards.managers.Setting;
-import dev.revivalo.dailyrewards.managers.cooldown.Cooldown;
-import dev.revivalo.dailyrewards.managers.reward.RewardType;
+import dev.revivalo.dailyrewards.manager.Setting;
+import dev.revivalo.dailyrewards.manager.cooldown.Cooldown;
+import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

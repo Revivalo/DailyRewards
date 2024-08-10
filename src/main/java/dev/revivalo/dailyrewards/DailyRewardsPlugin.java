@@ -1,6 +1,5 @@
 package dev.revivalo.dailyrewards;
 
-import com.tchristofferson.configupdater.ConfigUpdater;
 import dev.revivalo.dailyrewards.commandmanager.command.RewardMainCommand;
 import dev.revivalo.dailyrewards.commandmanager.command.RewardsMainCommand;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
@@ -26,12 +25,13 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.logging.Level;
 
 public final class DailyRewardsPlugin extends JavaPlugin {
     /*
@@ -62,25 +62,19 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
         Hook.hook();
 
-        List<String> files = new ArrayList<String>() {{
-            add("English");
-            add("Czech");
-            add("Turkish");
-            add("Polish");
-            add("Russian");
-            add("French");
-            add("German");
-            add("Chinese");
-        }};
-
-        for (String fileName : files) {
-            File file = new File(DailyRewardsPlugin.get().getDataFolder(), "lang" + File.separator + fileName + ".yml");
-            try {
-                ConfigUpdater.update(this, "lang" + File.separator + fileName + ".yml", file, Collections.emptyList());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+        File langFolder = new File(getDataFolder(), "lang");
+        if (!langFolder.exists()) {
+            langFolder.mkdirs();
         }
+
+        copyResource("lang/English.yml");
+        copyResource("lang/Czech.yml");
+        copyResource("lang/Chinese.yml");
+        copyResource("lang/French.yml");
+        copyResource("lang/German.yml");
+        copyResource("lang/Polish.yml");
+        copyResource("lang/Russian.yml");
+        copyResource("lang/Turkish.yml");
 
         Config.reload();
 
@@ -137,6 +131,23 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         PlayerData.removeConfigs();
+    }
+
+    private void copyResource(String resourcePath) {
+        File outFile = new File(getDataFolder(), resourcePath);
+        if (!outFile.exists()) {
+            try (InputStream in = getResource(resourcePath)) {
+                if (in == null) {
+                    getLogger().log(Level.SEVERE, "Resource " + resourcePath + " not found in the plugin JAR!");
+                    return;
+                }
+                outFile.getParentFile().mkdirs(); // Vytvoří cílovou složku, pokud neexistuje
+                Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                getLogger().log(Level.INFO, "Resource " + resourcePath + " successfully copied.");
+            } catch (IOException e) {
+                getLogger().log(Level.SEVERE, "Failed to copy resource " + resourcePath, e);
+            }
+        }
     }
 
     private void registerCommands() {

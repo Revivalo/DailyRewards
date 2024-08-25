@@ -1,0 +1,175 @@
+#
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+# and for gradient: <#ffffff>Text where will be applied gradient</#000000>
+#
+lang:
+  prefix: '&e[&6&lRewards&e]'
+  auto-claim-notification:
+  - ' '
+  - '&a ✔ &f Recompensa(s) %rewards% se ha reclamado automáticamente con éxito!'
+  - ' '
+  unclaimed-rewards-notification-hover-text: '&2Haga clic para obtener sus recompensas!'
+  reward-reset: '&e[&6&lRewards&e] &fHas restablecido &e%type% &frecompensa para el jugador &e%player%'
+  unavailable-player: '&c[&4&lRewards&c] Jugador &n%player%&c no esta disponible'
+  unavailable-setting: '%prefix% &cThis setting does not exist!'
+  reward-disabled: '&c[&4&lRewards&c] No se puede obtener la recompensa!'
+  permission-msg: '&c[&4&lRewards&c] No puedes usar este comando'
+  rewards-are-not-set: '&c[&4&lRewards&c] Recompensas no establecidas'
+  reload-msg: '&e[&6&lRewards&e] &fEl plugin ha sido recargado con éxito'
+  incomplete-reward-reset: '&c[&4&lRewards&c] Especifica lo que quieres reiniciar específicamente (daily/weekly/monthly/all)'
+  full-inventory-message: '&c[&4&lRewards&c] No puedes obtener la(s) recompensa(s), tu inventario está lleno!'
+  claiming-in-disabled-world: '%prefix% &cNo puedes obtener recompensas en %world% world'
+  not-enough-required-time-to-claim: '%prefix% &cDebes gastar al menos %requiredMinutes% minutos en el servidor antes.
+  Puedes recolectar recompensas en (%minutes% minutos)'
+  command-usage: '&c[&4&lRewards&c] Uso válido: %usage%'
+  loading: '&bCargando...'
+  back: '&cVolver'
+  help:
+  - '&e[&6&lRewards&e] &fLista con todos los comandos disponibles:'
+  - '&f/rewards &7- Menú principal'
+  - '&f/reward &7- Obtener recompensa diaria'
+  - '&f/reward weekly &7- Obtener recompensa semanal'
+  - '&f/reward month &7- Obtener recompensa mensual'
+  - '&f/reward reset <player> <daily|weekly|monthly|all>'
+  - '&f/reward reload &7- Recargar la sección de configuración'
+  #
+  # Settings
+  #
+  settings-title: Settings
+  settings-display-name: '&eAjustes'
+  setting-enabled: '%prefix% &aYou have enabled %setting%!'
+  setting-disabled: '%prefix% &cYou have disabled %setting%!'
+  auto-claim-failed: '%prefix% &cSome reward(s) could not be auto claimed, hover for details.'
+  auto-claim-failed-hover-text-list-format: '%reward% - %reason%'
+  auto-claim-failed-hover-text: '&cFollowing rewards cannot be auto claimed: %format%'
+  join-auto-claim-notification:
+  - ' '
+  - '&a ✔ Following reward(s) has been auto-claimed: &f%listOfRewards%'
+  - ' '
+  join-notification-setting-name: Join Notification
+  join-auto-claim-setting-name: Join Auto Claim
+  no-permission-setting-display-name: '&c&l%settingType%'
+  no-permission-setting-lore:
+  - '&cYou can not toggle this type of setting!'
+  - '&cMissing permission: %permission%'
+  join-notification-display-name: '&aNotificación de unión'
+  join-notification-enabled-lore:
+  - '&7Notificarte al unirte'
+  - '&7si tienes recompensas no cobradas'
+  - ' '
+  - '&c► Clic para desactivar'
+  join-notification-disabled-lore:
+  - '&7Notificarte al unirte'
+  - '&7si tienes recompensas no cobradas'
+  - ' '
+  - '&a► Clic para habilitar'
+  auto-claim-display-name: '&aAuto reclamar'
+  auto-claim-enabled-lore:
+  - '&7Reclamará automáticamente'
+  - '&7todas las recompensas disponibles al unirse'
+  - ' '
+  - '&c► Clic para desactivar'
+  auto-claim-disabled-lore:
+  - '&7Reclamará automáticamente'
+  - '&7todas las recompensas disponibles al unirse'
+  - ' '
+  - '&a► Clic para habilitar'
+
+  located-in-restricted-world: Reward is unavailable in current world
+  insufficient-play-time: Not enough play-time to claim
+  insufficient-permissions: Insufficient permissions
+  not-enough-free-inventory-slots: Not enough free inventory slots
+  unavailable-reward: Reward is unavailable
+  #
+  # Rewards menu
+  #
+  menu-title: Recompensas
+  join-hover-message: '&7Click para recoger tus recompensas'
+  join-notification:
+  - ' '
+  - '&2 - &a%rewards% recompensas te están esperando! &f(Click aquí)'
+  - ' '
+  cooldown-message: '&c[&4&lRewards&c] Para la recompensa &l%type%&c tienes que esperar &n%time%'
+  daily-name: Daily Reward
+  daily-title: '&a&lRecompensas'
+  daily-subtitle: '&7Has recogido tu recompensa &adiaria&7'
+  daily-collected: '&a%player% &7ha recogido su &arecompensa diaria!'
+  daily-premium-collected: '&a%player% &7ha recogido su &arecompensa diaria premium!'
+  daily-displayname-available: '&a&lRECOMPENSA DIARIA'
+  daily-premium-displayname-available: '&e&lRECOMPENSA DIARIA'
+  daily-available-lore:
+  - '&7La recompensa contiene:'
+  - '&a 8x &fLingotes de hierro'
+  - ' '
+  - '&c❌ Recompensa premium no disponible'
+  daily-available-premium-lore:
+  - '&7La recompensa contiene:'
+  - '&a 16x &fLingotes de hierro'
+  - '&a 3x &fLingotes de oro'
+  - ' '
+  - '&e✔ Recompensa premium disponible'
+  daily-displayname-unavailable: '&c&lRECOMPENSA DIARIA'
+  daily-premium-displayname-unavailable: '&4&lRECOMPENSA DIARIA'
+  daily-unavailable-lore:
+  - ' '
+  - '&cDisponible en: %cooldown%'
+  daily-unavailable-premium-lore:
+  - ' '
+  - '&cDisponible en: %cooldown%'
+  weekly-name: Weekly Reward
+  weekly-title: '&e&lRecompensas'
+  weekly-subtitle: '&7Has recogido tu &erecompensa semanal&7'
+  weekly-collected: '&e%player% &7ha recogido su &erecompensa semanal!'
+  weekly-premium-collected: '&e%player% &7ha recogido su &erecompensa semanal premium!'
+  weekly-displayname-available: '&a&lRECOMPENSA SEMANAL'
+  weekly-premium-displayname-available: '&e&lRECOMPENSA SEMANAL'
+  weekly-available-lore:
+  - '&7La recompensa contiene:'
+  - '&a 1x &fDiamante'
+  - ' '
+  - '&c❌ Recompensa premium no disponible'
+  weekly-available-premium-lore:
+  - '&7La recompensa contiene:'
+  - '&a 5x &fDiamantes'
+  - '&a 3x &fEsmeraldas'
+  - ' '
+  - '&e✔ Recompensa premium disponible'
+  weekly-displayname-unavailable: '&c&lRECOMPENSA SEMANAL'
+  weekly-premium-displayname-unavailable: '&4&lRECOMPENSA SEMANAL'
+  weekly-unavailable-lore:
+  - ' '
+  - '&cDisponible en: %cooldown%'
+  weekly-unavailable-premium-lore:
+  - ' '
+  - '&cDisponible en: %cooldown%'
+  monthly-name: Monthly Reward
+  monthly-title: '&9&lRecompensas'
+  monthly-subtitle: '&7Has recogido tu &9recompensa mensual&7'
+  monthly-collected: '&9%player% &7ha recogido su &9recompensa mensual!'
+  monthly-premium-collected: '&9%player% &7ha recogido su &9recompensa mensual premium!'
+  monthly-displayname-available: '&a&lRECOMPENSA MENSUAL'
+  monthly-premium-displayname-available: '&e&lRECOMPENSA MENSUAL'
+  monthly-available-lore:
+  - '&7La recompensa contiene:'
+  - '&a 8x &fDiamantes'
+  - '&a 32x &fLingotes de hierro'
+  - '&a 16x &fLingotes de oro'
+  - ' '
+  - '&c❌ Recompensa premium no disponible'
+  monthly-available-premium-lore:
+  - '&7La recompensa contiene:'
+  - '&a 1x &fEstrella del nether'
+  - '&a 16x &fDiamante'
+  - '&a 64x &fLingote de hierro'
+  - '&a 32x &fLingote de oro'
+  - ' '
+  - '&e✔ Recompensa premium disponible'
+  monthly-displayname-unavailable: '&c&lRECOMPENSA MENSUAL'
+  monthly-premium-displayname-unavailable: '&4&lRECOMPENSA MENSUAL'
+  monthly-unavailable-lore:
+  - ' '
+  - '&cDisponible en: %cooldown%'
+  monthly-unavailable-premium-lore:
+  - ' '
+  - '&cDisponible in: %cooldown%'

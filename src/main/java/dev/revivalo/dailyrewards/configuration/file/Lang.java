@@ -11,7 +11,6 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.util.*;
 
 public enum Lang {
@@ -115,7 +114,7 @@ public enum Lang {
 	}
 
 	public static void reload(Config language) {
-        YamlFile langYamlFile = new YamlFile("lang" + File.separator + language.asString() + ".yml",
+        YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
                 DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 
 		if (Hook.isHookEnabled(Hook.getPlaceholderApiHook())) {

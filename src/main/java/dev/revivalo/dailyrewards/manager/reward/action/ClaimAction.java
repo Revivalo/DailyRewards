@@ -26,7 +26,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,7 +38,7 @@ public class ClaimAction implements RewardAction<RewardType> {
         this.executor = executor;
 
         checkers = new ArrayList<Checker>() {{
-            List<String> disabledWorlds = Config.DISABLED_WORLDS.asReplacedList(Collections.emptyMap());
+            List<String> disabledWorlds = Config.DISABLED_WORLDS.asReplacedList();
             if (!disabledWorlds.isEmpty()) add(new DisabledWorldCheck(disabledWorlds));
             if (Config.CHECK_FOR_FULL_INVENTORY.asBoolean()) add(new AvailableSlotsInInventoryChecker());
             if (Config.FIRST_TIME_JOIN_REQUIRED_PLAY_TIME.asInt() > 0) add(new EnoughPlayTimeChecker());

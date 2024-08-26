@@ -107,7 +107,7 @@ public class Reward {
     }
 
     public List<Integer> getPosition() {
-        return position.asReplacedList(Collections.emptyMap()).stream().map(Integer::parseInt).collect(Collectors.toList());
+        return position.asReplacedList().stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 
     public String getSound() {
@@ -139,11 +139,11 @@ public class Reward {
     }
 
     public List<String> getDefaultRewards() {
-        return defaultRewards.asReplacedList(Collections.emptyMap());
+        return defaultRewards.asReplacedList();
     }
 
     public List<String> getPremiumRewards() {
-        return premiumRewards.asReplacedList(Collections.emptyMap());
+        return premiumRewards.asReplacedList();
     }
 
     public String getAvailableDisplayName() {

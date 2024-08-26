@@ -164,7 +164,7 @@ public enum Config {
         return map;
     }
 
-    public List<String> asReplacedList(Map<String, String> definitions) {
+    public List<String> asReplacedList() {
         return lists.get(getName());
     }
 
@@ -193,6 +193,6 @@ public enum Config {
     }
 
     public List<Integer> asIntegerList() {
-        return asReplacedList(Collections.emptyMap()).stream().map(Integer::parseInt).collect(Collectors.toList());
+        return asReplacedList().stream().map(Integer::parseInt).collect(Collectors.toList());
     }
 }

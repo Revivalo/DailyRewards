@@ -67,14 +67,14 @@ public final class DailyRewardsPlugin extends JavaPlugin {
             langFolder.mkdirs();
         }
 
-        copyResource("lang/English.yml");
-        copyResource("lang/Czech.yml");
-        copyResource("lang/Chinese.yml");
-        copyResource("lang/French.yml");
-        copyResource("lang/German.yml");
-        copyResource("lang/Polish.yml");
-        copyResource("lang/Russian.yml");
-        copyResource("lang/Turkish.yml");
+        String[] languages = {
+                "English", "Czech", "Chinese", "French",
+                "German", "Polish", "Russian", "Turkish", "Spanish"
+        };
+
+        for (String language : languages) {
+            copyResource("lang/" + language + ".yml");
+        }
 
         Config.reload();
 

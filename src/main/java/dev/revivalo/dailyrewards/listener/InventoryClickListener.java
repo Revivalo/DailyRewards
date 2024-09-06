@@ -77,8 +77,4 @@ public class InventoryClickListener implements Listener {
 			DailyRewardsPlugin.getMenuManager().openRewardsMenu(user.getPlayer());
 		}
 	}
-
-	public static InventoryClickListener getInstance() {
-		return instance;
-	}
 }

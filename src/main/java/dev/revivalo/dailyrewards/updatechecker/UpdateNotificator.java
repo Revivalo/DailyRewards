@@ -51,8 +51,4 @@ public class UpdateNotificator implements Listener {
 			}
 		}.runTaskLater(DailyRewardsPlugin.get(), 35);
 	}
-
-	public static UpdateNotificator getInstance() {
-		return instance;
-	}
 }

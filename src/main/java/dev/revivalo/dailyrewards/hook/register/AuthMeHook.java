@@ -1,23 +1,28 @@
-package dev.revivalo.dailyrewards.hook;
+package dev.revivalo.dailyrewards.hook.register;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import dev.revivalo.dailyrewards.listener.AuthMeLoginListener;
+import dev.revivalo.dailyrewards.hook.Hook;
+import dev.revivalo.dailyrewards.hook.HookManager;
+import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.util.VersionUtil;
+import fr.xephi.authme.events.LoginEvent;
+import org.bukkit.event.EventHandler;
 import org.jetbrains.annotations.Nullable;
 
-public class AuthMeHook implements IHook<Void> {
-    private final boolean isHooked;
-    AuthMeHook(){
-        isHooked = hook();
-        if (isHooked) {
-            DailyRewardsPlugin.get().getPluginManager().registerEvents(new AuthMeLoginListener(), DailyRewardsPlugin.get());
-            DailyRewardsPlugin.get().registerListeners(new AuthMeLoginListener());
-            HookManager.setAuthUsed(true);
-        }
-    }
+public class AuthMeHook implements Hook<Void> {
+    private boolean isHooked;
 
     private boolean hook(){
         return VersionUtil.isLoaded("AuthMe");
+    }
+
+    @Override
+    public void register() {
+        isHooked = hook();
+        if (isHooked) {
+            DailyRewardsPlugin.get().registerListeners(new AuthMeLoginListener());
+            HookManager.setAuthUsed(true);
+        }
     }
 
     @Override

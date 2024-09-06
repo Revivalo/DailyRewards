@@ -2,7 +2,7 @@ package dev.revivalo.dailyrewards.util;
 
 import com.google.common.base.Splitter;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import dev.revivalo.dailyrewards.hook.Hook;
+import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.reward.ActionType;
 import dev.revivalo.dailyrewards.manager.reward.RewardAction;
 import me.clip.placeholderapi.PlaceholderAPI;
@@ -212,11 +212,11 @@ public class TextUtil {
     }
 
     public static String applyPlaceholdersToString(Player player, String text) {
-        return Hook.isHookEnabled(Hook.getPlaceholderApiHook()) && PlaceholderAPI.containsPlaceholders(text) ? PlaceholderAPI.setPlaceholders(player, text) : text;
+        return HookManager.isHookEnabled(HookManager.getPlaceholderApiHook()) && PlaceholderAPI.containsPlaceholders(text) ? PlaceholderAPI.setPlaceholders(player, text) : text;
     }
 
     public static List<String> applyPlaceholdersToList(Player player, List<String> list) {
-        if (Hook.isHookEnabled(Hook.getPlaceholderApiHook())) {
+        if (HookManager.isHookEnabled(HookManager.getPlaceholderApiHook())) {
             return PlaceholderAPI.setPlaceholders(player, list);
         } else return list;
     }

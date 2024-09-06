@@ -6,7 +6,7 @@ import dev.lone.itemsadder.api.CustomStack;
 import dev.lone.itemsadder.api.ItemsAdder;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.YamlFile;
-import dev.revivalo.dailyrewards.hook.Hook;
+import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.util.TextUtil;
 import io.th0rgal.oraxen.api.OraxenItems;
 import org.bukkit.Material;
@@ -143,9 +143,9 @@ public enum Config {
                 meta.setCustomModelData(data);
                 itemStack.setItemMeta(meta);
                 items.put(valueItemName, itemStack);
-            } else if (Hook.getItemsAdderHook().isOn() && ItemsAdder.isCustomItem(itemName)) {
+            } else if (HookManager.getItemsAdderHook().isOn() && ItemsAdder.isCustomItem(itemName)) {
                 items.put(valueItemName, CustomStack.getInstance(itemName).getItemStack());
-            } else if (Hook.getOraxenHook().isOn() && OraxenItems.exists(itemName)) {
+            } else if (HookManager.getOraxenHook().isOn() && OraxenItems.exists(itemName)) {
                 items.put(valueItemName, OraxenItems.getItemById(itemName).build());
             } else {
                 items.put(valueItemName, XMaterial.matchXMaterial(itemName.toUpperCase(Locale.ENGLISH)).orElse(XMaterial.STONE).parseItem());

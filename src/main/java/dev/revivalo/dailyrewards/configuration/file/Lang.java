@@ -5,7 +5,7 @@ import dev.revivalo.dailyrewards.configuration.ColorTextModifier;
 import dev.revivalo.dailyrewards.configuration.PlaceholderColorTextModifier;
 import dev.revivalo.dailyrewards.configuration.TextModifier;
 import dev.revivalo.dailyrewards.configuration.YamlFile;
-import dev.revivalo.dailyrewards.hook.Hook;
+import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.util.TextUtil;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -117,7 +117,7 @@ public enum Lang {
         YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
                 DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 
-		if (Hook.isHookEnabled(Hook.getPlaceholderApiHook())) {
+		if (HookManager.isHookEnabled(HookManager.getPlaceholderApiHook())) {
 			DailyRewardsPlugin.get().getLogger().info("Using PAPI text modifier");
 			textModifier = new PlaceholderColorTextModifier();
 		} else textModifier = new ColorTextModifier();

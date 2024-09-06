@@ -1,17 +1,15 @@
-package dev.revivalo.dailyrewards.hook;
+package dev.revivalo.dailyrewards.hook.register;
 
+import dev.revivalo.dailyrewards.hook.Hook;
 import dev.revivalo.dailyrewards.hook.papiresolver.PAPIRegister;
 import dev.revivalo.dailyrewards.util.VersionUtil;
 import org.jetbrains.annotations.Nullable;
 
-public class PlaceholderApiHook implements IHook<PlaceholderApiHook> {
+public class PlaceholderApiHook implements Hook<PlaceholderApiHook> {
     private boolean isHooked = false;
 
-    PlaceholderApiHook() {
-        tryToHook();
-    }
-
-    private void tryToHook() {
+    @Override
+    public void register() {
         if (VersionUtil.isLoaded("PlaceholderAPI")) {
             new PAPIRegister().register();
             isHooked = true;

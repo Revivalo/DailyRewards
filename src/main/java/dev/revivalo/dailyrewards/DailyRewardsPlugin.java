@@ -5,7 +5,7 @@ import dev.revivalo.dailyrewards.commandmanager.command.RewardsMainCommand;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.file.Config;
-import dev.revivalo.dailyrewards.hook.Hook;
+import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.listener.InventoryClickListener;
 import dev.revivalo.dailyrewards.listener.PlayerJoinQuitListener;
 import dev.revivalo.dailyrewards.manager.MenuManager;
@@ -60,7 +60,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         setConsole(get().getServer().getConsoleSender());
         setPluginManager(getServer().getPluginManager());
 
-        Hook.hook();
+        HookManager.hook();
 
         File langFolder = new File(getDataFolder(), "lang");
         if (!langFolder.exists()) {

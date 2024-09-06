@@ -106,8 +106,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         DailyRewardsPlugin.setRewardManager(new RewardManager());
         DailyRewardsPlugin.setMenuManager(new MenuManager());
 
-        get().registerCommands();
-        get().implementListeners();
+        registerCommands();
 
         ConsoleCommandSender console = getConsole();
 

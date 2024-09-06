@@ -17,7 +17,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class InventoryClickListener implements Listener {
 
-	public static final InventoryClickListener instance = new InventoryClickListener();
+	public InventoryClickListener() {
+		DailyRewardsPlugin.get().registerListeners(this);
+	}
 
 	@EventHandler
 	public void onInventoryClick(final InventoryClickEvent event){

@@ -6,19 +6,17 @@ import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.hook.HookManager;
-import dev.revivalo.dailyrewards.listener.InventoryClickListener;
-import dev.revivalo.dailyrewards.listener.PlayerJoinQuitListener;
 import dev.revivalo.dailyrewards.manager.MenuManager;
 import dev.revivalo.dailyrewards.manager.backend.MySQLManager;
 import dev.revivalo.dailyrewards.manager.reward.RewardManager;
 import dev.revivalo.dailyrewards.updatechecker.UpdateChecker;
-import dev.revivalo.dailyrewards.updatechecker.UpdateNotificator;
 import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.util.VersionUtil;
 import io.github.g00fy2.versioncompare.Version;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
@@ -150,18 +148,18 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         }
     }
 
+    public void registerListeners(Listener... listeners) {
+        for (Listener listener : listeners) {
+            getServer().getPluginManager().registerEvents(listener, this);
+        }
+    }
+
     private void registerCommands() {
         new RewardMainCommand().registerMainCommand(this, "reward");
         new RewardsMainCommand().registerMainCommand(this, "rewards");
 
         new RewardMainCommand().registerMainCommand(this, "dreward");
         new RewardsMainCommand().registerMainCommand(this, "drewards");
-    }
-
-    private void implementListeners() {
-        getPluginManager().registerEvents(InventoryClickListener.getInstance(), this);
-        getPluginManager().registerEvents(PlayerJoinQuitListener.getInstance(), this);
-        getPluginManager().registerEvents(UpdateNotificator.getInstance(), this);
     }
 
     public void executeCommandAsConsole(String command) {

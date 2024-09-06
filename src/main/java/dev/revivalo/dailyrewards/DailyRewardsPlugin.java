@@ -118,6 +118,8 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         console.sendMessage(" ");
         console.sendMessage(" ");
         console.sendMessage(" ");
+
+        new UserHandler();
     }
 
     @Override

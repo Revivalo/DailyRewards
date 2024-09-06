@@ -10,7 +10,8 @@ public class NexAuthHook implements IHook<Void> {
     NexAuthHook(){
         isHooked = hook();
         if (isHooked) {
-            DailyRewardsPlugin.get().getPluginManager().registerEvents(new NexAuthPlayerJoinListener(), DailyRewardsPlugin.get());
+            DailyRewardsPlugin.get().registerListeners(new NexAuthPlayerJoinListener());
+            HookManager.setAuthUsed(true);
         }
     }
 
@@ -26,5 +27,13 @@ public class NexAuthHook implements IHook<Void> {
     @Override
     public @Nullable Void getApi() {
         return null;
+    }
+
+    private static class NexAuthPlayerJoinListener extends LoginListener<AuthPlayerLoginEvent> {
+        @Override
+        @EventHandler
+        public void onLogin(AuthPlayerLoginEvent event) {
+            DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(UserHandler.getUser(event.getPlayer()));
+        }
     }
 }

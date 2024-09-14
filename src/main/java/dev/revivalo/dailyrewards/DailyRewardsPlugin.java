@@ -140,7 +140,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                     getLogger().log(Level.SEVERE, "Resource " + resourcePath + " not found in the plugin JAR!");
                     return;
                 }
-                outFile.getParentFile().mkdirs(); // Vytvoří cílovou složku, pokud neexistuje
+                outFile.getParentFile().mkdirs();
                 Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 getLogger().log(Level.INFO, "Resource " + resourcePath + " successfully copied.");
             } catch (IOException e) {

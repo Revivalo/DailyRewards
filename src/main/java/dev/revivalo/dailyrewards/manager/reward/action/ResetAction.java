@@ -26,8 +26,10 @@ public class ResetAction implements RewardAction<String> {
     public ActionResponse execute(OfflinePlayer offlinePlayer, String typeString) {
         final boolean isPlayerOnline = offlinePlayer.isOnline();
 
+        String nickname = offlinePlayer.getName() == null ? "Unknown" : offlinePlayer.getName();
+
         if (!isPlayerOnline && !offlinePlayer.hasPlayedBefore()) {
-            executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", offlinePlayer.getName()));
+            executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", nickname));
             return ActionResponse.Type.UNAVAILABLE_PLAYER;
         }
 
@@ -60,9 +62,9 @@ public class ResetAction implements RewardAction<String> {
         );
 
         if (updated) {
-            executor.sendMessage(Lang.REWARD_RESET.asColoredString().replace("%type%", typeString).replace("%player%", offlinePlayer.getName()));
+            executor.sendMessage(Lang.REWARD_RESET.asColoredString().replace("%type%", typeString).replace("%player%", nickname));
         } else {
-            executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", offlinePlayer.getName()));
+            executor.sendMessage(Lang.UNAVAILABLE_PLAYER.asColoredString().replace("%player%", nickname));
         }
 
         return ActionResponse.Type.PROCEEDED;

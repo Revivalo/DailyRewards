@@ -22,9 +22,9 @@ public class RewardManager {
     }
 
     public boolean processAutoClaimForUser(User user) {
-        if (!user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
-            return false;
-        }
+//        if (!user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
+//            return false;
+//        }
 
         if (user.getAvailableRewards().isEmpty()) {
             return false;
@@ -33,16 +33,10 @@ public class RewardManager {
         AutoClaimEvent autoClaimEvent = new AutoClaimEvent(user.getPlayer(), user.getAvailableRewards());
         Bukkit.getPluginManager().callEvent(autoClaimEvent);
 
+        new AutoClaimAction()
+                        .preCheck(user.getPlayer(), user.getAvailableRewards());
 
-        if (autoClaimEvent.isCancelled()) {
-            return false;
-        }
-
-        Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
-                new AutoClaimAction()
-                        .preCheck(user.getPlayer(), user.getAvailableRewards()), Config.JOIN_AUTO_CLAIM_DELAY.asInt() * 20L);
-        return true;
-
+        return !autoClaimEvent.isCancelled();
     }
 
     public void loadRewards() {

@@ -3,10 +3,10 @@ package dev.revivalo.dailyrewards.user;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.api.event.ReminderReceiveEvent;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
-import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.manager.reward.task.JoinNotificationTask;
+import dev.revivalo.dailyrewards.manager.reward.task.AutoClaimTask;
 import dev.revivalo.dailyrewards.util.PermissionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,11 +24,16 @@ public final class UserHandler implements Listener {
     private static final Map<UUID, User> usersHashMap = new ConcurrentHashMap<>();
 
     private final JoinNotificationTask joinNotificationTask;
+    private final AutoClaimTask autoClaimTask;
 
     public UserHandler() {
         this.joinNotificationTask = new JoinNotificationTask(usersHashMap);
         this.joinNotificationTask.get()
-                        .runTaskTimerAsynchronously(DailyRewardsPlugin.get(), 5, 5);
+                        .runTaskTimerAsynchronously(DailyRewardsPlugin.get(), 45, 45);
+
+        this.autoClaimTask = new AutoClaimTask(usersHashMap);
+        this.autoClaimTask.get()
+                        .runTaskTimerAsynchronously(DailyRewardsPlugin.get(), 45, 45);
 
         DailyRewardsPlugin.get().registerListeners(this);
     }
@@ -73,19 +78,19 @@ public final class UserHandler implements Listener {
                     )
             );
 
-            if (!HookManager.isAuthUsed()) {
-                if (DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(user)) {
-                    return;
-                }
-            }
+//            if (!HookManager.isAuthUsed()) {
+//                if (DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(user)) {
+//                    return;
+//                }
+//            }
 
             if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)) {
                 return;
             }
 
-            if (!user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
-                return;
-            }
+//            if (!user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
+//                return;
+//            }
 
             final Set<RewardType> availableRewards = user.getAvailableRewards();
             if (availableRewards.isEmpty()) {
@@ -93,13 +98,17 @@ public final class UserHandler implements Listener {
             }
 
             ReminderReceiveEvent reminderReceiveEvent = new ReminderReceiveEvent(player, availableRewards);
-            Bukkit.getPluginManager().callEvent(reminderReceiveEvent);
+            DailyRewardsPlugin.get().runSync(() -> Bukkit.getPluginManager().callEvent(reminderReceiveEvent));
 
             if (reminderReceiveEvent.isCancelled()) {
                 return;
             }
 
-            joinNotificationTask.addUser(user);
+
+            if (!user.hasSettingEnabled(Setting.AUTO_CLAIM) && user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) joinNotificationTask.addUser(user);
+            else {
+                autoClaimTask.addUser(user);
+            }
         });
     }
 

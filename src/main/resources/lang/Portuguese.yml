@@ -1,0 +1,180 @@
+#
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+# and for gradient: <#ffffff>Text where will be applied gradient</#000000>
+#
+# Translation to Brazilian Portuguese by MihDrix (Mundo Drix) - 31/08/2024
+#
+lang:
+  prefix: '&e[&6&lRecompensas&e]'
+  auto-claim-notification:
+    - ' '
+    - '&a ✔ &f%rewards% recompensa(s) foram reivindicadas automaticamente com sucesso!'
+    - ' '
+  unclaimed-rewards-notification-hover-text: '&2Clique para obter recompensas!'
+  reward-reset: '&e%prefix% &fVocê redefiniu a recompensa &e%type%&f do jogador &e%player%'
+  unavailable-player: '%prefix% &cJogador &n%player% &cnão está disponível'
+  unavailable-setting: '%prefix% &cEsta configuração não existe!'
+  reward-disabled: '%prefix% &cA recompensa não pode ser obtida!'
+  permission-msg: '%prefix% &cVocê não tem permissão para usar este comando'
+  rewards-are-not-set: '%prefix% &cAs recompensas não estão definidas!'
+  reload-msg: '&e%prefix% &fO plug-in foi recarregado com sucesso'
+  incomplete-reward-reset: '%prefix% &cEspecifique o que você deseja redefinir especificamente (diária/semanal/mensal/todas)'
+  full-inventory-message: '%prefix% &cVocê não pode obter a(s) recompensa(s), seu inventário está cheio!'
+  claiming-in-disabled-world: '%prefix% &cVocê não pode obter recompensas no  mundo &6%world%'
+  not-enough-required-time-to-claim: '%prefix% &cVocê tem que passar, pelo menos, %requiredMinutes% minutos no servidor
+  antes de coletar recompensas! &f&o(%minutes% minutos restantes)'
+  command-usage: '%prefix% &cUso válido: %usage%'
+  loading: '&bCarregando...'
+  back: '&cVoltar'
+  help-message:
+    - '&f&lLista de todos os comandos disponíveis:'
+    - '&f/rewards &7- Menu Principal'
+    - '&f/reward claim <reward>&7- Obtém certa recompensa'
+    - '&f/reward reset <player> <daily|weekly|monthly|all>'
+    - '&f/reward import - &7Importa dados de arquivo para banco de dados'
+    - '&f/reward reload &7- Recarrega a seção de configuração'
+    - '&f/reward settings &7- Abre o menu de configurações'
+    - '&f/reward toggle <setting> &7- Alterna certas configurações'
+  #
+  # Settings
+  #
+  settings-title: Configurações
+  settings-display-name: '&eConfigurações'
+  setting-enabled: '%prefix% &aYou have enabled %setting%!'
+  setting-disabled: '%prefix% &cYou have disabled %setting%!'
+  auto-claim-failed: '%prefix% &cAlgumas recompensas não puderam ser resgatadas automaticamente, passe
+  o cursor do mouse para obter detalhes.'
+  auto-claim-failed-hover-text-list-format: '%reward% - %reason%'
+  auto-claim-failed-hover-text: '&cAs seguintes recompensas não podem ser automaticamente resgatadas: %format%'
+  join-auto-claim-notification:
+    - ' '
+    - '&a ✔ A(s) seguinte(s) recompensa(s) foi(foram) automaticamente resgatada(s): &f%listOfRewards%'
+    - ' '
+  join-notification-setting-name: Notificação de Entrada
+  join-auto-claim-setting-name: Entrada com Resgate Automático
+  no-permission-setting-display-name: '&c&l%settingType%'
+  no-permission-setting-lore:
+    - '&cVocê não pode alternar esse tipo de configuração!'
+    - '&cPermissão ausente: %permission%'
+  join-notification-display-name: '&aNotificação de Entrada'
+  join-notification-enabled-lore:
+    - '&7Notifica você na entrada'
+    - '&7se tiver recompensas não coletadas'
+    - ' '
+    - '&c► Clique para desativar'
+  join-notification-disabled-lore:
+    - '&7otifica você na entrada'
+    - '&7se tiver recompensas não coletadas'
+    - ' '
+    - '&a► Clique para ativar'
+  auto-claim-display-name: '&aEntrada com Resgate Automático'
+  auto-claim-enabled-lore:
+    - '&7Resgatará automaticamente'
+    - '&7todas as recompensas disponíveis ao entrar'
+    - ' '
+    - '&c► Clique para desativar'
+  auto-claim-disabled-lore:
+    - '&7Resgatará automaticamente'
+    - '&7todas as recompensas disponíveis ao entrar'
+    - ' '
+    - '&a► Clique para ativar'
+
+  located-in-restricted-world: Recompensa indisponível no mundo atual
+  insufficient-play-time: Tempo de jogo insuficiente para resgatar
+  insufficient-permissions: Permissões insuficientes
+  not-enough-free-inventory-slots: Espaços de inventário insuficientes
+  unavailable-reward: Recompensa indisponível
+  #
+  # Rewards menu
+  #
+  menu-title: Recompensas
+  join-hover-message: '&7Clique para coletar suas recompensas'
+  join-notification:
+    - ' '
+    - '&2 Ei %player%, &a%rewards% recompensa(s) estão esperando por você! &f(Clique aqui)'
+    - ' '
+  cooldown-message: '%prefix% &cPara recompensa &l%type% &cvocê tem que esperar &n%time%'
+  daily-name: Recompensa diária
+  daily-title: '&a&lRecompensas'
+  daily-subtitle: '&7Você coletou sua recompensa &adiária'
+  daily-collected: '&a%player% &7coletou sua recompensa &a&ldiária!'
+  daily-premium-collected: '&a%player% &7coletou sua recompensa &a&lpremium diária!'
+  daily-displayname-available: '&a&lRECOMPENSA DIÁRIA'
+  daily-premium-displayname-available: '&e&lRECOMPENSA DIÁRIA'
+  daily-available-lore:
+    - '&7Recompensa contém:'
+    - '&a 8x &fBarras de Ferro'
+    - ' '
+    - '&c❌ Recompensa Premium não disponível'
+  daily-available-premium-lore:
+    - '&7Recompensa contém:'
+    - '&a 16x &fBarras de Ferro'
+    - '&a  3x &fBarras de Ouro'
+    - ' '
+    - '&e✔ Recompensa Premium disponível'
+  daily-displayname-unavailable: '&c&lRECOMPENSA DIÁRIA'
+  daily-premium-displayname-unavailable: '&4&lRECOMPENSA DIÁRIA'
+  daily-unavailable-lore:
+    - ' '
+    - '&cDisponível em: %cooldown%'
+  daily-unavailable-premium-lore:
+    - ' '
+    - '&cDisponível em: %cooldown%'
+  weekly-name: Recompensa Semanal
+  weekly-title: '&e&lRecompensas'
+  weekly-subtitle: '&7Você coletou sua recompensa &esemanal'
+  weekly-collected: '&e%player% &7coletou sua recompensa &e&lsemanal!'
+  weekly-premium-collected: '&e%player% &7coletou sua recompensa &e&lpremium semanal!'
+  weekly-displayname-available: '&a&lRECOMPENSA SEMANAL'
+  weekly-premium-displayname-available: '&e&lRECOMPENSA SEMANAL'
+  weekly-available-lore:
+    - '&7Recompensa contém:'
+    - '&a 1x &fDiamante'
+    - ' '
+    - '&c❌ Recompensa Premium não disponível'
+  weekly-available-premium-lore:
+    - '&7Recompensa contém:'
+    - '&a 5x &fDiamantes'
+    - '&a 3x &fEsmeraldas'
+    - ' '
+    - '&e✔ Recompensa Premium disponível'
+  weekly-displayname-unavailable: '&c&lRECOMPENSA SEMANAL'
+  weekly-premium-displayname-unavailable: '&4&lRECOMPENSA SEMANAL'
+  weekly-unavailable-lore:
+    - ' '
+    - '&cDisponível em: %cooldown%'
+  weekly-unavailable-premium-lore:
+    - ' '
+    - '&cDisponível em: %cooldown%'
+  monthly-name: Recompensa Mensal
+  monthly-title: '&9&lRecompensas'
+  monthly-subtitle: '&7Você coletou sua recompensa &9mensal'
+  monthly-collected: '&9%player% &7coletou sua recompensa &9&lmensal'
+  monthly-premium-collected: '&9%player% &7coletou sua recompensa &9&lpremium mensal!'
+  monthly-displayname-available: '&a&lRECOMPENSA MENSAL'
+  monthly-premium-displayname-available: '&e&lRECOMPENSA MENSAL'
+  monthly-available-lore:
+    - '&7Recompensa contém:'
+    - '&a  8x &fDiamantes'
+    - '&a 32x &fBarras de Ferro'
+    - '&a 16x &fBarras de Ouro'
+    - ' '
+    - '&c❌ Recompensa Premium não disponível'
+  monthly-available-premium-lore:
+    - '&7Recompensa contém:'
+    - '&a  1x &fEstrela do Nether'
+    - '&a 16x &fDiamantes'
+    - '&a 64x &fBarras de Ferro'
+    - '&a 32x &fBarras de Ouro'
+    - '&a 64x &fFrascos de XP'
+    - ' '
+    - '&e✔ Recompensa Premium não disponível'
+  monthly-displayname-unavailable: '&c&lRECOMPENSA MENSAL'
+  monthly-premium-displayname-unavailable: '&4&lRECOMPENSA MENSAL'
+  monthly-unavailable-lore:
+    - ' '
+    - '&cDisponível em: %cooldown%'
+  monthly-unavailable-premium-lore:
+    - ' '
+    - '&cDisponível em: %cooldown%'

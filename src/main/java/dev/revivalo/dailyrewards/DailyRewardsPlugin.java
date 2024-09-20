@@ -66,7 +66,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         }
 
         String[] languages = {
-                "English", "Czech", "Chinese", "French",
+                "English", "Czech", "Chinese", "French", "Portuguese",
                 "German", "Polish", "Russian", "Turkish", "Spanish"
         };
 

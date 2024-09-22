@@ -38,7 +38,7 @@ public class ClaimCommand implements SubCommand {
 
     @Override
     public List<String> getTabCompletion(CommandSender sender, int index, String[] args) {
-        if (args.length == 1)       return DailyRewardsPlugin.getRewardManager().getRewards().stream().map(Reward::getRewardName).collect(Collectors.toList());
+        if (args.length == 1)       return DailyRewardsPlugin.getRewardManager().getRewards().stream().map(Reward::getName).collect(Collectors.toList());
         else if (args.length == 2)  return DailyRewardsPlugin.get().getServer().getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         else                        return Collections.emptyList();
     }

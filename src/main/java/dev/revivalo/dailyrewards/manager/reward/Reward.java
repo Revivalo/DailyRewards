@@ -82,11 +82,11 @@ public class Reward {
         this.premiumRewards = premiumRewards;
     }
 
-    public String getRewardName() {
-        return getRewardType().toString();
+    public String getName() {
+        return rewardType.toString();
     }
 
-    public RewardType getRewardType() {
+    public RewardType getType() {
         return rewardType;
     }
 

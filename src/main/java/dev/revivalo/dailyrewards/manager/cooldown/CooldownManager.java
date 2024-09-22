@@ -13,7 +13,7 @@ public class CooldownManager {
 				user.getPlayer().getUniqueId(),
 				user,
 				new HashMap<String, Object>() {{
-					put(reward.getRewardName(), System.currentTimeMillis() + reward.getCooldown());
+					put(reward.getName(), System.currentTimeMillis() + reward.getCooldown());
 				}}
 		);
 	}

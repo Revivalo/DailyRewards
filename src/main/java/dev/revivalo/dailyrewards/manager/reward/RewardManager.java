@@ -1,10 +1,8 @@
 package dev.revivalo.dailyrewards.manager.reward;
 
-import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.api.event.AutoClaimEvent;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
-import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.manager.reward.action.AutoClaimAction;
 import dev.revivalo.dailyrewards.user.User;
 import org.bukkit.Bukkit;
@@ -117,7 +115,7 @@ public class RewardManager {
     }
 
     public Optional<Reward> getRewardByType(RewardType rewardType) {
-        return rewards.stream().filter(reward -> reward.getRewardType() == rewardType).findFirst();
+        return rewards.stream().filter(reward -> reward.getType() == rewardType).findFirst();
     }
 
     public Set<Reward> getRewards() {

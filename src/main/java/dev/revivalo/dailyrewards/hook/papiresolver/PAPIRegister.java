@@ -15,6 +15,7 @@ public class PAPIRegister extends PlaceholderExpansion {
 
     private void registerDefaultResolvers() {
         registerResolver(new AvailableRewardsResolver());
+        registerResolver(new RewardRemainingTimeResolver());
     }
 
     public void registerResolver(PlaceholderResolver resolver) {

@@ -1,10 +1,8 @@
 package dev.revivalo.dailyrewards.manager.reward;
 
-import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.api.event.AutoClaimEvent;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
-import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.manager.reward.action.AutoClaimAction;
 import dev.revivalo.dailyrewards.user.User;
 import org.bukkit.Bukkit;
@@ -22,9 +20,9 @@ public class RewardManager {
     }
 
     public boolean processAutoClaimForUser(User user) {
-        if (!user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
-            return false;
-        }
+//        if (!user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
+//            return false;
+//        }
 
         if (user.getAvailableRewards().isEmpty()) {
             return false;
@@ -33,16 +31,10 @@ public class RewardManager {
         AutoClaimEvent autoClaimEvent = new AutoClaimEvent(user.getPlayer(), user.getAvailableRewards());
         Bukkit.getPluginManager().callEvent(autoClaimEvent);
 
+        new AutoClaimAction()
+                        .preCheck(user.getPlayer(), user.getAvailableRewards());
 
-        if (autoClaimEvent.isCancelled()) {
-            return false;
-        }
-
-        Bukkit.getScheduler().runTaskLater(DailyRewardsPlugin.get(), () ->
-                new AutoClaimAction()
-                        .preCheck(user.getPlayer(), user.getAvailableRewards()), Config.JOIN_AUTO_CLAIM_DELAY.asInt() * 20L);
-        return true;
-
+        return !autoClaimEvent.isCancelled();
     }
 
     public void loadRewards() {
@@ -123,7 +115,7 @@ public class RewardManager {
     }
 
     public Optional<Reward> getRewardByType(RewardType rewardType) {
-        return rewards.stream().filter(reward -> reward.getRewardType() == rewardType).findFirst();
+        return rewards.stream().filter(reward -> reward.getType() == rewardType).findFirst();
     }
 
     public Set<Reward> getRewards() {

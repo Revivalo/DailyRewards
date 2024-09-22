@@ -6,12 +6,13 @@
 #   | |_| | (_| | | | |_| |  _ <  __/\ V  V / (_| | | | (_| |
 #   |____/ \__,_|_|_|\__, |_| \_\___| \_/\_/ \__,_|_|  \__,_|
 #                    |___/
-#                                      by Revivalo
+#                                      by Athelion Development
 #
-# If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
 #  Upgrade to the ULTIMATE edition and create your own rewards without limitations.
 #  More at: https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-3.108055/
+#
+# If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
 # You can use your own textured item models with following format:
 # CustomModel[<itemName>]{<ID>}

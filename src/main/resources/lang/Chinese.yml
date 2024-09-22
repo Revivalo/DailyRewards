@@ -22,6 +22,7 @@ lang:
   claiming-in-disabled-world: "%prefix% &c您无法在该世界中领取礼包（%world%）。"
   not-enough-required-time-to-claim: "%prefix% &c您必须在线至少 %requiredMinutes% 分钟才能领取该礼包（剩余 %minutes% 分钟）"
   command-usage: "%prefix% &c用法：%usage%"
+  available: "&a&l可用"
   loading: "&b加载中..."
   back: "&c返回"
   help:

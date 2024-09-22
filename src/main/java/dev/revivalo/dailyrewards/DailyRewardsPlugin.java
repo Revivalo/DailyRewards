@@ -44,7 +44,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
     private static RewardManager rewardManager;
     private static MenuManager menuManager;
-
+    private static UserHandler userHandler;
     private PluginManager pluginManager;
 
     public static DailyRewardsPlugin get() {
@@ -66,7 +66,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         }
 
         String[] languages = {
-                "English", "Czech", "Chinese", "French",
+                "English", "Czech", "Chinese", "French", "Portuguese",
                 "German", "Polish", "Russian", "Turkish", "Spanish"
         };
 
@@ -103,8 +103,10 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         }
 
         MySQLManager.init();
-        DailyRewardsPlugin.setRewardManager(new RewardManager());
-        DailyRewardsPlugin.setMenuManager(new MenuManager());
+
+        setRewardManager(new RewardManager());
+        setMenuManager(new MenuManager());
+        setUserHandler(new UserHandler());
 
         registerCommands();
 
@@ -118,8 +120,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         console.sendMessage(" ");
         console.sendMessage(" ");
         console.sendMessage(" ");
-
-        new UserHandler();
     }
 
     @Override
@@ -140,7 +140,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
                     getLogger().log(Level.SEVERE, "Resource " + resourcePath + " not found in the plugin JAR!");
                     return;
                 }
-                outFile.getParentFile().mkdirs(); // Vytvoří cílovou složku, pokud neexistuje
+                outFile.getParentFile().mkdirs();
                 Files.copy(in, outFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
                 getLogger().log(Level.INFO, "Resource " + resourcePath + " successfully copied.");
             } catch (IOException e) {
@@ -233,6 +233,14 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
     public static void setMenuManager(MenuManager menuManager) {
         DailyRewardsPlugin.menuManager = menuManager;
+    }
+
+    public static UserHandler getUserHandler() {
+        return userHandler;
+    }
+
+    public static void setUserHandler(UserHandler userHandler) {
+        DailyRewardsPlugin.userHandler = userHandler;
     }
 
     public PluginManager getPluginManager() {

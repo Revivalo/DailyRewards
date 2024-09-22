@@ -10,7 +10,7 @@ lang:
     - "&a ✔ &f%rewards% odměn bylo úspěšně automaticky vybráno!"
     - " "
   unclaimed-rewards-notification-hover-text: "&2Klikněte pro získání odměn!"
-  reward-reset: "&e%prefix% &fOdměna hráče &e%player%&f pro &e%type%&f byla resetována"
+  reward-reset: "&e%prefix% &fOdměna typu %type% byla resetována pro hráče %player%"
   unavailable-player: "%prefix% &cHráč není dostupný!"
   unavailable-setting: "%prefix% &cToto nastavení neexistuje!"
   reward-disabled: "%prefix% &cOdměnu nelze získat!"
@@ -22,6 +22,7 @@ lang:
   claiming-in-disabled-world: "%prefix% &cNemůžete získat odměny ve světě %world%"
   not-enough-required-time-to-claim: "%prefix% &cMusíte strávit alespoň %requiredMinutes% minut na serveru, než budete moci získat odměny (zbývá %minutes% minut)"
   command-usage: "%prefix% &cSprávné použití: %usage%"
+  available: "&a&lDostupná"
   loading: "&bNačítání..."
   back: "&cZpět"
   help-message:

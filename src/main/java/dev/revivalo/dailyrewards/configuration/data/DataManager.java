@@ -101,7 +101,7 @@ public class DataManager {
 		else {
 			PlayerData playerData = PlayerData.getConfig(player.getUniqueId());
 			for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
-				final RewardType rewardType = reward.getRewardType();
+				final RewardType rewardType = reward.getType();
 				data.put(rewardType.toString(), playerData.getString("rewards." + rewardType));
 			}
 			data.put("autoClaim", playerData.getString("rewards.autoClaim"));

@@ -22,6 +22,7 @@ lang:
   claiming-in-disabled-world: "%prefix% &cVous ne pouvez pas obtenir de récompenses dans le monde %world%"
   not-enough-required-time-to-claim: "%prefix% &cVous devez passer au moins %requiredMinutes% minutes sur le serveur avant de pouvoir réclamer des récompenses (%minutes% minutes restantes)"
   command-usage: "%prefix% &cUtilisation valide : %usage%"
+  available: "&a&lDisponible"
   loading: "&bChargement..."
   back: "&cRetour"
   help-message:

@@ -3,10 +3,12 @@ package dev.revivalo.dailyrewards.user;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.api.event.ReminderReceiveEvent;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.hook.Hook;
 import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.manager.reward.task.JoinNotificationTask;
+import dev.revivalo.dailyrewards.manager.reward.task.AutoClaimTask;
 import dev.revivalo.dailyrewards.util.PermissionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -24,21 +26,26 @@ public final class UserHandler implements Listener {
     private static final Map<UUID, User> usersHashMap = new ConcurrentHashMap<>();
 
     private final JoinNotificationTask joinNotificationTask;
+    private final AutoClaimTask autoClaimTask;
 
     public UserHandler() {
         this.joinNotificationTask = new JoinNotificationTask(usersHashMap);
         this.joinNotificationTask.get()
-                        .runTaskTimerAsynchronously(DailyRewardsPlugin.get(), 5, 5);
+                .runTaskTimerAsynchronously(DailyRewardsPlugin.get(), 45, 45);
+
+        this.autoClaimTask = new AutoClaimTask(usersHashMap);
+        this.autoClaimTask.get()
+                .runTaskTimerAsynchronously(DailyRewardsPlugin.get(), 45, 45);
 
         DailyRewardsPlugin.get().registerListeners(this);
     }
 
-    public static User addUser(final User user){
+    public static User addUser(final User user) {
         usersHashMap.put(user.getPlayer().getUniqueId(), user);
         return user;
     }
 
-    public static User getUser(final UUID uuid){
+    public static User getUser(final UUID uuid) {
         return usersHashMap.get(uuid);
     }
 
@@ -50,7 +57,7 @@ public final class UserHandler implements Listener {
                 .orElse(null);
     }
 
-    public static User removeUser(final UUID uuid){
+    public static User removeUser(final UUID uuid) {
         final User user = usersHashMap.remove(uuid);
 
         if (user != null) {
@@ -60,7 +67,7 @@ public final class UserHandler implements Listener {
         return user;
     }
 
-    @EventHandler (priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)
     private void onJoin(PlayerJoinEvent event) {
         final Player player = event.getPlayer();
 
@@ -73,33 +80,24 @@ public final class UserHandler implements Listener {
                     )
             );
 
-            if (!HookManager.isAuthUsed()) {
-                if (DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(user)) {
-                    return;
-                }
-            }
-
-            if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)) {
-                return;
-            }
-
-            if (!user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
-                return;
-            }
-
             final Set<RewardType> availableRewards = user.getAvailableRewards();
             if (availableRewards.isEmpty()) {
                 return;
             }
 
             ReminderReceiveEvent reminderReceiveEvent = new ReminderReceiveEvent(player, availableRewards);
-            Bukkit.getPluginManager().callEvent(reminderReceiveEvent);
+            DailyRewardsPlugin.get().runSync(() -> Bukkit.getPluginManager().callEvent(reminderReceiveEvent));
 
             if (reminderReceiveEvent.isCancelled()) {
                 return;
             }
 
+            if (HookManager.isAuthUsed()) {
+                return;
+            }
+
             joinNotificationTask.addUser(user);
+            autoClaimTask.addUser(user);
         });
     }
 
@@ -107,5 +105,13 @@ public final class UserHandler implements Listener {
     private void onQuit(PlayerQuitEvent event) {
         User user = UserHandler.removeUser(event.getPlayer().getUniqueId());
         joinNotificationTask.getPlayerRewardCheckTimes().remove(user);
+    }
+
+    public JoinNotificationTask getJoinNotificationTask() {
+        return joinNotificationTask;
+    }
+
+    public AutoClaimTask getAutoClaimTask() {
+        return autoClaimTask;
     }
 }

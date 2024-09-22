@@ -33,7 +33,7 @@ public class JoinNotificationTask implements Task {
             return;
         }
 
-        if (user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
+        if (!user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
             return;
         }
 

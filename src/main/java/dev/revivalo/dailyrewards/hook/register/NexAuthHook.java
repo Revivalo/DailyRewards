@@ -39,7 +39,8 @@ public class NexAuthHook implements Hook<Void> {
         @Override
         @EventHandler
         public void onLogin(AuthPlayerLoginEvent event) {
-            DailyRewardsPlugin.getRewardManager().processAutoClaimForUser(UserHandler.getUser(event.getPlayer()));
+            DailyRewardsPlugin.getUserHandler().getAutoClaimTask().addUser(UserHandler.getUser(event.getPlayer()));
+            DailyRewardsPlugin.getUserHandler().getJoinNotificationTask().addUser(UserHandler.getUser(event.getPlayer()));
         }
     }
 }

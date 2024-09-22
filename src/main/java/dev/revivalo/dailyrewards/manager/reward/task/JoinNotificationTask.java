@@ -2,7 +2,9 @@ package dev.revivalo.dailyrewards.manager.reward.task;
 
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
+import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.user.User;
+import dev.revivalo.dailyrewards.util.PermissionUtil;
 import dev.revivalo.dailyrewards.util.PlayerUtil;
 import dev.revivalo.dailyrewards.util.VersionUtil;
 import net.md_5.bungee.api.chat.BaseComponent;
@@ -27,6 +29,18 @@ public class JoinNotificationTask implements Task {
     }
 
     public void addUser(User user) {
+        if (user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
+            return;
+        }
+
+        if (user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)) {
+            return;
+        }
+
+        if (!PermissionUtil.hasPermission(user.getPlayer(), PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)) {
+            return;
+        }
+
         long checkTime = System.currentTimeMillis() + (Config.JOIN_NOTIFICATION_DELAY.asInt() * 1000L);
 
         playerRewardCheckTimes.put(user, checkTime);

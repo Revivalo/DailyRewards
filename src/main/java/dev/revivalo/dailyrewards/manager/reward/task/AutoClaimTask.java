@@ -2,7 +2,9 @@ package dev.revivalo.dailyrewards.manager.reward.task;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.file.Config;
+import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.user.User;
+import dev.revivalo.dailyrewards.util.PermissionUtil;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Map;
@@ -18,6 +20,14 @@ public class AutoClaimTask implements Task{
     }
 
     public void addUser(User user) {
+        if (!PermissionUtil.hasPermission(user.getPlayer(), PermissionUtil.Permission.AUTO_CLAIM_SETTING)) {
+            return;
+        }
+
+        if (!user.hasSettingEnabled(Setting.AUTO_CLAIM)) {
+            return;
+        }
+
         long checkTime = System.currentTimeMillis() + (Config.JOIN_NOTIFICATION_DELAY.asInt() * 1000L);
 
         playerRewardCheckTimes.put(user, checkTime);

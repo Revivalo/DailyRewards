@@ -3,6 +3,7 @@ package dev.revivalo.dailyrewards.manager;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
+import dev.revivalo.dailyrewards.manager.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.manager.reward.Reward;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.manager.reward.action.ClaimAction;
@@ -56,42 +57,41 @@ public class MenuManager implements Listener {
                 inventory.setItem(Config.SETTINGS_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_ITEM.asAnItem()).setName(Lang.SETTINGS_DISPLAY_NAME.asColoredString(player)).build());
 
             for (Reward reward : DailyRewardsPlugin.getRewardManager().getRewards()) {
+                Cooldown cooldown = user.getCooldown(reward.getType());
                 for (int slot : reward.getPosition()) {
-                    user.getCooldownOfReward(reward.getRewardType()).thenAccept((cooldown -> {
-                        final AtomicReference<BukkitTask> task = new AtomicReference<>();
 
-                        task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
-                            if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString(player))) {
-                                task.get().cancel();
-                                return;
-                            }
+                    final AtomicReference<BukkitTask> task = new AtomicReference<>();
+                    task.set(Bukkit.getScheduler().runTaskTimer(DailyRewardsPlugin.get(), () -> {
+                        if (!player.getOpenInventory().getTitle().equalsIgnoreCase(Lang.MENU_TITLE.asColoredString(player))) {
+                            task.get().cancel();
+                            return;
+                        }
 
-                            boolean premiumVariant = PermissionUtil.hasPremium(player, reward.getRewardType());
-                            boolean claimable = cooldown.isClaimable();
-                            inventory.setItem(slot,
-                                    ItemBuilder.from(
-                                                    claimable
-                                                            ? reward.getAvailableItem()
-                                                            : reward.getUnavailableItem()
-                                            )
-                                            .setGlow(claimable)
-                                            .setName(
-                                                    claimable
-                                                            ? TextUtil.applyPlaceholdersToString(player, premiumVariant ? reward.getAvailablePremiumDisplayName() : reward.getAvailableDisplayName())
-                                                            : TextUtil.applyPlaceholdersToString(player, reward.getUnavailableDisplayName())
-                                            )
-                                            .setLore(
-                                                    claimable
-                                                            ? TextUtil.applyPlaceholdersToList(player, premiumVariant ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
-                                                            : TextUtil.applyPlaceholdersToList(player, TextUtil.replaceList((premiumVariant ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
-                                                        put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
-                                                    }}))
-                                            )
-                                            .build()
-                            );
+                        boolean premiumVariant = PermissionUtil.hasPremium(player, reward.getType());
+                        boolean claimable = cooldown.isClaimable();
+                        inventory.setItem(slot,
+                                ItemBuilder.from(
+                                                claimable
+                                                        ? reward.getAvailableItem()
+                                                        : reward.getUnavailableItem()
+                                        )
+                                        .setGlow(claimable)
+                                        .setName(
+                                                claimable
+                                                        ? TextUtil.applyPlaceholdersToString(player, premiumVariant ? reward.getAvailablePremiumDisplayName() : reward.getAvailableDisplayName())
+                                                        : TextUtil.applyPlaceholdersToString(player, reward.getUnavailableDisplayName())
+                                        )
+                                        .setLore(
+                                                claimable
+                                                        ? TextUtil.applyPlaceholdersToList(player, premiumVariant ? reward.getAvailablePremiumLore() : reward.getAvailableLore())
+                                                        : TextUtil.applyPlaceholdersToList(player, TextUtil.replaceList((premiumVariant ? reward.getUnavailablePremiumLore() : reward.getUnavailableLore()), new HashMap<String, String>() {{
+                                                    put("cooldown", cooldown.getFormat(reward.getCooldownFormat()));
+                                                }}))
+                                        )
+                                        .build()
+                        );
 
-                        }, 0, timer));
-                    }));
+                    }, 0, timer));
                 }
             }
 
@@ -120,9 +120,9 @@ public class MenuManager implements Listener {
         settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString(player)).build());
 
         settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(
-                PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
-                        ? (user.hasSettingEnabled(Setting.JOIN_NOTIFICATION) ? Config.SETTINGS_JOIN_NOTIFICATION_ENABLED_ITEM.asAnItem() : Config.SETTINGS_JOIN_NOTIFICATION_DISABLED_ITEM.asAnItem())
-                        : new ItemStack(Material.BARRIER))
+                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
+                                ? (user.hasSettingEnabled(Setting.JOIN_NOTIFICATION) ? Config.SETTINGS_JOIN_NOTIFICATION_ENABLED_ITEM.asAnItem() : Config.SETTINGS_JOIN_NOTIFICATION_DISABLED_ITEM.asAnItem())
+                                : new ItemStack(Material.BARRIER))
                 .setName(
                         PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
                                 ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString(player)
@@ -141,9 +141,9 @@ public class MenuManager implements Listener {
         );
 
         settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(
-                PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
-                        ? (user.hasSettingEnabled(Setting.AUTO_CLAIM) ? Config.SETTINGS_AUTO_CLAIM_ENABLED_ITEM.asAnItem() : Config.SETTINGS_AUTO_CLAIM_DISABLED_ITEM.asAnItem())
-                        : new ItemStack(Material.BARRIER))
+                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
+                                ? (user.hasSettingEnabled(Setting.AUTO_CLAIM) ? Config.SETTINGS_AUTO_CLAIM_ENABLED_ITEM.asAnItem() : Config.SETTINGS_AUTO_CLAIM_DISABLED_ITEM.asAnItem())
+                                : new ItemStack(Material.BARRIER))
                 .setName(PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
                         ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString(player)
                         : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString(player)))
@@ -163,13 +163,13 @@ public class MenuManager implements Listener {
     }
 
     @EventHandler
-    public void onInventoryClick(final InventoryClickEvent event){
+    public void onInventoryClick(final InventoryClickEvent event) {
         if (!(event.getInventory().getHolder() instanceof MenuManager.RewardsInventoryHolder)) return;
         if (event.getCurrentItem() == null) return;
         event.setCancelled(true);
         final Player player = (Player) event.getWhoClicked();
         int slot = event.getSlot();
-        if (Config.DAILY_POSITIONS.asIntegerList().contains(slot)){
+        if (Config.DAILY_POSITIONS.asIntegerList().contains(slot)) {
             new ClaimAction(player).preCheck(player, RewardType.DAILY);
         } else if (Config.WEEKLY_POSITIONS.asIntegerList().contains(slot)) {
             new ClaimAction(player).preCheck(player, RewardType.WEEKLY);

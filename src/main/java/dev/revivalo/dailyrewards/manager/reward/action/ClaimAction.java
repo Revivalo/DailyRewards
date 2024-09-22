@@ -5,6 +5,7 @@ import dev.revivalo.dailyrewards.api.event.PlayerClaimRewardEvent;
 import dev.revivalo.dailyrewards.api.event.PlayerPreClaimRewardEvent;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
+import dev.revivalo.dailyrewards.manager.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.manager.cooldown.CooldownManager;
 import dev.revivalo.dailyrewards.manager.reward.ActionsExecutor;
 import dev.revivalo.dailyrewards.manager.reward.Reward;
@@ -34,6 +35,7 @@ public class ClaimAction implements RewardAction<RewardType> {
     private final List<Checker> checkers;
     private boolean announce = true;
     private boolean menuShouldOpen = Config.OPEN_MENU_AFTER_CLAIMING.asBoolean();
+
     public ClaimAction(CommandSender executor) {
         this.executor = executor;
 
@@ -66,7 +68,7 @@ public class ClaimAction implements RewardAction<RewardType> {
             put("player", player.getName());
         }});
 
-        PlayerPreClaimRewardEvent playerPreClaimRewardEvent = new PlayerPreClaimRewardEvent(player, reward.getRewardType(), rewardActions);
+        PlayerPreClaimRewardEvent playerPreClaimRewardEvent = new PlayerPreClaimRewardEvent(player, reward.getType(), rewardActions);
         Bukkit.getPluginManager().callEvent(playerPreClaimRewardEvent);
 
         if (playerPreClaimRewardEvent.isCancelled()) {
@@ -74,7 +76,7 @@ public class ClaimAction implements RewardAction<RewardType> {
         }
 
         if (!PermissionUtil.hasPermission(player, type.getPermission())) {
-        //if (!player.hasPermission(type.getPermission())) {
+            //if (!player.hasPermission(type.getPermission())) {
             //if (!fromCommand) return;
             if (announce) player.sendMessage(Lang.PERMISSION_MSG.asColoredString(player));
             return ClaimActionResponse.INSUFFICIENT_PERMISSIONS;
@@ -91,48 +93,46 @@ public class ClaimAction implements RewardAction<RewardType> {
             }
         }
 
-        user.getCooldownOfReward(type).thenAccept(cooldown -> {
-            if (cooldown.isClaimable()) {
+        Cooldown cooldown = user.getCooldown(reward.getType());
+        if (cooldown.isClaimable()) {
 
-                if (rewardActions.isEmpty()) {
-                    player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString(player));
-                } else {
-                    PlayerClaimRewardEvent playerClaimRewardEvent = new PlayerClaimRewardEvent(player, reward.getRewardType());
-                    Bukkit.getPluginManager().callEvent(playerClaimRewardEvent);
-
-                    ActionsExecutor.executeActions(
-                            player,
-                            reward.getRewardName(),
-                            TextUtil.findAndReturnActions(rewardActions)
-                    );
-
-                    //rewardCommands.forEach(command -> Bukkit.dispatchCommand(DailyRewardsPlugin.getConsole(), command));
-                }
-
-                CooldownManager.setCooldown(user, reward);
-
-                if (announce) {
-                    PlayerUtil.playSound(player, reward.getSound());
-
-                    player.sendTitle(reward.getTitle(), reward.getSubtitle());
-
-                    if (Config.ANNOUNCE_ENABLED.asBoolean()) {
-                        Bukkit.broadcastMessage((PermissionUtil.hasPremium(player, type) ? reward.getCollectedPremiumMessage(player) : reward.getCollectedMessage(player)).replace("%player%", player.getName()));
-                    }
-                }
-                if (!menuShouldOpen) player.closeInventory();
-
+            if (rewardActions.isEmpty()) {
+                player.sendMessage(Lang.REWARDS_ARE_NOT_SET.asColoredString(player));
             } else {
-                if (!menuShouldOpen) {
-                    player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
-                        put("%type%", type.getPlaceholder());
-                        put("%time%", cooldown.getFormat(reward.getCooldownFormat()));
-                    }}));
-                    return;
-                }
-                PlayerUtil.playSound(player, Config.UNAVAILABLE_REWARD_SOUND.asUppercase());
+                PlayerClaimRewardEvent playerClaimRewardEvent = new PlayerClaimRewardEvent(player, reward.getType());
+                Bukkit.getPluginManager().callEvent(playerClaimRewardEvent);
+
+                ActionsExecutor.executeActions(
+                        player,
+                        reward.getName(),
+                        TextUtil.findAndReturnActions(rewardActions)
+                );
+
+                //rewardCommands.forEach(command -> Bukkit.dispatchCommand(DailyRewardsPlugin.getConsole(), command));
             }
-        });
+
+            CooldownManager.setCooldown(user, reward);
+
+            if (announce) {
+                PlayerUtil.playSound(player, reward.getSound());
+
+                player.sendTitle(reward.getTitle(), reward.getSubtitle());
+
+                if (Config.ANNOUNCE_ENABLED.asBoolean()) {
+                    Bukkit.broadcastMessage((PermissionUtil.hasPremium(player, type) ? reward.getCollectedPremiumMessage(player) : reward.getCollectedMessage(player)).replace("%player%", player.getName()));
+                }
+            }
+            if (!menuShouldOpen) player.closeInventory();
+
+        } else {
+            if (!menuShouldOpen) {
+                player.sendMessage(Lang.COOLDOWN_MESSAGE.asReplacedString(player, new HashMap<String, String>() {{
+                    put("%type%", type.getPlaceholder());
+                    put("%time%", cooldown.getFormat(reward.getCooldownFormat()));
+                }}));
+            }
+            PlayerUtil.playSound(player, Config.UNAVAILABLE_REWARD_SOUND.asUppercase());
+        }
 
         return ActionResponse.Type.PROCEEDED;
     }

@@ -25,6 +25,7 @@ lang:
   not-enough-required-time-to-claim: '%prefix% &cVocê tem que passar, pelo menos, %requiredMinutes% minutos no servidor
   antes de coletar recompensas! &f&o(%minutes% minutos restantes)'
   command-usage: '%prefix% &cUso válido: %usage%'
+  available: "&a&lDisponível"
   loading: '&bCarregando...'
   back: '&cVoltar'
   help-message:

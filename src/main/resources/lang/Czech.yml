@@ -22,6 +22,7 @@ lang:
   claiming-in-disabled-world: "%prefix% &cNemůžete získat odměny ve světě %world%"
   not-enough-required-time-to-claim: "%prefix% &cMusíte strávit alespoň %requiredMinutes% minut na serveru, než budete moci získat odměny (zbývá %minutes% minut)"
   command-usage: "%prefix% &cSprávné použití: %usage%"
+  available: "&a&lDostupná"
   loading: "&bNačítání..."
   back: "&cZpět"
   help-message:

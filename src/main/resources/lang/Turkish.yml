@@ -22,6 +22,7 @@ lang:
   claiming-in-disabled-world: "%prefix% &c%world% dünyasında ödül alamazsınız"
   not-enough-required-time-to-claim: "%prefix% &cÖdülleri alabilmek için sunucuda en az %requiredMinutes% dakika geçirmeniz gerekiyor (kalan süre: %minutes% dakika)"
   command-usage: "%prefix% &cGeçerli kullanım: %usage%"
+  available: "&a&lMevcut"
   loading: "&bYükleniyor..."
   back: "&cGeri"
   help-message:

@@ -22,6 +22,7 @@ lang:
   claiming-in-disabled-world: "%prefix% &cВы не можете получить награды в мире %world%"
   not-enough-required-time-to-claim: "%prefix% &cВы должны провести на сервере как минимум %requiredMinutes% минут, чтобы получить награды (осталось %minutes% минут)"
   command-usage: "%prefix% &cПравильное использование: %usage%"
+  available: "&a&lДоступно"
   loading: "&bЗагрузка..."
   back: "&cНазад"
   help-message:

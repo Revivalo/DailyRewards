@@ -1,6 +1,5 @@
 package dev.revivalo.dailyrewards.user;
 
-import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
 import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.manager.cooldown.Cooldown;
@@ -11,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 
 public class User {
     private final Player player;
@@ -22,24 +20,9 @@ public class User {
         this.data = data;
     }
 
-    public CompletableFuture<Cooldown> getCooldownOfReward(RewardType rewardType) {
-        if (data.get(rewardType.toString()) != null) {
-            return CompletableFuture.completedFuture(
-                    new Cooldown(Long.parseLong(String.valueOf(data.get(rewardType.toString()))))
-            );
-        }
-
-        return DailyRewardsPlugin.get().completableFuture(() -> {
-            Map<String, Object> fetchedData = DataManager.getPlayerData(player);
-            setData(fetchedData);
-
-            if (fetchedData.isEmpty()) {
-                return null;
-            }
-            return new Cooldown(Long.parseLong(String.valueOf(fetchedData.get(rewardType.toString()))));
-        });
+    public Cooldown getCooldown(RewardType rewardType) {
+        return new Cooldown(Long.parseLong(String.valueOf(data.get(rewardType.toString()))));
     }
-
 
     public Set<RewardType> getAvailableRewards(){
         Set<RewardType> availableRewards = new HashSet<>();

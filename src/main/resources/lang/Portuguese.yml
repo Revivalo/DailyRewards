@@ -6,7 +6,7 @@
 # Translation to Brazilian Portuguese by MihDrix (Mundo Drix) - 31/08/2024
 #
 lang:
-  prefix: '&e[&6&lRecompensas&e]'
+  prefix: '&e[&6&lDailyRewards&e]'
   auto-claim-notification:
     - ' '
     - '&a ✔ &f%rewards% recompensa(s) foram reivindicadas automaticamente com sucesso!'
@@ -25,7 +25,7 @@ lang:
   not-enough-required-time-to-claim: '%prefix% &cVocê tem que passar, pelo menos, %requiredMinutes% minutos no servidor
   antes de coletar recompensas! &f&o(%minutes% minutos restantes)'
   command-usage: '%prefix% &cUso válido: %usage%'
-  available: "&a&lDisponível"
+  available: '&a&lDisponível'
   loading: '&bCarregando...'
   back: '&cVoltar'
   help-message:
@@ -42,8 +42,8 @@ lang:
   #
   settings-title: Configurações
   settings-display-name: '&eConfigurações'
-  setting-enabled: '%prefix% &aYou have enabled %setting%!'
-  setting-disabled: '%prefix% &cYou have disabled %setting%!'
+  setting-enabled: '%prefix% &aVocê ativou %setting%!'
+  setting-disabled: '%prefix% &cVocê desativou %setting%!'
   auto-claim-failed: '%prefix% &cAlgumas recompensas não puderam ser resgatadas automaticamente, passe
   o cursor do mouse para obter detalhes.'
   auto-claim-failed-hover-text-list-format: '%reward% - %reason%'
@@ -80,20 +80,16 @@ lang:
     - '&7todas as recompensas disponíveis ao entrar'
     - ' '
     - '&a► Clique para ativar'
-
   located-in-restricted-world: Recompensa indisponível no mundo atual
   insufficient-play-time: Tempo de jogo insuficiente para resgatar
   insufficient-permissions: Permissões insuficientes
   not-enough-free-inventory-slots: Espaços de inventário insuficientes
   unavailable-reward: Recompensa indisponível
-  #
-  # Rewards menu
-  #
   menu-title: Recompensas
   join-hover-message: '&7Clique para coletar suas recompensas'
   join-notification:
     - ' '
-    - '&2 Ei %player%, &a%rewards% recompensa(s) estão esperando por você! &f(Clique aqui)'
+    - '&2 Ei %player%, &a%rewards% recompensa(s) está(ão) esperando por você! &f(Clique aqui)'
     - ' '
   cooldown-message: '%prefix% &cPara recompensa &l%type% &cvocê tem que esperar &n%time%'
   daily-name: Recompensa diária
@@ -168,7 +164,6 @@ lang:
     - '&a 16x &fDiamantes'
     - '&a 64x &fBarras de Ferro'
     - '&a 32x &fBarras de Ouro'
-    - '&a 64x &fFrascos de XP'
     - ' '
     - '&e✔ Recompensa Premium não disponível'
   monthly-displayname-unavailable: '&c&lRECOMPENSA MENSAL'

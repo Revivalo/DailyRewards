@@ -3,6 +3,8 @@
 # &f formatı yerine <#ffffff> kullanın
 # ve gradyan için: <#ffffff>Gradyanın uygulanacağı metin</#000000>
 #
+# Everything about the models and colouring can be found at https://revivalo.gitbook.io/ultimaterewards/colors-and-models
+#
 lang:
   prefix: "&e[&6&lDailyRewards&e]"
   auto-claim-notification:

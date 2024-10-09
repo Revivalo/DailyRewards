@@ -3,6 +3,8 @@
 # Anstelle des Formats &f verwenden Sie <#ffffff>
 # und für den Farbverlauf: <#ffffff>Text, auf den der Farbverlauf angewendet wird</#000000>
 #
+# Everything about the models and colouring can be found at https://revivalo.gitbook.io/ultimaterewards/colors-and-models
+#
 lang:
   prefix: "&e[&6&lDailyRewards&e]"
   auto-claim-notification:

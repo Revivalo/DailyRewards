@@ -1,0 +1,178 @@
+#
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+# and for gradient: <#ffffff>Text where will be applied gradient</#000000>
+#
+# Everything about the models and colouring can be found at https://revivalo.gitbook.io/ultimaterewards/colors-and-models
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% palkintoa on onnistuneesti haettu automaattisesti!"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Napsauta saadaksesi palkinnot!"
+  reward-reset: "&e%prefix% &fOlet nollannut pelaajan &e%player%&f &e%type%&f palkinnot"
+  unavailable-player: "%prefix% &cPelaaja ei ole saatavilla!"
+  unavailable-setting: "%prefix% &cTätä asetusta ei ole olemassa!"
+  reward-disabled: "%prefix% &cPalkintoa ei voida hankkia!"
+  permission-msg: "%prefix% &cSinulla ei ole oikeuksia tähän toimintaan."
+  rewards-are-not-set: "%prefix% &cPalkintoja ei ole asetettu!"
+  reload-msg: "&e%prefix% &fLaajennus ladattiin onnistuneesti uudelleen"
+  incomplete-reward-reset: "%prefix% &cMääritä mitä tarkalleen haluat nollata (päivittäinen/viikoittainen/kuukausittainen/kaikki)"
+  full-inventory-message: "%prefix% &cEt voi hankkia palkintoa, inventaario on täynnä!"
+  claiming-in-disabled-world: "%prefix% &cEt voi hankkia palkintoja maailmassa %world%"
+  not-enough-required-time-to-claim: "%prefix% &cSinun on oltava vähintään %requiredMinutes% minuuttia palvelimella ennen kuin voit kerätä palkintoja (%minutes% minuuttia jäljellä)"
+  command-usage: "%prefix% &cVoimassa oleva käyttö: %usage%"
+  available: "&a&lSaatavilla"
+  loading: "&bLadataan..."
+  back: "&cTakaisin"
+  help-message:
+    - "&fLuettelo kaikista saatavilla olevista komennoista:"
+    - "&f/rewards &7- Päävalikkot"
+    - "&f/reward claim <reward>&7- Hankkii tietyn palkinnon"
+    - "&f/reward reset <player> <daily|weekly|monthly|all>"
+    - "&f/reward import - &7Tuodaan tiedostotiedot tietokantaan"
+    - "&f/reward reload &7- Lataa kokoonpano-osio uudelleen"
+    - "&f/reward settings &7- Avaa asetusten valikko"
+    - "&f/reward toggle <setting> &7- Kytkee tietyn asetuksen päälle tai pois"
+  #
+  # Settings
+  #
+  settings-title: "Asetukset"
+  settings-display-name: "&eAsetukset"
+  setting-enabled: "%prefix% &aOlet aktivoinut %setting%!"
+  setting-disabled: "%prefix% &cOlet poistanut käytöstä %setting%!"
+  auto-claim-failed: "%prefix% &cJotkin palkinnot eivät voineet olla automaattisesti haettu, vie hiiri yllä olevalle kohdalle saadaksesi lisätietoja."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cSeuraavia palkintoja ei voida automaattisesti hakea: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Seuraavat palkinnot on haettu automaattisesti: &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Liittymisilmoitus"
+  join-auto-claim-setting-name: "Liittymisautomaattinen haku"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cEt voi kytkeä tätä asetusta päälle tai pois!"
+    - "&cPuuttuva oikeus: %permission%"
+  join-notification-display-name: "&aLiittymisilmoitus"
+  join-notification-enabled-lore:
+    - "&7Ilmoittaa sinulle liittyessäsi"
+    - "&7jos sinulla on keräämättömiä palkintoja"
+    - " "
+    - "&c► Napsauta poistaaksesi käytöstä"
+  join-notification-disabled-lore:
+    - "&7Ilmoittaa sinulle liittyessäsi"
+    - "&7jos sinulla on keräämättömiä palkintoja"
+    - " "
+    - "&a► Napsauta ottaaksesi käyttöön"
+  auto-claim-display-name: "&aLiittymisautomaattinen haku"
+  auto-claim-enabled-lore:
+    - "&7Hakee automaattisesti"
+    - "&7kaikki saatavilla olevat palkinnot liittyessäsi"
+    - " "
+    - "&c► Napsauta poistaaksesi käytöstä"
+  auto-claim-disabled-lore:
+    - "&7Hakee automaattisesti"
+    - "&7kaikki saatavilla olevat palkinnot liittyessäsi"
+    - " "
+    - "&a► Napsauta ottaaksesi käyttöön"
+
+  located-in-restricted-world: "Palkinto ei ole saatavilla nykyisessä maailmassa"
+  insufficient-play-time: "Ei tarpeeksi peliaikaa haettavaksi"
+  insufficient-permissions: "Riittämättömät oikeudet"
+  not-enough-free-inventory-slots: "Ei tarpeeksi vapaita inventaarioslotteja"
+  unavailable-reward: "Palkinto ei ole saatavilla"
+  #
+  # Rewards menu
+  #
+  menu-title: "Palkinnot"
+  join-hover-message: "&7Napsauta kerätäksesi palkintosi"
+  join-notification:
+    - ' '
+    - '&2 Hei %player%, &a%rewards% palkintoa odottaa sinua! &f(Napsauta tästä)'
+    - ' '
+  cooldown-message: "%prefix% &c%type% &cpalkinnon hakemiseen sinun on odotettava &n%time%"
+  daily-name: "Päivittäinen Palkinto"
+  daily-title: "&a&lPalkinnot"
+  daily-subtitle: "&7Olet kerännyt &adaily&7 palkintosi"
+  daily-collected: "&a%player% &7keräsi hänen &a&lpäivittäisen palkintonsa!"
+  daily-premium-collected: "&a%player% &7keräsi hänen &a&lpremium päivittäisen palkintonsa!"
+  daily-displayname-available: "&a&lPÄIVÄTTAINEN PALKINTO"
+  daily-premium-displayname-available: "&e&lPÄIVÄTTAINEN PALKINTO"
+  daily-available-lore:
+    - "&7Palkinto sisältää:"
+    - "&a 8x &fRautapalikka"
+    - " "
+    - "&c❌ Premium palkinto ei saatavilla"
+  daily-available-premium-lore:
+    - "&7Palkinto sisältää:"
+    - "&a 16x &fRautapalikka"
+    - "&a 3x &fKultapalikka"
+    - " "
+    - "&e✔ Premium palkinto saatavilla"
+  daily-displayname-unavailable: "&c&lPÄIVÄTTAINEN PALKINTO"
+  daily-premium-displayname-unavailable: "&4&lPÄIVÄTTAINEN PALKINTO"
+  daily-unavailable-lore:
+    - " "
+    - "&cSaatavilla: %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cSaatavilla: %cooldown%"
+  weekly-name: "Viikoittainen Palkinto"
+  weekly-title: "&e&lPalkinnot"
+  weekly-subtitle: "&7Olet kerännyt &eviikoittaisen &7palkintosi"
+  weekly-collected: "&e%player% &7keräsi hänen &e&lviikoittaisen palkintonsa!"
+  weekly-premium-collected: "&e%player% &7keräsi hänen &e&lpremium viikoittaisen palkintonsa!"
+  weekly-displayname-available: "&a&lVIIKOITTAINEN PALKINTO"
+  weekly-premium-displayname-available: "&e&lVIIKOITTAINEN PALKINTO"
+  weekly-available-lore:
+    - "&7Palkinto sisältää:"
+    - "&a 1x &fTimantti"
+    - " "
+    - "&c❌ Premium palkinto ei saatavilla"
+  weekly-available-premium-lore:
+    - "&7Palkinto sisältää:"
+    - "&a 5x &fTimantti"
+    - "&a 3x &fSmaragdi"
+    - " "
+    - "&e✔ Premium palkinto saatavilla"
+  weekly-displayname-unavailable: "&c&lVIIKOITTAINEN PALKINTO"
+  weekly-premium-displayname-unavailable: "&4&lVIIKOITTAINEN PALKINTO"
+  weekly-unavailable-lore:
+    - " "
+    - "&cSaatavilla: %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cSaatavilla: %cooldown%"
+  monthly-name: "Kuukausittainen Palkinto"
+  monthly-title: "&9&lPalkinnot"
+  monthly-subtitle: "&7Olet kerännyt &9kuukausittaisen &7palkintosi"
+  monthly-collected: "&9%player% &7on hakenut &9&lkuukausittaisen palkinnon!"
+  monthly-premium-collected: "&9%player% &7keräsi hänen &9&lpremium kuukausittaisen palkintonsa!"
+  monthly-displayname-available: "&a&lKUUKAUSITTAINEN PALKINTO"
+  monthly-premium-displayname-available: "&e&lKUUKAUSITTAINEN PALKINTO"
+  monthly-available-lore:
+    - "&7Palkinto sisältää:"
+    - "&a  8x &fTimantti"
+    - "&a 32x &fRautapalikka"
+    - "&a 16x &fKultapalikka"
+    - " "
+    - "&c❌ Premium palkinto ei saatavilla"
+  monthly-available-premium-lore:
+    - "&7Palkinto sisältää:"
+    - "&a  1x &fNether Star"
+    - "&a 16x &fTimantti"
+    - "&a 64x &fRautapalikka"
+    - "&a 32x &fKultapalikka"
+    - " "
+    - "&e✔ Premium palkinto aktivoitu"
+  monthly-displayname-unavailable: "&c&lKUUKAUSITTAINEN PALKINTO"
+  monthly-premium-displayname-unavailable: "&4&lKUUKAUSITTAINEN PALKINTO"
+  monthly-unavailable-lore:
+    - " "
+    - "&cSaatavilla: %cooldown%"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cSaatavilla: %cooldown%"

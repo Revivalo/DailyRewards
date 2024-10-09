@@ -1,0 +1,178 @@
+#
+# From 1.16 version you can also use HEX colors.
+# Instead of &f format use <#ffffff>
+# and for gradient: <#ffffff>Text where will be applied gradient</#000000>
+#
+# Everything about the models and colouring can be found at https://revivalo.gitbook.io/ultimaterewards/colors-and-models
+#
+lang:
+  prefix: "&e[&6&lDailyRewards&e]"
+  auto-claim-notification:
+    - " "
+    - "&a ✔ &f%rewards% recompensă/recompense a fost auto-pretinsă cu succes!"
+    - " "
+  unclaimed-rewards-notification-hover-text: "&2Click pentru a obține recompensele!"
+  reward-reset: "&e%prefix% &fAi resetat &e%type%&f recompensele unui jucător &e%player%"
+  unavailable-player: "%prefix% &cJucătorul nu este disponibil!"
+  unavailable-setting: "%prefix% &cAceastă setare nu există!"
+  reward-disabled: "%prefix% &cRecompensa nu poate fi obținută!"
+  permission-msg: "%prefix% &cNu ai permisiunea de a efectua această acțiune."
+  rewards-are-not-set: "%prefix% &cRecompensele nu sunt setate!"
+  reload-msg: "&e%prefix% &fPluginul a fost reîncărcat cu succes"
+  incomplete-reward-reset: "%prefix% &cSpecifica ce vrei să resetezi (zilnic/weekly/lunar/tot)"
+  full-inventory-message: "%prefix% &cNu poți obține recompensele, inventarul tău este plin!"
+  claiming-in-disabled-world: "%prefix% &cNu poți obține recompense în lumea %world%"
+  not-enough-required-time-to-claim: "%prefix% &cTrebuie să petreci cel puțin %requiredMinutes% minute pe server înainte de a putea colecta recompense (%minutes% minute rămase)"
+  command-usage: "%prefix% &cUtilizare validă: %usage%"
+  available: "&a&lDisponibil"
+  loading: "&bSe încarcă..."
+  back: "&cÎnapoi"
+  help-message:
+    - "&fListă cu toate comenzile disponibile:"
+    - "&f/rewards &7- Meniul principal"
+    - "&f/reward claim <reward>&7- Obține o anumită recompensă"
+    - "&f/reward reset <player> <daily|weekly|monthly|all>"
+    - "&f/reward import - &7Importă datele din fișier în baza de date"
+    - "&f/reward reload &7- Reîncărcați secțiunea de configurare"
+    - "&f/reward settings &7- Deschide meniul de setări"
+    - "&f/reward toggle <setting> &7- Comută o anumită setare"
+  #
+  # Settings
+  #
+  settings-title: "Setări"
+  settings-display-name: "&eSetări"
+  setting-enabled: "%prefix% &aAi activat %setting%!"
+  setting-disabled: "%prefix% &cAi dezactivat %setting%!"
+  auto-claim-failed: "%prefix% &cUnele recompense nu au putut fi auto-pretinse, treci cu mouse-ul pentru detalii."
+  auto-claim-failed-hover-text-list-format: "%reward% - %reason%"
+  auto-claim-failed-hover-text: "&cUrmătoarele recompense nu pot fi auto-pretinse: %format%"
+  join-auto-claim-notification:
+    - " "
+    - "&a ✔ Următoarele recompense au fost auto-pretinse: &f%listOfRewards%"
+    - " "
+  join-notification-setting-name: "Notificare la alăturare"
+  join-auto-claim-setting-name: "Auto-pretindere la alăturare"
+  no-permission-setting-display-name: "&c&l%settingType%"
+  no-permission-setting-lore:
+    - "&cNu poți comuta acest tip de setare!"
+    - "&cPermisiune lipsă: %permission%"
+  join-notification-display-name: "&aNotificare la alăturare"
+  join-notification-enabled-lore:
+    - "&7Te notifică la alăturare"
+    - "&7dacă ai recompense necolectate"
+    - " "
+    - "&c► Click pentru a dezactiva"
+  join-notification-disabled-lore:
+    - "&7Te notifică la alăturare"
+    - "&7dacă ai recompense necolectate"
+    - " "
+    - "&a► Click pentru a activa"
+  auto-claim-display-name: "&aAuto-pretindere la alăturare"
+  auto-claim-enabled-lore:
+    - "&7Va pretinde automat"
+    - "&7toate recompensele disponibile la alăturare"
+    - " "
+    - "&c► Click pentru a dezactiva"
+  auto-claim-disabled-lore:
+    - "&7Va pretinde automat"
+    - "&7toate recompensele disponibile la alăturare"
+    - " "
+    - "&a► Click pentru a activa"
+
+  located-in-restricted-world: "Recompensa nu este disponibilă în lumea curentă"
+  insufficient-play-time: "Timp de joc insuficient pentru a pretinde"
+  insufficient-permissions: "Permisiuni insuficiente"
+  not-enough-free-inventory-slots: "Nu sunt suficiente sloturi libere în inventar"
+  unavailable-reward: "Recompensa nu este disponibilă"
+  #
+  # Rewards menu
+  #
+  menu-title: "Recompense"
+  join-hover-message: "&7Click pentru a colecta recompensele tale"
+  join-notification:
+    - ' '
+    - '&2 Hey %player%, &a%rewards% recompensă/recompense te așteaptă! &f(Clic aici)'
+    - ' '
+  cooldown-message: "%prefix% &cPentru &l%type% &crecompensă trebuie să aștepți &n%time%"
+  daily-name: "Recompensă zilnică"
+  daily-title: "&a&lRecompense"
+  daily-subtitle: "&7Ai colectat recompensă ta &azilnică&7"
+  daily-collected: "&a%player% &7a colectat recompensă sa &a&lizilnică!"
+  daily-premium-collected: "&a%player% &7a colectat recompensă sa &a&lpremium zilnică!"
+  daily-displayname-available: "&a&lRECOMPENSĂ ZILNICĂ"
+  daily-premium-displayname-available: "&e&lRECOMPENSĂ ZILNICĂ"
+  daily-available-lore:
+    - "&7Recompensa conține:"
+    - "&a 8x &fLingou de Fier"
+    - " "
+    - "&c❌ Recompensă premium indisponibilă"
+  daily-available-premium-lore:
+    - "&7Recompensa conține:"
+    - "&a 16x &fLingou de Fier"
+    - "&a  3x &fLingou de Aur"
+    - " "
+    - "&e✔ Recompensă premium disponibilă"
+  daily-displayname-unavailable: "&c&lRECOMPENSĂ ZILNICĂ"
+  daily-premium-displayname-unavailable: "&4&lRECOMPENSĂ ZILNICĂ"
+  daily-unavailable-lore:
+    - " "
+    - "&cDisponibil în: %cooldown%"
+  daily-unavailable-premium-lore:
+    - " "
+    - "&cDisponibil în: %cooldown%"
+  weekly-name: "Recompensă săptămânală"
+  weekly-title: "&e&lRecompense"
+  weekly-subtitle: "&7Ai colectat recompensă ta &esăptămânală&7"
+  weekly-collected: "&e%player% &7a colectat recompensă sa &e&lsăptămânală!"
+  weekly-premium-collected: "&e%player% &7a colectat recompensă sa &e&lpremium săptămânală!"
+  weekly-displayname-available: "&a&lRECOMPENSĂ SĂPTĂMÂNALĂ"
+  weekly-premium-displayname-available: "&e&lRECOMPENSĂ SĂPTĂMÂNALĂ"
+  weekly-available-lore:
+    - "&7Recompensa conține:"
+    - "&a 1x &fDiamant"
+    - " "
+    - "&c❌ Recompensă premium indisponibilă"
+  weekly-available-premium-lore:
+    - "&7Recompensa conține:"
+    - "&a 5x &fDiamant"
+    - "&a 3x &fEmerald"
+    - " "
+    - "&e✔ Recompensă premium disponibilă"
+  weekly-displayname-unavailable: "&c&lRECOMPENSĂ SĂPTĂMÂNALĂ"
+  weekly-premium-displayname-unavailable: "&4&lRECOMPENSĂ SĂPTĂMÂNALĂ"
+  weekly-unavailable-lore:
+    - " "
+    - "&cDisponibil în: %cooldown%"
+  weekly-unavailable-premium-lore:
+    - " "
+    - "&cDisponibil în: %cooldown%"
+  monthly-name: "Recompensă lunară"
+  monthly-title: "&9&lRecompense"
+  monthly-subtitle: "&7Ai colectat recompensă ta &9lunară&7"
+  monthly-collected: "&9%player% &7a revendicat &9&lrecompensă lunară!"
+  monthly-premium-collected: "&9%player% &7a colectat recompensă sa &9&lpremium lunară!"
+  monthly-displayname-available: "&a&lRECOMPENSĂ LUNARĂ"
+  monthly-premium-displayname-available: "&e&lRECOMPENSĂ LUNARĂ"
+  monthly-available-lore:
+    - "&7Recompensa conține:"
+    - "&a  8x &fDiamant"
+    - "&a 32x &fLingou de Fier"
+    - "&a 16x &fLingou de Aur"
+    - " "
+    - "&c❌ Recompensă premium indisponibilă"
+  monthly-available-premium-lore:
+    - "&7Recompensa conține:"
+    - "&a  1x &fStea Nether"
+    - "&a 16x &fDiamant"
+    - "&a 64x &fLingou de Fier"
+    - "&a 32x &fLingou de Aur"
+    - " "
+    - "&e✔ Recompensă premium activată"
+  monthly-displayname-unavailable: "&c&lRECOMPENSĂ LUNARĂ"
+  monthly-premium-displayname-unavailable: "&4&lRECOMPENSĂ LUNARĂ"
+  monthly-unavailable-lore:
+    - " "
+    - "&cDisponibil în: %cooldown%"
+  monthly-unavailable-premium-lore:
+    - " "
+    - "&cDisponibil în: %cooldown%"

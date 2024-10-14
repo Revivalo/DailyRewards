@@ -9,26 +9,18 @@
 #                                      by Athelion Development
 #
 #
-#  Upgrade to the ULTIMATE edition and create your own rewards without limitations.
-#  More at: https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-3.108055/
+#  UPGRADE TO THE ULTIMATE EDITION AND UNLOCK UNLIMITED REWARD POSSIBILITIES!
+#  CREATE CUSTOM REWARDS WITHOUT ANY LIMITATIONS AND ELEVATE YOUR SERVER EXPERIENCE!
+#  DISCOVER MORE AT: https://www.spigotmc.org/resources/%E2%9C%A8-ultimaterewards-create-a-whole-network-reward-system-with-ease-1-8-1-19-3.108055/
+#
 #
 # If you have some questions, join https://discord.gg/TfUC8uJ for help
 #
-# You can use your own textured item models with following format:
-# CustomModel[<itemName>]{<ID>}
-# Example: daily-available-item: CustomModel[PAPER]{1010}
+# All about models & colors can be found here: https://revivalo.gitbook.io/ultimaterewards/colors-and-models
 #
-# Plugin also supports Oraxen's & ItemsAdder's custom
-# items, simply put the item's name from Oraxen's config
-# Example: daily-available-item: "storm_sword"
-#
-# You can also use textured head with base64 value
-# instead the item type in configuration
-# Example: daily-available-item: "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjk5NjMzNzhmZmViZWM0MjBmNGM4YTU4YWQ2OTZhMTUxOGQ1N2VjNTZmOTA2OWU1YzkyMGQ2M2Q1ZWU0ZWZmMyJ9fX0="
-#
-# NOTE THAT ITEM & SOUND NAMES ARE SLIGHTLY DIFFERENT BETWEEN >1.12 & 1.13< VERSIONS!
-# SO MAKE SURE YOU ARE USING VALID ITEM NAMES (DEFAULT ONE ARE USED FROM 1.13+ VERSIONS)
-# OTHERWISE WILL BE REPLACED BY STONE IF INVALID NAME IS IN USE.
+# Note that item & sound names are slightly different between >1.12 & 1.13< versions!
+# So make sure you are using valid item names (default one are used from 1.13+ versions)
+# otherwise will be replaced by stone if invalid name is in use.
 #
 config:
   #
@@ -59,6 +51,8 @@ config:
   # Global settings section
   #
 
+  # All available languages can be found in lang folder
+  # Not that it's case-sensitive
   language: English
 
   update-checker: true
@@ -90,7 +84,7 @@ config:
     - "disabledworld2"
   #
   #
-  # SETTINGS MENU
+  # Settings menu section
   #
   #
   settings-menu-size: 45

@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cHráč není dostupný!"
   unavailable-setting: "%prefix% &cToto nastavení neexistuje!"
   reward-disabled: "%prefix% &cOdměnu nelze získat!"
-  permission-msg: "%prefix% &cNemáte oprávnění provést tuto akci."
+  insufficient-permission: "%prefix% &cK této akci je zapotřebí %permission% permise!"
   rewards-are-not-set: "%prefix% &cOdměny nejsou nastaveny!"
   reload-msg: "&e%prefix% &fPlugin byl úspěšně znovu načten"
   incomplete-reward-reset: "%prefix% &cUveďte, co přesně chcete resetovat (denní/týdenní/měsíční/vše)"

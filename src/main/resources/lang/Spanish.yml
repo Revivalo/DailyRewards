@@ -16,7 +16,7 @@ lang:
   unavailable-player: '%prefix% &cJugador &n%player%&c no esta disponible'
   unavailable-setting: '%prefix% &cEsta configuración no existe!'
   reward-disabled: '%prefix% &cNo se puede obtener la recompensa!'
-  permission-msg: '%prefix% &cNo puedes usar este comando'
+  insufficient-permission: "%prefix% &c¡Necesitas %permission% para esta acción!"
   rewards-are-not-set: '%prefix% &cRecompensas no establecidas'
   reload-msg: '&e%prefix% &fEl plugin ha sido recargado con éxito'
   incomplete-reward-reset: '&c%prefix% Especifica lo que quieres reiniciar específicamente (daily/weekly/monthly/all)'

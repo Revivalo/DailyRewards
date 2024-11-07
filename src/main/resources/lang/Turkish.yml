@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cOyuncu mevcut değil!"
   unavailable-setting: "%prefix% &cBu ayar mevcut değil!"
   reward-disabled: "%prefix% &cÖdül alınamıyor!"
-  permission-msg: "%prefix% &cBu işlemi yapma izniniz yok."
+  insufficient-permission: "%prefix% &cBu işlem için %permission% almanız gerekiyor!"
   rewards-are-not-set: "%prefix% &cÖdüller ayarlanmadı!"
   reload-msg: "&e%prefix% &fEklenti başarıyla yeniden yüklendi"
   incomplete-reward-reset: "%prefix% &cTam olarak neyi sıfırlamak istediğinizi belirtin (günlük/haftalık/aylık/tümü)"

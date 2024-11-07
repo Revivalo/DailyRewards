@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cSpieler ist nicht verfügbar!"
   unavailable-setting: "%prefix% &cDiese Einstellung existiert nicht!"
   reward-disabled: "%prefix% &cBelohnung kann nicht beansprucht werden!"
-  permission-msg: "%prefix% &cSie haben keine Berechtigung, diese Aktion auszuführen."
+  insufficient-permission: "%prefix% &cDu brauchst %permission% für diese Aktion!"
   rewards-are-not-set: "%prefix% &cBelohnungen sind nicht festgelegt!"
   reload-msg: "&e%prefix% &fPlugin wurde erfolgreich neu geladen"
   incomplete-reward-reset: "%prefix% &cGeben Sie an, was genau Sie zurücksetzen möchten (daily/weekly/monthly/all)"

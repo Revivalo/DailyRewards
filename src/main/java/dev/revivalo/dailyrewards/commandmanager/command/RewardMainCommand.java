@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class RewardMainCommand extends MainCommand {
     public RewardMainCommand() {
-        super(Lang.PERMISSION_MSG, new StartingWithStringArgumentMatcher());
+        super(Lang.INSUFFICIENT_PERMISSION, new StartingWithStringArgumentMatcher());
     }
 
     @Override

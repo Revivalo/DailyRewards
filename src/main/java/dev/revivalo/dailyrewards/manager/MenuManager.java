@@ -101,7 +101,8 @@ public class MenuManager implements Listener {
 
     public void openSettings(final Player player) {
         if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.SETTINGS_MENU)) {
-            player.sendMessage(Lang.PERMISSION_MSG.asColoredString(player));
+            player.sendMessage(Lang.INSUFFICIENT_PERMISSION.asColoredString(player)
+                    .replace("%permission%", PermissionUtil.Permission.SETTINGS_MENU.get()));
             return;
         }
 
@@ -198,7 +199,8 @@ public class MenuManager implements Listener {
         int slot = event.getSlot();
         if (slot == Config.JOIN_NOTIFICATION_POSITION.asInt()) {
             if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)) {
-                player.sendMessage(Lang.PERMISSION_MSG.asColoredString(player));
+                player.sendMessage(Lang.INSUFFICIENT_PERMISSION.asColoredString(player)
+                        .replace("%permission%", PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING.get()));
                 return;
             }
 
@@ -207,7 +209,7 @@ public class MenuManager implements Listener {
             DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
         } else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
             if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)) {
-                player.sendMessage(Lang.PERMISSION_MSG.asColoredString(player));
+                player.sendMessage(Lang.INSUFFICIENT_PERMISSION.asColoredString(player));
                 return;
             }
 

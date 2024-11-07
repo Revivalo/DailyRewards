@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cGracz nie jest dostępny!"
   unavailable-setting: "%prefix% &cTo ustawienie nie istnieje!"
   reward-disabled: "%prefix% &cNie można odebrać nagrody!"
-  permission-msg: "%prefix% &cNie masz uprawnień do wykonania tej akcji."
+  insufficient-permission: "%prefix% &cPotrzebujesz %permission% do wykonania tej akcji!"
   rewards-are-not-set: "%prefix% &cNagrody nie są ustawione!"
   reload-msg: "&e%prefix% &fPlugin został pomyślnie przeładowany"
   incomplete-reward-reset: "%prefix% &cOkreśl, co dokładnie chcesz zresetować (dzienna/tygodniowa/miesięczna/wszystkie)"

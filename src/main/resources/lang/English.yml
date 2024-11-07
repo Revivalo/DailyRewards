@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cPlayer is not available!"
   unavailable-setting: "%prefix% &cThis setting does not exist!"
   reward-disabled: "%prefix% &cReward cannot be obtained!"
-  permission-msg: "%prefix% &cYou are not permitted to perform this action."
+  insufficient-permission: "%prefix% &cYou need %permission% for this action!"
   rewards-are-not-set: "%prefix% &cRewards are not set!"
   reload-msg: "&e%prefix% &fPlugin was successfully reloaded"
   incomplete-reward-reset: "%prefix% &cSpecify what you specifically want to reset (daily/weekly/monthly/all)"

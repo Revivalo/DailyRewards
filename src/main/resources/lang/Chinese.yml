@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &c该玩家不存在！"
   unavailable-setting: "%prefix% &c该设置项不存在！"
   reward-disabled: "%prefix% &c无法获得该礼包！"
-  permission-msg: "%prefix% &c您没有权限执行此操作。"
+  insufficient-permission: "%prefix% &c您需要 %permission% 才能执行此操作！"
   rewards-are-not-set: "%prefix% &c尚未设置任何礼包！"
   reload-msg: "&e%prefix% &f插件已重载"
   incomplete-reward-reset: "%prefix% &c请指定您要重置的内容（daily/weekly/monthly/all）"

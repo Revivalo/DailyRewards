@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cPelaaja ei ole saatavilla!"
   unavailable-setting: "%prefix% &cTätä asetusta ei ole olemassa!"
   reward-disabled: "%prefix% &cPalkintoa ei voida hankkia!"
-  permission-msg: "%prefix% &cSinulla ei ole oikeuksia tähän toimintaan."
+  insufficient-permission: "%prefix% &cTarvitset %permission% tätä toimintoa varten!"
   rewards-are-not-set: "%prefix% &cPalkintoja ei ole asetettu!"
   reload-msg: "&e%prefix% &fLaajennus ladattiin onnistuneesti uudelleen"
   incomplete-reward-reset: "%prefix% &cMääritä mitä tarkalleen haluat nollata (päivittäinen/viikoittainen/kuukausittainen/kaikki)"

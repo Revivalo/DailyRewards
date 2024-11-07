@@ -60,7 +60,8 @@ public class ToggleCommand implements SubCommand {
             Setting setting = Setting.valueOf(args[0].toUpperCase(Locale.ENGLISH));
             final Player player = (Player) sender;
             if (!PermissionUtil.hasPermission(player, "dailyreward.settings." + setting.getTag())) {
-                player.sendMessage(Lang.PERMISSION_MSG.asColoredString());
+                player.sendMessage(Lang.INSUFFICIENT_PERMISSION.asColoredString()
+                        .replace("%permission%", "dailyreward.settings." + setting.getTag()));
                 return;
             }
             User user = UserHandler.getUser(player);

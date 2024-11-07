@@ -18,7 +18,7 @@ lang:
   unavailable-player: '%prefix% &cJogador &n%player% &cnão está disponível'
   unavailable-setting: '%prefix% &cEsta configuração não existe!'
   reward-disabled: '%prefix% &cA recompensa não pode ser obtida!'
-  permission-msg: '%prefix% &cVocê não tem permissão para usar este comando'
+  insufficient-permission: "%prefix% &cÉ necessária %permission% para esta ação!"
   rewards-are-not-set: '%prefix% &cAs recompensas não estão definidas!'
   reload-msg: '&e%prefix% &fO plug-in foi recarregado com sucesso'
   incomplete-reward-reset: '%prefix% &cEspecifique o que você deseja redefinir especificamente (diária/semanal/mensal/todas)'

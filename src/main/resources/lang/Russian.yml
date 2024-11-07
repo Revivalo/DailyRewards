@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cИгрок недоступен!"
   unavailable-setting: "%prefix% &cЭта настройка не существует!"
   reward-disabled: "%prefix% &cНаграда не может быть получена!"
-  permission-msg: "%prefix% &cУ вас нет прав для выполнения этого действия."
+  insufficient-permission: "%prefix% &cВам нужно %permission% на это действие!"
   rewards-are-not-set: "%prefix% &cНаграды не установлены!"
   reload-msg: "&e%prefix% &fПлагин был успешно перезагружен"
   incomplete-reward-reset: "%prefix% &cУкажите, что именно вы хотите сбросить (daily/weekly/monthly/all)"

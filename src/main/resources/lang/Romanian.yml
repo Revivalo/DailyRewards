@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cJucătorul nu este disponibil!"
   unavailable-setting: "%prefix% &cAceastă setare nu există!"
   reward-disabled: "%prefix% &cRecompensa nu poate fi obținută!"
-  permission-msg: "%prefix% &cNu ai permisiunea de a efectua această acțiune."
+  insufficient-permission: "%prefix% &cAveți nevoie de %permission% pentru această acțiune!!"
   rewards-are-not-set: "%prefix% &cRecompensele nu sunt setate!"
   reload-msg: "&e%prefix% &fPluginul a fost reîncărcat cu succes"
   incomplete-reward-reset: "%prefix% &cSpecifica ce vrei să resetezi (zilnic/weekly/lunar/tot)"

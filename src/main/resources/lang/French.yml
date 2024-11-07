@@ -16,7 +16,7 @@ lang:
   unavailable-player: "%prefix% &cLe joueur n'est pas disponible !"
   unavailable-setting: "%prefix% &cCe paramètre n'existe pas !"
   reward-disabled: "%prefix% &cLa récompense ne peut pas être obtenue !"
-  permission-msg: "%prefix% &cVous n'êtes pas autorisé à effectuer cette action."
+  insufficient-permission: "%prefix% &cVous avez besoin d'une %permission% pour cette action !"
   rewards-are-not-set: "%prefix% &cLes récompenses ne sont pas définies !"
   reload-msg: "&e%prefix% &fLe plugin a été rechargé avec succès"
   incomplete-reward-reset: "%prefix% &cPrécisez ce que vous souhaitez réinitialiser (daily/weekly/monthly/all)"

@@ -1,5 +1,6 @@
 package dev.revivalo.dailyrewards.commandmanager;
 
+import dev.revivalo.dailyrewards.configuration.file.Lang;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.List;
 public interface SubCommand {
     String getName();
 
-    String getDescription();
+    Lang getDescription();
 
     String getSyntax();
 

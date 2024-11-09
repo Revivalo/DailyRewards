@@ -28,14 +28,7 @@ lang:
   available: "&a&lDisponible"
   loading: '&bCargando...'
   back: '&cVolver'
-  help:
-    - '&e[&6&lRewards&e] &fLista con todos los comandos disponibles:'
-    - '&f/rewards &7- Menú principal'
-    - '&f/reward &7- Obtener recompensa diaria'
-    - '&f/reward weekly &7- Obtener recompensa semanal'
-    - '&f/reward month &7- Obtener recompensa mensual'
-    - '&f/reward reset <player> <daily|weekly|monthly|all>'
-    - '&f/reward reload &7- Recargar la sección de configuración'
+  click-to-perform: "&7Click to perform %command% command"
   claim-command-description: "Redeems stated reward"
   reset-command-description: "Resets specified reward"
   settings-command-description: "Opens settings menu"

@@ -57,6 +57,10 @@ config:
 
   update-checker: true
 
+  help-header: "&2&m---------------&f &lAVAILABLE COMMANDS&2 &m---------------"
+  help-message-format: "&2 • &a%syntax% &7- &f%description%"
+  help-footer: "&2&m------------------------------------------------"
+
   menu-size: 45
   fill-background-enabled: true
   background-item: GRAY_STAINED_GLASS_PANE
@@ -132,12 +136,13 @@ config:
   #
   daily-rewards:
     - "[console] give %player% iron_ingot 8"
+    - "[console] give %player% gold_ingot 2"
     - "[actionbar] &aClaimed daily reward!"
   # In the other hand, when player has dailyreward.daily.premium
   # this commands will be executed (same way for weekly and monthly rewards)
   daily-premium-rewards:
     - "[console] give %player% iron_ingot 16"
-    - "[console] give %player% gold_ingot 3"
+    - "[console] give %player% gold_ingot 4"
     - "[actionbar] &aClaimed daily reward!"
   #
   #
@@ -157,10 +162,11 @@ config:
   weekly-available-item: "CHEST_MINECART"
   weekly-unavailable-item: "MINECART"
   weekly-rewards:
-    - "[console] give %player% diamond 1"
+    - "[console] give %player% diamond 2"
+    - "[console] give %player% emerald 1"
   weekly-premium-rewards:
-    - "[console] give %player% diamond 5"
-    - "[console] give %player% emerald 3"
+    - "[console] give %player% diamond 4"
+    - "[console] give %player% emerald 2"
   #
   #
   # MONTHLY REWARD SECTION
@@ -183,7 +189,6 @@ config:
     - "[console] give %player% iron_ingot 32"
     - "[console] give %player% gold_ingot 16"
   monthly-premium-rewards:
-    - "[console] give %player% nether_star 1"
     - "[console] give %player% diamond 16"
     - "[console] give %player% iron_ingot 64"
     - "[console] give %player% gold_ingot 32"

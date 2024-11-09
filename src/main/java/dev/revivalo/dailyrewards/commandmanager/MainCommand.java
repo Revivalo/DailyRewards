@@ -12,7 +12,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class MainCommand implements TabExecutor {
-    protected final Set<SubCommand> subCommands = new HashSet<>();
+    protected final List<SubCommand> subCommands = new ArrayList<>();
 
     protected final Lang noPermMessage;
     protected final ArgumentMatcher argumentMatcher;
@@ -58,8 +58,9 @@ public abstract class MainCommand implements TabExecutor {
 
         SubCommand subCommand = subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(null);
 
-        if (subCommand == null)
+        if (subCommand == null) {
             return null;
+        }
 
         List<String> subCommandTB = subCommand.getTabCompletion(sender, args.length - 2, args);
 
@@ -91,5 +92,9 @@ public abstract class MainCommand implements TabExecutor {
 
     protected SubCommand getDefaultSyntax() {
         return subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase("default")).findAny().orElse(null);
+    }
+
+    public List<SubCommand> getSubCommands() {
+        return subCommands;
     }
 }

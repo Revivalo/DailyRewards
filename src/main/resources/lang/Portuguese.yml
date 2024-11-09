@@ -31,15 +31,7 @@ lang:
   available: '&a&lDisponível'
   loading: '&bCarregando...'
   back: '&cVoltar'
-  help-message:
-    - '&f&lLista de todos os comandos disponíveis:'
-    - '&f/rewards &7- Menu Principal'
-    - '&f/reward claim <reward>&7- Obtém certa recompensa'
-    - '&f/reward reset <player> <daily|weekly|monthly|all>'
-    - '&f/reward import - &7Importa dados de arquivo para banco de dados'
-    - '&f/reward reload &7- Recarrega a seção de configuração'
-    - '&f/reward settings &7- Abre o menu de configurações'
-    - '&f/reward toggle <setting> &7- Alterna certas configurações'
+  click-to-perform: "&7Click to perform %command% command"
   claim-command-description: "Redeems stated reward"
   reset-command-description: "Resets specified reward"
   settings-command-description: "Opens settings menu"

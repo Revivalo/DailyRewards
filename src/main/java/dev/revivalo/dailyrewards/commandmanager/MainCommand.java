@@ -33,8 +33,10 @@ public abstract class MainCommand implements TabExecutor {
 
         SubCommand subCommand = subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase(args[0])).findAny().orElse(getDefaultSyntax());
 
-        if (subCommand == null)
+        if (subCommand == null) {
+            sender.sendMessage(Lang.UNKNOWN_COMMAND.asColoredString());
             return false;
+        }
 
         if (subCommand.getPermission() == null || sender.hasPermission(subCommand.getPermission()))
             subCommand.perform(sender, Arrays.copyOfRange(args, 1, args.length));

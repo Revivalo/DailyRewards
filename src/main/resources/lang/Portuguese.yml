@@ -9,6 +9,7 @@
 #
 lang:
   prefix: '&e[&6&lDailyRewards&e]'
+  unknown-command: "%prefix% &4Unknown command, use /rw help to list all available commands"
   auto-claim-notification:
     - ' '
     - '&a ✔ &f%rewards% recompensa(s) foram reivindicadas automaticamente com sucesso!'

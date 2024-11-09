@@ -36,6 +36,13 @@ lang:
     - "&f/reward reload &7- Konfigürasyon bölümünü yeniden yükler"
     - "&f/reward settings &7- Ayarlar menüsünü açar"
     - "&f/reward toggle <ayar> &7- Belirli bir ayarı değiştirir"
+  claim-command-description: "Redeems stated reward"
+  reset-command-description: "Resets specified reward"
+  settings-command-description: "Opens settings menu"
+  toggle-command-description: "Toggles certain setting"
+  reload-command-description: "Reloads plugin's configuration"
+  import-command-description: "Imports all local data to database"
+  help-command-description: "Shows all available commands"
   #
   # Ayarlar
   #

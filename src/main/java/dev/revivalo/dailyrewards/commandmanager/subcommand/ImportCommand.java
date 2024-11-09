@@ -2,6 +2,7 @@ package dev.revivalo.dailyrewards.commandmanager.subcommand;
 
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
 import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.configuration.file.Lang;
 import dev.revivalo.dailyrewards.util.PermissionUtil;
 import org.bukkit.command.CommandSender;
 
@@ -14,8 +15,8 @@ public class ImportCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Imports all local data to database";
+    public Lang getDescription() {
+        return Lang.IMPORT_COMMAND_DESCRIPTION;
     }
 
     @Override

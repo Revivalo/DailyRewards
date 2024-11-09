@@ -2,6 +2,7 @@ package dev.revivalo.dailyrewards.commandmanager.subcommand;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
+import dev.revivalo.dailyrewards.configuration.file.Lang;
 import dev.revivalo.dailyrewards.util.PermissionUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -15,8 +16,8 @@ public class SettingsCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Opens a settings menu";
+    public Lang getDescription() {
+        return Lang.SETTINGS_COMMAND_DESCRIPTION;
     }
 
     @Override

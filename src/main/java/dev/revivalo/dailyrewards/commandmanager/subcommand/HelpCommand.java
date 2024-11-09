@@ -16,8 +16,8 @@ public class HelpCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Sends a list with a commands and instructions";
+    public Lang getDescription() {
+        return Lang.HELP_COMMAND_DESCRIPTION;
     }
 
     @Override

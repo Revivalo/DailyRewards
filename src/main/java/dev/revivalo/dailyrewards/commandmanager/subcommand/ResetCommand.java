@@ -22,8 +22,8 @@ public class ResetCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Resets a specified reward";
+    public Lang getDescription() {
+        return Lang.RESET_COMMAND_DESCRIPTION;
     }
 
     @Override

@@ -39,6 +39,13 @@ lang:
     - '&f/reward reload &7- Recarrega a seção de configuração'
     - '&f/reward settings &7- Abre o menu de configurações'
     - '&f/reward toggle <setting> &7- Alterna certas configurações'
+  claim-command-description: "Redeems stated reward"
+  reset-command-description: "Resets specified reward"
+  settings-command-description: "Opens settings menu"
+  toggle-command-description: "Toggles certain setting"
+  reload-command-description: "Reloads plugin's configuration"
+  import-command-description: "Imports all local data to database"
+  help-command-description: "Shows all available commands"
   #
   # Settings
   #

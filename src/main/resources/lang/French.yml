@@ -36,6 +36,14 @@ lang:
     - "&f/reward reload &7- Recharge la configuration"
     - "&f/reward settings &7- Ouvre le menu des paramètres"
     - "&f/reward toggle <paramètre> &7- Active ou désactive un paramètre spécifique"
+  click-to-perform: "&7Click to perform %command% command"
+  claim-command-description: "Redeems stated reward"
+  reset-command-description: "Resets specified reward"
+  settings-command-description: "Opens settings menu"
+  toggle-command-description: "Toggles certain setting"
+  reload-command-description: "Reloads plugin's configuration"
+  import-command-description: "Imports all local data to database"
+  help-command-description: "Shows all available commands"
   #
   # Paramètres
   #

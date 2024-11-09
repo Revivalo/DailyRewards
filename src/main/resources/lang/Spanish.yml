@@ -35,6 +35,13 @@ lang:
     - '&f/reward month &7- Obtener recompensa mensual'
     - '&f/reward reset <player> <daily|weekly|monthly|all>'
     - '&f/reward reload &7- Recargar la sección de configuración'
+  claim-command-description: "Redeems stated reward"
+  reset-command-description: "Resets specified reward"
+  settings-command-description: "Opens settings menu"
+  toggle-command-description: "Toggles certain setting"
+  reload-command-description: "Reloads plugin's configuration"
+  import-command-description: "Imports all local data to database"
+  help-command-description: "Shows all available commands"
   #
   # Settings
   #

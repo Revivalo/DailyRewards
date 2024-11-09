@@ -15,8 +15,8 @@ public class ReloadCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Reloads a plugin's configuration";
+    public Lang getDescription() {
+        return Lang.RELOAD_COMMAND_DESCRIPTION;
     }
 
     @Override

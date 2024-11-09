@@ -22,8 +22,8 @@ public class ClaimCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Claims a stated reward";
+    public Lang getDescription() {
+        return Lang.CLAIM_COMMAND_DESCRIPTION;
     }
 
     @Override

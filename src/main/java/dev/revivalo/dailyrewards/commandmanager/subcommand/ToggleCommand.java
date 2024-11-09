@@ -22,8 +22,8 @@ public class ToggleCommand implements SubCommand {
     }
 
     @Override
-    public String getDescription() {
-        return "Toggles certain setting";
+    public Lang getDescription() {
+        return Lang.TOGGLE_COMMAND_DESCRIPTION;
     }
 
     @Override

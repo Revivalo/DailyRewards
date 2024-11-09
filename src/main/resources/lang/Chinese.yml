@@ -27,15 +27,14 @@ lang:
   available: "&a&l可用"
   loading: "&b加载中..."
   back: "&c返回"
-  help:
-    - "&f所有可用命令列表："
-    - "&f/rewards &7- 主菜单"
-    - "&f/reward claim <礼包名称>&7- 领取指定礼包"
-    - "&f/reward reset <玩家> <daily|weekly|monthly|all>"
-    - "&f/reward import - &7将文件数据导入数据库"
-    - "&f/reward reload &7- 重载插件"
-    - "&f/reward settings &7- 打开设置菜单"
-    - "&f/reward toggle <设置> &7- 切换特定设置"
+  click-to-perform: "&7点击执行 %command% 命令"
+  claim-command-description: "兑换指定奖励"
+  reset-command-description: "重置指定奖励"
+  settings-command-description: "打开设置菜单"
+  toggle-command-description: "切换某些设置"
+  reload-command-description: "重新加载插件配置"
+  import-command-description: "将所有本地数据导入数据库"
+  help-command-description: "显示所有可用命令"
   #
   # 设置
   #

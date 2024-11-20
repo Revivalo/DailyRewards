@@ -30,6 +30,11 @@ public class ItemBuilder {
             return this;
         }
 
+        public ItemBuilderBuilder setItemFlags(ItemFlag... itemFlags) {
+            this.meta.addItemFlags(itemFlags);
+            return this;
+        }
+
         public ItemBuilderBuilder setGlow(final boolean glow) {
             if (glow) {
                 Objects.requireNonNull(this.meta).addEnchant(Enchantment.LURE, 1, false);

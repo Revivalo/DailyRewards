@@ -20,6 +20,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
@@ -118,7 +119,10 @@ public class MenuManager implements Listener {
 
         final User user = UserHandler.getUser(player.getUniqueId());
 
-        settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem()).setName(Lang.BACK.asColoredString(player)).build());
+        settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem())
+                .setItemFlags(ItemFlag.values())
+                .setName(Lang.BACK.asColoredString(player))
+                .build());
 
         settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(
                         PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
@@ -130,6 +134,7 @@ public class MenuManager implements Listener {
                                 : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString(player))
                 )
                 .setGlow(PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING) && user.hasSettingEnabled(Setting.JOIN_NOTIFICATION))
+                .setItemFlags(ItemFlag.values())
                 .setLore(
                         PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
                                 ? user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)
@@ -149,6 +154,7 @@ public class MenuManager implements Listener {
                         ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString(player)
                         : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString(player)))
                 .setGlow(PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING) && user.hasSettingEnabled(Setting.AUTO_CLAIM))
+                .setItemFlags(ItemFlag.values())
                 .setLore(
                         PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
                                 ? user.hasSettingEnabled(Setting.AUTO_CLAIM)
@@ -227,6 +233,7 @@ public class MenuManager implements Listener {
         if (backgroundItemBuilder.getType() != Material.AIR) {
             backgroundItemBuilder.setName(" ");
         }
+
         backgroundItem = backgroundItemBuilder.build();
     }
 

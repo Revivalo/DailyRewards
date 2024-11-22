@@ -3,7 +3,7 @@
 # Вместо формата &f используйте <#ffffff>
 # и для градиента: <#ffffff>Текст, к которому будет применен градиент</#000000>
 #
-# Everything about the models and colouring can be found at https://revivalo.gitbook.io/ultimaterewards/colors-and-models
+# Everything about the models and colouring can be found at https://ultimaterewards.athelion.eu/colors-and-models
 #
 lang:
   prefix: "&e[&6&lDailyRewards&e]"

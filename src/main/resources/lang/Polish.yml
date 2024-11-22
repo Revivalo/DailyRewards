@@ -3,7 +3,7 @@
 # Zamiast formatu &f użyj <#ffffff>
 # a dla gradientu: <#ffffff>Tekst, na który zostanie zastosowany gradient</#000000>
 #
-# Everything about the models and colouring can be found at https://revivalo.gitbook.io/ultimaterewards/colors-and-models
+# Everything about the models and colouring can be found at https://ultimaterewards.athelion.eu/colors-and-models
 #
 lang:
   prefix: "&e[&6&lDailyRewards&e]"

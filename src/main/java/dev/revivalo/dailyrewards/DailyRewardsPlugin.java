@@ -5,6 +5,7 @@ import dev.revivalo.dailyrewards.commandmanager.command.RewardsMainCommand;
 import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.file.Config;
+import dev.revivalo.dailyrewards.data.ThreadedQueue;
 import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.MenuManager;
 import dev.revivalo.dailyrewards.manager.backend.MySQLManager;
@@ -14,6 +15,7 @@ import dev.revivalo.dailyrewards.user.User;
 import dev.revivalo.dailyrewards.user.UserHandler;
 import dev.revivalo.dailyrewards.util.VersionUtil;
 import io.github.g00fy2.versioncompare.Version;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.event.Listener;
@@ -32,12 +34,10 @@ import java.util.concurrent.CompletionException;
 import java.util.logging.Level;
 
 public final class DailyRewardsPlugin extends JavaPlugin {
-    /*
-
-     */
     private final int RESOURCE_ID = 81780;
 
     private static DailyRewardsPlugin plugin;
+    private static ThreadedQueue queryQueue;
     private static String latestVersion;
 
     private static ConsoleCommandSender console;
@@ -54,6 +54,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         setPlugin(this);
+        queryQueue = new ThreadedQueue();
 
         setConsole(get().getServer().getConsoleSender());
         setPluginManager(getServer().getPluginManager());

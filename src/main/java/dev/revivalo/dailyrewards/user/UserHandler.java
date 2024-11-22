@@ -2,7 +2,7 @@ package dev.revivalo.dailyrewards.user;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import dev.revivalo.dailyrewards.api.event.ReminderReceiveEvent;
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.manager.reward.task.JoinNotificationTask;
@@ -55,13 +55,7 @@ public final class UserHandler implements Listener {
     }
 
     public static User removeUser(final UUID uuid) {
-        final User user = usersHashMap.remove(uuid);
-
-        if (user != null) {
-            DataManager.updateValues(uuid, user, user.getData());
-        }
-
-        return user;
+        return usersHashMap.remove(uuid);
     }
 
     @EventHandler(priority = EventPriority.HIGH)

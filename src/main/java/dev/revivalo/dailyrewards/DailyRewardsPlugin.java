@@ -2,8 +2,8 @@ package dev.revivalo.dailyrewards;
 
 import dev.revivalo.dailyrewards.commandmanager.command.RewardMainCommand;
 import dev.revivalo.dailyrewards.commandmanager.command.RewardsMainCommand;
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
-import dev.revivalo.dailyrewards.configuration.data.PlayerData;
+import dev.revivalo.dailyrewards.data.DataManager;
+import dev.revivalo.dailyrewards.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.MenuManager;
@@ -130,6 +130,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         PlayerData.removeConfigs();
+        queryQueue.shutdown();
     }
 
     private void copyResource(String resourcePath) {
@@ -199,8 +200,16 @@ public final class DailyRewardsPlugin extends JavaPlugin {
         return getServer().getScheduler();
     }
 
+    public static boolean isWithinMainThread() {
+        return Bukkit.isPrimaryThread();
+    }
+
     public static void setPlugin(DailyRewardsPlugin plugin) {
         DailyRewardsPlugin.plugin = plugin;
+    }
+
+    public static ThreadedQueue getQueryQueue() {
+        return queryQueue;
     }
 
     public static String getLatestVersion() {

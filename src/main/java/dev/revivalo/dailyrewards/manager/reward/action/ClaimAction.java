@@ -108,11 +108,11 @@ public class ClaimAction implements RewardAction<RewardType> {
                         reward.getName(),
                         TextUtil.findAndReturnActions(rewardActions)
                 );
-
-                //rewardCommands.forEach(command -> Bukkit.dispatchCommand(DailyRewardsPlugin.getConsole(), command));
             }
 
-            CooldownManager.setCooldown(user, reward);
+            DailyRewardsPlugin.getQueryQueue().enqueue(() -> {
+                CooldownManager.setCooldown(user, reward);
+            });
 
             if (announce) {
                 PlayerUtil.playSound(player, reward.getSound());

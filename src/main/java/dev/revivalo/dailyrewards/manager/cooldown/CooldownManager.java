@@ -1,6 +1,6 @@
 package dev.revivalo.dailyrewards.manager.cooldown;
 
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.manager.reward.Reward;
 import dev.revivalo.dailyrewards.user.User;
 

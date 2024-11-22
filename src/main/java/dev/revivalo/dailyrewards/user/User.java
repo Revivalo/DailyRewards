@@ -1,6 +1,7 @@
 package dev.revivalo.dailyrewards.user;
 
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.DailyRewardsPlugin;
+import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.manager.Setting;
 import dev.revivalo.dailyrewards.manager.cooldown.Cooldown;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
@@ -45,13 +46,16 @@ public class User {
      */
     public boolean toggleSetting(Setting setting, boolean set) {
         data.put(setting.getTag(), set ? "1" : "0");
-        DataManager.updateValues(
-                player.getUniqueId(),
-                this,
-                new HashMap<String, Object>() {{
-                    put(setting.getTag(), hasSettingEnabled(setting) ? 1L : 0);
-                }}
-        );
+
+        DailyRewardsPlugin.getQueryQueue().enqueue(() -> {
+            DataManager.updateValues(
+                    player.getUniqueId(),
+                    this,
+                    new HashMap<String, Object>() {{
+                        put(setting.getTag(), hasSettingEnabled(setting) ? 1L : 0);
+                    }}
+            );
+        });
 
         return set;
     }

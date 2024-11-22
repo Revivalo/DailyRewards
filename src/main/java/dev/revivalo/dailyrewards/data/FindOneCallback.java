@@ -1,4 +1,4 @@
-package dev.revivalo.dailyrewards.configuration.data;
+package dev.revivalo.dailyrewards.data;
 
 import java.util.Map;
 

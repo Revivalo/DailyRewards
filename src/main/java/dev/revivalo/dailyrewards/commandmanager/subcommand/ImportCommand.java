@@ -1,7 +1,7 @@
 package dev.revivalo.dailyrewards.commandmanager.subcommand;
 
 import dev.revivalo.dailyrewards.commandmanager.SubCommand;
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
 import dev.revivalo.dailyrewards.util.PermissionUtil;
 import org.bukkit.command.CommandSender;

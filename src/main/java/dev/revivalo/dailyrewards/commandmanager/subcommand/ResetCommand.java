@@ -55,9 +55,9 @@ public class ResetCommand implements SubCommand {
         }
 
         final String playerName = args[0];
-        PlayerUtil.getOfflinePlayer(playerName).thenAccept(
-                offlinePlayer ->
-                        new ResetAction(sender).preCheck(offlinePlayer, args[1])
-        );
+
+        DailyRewardsPlugin.getQueryQueue().enqueue(() -> {
+                            new ResetAction(sender).preCheck(DailyRewardsPlugin.get().getServer().getOfflinePlayer(playerName), args[1]);
+        });
     }
 }

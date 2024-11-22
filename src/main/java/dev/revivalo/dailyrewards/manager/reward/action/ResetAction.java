@@ -1,6 +1,6 @@
 package dev.revivalo.dailyrewards.manager.reward.action;
 
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.file.Lang;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.manager.reward.action.checker.Checker;

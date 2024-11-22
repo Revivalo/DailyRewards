@@ -3,7 +3,7 @@ package dev.revivalo.dailyrewards.manager.backend;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
-import dev.revivalo.dailyrewards.configuration.data.DataManager;
+import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.configuration.file.Config;
 import dev.revivalo.dailyrewards.manager.reward.RewardType;
 import dev.revivalo.dailyrewards.user.UserHandler;
@@ -139,6 +139,11 @@ public class MySQLManager {
 	}
 
 	public static boolean updatePlayer(UUID uniqueId, Map<String, Object> changes) {
+		if (DailyRewardsPlugin.isWithinMainThread()) {
+			DailyRewardsPlugin.get().getLogger().warning("Action cannot be performed within main thread!");
+			return false;
+		}
+
 		Optional.ofNullable(UserHandler.getUser(uniqueId)).ifPresent(
 				user -> user.updateData(changes)
 		);
@@ -176,6 +181,11 @@ public class MySQLManager {
 	}
 
 	public static Map<String, Object> getRewardsCooldown(final UUID uuid) {
+		if (DailyRewardsPlugin.isWithinMainThread()) {
+			DailyRewardsPlugin.get().getLogger().warning("Action cannot be performed within main thread!");
+			return Collections.emptyMap();
+		}
+
 		final Map<String, Object> cooldowns = new HashMap<>();
 		try (Connection connection = getConnection()) {
 			final ResultSet resultSet = connection.prepareStatement(SELECT

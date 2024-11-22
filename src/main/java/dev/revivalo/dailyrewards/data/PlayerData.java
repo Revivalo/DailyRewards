@@ -1,4 +1,4 @@
-package dev.revivalo.dailyrewards.configuration.data;
+package dev.revivalo.dailyrewards.data;
 
 import dev.revivalo.dailyrewards.DailyRewardsPlugin;
 import org.bukkit.configuration.InvalidConfigurationException;

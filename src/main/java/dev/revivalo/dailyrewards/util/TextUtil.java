@@ -26,6 +26,7 @@ public class TextUtil {
     private static Method CHAT_COLOR_FROM_COLOR;
     private static final boolean hexSupport;
     private static final Pattern gradient = Pattern.compile("<(#[A-Za-z0-9]{6})>(.*?)</(#[A-Za-z0-9]{6})>");;
+    private static final Pattern singleHexColor = Pattern.compile("<(#[A-Za-z0-9]{6})>(.*?)");
     private static final Pattern legacyGradient = Pattern.compile("<(&[A-Za-z0-9])>(.*?)</(&[A-Za-z0-9])>");;
     private static final Pattern rgb = Pattern.compile("&\\{(#......)}");;
 
@@ -61,6 +62,8 @@ public class TextUtil {
         Matcher g = gradient.matcher(text);
         Matcher l = legacyGradient.matcher(text);
         Matcher r = rgb.matcher(text);
+        Matcher s = singleHexColor.matcher(text); // Matcher pro nový vzor
+
         while (g.find()) {
             Color start = Color.decode(g.group(1));
             String between = g.group(2);
@@ -87,6 +90,17 @@ public class TextUtil {
                 text = text.replace(r.group(0), "");
             }
         }
+        while (s.find()) {
+            Color color = Color.decode(s.group(1));
+            String content = s.group(2);
+            if (hexSupport) {
+                ChatColor chatColor = fromColor(color);
+                text = text.replace(s.group(0), chatColor + content);
+            } else {
+                text = text.replace(s.group(0), content);
+            }
+        }
+
         return ChatColor.translateAlternateColorCodes(colorSymbol, text);
     }
 

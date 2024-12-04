@@ -6,7 +6,6 @@ import dev.revivalo.dailyrewards.configuration.file.Lang;
 import dev.revivalo.dailyrewards.manager.reward.Reward;
 import dev.revivalo.dailyrewards.manager.reward.action.ResetAction;
 import dev.revivalo.dailyrewards.util.PermissionUtil;
-import dev.revivalo.dailyrewards.util.PlayerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.HumanEntity;
@@ -56,8 +55,6 @@ public class ResetCommand implements SubCommand {
 
         final String playerName = args[0];
 
-        DailyRewardsPlugin.getQueryQueue().enqueue(() -> {
-                            new ResetAction(sender).preCheck(DailyRewardsPlugin.get().getServer().getOfflinePlayer(playerName), args[1]);
-        });
+        DailyRewardsPlugin.get().runAsync(() -> new ResetAction(sender).preCheck(DailyRewardsPlugin.get().getServer().getOfflinePlayer(playerName), args[1]));
     }
 }

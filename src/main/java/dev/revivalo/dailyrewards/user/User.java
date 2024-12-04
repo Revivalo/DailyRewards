@@ -47,7 +47,7 @@ public class User {
     public boolean toggleSetting(Setting setting, boolean set) {
         data.put(setting.getTag(), set ? "1" : "0");
 
-        DailyRewardsPlugin.getQueryQueue().enqueue(() -> {
+        DailyRewardsPlugin.get().runAsync(() -> {
             DataManager.updateValues(
                     player.getUniqueId(),
                     this,

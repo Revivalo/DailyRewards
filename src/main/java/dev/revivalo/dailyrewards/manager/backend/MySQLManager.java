@@ -234,6 +234,7 @@ public class MySQLManager {
 		if (dataSource == null) {
 			throw new SQLException("Unable to get a connection from the pool because the dataSource is null");
 		}
+
 		Connection connection = dataSource.getConnection();
 		if (connection == null) {
 			throw new SQLException("Unable to get a connection from the pool.");

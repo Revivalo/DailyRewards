@@ -110,9 +110,7 @@ public class ClaimAction implements RewardAction<RewardType> {
                 );
             }
 
-            DailyRewardsPlugin.getQueryQueue().enqueue(() -> {
-                CooldownManager.setCooldown(user, reward);
-            });
+            DailyRewardsPlugin.get().runAsync((() -> CooldownManager.setCooldown(user, reward)));
 
             if (announce) {
                 PlayerUtil.playSound(player, reward.getSound());

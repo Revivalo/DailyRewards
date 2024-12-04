@@ -5,7 +5,6 @@ import dev.revivalo.dailyrewards.commandmanager.command.RewardsMainCommand;
 import dev.revivalo.dailyrewards.data.DataManager;
 import dev.revivalo.dailyrewards.data.PlayerData;
 import dev.revivalo.dailyrewards.configuration.file.Config;
-import dev.revivalo.dailyrewards.data.ThreadedQueue;
 import dev.revivalo.dailyrewards.hook.HookManager;
 import dev.revivalo.dailyrewards.manager.MenuManager;
 import dev.revivalo.dailyrewards.manager.backend.MySQLManager;
@@ -28,16 +27,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
-import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
+import java.util.concurrent.*;
 import java.util.logging.Level;
 
 public final class DailyRewardsPlugin extends JavaPlugin {
     private final int RESOURCE_ID = 81780;
 
     private static DailyRewardsPlugin plugin;
-    private static ThreadedQueue queryQueue;
+    private static ExecutorService executorService;
     private static String latestVersion;
 
     private static ConsoleCommandSender console;
@@ -54,7 +51,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         setPlugin(this);
-        queryQueue = new ThreadedQueue();
+        executorService = Executors.newSingleThreadExecutor();
 
         setConsole(get().getServer().getConsoleSender());
         setPluginManager(getServer().getPluginManager());
@@ -131,7 +128,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     @Override
     public void onDisable() {
         PlayerData.removeConfigs();
-        queryQueue.shutdown();
+        executorService.shutdown();
     }
 
     private void copyResource(String resourcePath) {
@@ -179,7 +176,7 @@ public final class DailyRewardsPlugin extends JavaPlugin {
     }
 
     public void runAsync(Runnable runnable) {
-        getScheduler().runTaskAsynchronously(this, runnable);
+        executorService.submit(runnable);
     }
 
     public <T> CompletableFuture<T> completableFuture(Callable<T> callable) {
@@ -207,10 +204,6 @@ public final class DailyRewardsPlugin extends JavaPlugin {
 
     public static void setPlugin(DailyRewardsPlugin plugin) {
         DailyRewardsPlugin.plugin = plugin;
-    }
-
-    public static ThreadedQueue getQueryQueue() {
-        return queryQueue;
     }
 
     public static String getLatestVersion() {

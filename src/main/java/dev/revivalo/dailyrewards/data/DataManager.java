@@ -84,14 +84,22 @@ public class DataManager {
 			}
 
 			final long currentTimeInMillis = System.currentTimeMillis();
+			final ConfigurationSection section = playerData.getConfigurationSection("rewards");
+			final int multiplier = 60 * 60 * 1000;
 
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.DAILY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.DAILY_COOLDOWN.asLong() * 60 * 60 * 1000);
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.WEEKLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.WEEKLY_COOLDOWN.asLong() * 60 * 60 * 1000);
-			if (!playerData.getConfigurationSection("rewards").isSet(RewardType.MONTHLY.toString())) playerData.getConfigurationSection("rewards").set(RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.MONTHLY_COOLDOWN.asLong() * 60 * 60 * 1000);
-			if (!playerData.getConfigurationSection("rewards").isSet("autoClaim")) playerData.getConfigurationSection("rewards").set("autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? 1 : 0);
-			if (!playerData.getConfigurationSection("rewards").isSet("joinNotification")) playerData.getConfigurationSection("rewards").set("joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? 1 : 0);
+			setDefaultValue(section, RewardType.DAILY.toString(), Config.DAILY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.DAILY_COOLDOWN.asLong() * multiplier);
+			setDefaultValue(section, RewardType.WEEKLY.toString(), Config.WEEKLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.WEEKLY_COOLDOWN.asLong() * multiplier);
+			setDefaultValue(section, RewardType.MONTHLY.toString(), Config.MONTHLY_AVAILABLE_AFTER_FIRST_JOIN.asBoolean() ? 0 : currentTimeInMillis + Config.MONTHLY_COOLDOWN.asLong() * multiplier);
+			setDefaultValue(section, "autoClaim", Config.AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT.asBoolean() ? 1 : 0);
+			setDefaultValue(section, "joinNotification", Config.JOIN_NOTIFICATION_BY_DEFAULT.asBoolean() ? 1 : 0);
 
 			playerData.save();
+		}
+	}
+
+	private static void setDefaultValue(ConfigurationSection section, String path, long value) {
+		if (!section.isSet(path)) {
+			section.set(path, value);
 		}
 	}
 
@@ -111,8 +119,8 @@ public class DataManager {
 	}
 
 	public static void loadPlayerDataAsync(final Player player, final FindOneCallback callback) {
-		initiatePlayer(player);
-		Bukkit.getScheduler().runTaskAsynchronously(DailyRewardsPlugin.get(), () -> {
+		DailyRewardsPlugin.get().runAsync(() -> {
+			initiatePlayer(player);
 			final Map<String, Object> result = getPlayerData(player);
 			Bukkit.getScheduler().runTask(DailyRewardsPlugin.get(), () -> callback.onQueryDone(result));
 		});

@@ -26,7 +26,7 @@ public class PlayerUtil {
         } catch (IllegalArgumentException | NullPointerException ex){
             soundToPlay = VersionUtil.isOldVersion() ? Sound.valueOf("NOTE_PLING") : VersionUtil.isLegacyVersion() ? Sound.valueOf("BLOCK_NOTE_PLING") : Sound.valueOf("BLOCK_NOTE_BLOCK_HARP");
         }
-        player.playSound(player.getLocation(), soundToPlay, 2f, 2f);
+        player.playSound(player.getLocation(), soundToPlay, 1f, 1f);
     }
 
     public static CompletableFuture<OfflinePlayer> getOfflinePlayer(final UUID uuid) {

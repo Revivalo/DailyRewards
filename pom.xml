@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>dev.revivalo</groupId>
+    <groupId>eu.athelion</groupId>
     <artifactId>DailyReward</artifactId>
     <version>2.8.0</version>
     <packaging>jar</packaging>
@@ -37,27 +37,27 @@
                     <relocations>
                         <relocation>
                             <pattern>org.bstats</pattern>
-                            <shadedPattern>dev.revivalo.dailyrewards.shaded.bstats</shadedPattern>
+                            <shadedPattern>eu.athelion.dailyrewards.shaded.bstats</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.zaxxer.hikari</pattern>
-                            <shadedPattern>dev.revivalo.dailyrewards.shaded.hikari</shadedPattern>
+                            <shadedPattern>eu.athelion.dailyrewards.shaded.hikari</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.tchristofferson</pattern>
-                            <shadedPattern>dev.revivalo.dailyrewards.shaded.configupdater</shadedPattern>
+                            <shadedPattern>eu.athelion.dailyrewards.shaded.configupdater</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>dev.dbassett</pattern>
-                            <shadedPattern>dev.revivalo.dailyrewards.shaded.skullcreator</shadedPattern>
+                            <shadedPattern>eu.athelion.dailyrewards.shaded.skullcreator</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>io.github.g00fy2</pattern>
-                            <shadedPattern>dev.revivalo.dailyrewards.shaded.versioncompare</shadedPattern>
+                            <shadedPattern>eu.athelion.dailyrewards.shaded.versioncompare</shadedPattern>
                         </relocation>
                         <relocation>
                             <pattern>com.cryptomorin.xseries</pattern>
-                            <shadedPattern>dev.revivalo.ultimaterewards.shaded.xseries</shadedPattern>
+                            <shadedPattern>eu.athelion.ultimaterewards.shaded.xseries</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

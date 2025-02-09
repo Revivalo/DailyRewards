@@ -52,7 +52,7 @@ public class ToggleCommand implements SubCommand {
         }
 
         if (args.length < 1) {
-            sender.sendMessage(Lang.COMMAND_USAGE.asColoredString());
+            sender.sendMessage(Lang.COMMAND_USAGE.asColoredString().replace("%usage%", getSyntax()));
             return;
         }
 

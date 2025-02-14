@@ -1,0 +1,184 @@
+#
+# Починаючи з версії 1.16, ви також можете використовувати HEX кольори.
+# Замість формату &f використовуйте <#ffffff>
+# Для градієнта: <#ffffff>Текст, до якого буде застосовано градієнт</#000000>
+#
+# Все про моделі та кольори можна знайти на https://ultimaterewards.athelion.eu/colors-and-models
+#
+lang:
+  prefix: '&e[&6&lDailyRewards&e]'
+  unknown-command: '%prefix% &4Невідома команда, використовуйте /rw help для списку
+    всіх доступних команд'
+  auto-claim-notification:
+    - ' '
+    - '&a ✔ &f%rewards% нагорода(и) була успішно отримана автоматично!'
+    - ' '
+  unclaimed-rewards-notification-hover-text: '&2Натисніть, щоб отримати нагороди!'
+  reward-reset: '&e%prefix% &fВи скинули &e%type%&f нагороду гравця &e%player%'
+  unavailable-player: '%prefix% &cГравець недоступний!'
+  unavailable-setting: '%prefix% &cЦього налаштування не існує!'
+  reward-disabled: '%prefix% &cНагорода не може бути отримана!'
+  insufficient-permission: '%prefix% &cВам потрібен %permission% для цієї дії!'
+  rewards-are-not-set: '%prefix% &cНагороди не встановлені!'
+  reload-msg: '&e%prefix% &fПлагін було успішно перезавантажено'
+  incomplete-reward-reset: '%prefix% &cВкажіть, що саме ви хочете скинути (daily/weekly/monthly/all)'
+  full-inventory-message: '%prefix% &cВи не можете отримати нагороду, ваш інвентар
+    заповнений!'
+  claiming-in-disabled-world: '%prefix% &cВи не можете отримати нагороди у світі %world%'
+  not-enough-required-time-to-claim: '%prefix% &cВи повинні провести на сервері щонайменше
+    %requiredMinutes% хвилин, щоб отримати нагороди (залишилось %minutes% хвилин)'
+  command-usage: '%prefix% &cПравильне використання: %usage%'
+  available: '&a&lДоступно'
+  loading: '&bЗавантаження...'
+  back: '&cНазад'
+  click-to-perform: '&7Натисніть, щоб виконати команду %command%'
+  claim-command-description: Отримує зазначену нагороду
+  reset-command-description: Скидає зазначену нагороду
+  settings-command-description: Відкриває меню налаштувань
+  toggle-command-description: Перемикає певне налаштування
+  reload-command-description: Перезавантажує конфігурацію плагіна
+  import-command-description: Імпортує всі локальні дані до бази даних
+  help-command-description: Показує всі доступні команди
+  #
+  # Налаштування
+  #
+  settings-title: Налаштування
+  settings-display-name: '&eНалаштування'
+  setting-enabled: '%prefix% &aВи увімкнули %setting%!'
+  setting-disabled: '%prefix% &cВи вимкнули %setting%!'
+  auto-claim-failed: '%prefix% &cДеякі нагороди не можуть бути отримані автоматично,
+    наведіть вказівник миші для деталей.'
+  auto-claim-failed-hover-text-list-format: '%reward% - %reason%'
+  auto-claim-failed-hover-text: '&cНаступні нагороди не можуть бути отримані автоматично:
+    %format%'
+  join-auto-claim-notification:
+    - ' '
+    - '&a ✔ Наступні нагороди були автоматично отримані: &f%listOfRewards%'
+    - ' '
+  join-notification-setting-name: Повідомлення при вході
+  join-auto-claim-setting-name: Автоматичне отримання при вході
+  no-permission-setting-display-name: '&c&l%settingType%'
+  no-permission-setting-lore:
+    - '&cВи не можете змінити це налаштування!'
+    - '&cВідсутній дозвіл: %permission%'
+  join-notification-display-name: '&aПовідомлення при вході'
+  join-notification-enabled-lore:
+    - '&7Сповіщає вас при вході'
+    - '&7якщо у вас є неотримані нагороди'
+    - ' '
+    - '&c► Натисніть, щоб вимкнути'
+  join-notification-disabled-lore:
+    - '&7Сповіщає вас при вході'
+    - '&7якщо у вас є неотримані нагороди'
+    - ' '
+    - '&a► Натисніть, щоб увімкнути'
+  auto-claim-display-name: '&aАвтоматичне отримання при вході'
+  auto-claim-enabled-lore:
+    - '&7Автоматично отримує'
+    - '&7всі доступні нагороди при вході'
+    - ' '
+    - '&c► Натисніть, щоб вимкнути'
+  auto-claim-disabled-lore:
+    - '&7Автоматично отримує'
+    - '&7всі доступні нагороди при вході'
+    - ' '
+    - '&a► Натисніть, щоб увімкнути'
+
+  located-in-restricted-world: Нагорода недоступна в цьому світі
+  insufficient-play-time: Недостатньо часу для отримання
+  insufficient-permissions: Недостатньо прав
+  not-enough-free-inventory-slots: Недостатньо вільних місць в інвентарі
+  unavailable-reward: Нагорода недоступна
+  #
+  # Меню нагород
+  #
+  menu-title: Нагороди
+  join-hover-message: '&7Натисніть, щоб отримати свої нагороди'
+  join-notification:
+    - ' '
+    - '&2 Привіт, %player%, &a%rewards% нагорода(и) чекають на вас! &f(Натисніть тут)'
+    - ' '
+  cooldown-message: '%prefix% &cЩоб отримати &l%type% &cнагороду, потрібно зачекати
+    &n%time%'
+  daily-name: Щоденна нагорода
+  daily-title: '&a&lНагороди'
+  daily-subtitle: '&7Ви отримали свою &aщоденну&7 нагороду'
+  daily-collected: '&a%player% &7отримав свою &a&lщоденну нагороду!'
+  daily-premium-collected: '&a%player% &7отримав свою &a&lпреміальну щоденну нагороду!'
+  daily-displayname-available: '&a&lЩОДЕННА НАГОРОДА'
+  daily-premium-displayname-available: '&e&lЩОДЕННА НАГОРОДА'
+  daily-available-lore:
+    - '&7Нагорода містить:'
+    - '&a 8x &fIron Ingot'
+    - ' '
+    - '&c❌ Преміум нагорода недоступна'
+  daily-available-premium-lore:
+    - '&7Нагорода містить:'
+    - '&a 16x &fIron Ingot'
+    - '&a  3x &fGold Ingot'
+    - ' '
+    - '&e✔ Преміум нагорода доступна'
+  daily-displayname-unavailable: '&c&lЩОДЕННА НАГОРОДА'
+  daily-premium-displayname-unavailable: '&4&lЩОДЕННА НАГОРОДА'
+  daily-unavailable-lore:
+    - ' '
+    - '&cДоступно через: %cooldown%'
+  daily-unavailable-premium-lore:
+    - ' '
+    - '&cДоступно через: %cooldown%'
+  weekly-name: Щотижнева нагорода
+  weekly-title: '&e&lНагороди'
+  weekly-subtitle: '&7Ви отримали свою &eщотижневу&7 нагороду'
+  weekly-collected: '&e%player% &7отримав свою &e&lщотижневу нагороду!'
+  weekly-premium-collected: '&e%player% &7отримав свою &e&lпреміальну щотижневу нагороду!'
+  weekly-displayname-available: '&a&lЩОТИЖНЕВА НАГОРОДА'
+  weekly-premium-displayname-available: '&e&lЩОТИЖНЕВА НАГОРОДА'
+  weekly-available-lore:
+    - '&7Нагорода містить:'
+    - '&a 1x &fDiamond'
+    - ' '
+    - '&c❌ Преміум нагорода недоступна'
+  weekly-available-premium-lore:
+    - '&7Нагорода містить:'
+    - '&a 5x &fDiamond'
+    - '&a 3x &fEmerald'
+    - ' '
+    - '&e✔ Преміум нагорода доступна'
+  weekly-displayname-unavailable: '&c&lЩОТИЖНЕВА НАГОРОДА'
+  weekly-premium-displayname-unavailable: '&4&lЩОТИЖНЕВА НАГОРОДА'
+  weekly-unavailable-lore:
+    - ' '
+    - '&cДоступно через: %cooldown%'
+  weekly-unavailable-premium-lore:
+    - ' '
+    - '&cДоступно через: %cooldown%'
+  monthly-name: Щомісячна нагорода
+  monthly-title: '&9&lНагороди'
+  monthly-subtitle: '&7Ви отримали свою &9щомісячну&7 нагороду'
+  monthly-collected: '&9%player% &7отримав свою &9&lщомісячну нагороду!'
+  monthly-premium-collected: '&9%player% &7отримав свою &9&lпреміальну щомісячну нагороду!'
+  monthly-displayname-available: '&a&lЩОМІСЯЧНА НАГОРОДА'
+  monthly-premium-displayname-available: '&e&lЩОМІСЯЧНА НАГОРОДА'
+  monthly-available-lore:
+    - '&7Нагорода містить:'
+    - '&a  8x &fDiamond'
+    - '&a 32x &fIron Ingot'
+    - '&a 16x &fGold Ingot'
+    - ' '
+    - '&c❌ Преміум нагорода недоступна'
+  monthly-available-premium-lore:
+    - '&7Нагорода містить:'
+    - '&a  1x &fNether Star'
+    - '&a 16x &fDiamond'
+    - '&a 64x &fIron Ingot'
+    - '&a 32x &fGold Ingot'
+    - ' '
+    - '&e✔ Преміум нагорода активована'
+  monthly-displayname-unavailable: '&c&lЩОМІСЯЧНА НАГОРОДА'
+  monthly-premium-displayname-unavailable: '&4&lЩОМІСЯЧНА НАГОРОДА'
+  monthly-unavailable-lore:
+    - ' '
+    - '&cДоступно через: %cooldown%'
+  monthly-unavailable-premium-lore:
+    - ' '
+    - '&cДоступно через: %cooldown%'

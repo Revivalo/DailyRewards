@@ -57,7 +57,7 @@
                         </relocation>
                         <relocation>
                             <pattern>com.cryptomorin.xseries</pattern>
-                            <shadedPattern>eu.athelion.ultimaterewards.shaded.xseries</shadedPattern>
+                            <shadedPattern>eu.athelion.dailyrewards.shaded.xseries</shadedPattern>
                         </relocation>
                     </relocations>
                     <filters>

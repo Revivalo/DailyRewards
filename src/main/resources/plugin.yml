@@ -1,7 +1,7 @@
 name: DailyRewards
 version: ${project.version}
 
-authors: [Revivalo]
+authors: [Revivalo, ChimpGamer]
 description: Reward system for players
 website: https://discord.gg/TfUC8uJ
 

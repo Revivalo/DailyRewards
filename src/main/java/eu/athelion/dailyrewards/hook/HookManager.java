@@ -15,7 +15,6 @@ public class HookManager {
         hooks.put(HookName.ORAXEN, new OraxenHook());
         hooks.put(HookName.ITEMS_ADDER, new ItemsAdderHook());
         hooks.put(HookName.AUTH_ME, new AuthMeHook());
-        hooks.put(HookName.NEX_AUTH, new NexAuthHook());
         hooks.put(HookName.BSTATS, new BStatsHook());
 
         for (Hook<?> hook : hooks.values()) {
@@ -49,10 +48,6 @@ public class HookManager {
 
     public static ItemsAdderHook getItemsAdderHook() {
         return (ItemsAdderHook) hooks.get(HookName.ITEMS_ADDER);
-    }
-
-    public static NexAuthHook getNexAuthHook() {
-        return (NexAuthHook) hooks.get(HookName.NEX_AUTH);
     }
 
     public static AuthMeHook getAuthMeHook() {

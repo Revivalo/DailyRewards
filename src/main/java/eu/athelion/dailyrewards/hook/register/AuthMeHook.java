@@ -3,6 +3,7 @@ package eu.athelion.dailyrewards.hook.register;
 import eu.athelion.dailyrewards.DailyRewardsPlugin;
 import eu.athelion.dailyrewards.hook.Hook;
 import eu.athelion.dailyrewards.hook.HookManager;
+import eu.athelion.dailyrewards.user.User;
 import eu.athelion.dailyrewards.user.UserHandler;
 import eu.athelion.dailyrewards.util.VersionUtil;
 import fr.xephi.authme.events.LoginEvent;
@@ -39,8 +40,9 @@ public class AuthMeHook implements Hook<Void> {
         @Override
         @EventHandler
         public void onLogin(LoginEvent event) {
-            DailyRewardsPlugin.getUserHandler().getAutoClaimTask().addUser(UserHandler.getUser(event.getPlayer()));
-            DailyRewardsPlugin.getUserHandler().getJoinNotificationTask().addUser(UserHandler.getUser(event.getPlayer()));
+            final User user = UserHandler.getUser(event.getPlayer());
+            DailyRewardsPlugin.getUserHandler().getAutoClaimTask().addUser(user);
+            DailyRewardsPlugin.getUserHandler().getJoinNotificationTask().addUser(user);
         }
     }
 }

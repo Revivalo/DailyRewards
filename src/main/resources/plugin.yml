@@ -3,7 +3,7 @@ version: ${project.version}
 
 authors: [Revivalo, ChimpGamer]
 description: Reward system for players
-website: https://discord.gg/TfUC8uJ
+website: https://discord.athelion.eu/
 
 main: eu.athelion.dailyrewards.DailyRewardsPlugin
 api-version: 1.13

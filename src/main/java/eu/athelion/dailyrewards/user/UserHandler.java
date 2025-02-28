@@ -14,7 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,12 +46,9 @@ public final class UserHandler implements Listener {
         return usersHashMap.get(uuid);
     }
 
-    @Nullable
-    public static User getUser(@Nullable Player player) {
-        return Optional.ofNullable(player)
-                .map(Player::getUniqueId)
-                .map(UserHandler::getUser)
-                .orElse(null);
+    @NotNull
+    public static User getUser(@NotNull Player player) {
+        return getUser(player.getUniqueId());
     }
 
     public static User removeUser(final UUID uuid) {

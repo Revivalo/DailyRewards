@@ -2,8 +2,10 @@ package eu.athelion.dailyrewards.manager.reward;
 
 import eu.athelion.dailyrewards.configuration.file.Config;
 import eu.athelion.dailyrewards.configuration.file.Lang;
+import lombok.Getter;
 
 import java.util.Arrays;
+
 
 
 public enum RewardType {
@@ -11,6 +13,7 @@ public enum RewardType {
 	WEEKLY("dailyreward.weekly", Lang.WEEKLY_NAME, Config.WEEKLY_PLACEHOLDER, Config.WEEKLY_ENABLED),
 	MONTHLY("dailyreward.monthly", Lang.MONTHLY_NAME, Config.MONTHLY_PLACEHOLDER, Config.MONTHLY_ENABLED);
 
+	@Getter
 	private final String permission;
 	private final Lang name;
 	private final Config placeholder;
@@ -40,10 +43,6 @@ public enum RewardType {
 
 	public String getPlaceholder() {
 		return placeholder.asString();
-	}
-
-	public String getPermission() {
-		return permission;
 	}
 
 	public boolean isEnabled() {return enabled.asBoolean();}

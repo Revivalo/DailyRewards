@@ -41,6 +41,7 @@ public class PlayerData extends YamlConfiguration {
 
 	public static void removeConfigs() {
 		final Collection<PlayerData> oldConfigurations = new ArrayList<>(configurations.values());
+		if (oldConfigurations.isEmpty()) return;
 		synchronized (configurations) {
 			oldConfigurations.forEach(PlayerData::discard);
 		}

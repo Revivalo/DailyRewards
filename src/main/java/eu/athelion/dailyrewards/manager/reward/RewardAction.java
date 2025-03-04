@@ -1,5 +1,8 @@
 package eu.athelion.dailyrewards.manager.reward;
 
+import lombok.Getter;
+
+@Getter
 public class RewardAction {
     private final String statement;
     private final ActionType actionType;
@@ -11,14 +14,6 @@ public class RewardAction {
 
     public static RewardActionBuilder builder() {
         return new RewardActionBuilder();
-    }
-
-    public String getStatement() {
-        return this.statement;
-    }
-
-    public ActionType getActionType() {
-        return this.actionType;
     }
 
     public static class RewardActionBuilder {

@@ -2,6 +2,7 @@ package eu.athelion.dailyrewards.configuration;
 
 import com.tchristofferson.configupdater.ConfigUpdater;
 import eu.athelion.dailyrewards.DailyRewardsPlugin;
+import lombok.Getter;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.logging.Level;
 
+@Getter
 public class YamlFile {
 
 	private final File file;
@@ -71,28 +73,12 @@ public class YamlFile {
 		}
 	}
 
-	public YamlConfiguration getConfiguration() {
-		return configuration;
-	}
-
 	public void reload() {
 		try {
 			configuration.load(file);
 		} catch (InvalidConfigurationException | IOException ex) {
 			ex.printStackTrace();
 		}
-	}
-
-	public File getFile() {
-		return this.file;
-	}
-
-	public UpdateMethod getUpdateMethod() {
-		return this.updateMethod;
-	}
-
-	public String getFilePath() {
-		return this.filePath;
 	}
 
 	public enum UpdateMethod {

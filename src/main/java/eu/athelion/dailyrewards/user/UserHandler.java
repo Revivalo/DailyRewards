@@ -7,6 +7,7 @@ import eu.athelion.dailyrewards.hook.HookManager;
 import eu.athelion.dailyrewards.manager.reward.RewardType;
 import eu.athelion.dailyrewards.manager.reward.task.JoinNotificationTask;
 import eu.athelion.dailyrewards.manager.reward.task.AutoClaimTask;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,11 +15,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Getter
 public final class UserHandler implements Listener {
     private static final Map<UUID, User> usersHashMap = new ConcurrentHashMap<>();
 
@@ -46,12 +49,9 @@ public final class UserHandler implements Listener {
         return usersHashMap.get(uuid);
     }
 
-    @Nullable
-    public static User getUser(@Nullable Player player) {
-        return Optional.ofNullable(player)
-                .map(Player::getUniqueId)
-                .map(UserHandler::getUser)
-                .orElse(null);
+    @NotNull
+    public static User getUser(@NotNull Player player) {
+        return getUser(player.getUniqueId());
     }
 
     public static User removeUser(final UUID uuid) {
@@ -98,11 +98,4 @@ public final class UserHandler implements Listener {
         joinNotificationTask.getPlayerRewardCheckTimes().remove(user);
     }
 
-    public JoinNotificationTask getJoinNotificationTask() {
-        return joinNotificationTask;
-    }
-
-    public AutoClaimTask getAutoClaimTask() {
-        return autoClaimTask;
-    }
 }

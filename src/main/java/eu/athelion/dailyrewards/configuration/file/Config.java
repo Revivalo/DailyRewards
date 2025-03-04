@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public enum Config {
     LANGUAGE,
     MENU_SIZE,
-    SETTINGS_MENU_SIZE,
     FILL_BACKGROUND_ENABLED,
     BACKGROUND_ITEM,
     OPEN_MENU_AFTER_CLAIMING,
@@ -35,8 +34,6 @@ public enum Config {
     JOIN_AUTO_CLAIM_DELAY,
     UNAVAILABLE_REWARD_SOUND,
     AUTO_CLAIM_REWARDS_ON_JOIN_BY_DEFAULT,
-    AUTO_CLAIM_REWARDS_POSITION,
-    JOIN_NOTIFICATION_POSITION,
     JOIN_NOTIFICATION_SOUND,
     DISABLED_WORLDS,
     FIRST_TIME_JOIN_REQUIRED_PLAY_TIME,
@@ -44,12 +41,6 @@ public enum Config {
     SETTINGS_ENABLED_IN_MENU,
     SETTINGS_POSITION,
     SETTINGS_ITEM,
-    SETTINGS_JOIN_NOTIFICATION_ENABLED_ITEM,
-    SETTINGS_JOIN_NOTIFICATION_DISABLED_ITEM,
-    SETTINGS_AUTO_CLAIM_ENABLED_ITEM,
-    SETTINGS_AUTO_CLAIM_DISABLED_ITEM,
-    SETTINGS_BACK_ITEM,
-    SETTINGS_BACK_POSITION,
 
     BACKEND,
     MYSQL_IP,
@@ -118,9 +109,7 @@ public enum Config {
 
         ConfigurationSection configSection = configuration.getConfigurationSection("config");
 
-        configSection
-                .getKeys(false)
-                .forEach(key -> {
+        configSection.getKeys(false).forEach(key -> {
                     String editedKey = key.toUpperCase(Locale.ENGLISH).replace("-", "_");
                     if (configSection.isList(key)) {
                         lists.put(editedKey, configSection.getStringList(key));
@@ -129,7 +118,7 @@ public enum Config {
                 });
 
         loadItems();
-
+        SettingsMenu.reload();
         Lang.reload(LANGUAGE);
     }
 

@@ -7,6 +7,7 @@ import eu.athelion.dailyrewards.user.User;
 import eu.athelion.dailyrewards.util.PermissionUtil;
 import eu.athelion.dailyrewards.util.PlayerUtil;
 import eu.athelion.dailyrewards.util.VersionUtil;
+import lombok.Getter;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -21,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class JoinNotificationTask implements Task {
+    @Getter
     private final Map<User, Long> playerRewardCheckTimes = new ConcurrentHashMap<>();
     private final Map<UUID, User> usersHashMap;
 
@@ -80,9 +82,5 @@ public class JoinNotificationTask implements Task {
                 }
             }
         };
-    }
-
-    public Map<User, Long> getPlayerRewardCheckTimes() {
-        return playerRewardCheckTimes;
     }
 }

@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,13 +20,13 @@ public class ActionsExecutor {
     public static void executeActions(Player player, String rewardIdentifier, List<RewardAction> actions) {
         final Set<String> words = new HashSet<>();
 
-        String[] titleText = new String[]{" ", " "};
+        String[] titleText = new String[]{"", ""};
 
 
         actions.forEach(action -> {
-            String line = action.getStatement();
+            AtomicReference<String> line = new AtomicReference<>(action.getStatement());
 
-            Matcher matcher = placeholderPattern.matcher(line);
+            Matcher matcher = placeholderPattern.matcher(line.get());
 
             while (matcher.find()) {
                 words.add(matcher.group());
@@ -33,40 +34,22 @@ public class ActionsExecutor {
 
             for (String word : words) {
                 switch (word) {
-                    case "%player%":
-                        line = StringUtils.replace(line, word, player.getName());
-                        break;
-                    case "%type%":
-                        line = StringUtils.replace(line, word, rewardIdentifier);
-                        break;
+                    case "%player%": line.set(StringUtils.replace(line.get(), word, player.getName())); break;
+                    case "%type%": line.set(StringUtils.replace(line.get(), word, rewardIdentifier)); break;
                 }
             }
 
-            String lineWithPlaceholders = TextUtil.applyPlaceholdersToString(player, line);
+            String lineWithPlaceholders = TextUtil.applyPlaceholdersToString(player, line.get());
             String coloredLine = TextUtil.colorize(lineWithPlaceholders);
 
             switch (action.getActionType()) {
-                case CONSOLE:
-                    DailyRewardsPlugin.get().executeCommandAsConsole(lineWithPlaceholders);
-                    break;
-                case PLAYER:
-                    player.performCommand("/" + lineWithPlaceholders);
-                    break;
-                case MESSAGE:
-                    TextUtil.sendListToPlayer(player, Splitter.on("|").splitToList(coloredLine));
-                    break;
-                case ACTIONBAR:
-                    player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(coloredLine));
-                    break;
-                case TITLE:
-                    titleText[0] = coloredLine;
-                    break;
-                case SUBTITLE:
-                    titleText[1] = coloredLine;
-                    break;
-                case SOUND:
-                    PlayerUtil.playSound(player, line.toUpperCase(Locale.ENGLISH));
-                    break;
+                case CONSOLE: DailyRewardsPlugin.get().executeCommandAsConsole(lineWithPlaceholders); break;
+                case PLAYER: player.performCommand("/" + lineWithPlaceholders); break;
+                case MESSAGE: TextUtil.sendListToPlayer(player, Splitter.on("|").splitToList(coloredLine)); break;
+                case ACTIONBAR: player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(coloredLine)); break;
+                case TITLE: titleText[0] = coloredLine; break;
+                case SUBTITLE: titleText[1] = coloredLine; break;
+                case SOUND: PlayerUtil.playSound(player, line.get().toUpperCase(Locale.ENGLISH)); break;
 //                case FIREWORK:
 //                    CustomFireworkBuilder
 //                            .fromString(line)
@@ -76,7 +59,7 @@ public class ActionsExecutor {
             }
         });
 
-
-        player.sendTitle(titleText[0], titleText[1]);
+        if (!titleText[0].isEmpty() && !titleText[1].isEmpty())
+            player.sendTitle(titleText[0], titleText[1], 10, 70, 20);
     }
 }

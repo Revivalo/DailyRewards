@@ -5,6 +5,10 @@ import eu.athelion.dailyrewards.data.DataManager;
 import eu.athelion.dailyrewards.manager.Setting;
 import eu.athelion.dailyrewards.manager.cooldown.Cooldown;
 import eu.athelion.dailyrewards.manager.reward.RewardType;
+import eu.athelion.dailyrewards.util.PermissionUtil;
+import eu.athelion.dailyrewards.util.TextUtil;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -12,8 +16,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Getter
 public class User {
     private final Player player;
+    @Setter
     private Map<String, Object> data;
 
     public User(Player player, Map<String, Object> data) {
@@ -34,6 +40,18 @@ public class User {
             if (new Cooldown(Long.parseLong(String.valueOf(entry.getValue()))).isClaimable()) availableRewards.add(RewardType.findByName(entry.getKey()));
         }
         return availableRewards;
+    }
+
+    public boolean isAdmin() {
+        return player.isOp() || PermissionUtil.hasPermission(player, PermissionUtil.Permission.ADMIN_PERMISSION);
+    }
+
+    public boolean hasPermission(PermissionUtil.Permission permission) {
+        return PermissionUtil.hasPermission(player, permission);
+    }
+
+    public void sendMessage(String message) {
+        player.sendMessage(TextUtil.colorize(message));
     }
 
     public boolean isOnline() {
@@ -66,17 +84,5 @@ public class User {
 
     public void updateData(Map<String, Object> changes) {
         data.putAll(changes);
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Map<String, Object> getData() {
-        return data;
-    }
-
-    public void setData(Map<String, Object> data) {
-        this.data = data;
     }
 }

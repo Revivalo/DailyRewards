@@ -87,23 +87,11 @@ config:
     - "disabledworld1"
     - "disabledworld2"
   #
+  # Settings menu moved to /menus folder - more customizable
   #
-  # Settings menu section
-  #
-  #
-  settings-menu-size: 45
   settings-enabled-in-menu: true
-  settings-position: 40
   settings-item: REPEATER
-
-  settings-join-notification-enabled-item: LIME_DYE
-  settings-join-notification-disabled-item: GRAY_DYE
-
-  settings-auto-claim-enabled-item: LIME_DYE
-  settings-auto-claim-disabled-item: GRAY_DYE
-
-  settings-back-item: STONE_BUTTON
-  settings-back-position: 40
+  settings-position: 40
   #
   #
   # DAILY REWARD SECTION

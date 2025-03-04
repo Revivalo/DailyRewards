@@ -1,9 +1,9 @@
 name: DailyRewards
 version: ${project.version}
 
-authors: [Revivalo, ChimpGamer]
+authors: [Revivalo, ChimpGamer, Verschuls]
 description: Reward system for players
-website: https://discord.gg/TfUC8uJ
+website: https://discord.athelion.eu/
 
 main: eu.athelion.dailyrewards.DailyRewardsPlugin
 api-version: 1.13
@@ -17,6 +17,7 @@ commands:
     aliases: [rw]
   rewards:
     aliases: [rws]
-  dreward:
-    aliases: [dailyrewards]
-  drewards:
+  dailyreward:
+    aliases: [ dreward ]
+  dailyrewards:
+    aliases: [ drewards ]

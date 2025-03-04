@@ -3,6 +3,7 @@ package eu.athelion.dailyrewards.manager;
 import eu.athelion.dailyrewards.DailyRewardsPlugin;
 import eu.athelion.dailyrewards.configuration.file.Config;
 import eu.athelion.dailyrewards.configuration.file.Lang;
+import eu.athelion.dailyrewards.configuration.file.SettingsMenu;
 import eu.athelion.dailyrewards.manager.cooldown.Cooldown;
 import eu.athelion.dailyrewards.manager.reward.Reward;
 import eu.athelion.dailyrewards.manager.reward.RewardType;
@@ -32,7 +33,6 @@ public class MenuManager implements Listener {
     private ItemStack backgroundItem;
 
     private final InventoryHolder MAIN_MENU_HOLDER = new RewardsInventoryHolder();
-    private final InventoryHolder SETTINGS_MENU_HOLDER = new RewardSettingsInventoryHolder();
 
     public MenuManager() {
         DailyRewardsPlugin.get().registerListeners(this);
@@ -106,67 +106,8 @@ public class MenuManager implements Listener {
                     .replace("%permission%", PermissionUtil.Permission.SETTINGS_MENU.get()));
             return;
         }
-
-        final Inventory settings = Bukkit.createInventory(
-                SETTINGS_MENU_HOLDER,
-                Config.SETTINGS_MENU_SIZE.asInt(),
-                Lang.SETTINGS_TITLE.asColoredString(player));
-
-        if (Config.FILL_BACKGROUND_ENABLED.asBoolean()) {
-            for (int i = 0; i < Config.SETTINGS_MENU_SIZE.asInt(); i++)
-                settings.setItem(i, backgroundItem);
-        }
-
         final User user = UserHandler.getUser(player.getUniqueId());
-
-        settings.setItem(Config.SETTINGS_BACK_POSITION.asInt(), ItemBuilder.from(Config.SETTINGS_BACK_ITEM.asAnItem())
-                .setItemFlags(ItemFlag.values())
-                .setName(Lang.BACK.asColoredString(player))
-                .build());
-
-        settings.setItem(Config.JOIN_NOTIFICATION_POSITION.asInt(), ItemBuilder.from(
-                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
-                                ? (user.hasSettingEnabled(Setting.JOIN_NOTIFICATION) ? Config.SETTINGS_JOIN_NOTIFICATION_ENABLED_ITEM.asAnItem() : Config.SETTINGS_JOIN_NOTIFICATION_DISABLED_ITEM.asAnItem())
-                                : new ItemStack(Material.BARRIER))
-                .setName(
-                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
-                                ? Lang.JOIN_NOTIFICATION_DISPLAY_NAME.asColoredString(player)
-                                : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_NOTIFICATION_SETTING_NAME.asColoredString(player))
-                )
-                .setGlow(PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING) && user.hasSettingEnabled(Setting.JOIN_NOTIFICATION))
-                .setItemFlags(ItemFlag.values())
-                .setLore(
-                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)
-                                ? user.hasSettingEnabled(Setting.JOIN_NOTIFICATION)
-                                ? Lang.JOIN_NOTIFICATION_ENABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.JOIN_NOTIFICATION_DISABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>() {{
-                            put("%permission%", PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING.get());
-                        }})
-                ).build()
-        );
-
-        settings.setItem(Config.AUTO_CLAIM_REWARDS_POSITION.asInt(), ItemBuilder.from(
-                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
-                                ? (user.hasSettingEnabled(Setting.AUTO_CLAIM) ? Config.SETTINGS_AUTO_CLAIM_ENABLED_ITEM.asAnItem() : Config.SETTINGS_AUTO_CLAIM_DISABLED_ITEM.asAnItem())
-                                : new ItemStack(Material.BARRIER))
-                .setName(PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
-                        ? Lang.AUTO_CLAIM_DISPLAY_NAME.asColoredString(player)
-                        : Lang.NO_PERMISSION_SETTING_DISPLAY_NAME.asColoredString(player).replace("%settingType%", Lang.JOIN_AUTO_CLAIM_SETTING_NAME.asColoredString(player)))
-                .setGlow(PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING) && user.hasSettingEnabled(Setting.AUTO_CLAIM))
-                .setItemFlags(ItemFlag.values())
-                .setLore(
-                        PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)
-                                ? user.hasSettingEnabled(Setting.AUTO_CLAIM)
-                                ? Lang.AUTO_CLAIM_ENABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.AUTO_CLAIM_DISABLED_LORE.asReplacedList(Collections.emptyMap())
-                                : Lang.NO_PERMISSION_SETTING_LORE.asReplacedList(new HashMap<String, String>() {{
-                            put("%permission%", PermissionUtil.Permission.AUTO_CLAIM_SETTING.get());
-                        }})
-                ).build()
-        );
-
-        player.openInventory(settings);
+        SettingsMenu.render(user);
     }
 
     @EventHandler
@@ -203,7 +144,7 @@ public class MenuManager implements Listener {
         final Player player = user.getPlayer();
 
         int slot = event.getSlot();
-        if (slot == Config.JOIN_NOTIFICATION_POSITION.asInt()) {
+        if (slot == SettingsMenu.getJOIN_NOTIFICATION_SLOT()) {
             if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING)) {
                 player.sendMessage(Lang.INSUFFICIENT_PERMISSION.asColoredString(player)
                         .replace("%permission%", PermissionUtil.Permission.JOIN_NOTIFICATION_SETTING.get()));
@@ -213,7 +154,7 @@ public class MenuManager implements Listener {
             user.toggleSetting(Setting.JOIN_NOTIFICATION, !user.hasSettingEnabled(Setting.JOIN_NOTIFICATION));
 
             DailyRewardsPlugin.getMenuManager().openSettings(user.getPlayer());
-        } else if (slot == Config.AUTO_CLAIM_REWARDS_POSITION.asInt()) {
+        } else if (slot == SettingsMenu.getAUTO_CLAIM_SLOT()) {
             if (!PermissionUtil.hasPermission(player, PermissionUtil.Permission.AUTO_CLAIM_SETTING)) {
                 player.sendMessage(Lang.INSUFFICIENT_PERMISSION.asColoredString(player));
                 return;
@@ -228,7 +169,7 @@ public class MenuManager implements Listener {
     }
 
     public void loadBackgroundFiller() {
-        ItemBuilder.ItemBuilderBuilder backgroundItemBuilder = ItemBuilder.from(Config.BACKGROUND_ITEM.asAnItem());
+        ItemBuilder backgroundItemBuilder = ItemBuilder.from(Config.BACKGROUND_ITEM.asAnItem());
 
         if (backgroundItemBuilder.getType() != Material.AIR) {
             backgroundItemBuilder.setName(" ");

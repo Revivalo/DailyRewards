@@ -11,28 +11,8 @@ import java.util.stream.Collectors;
 
 public class Reward {
     private final RewardType rewardType;
-    private final Config availableAfterFirstJoin;
-    private final Config placeholder;
-    private final Config cooldown;
-    private final Config cooldownFormat;
-    private final Config position;
-    private final Config sound;
-    private final Lang title;
-    private final Lang subtitle;
-    private final Lang collectedMessage;
-    private final Lang collectedPremiumMessage;
-    private final Config availableItem;
-    private final Config unavailableItem;
-    private final Lang availableDisplayName;
-    private final Lang availablePremiumDisplayName;
-    private final Lang unavailableDisplayName;
-    private final Lang unavailablePremiumDisplayName;
-    private final Lang availableLore;
-    private final Lang availablePremiumLore;
-    private final Lang unavailableLore;
-    private final Lang unavailablePremiumLore;
-    private final Config defaultRewards;
-    private final Config premiumRewards;
+    private final Config availableAfterFirstJoin, placeholder, cooldown, cooldownFormat, position, sound, availableItem, unavailableItem, defaultRewards, premiumRewards;
+    private final Lang title, subtitle, collectedMessage, collectedPremiumMessage, availableDisplayName, availablePremiumDisplayName, unavailableDisplayName, unavailablePremiumDisplayName, availableLore, availablePremiumLore, unavailableLore, unavailablePremiumLore;
 
     public Reward(RewardType rewardType,
                   Config availableAfterFirstJoin,

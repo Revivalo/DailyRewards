@@ -5,6 +5,7 @@ import eu.athelion.dailyrewards.configuration.file.Config;
 import eu.athelion.dailyrewards.configuration.file.Lang;
 import eu.athelion.dailyrewards.manager.reward.action.AutoClaimAction;
 import eu.athelion.dailyrewards.user.User;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 
 import java.util.HashSet;
@@ -12,6 +13,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class RewardManager {
+    @Getter
     private final Set<Reward> rewards;
 
     public RewardManager() {
@@ -116,9 +118,5 @@ public class RewardManager {
 
     public Optional<Reward> getRewardByType(RewardType rewardType) {
         return rewards.stream().filter(reward -> reward.getType() == rewardType).findFirst();
-    }
-
-    public Set<Reward> getRewards() {
-        return rewards;
     }
 }

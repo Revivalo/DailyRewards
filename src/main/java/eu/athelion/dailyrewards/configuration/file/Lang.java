@@ -49,14 +49,6 @@ public enum Lang {
 	JOIN_AUTO_CLAIM_NOTIFICATION,
 	JOIN_NOTIFICATION_SETTING_NAME,
 	JOIN_AUTO_CLAIM_SETTING_NAME,
-	NO_PERMISSION_SETTING_DISPLAY_NAME,
-	NO_PERMISSION_SETTING_LORE,
-	JOIN_NOTIFICATION_DISPLAY_NAME,
-	JOIN_NOTIFICATION_ENABLED_LORE,
-	JOIN_NOTIFICATION_DISABLED_LORE,
-	AUTO_CLAIM_DISPLAY_NAME,
-	AUTO_CLAIM_ENABLED_LORE,
-	AUTO_CLAIM_DISABLED_LORE,
 	JOIN_HOVER_MESSAGE,
 	JOIN_NOTIFICATION,
 	COOLDOWN_MESSAGE,
@@ -128,10 +120,7 @@ public enum Lang {
         YamlFile langYamlFile = new YamlFile("lang/" + language.asString() + ".yml",
                 DailyRewardsPlugin.get().getDataFolder(), YamlFile.UpdateMethod.EVERYTIME);
 
-		if (HookManager.isHookEnabled(HookManager.getPlaceholderApiHook())) {
-			DailyRewardsPlugin.get().getLogger().info("Using PAPI text modifier");
-			textModifier = new PlaceholderColorTextModifier();
-		} else textModifier = new ColorTextModifier();
+		textModifier = DailyRewardsPlugin.getTextModifier();
 
 		langYamlFile.reload();
 		final YamlConfiguration configuration = langYamlFile.getConfiguration();

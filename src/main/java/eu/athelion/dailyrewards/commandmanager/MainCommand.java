@@ -1,6 +1,7 @@
 package eu.athelion.dailyrewards.commandmanager;
 
 import eu.athelion.dailyrewards.configuration.file.Lang;
+import lombok.Getter;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
@@ -12,6 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class MainCommand implements TabExecutor {
+    @Getter
     protected final List<SubCommand> subCommands = new ArrayList<>();
 
     protected final Lang noPermMessage;
@@ -92,9 +94,5 @@ public abstract class MainCommand implements TabExecutor {
 
     protected SubCommand getDefaultSyntax() {
         return subCommands.stream().filter(sc -> sc.getName().equalsIgnoreCase("default")).findAny().orElse(null);
-    }
-
-    public List<SubCommand> getSubCommands() {
-        return subCommands;
     }
 }

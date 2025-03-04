@@ -1,0 +1,97 @@
+# Added by Verschuls
+# Everything here that is a string has color codes with placeholders also
+title: "&eReward Settings"
+rows: 5 # row * 9
+
+
+# Example item:
+# <item-id/name>: | You can set whatever here unless its join_notification or return etc list of these ids is below
+#   slot: 0 | If its in't a filler you need to set slot otherwise it will not be read
+#   display-name: "&7A wool" | Name
+#   material: "WHITE_WOOL" | Self explanatory
+#   glow: true/false
+#   custom-model: 01 | Custom model ID
+#   lore:
+#     - "&4Cool lore"
+#   states: ... | Only special ones mainly these with id example below
+
+# Item IDS:
+# filler | No need for slot, feels out whole menu with it, not required
+# join_notification | Have states and its required
+# auto_claim | Have states and its required
+# return | Go back to rewards, not required
+
+# States only for "join_notification" and "auto_claim"
+# "on", "off", "no-permission"
+# Example use:
+# states:
+#   on:
+#     material: "" | Required
+#     display-name: "" | Required
+#     customModel: 01 | Optional
+#     lore: [] | Optional
+#     glow: | Optional
+# No need for slot cause it set before
+
+items:
+  filler:
+    material: GRAY_STAINED_GLASS_PANE
+    display-name: "&7"
+  join_notification:
+    slot: 20
+    states:
+      enabled:
+        material: LIME_DYE
+        display-name: '&aJoin Notification'
+        lore:
+          - '&7Notifies you for available'
+          - '&7rewards upon joining'
+          - ''
+          - '&eClick to disable'
+      disabled:
+        material: RED_DYE
+        display-name: '&cJoin Notification'
+        lore:
+          - '&7Notifies you for available'
+          - '&7rewards upon joining'
+          - ''
+          - '&eClick to enable'
+      no-permission:
+        material: BARRIER
+        display-name: '&cJoin Notification'
+        lore:
+          - '&7Notifies you for available'
+          - '&7rewards upon joining'
+          - ''
+          - '&cInsufficient permissions'
+  auto_claim:
+    slot: 24
+    states:
+      enabled:
+        material: LIME_DYE
+        display-name: '&aAuto Claim'
+        lore:
+          - '&7Automatically claims rewards'
+          - '&7when they become available'
+          - ''
+          - '&eClick to disable'
+      disabled:
+        material: RED_DYE
+        display-name: '&cAuto Claim'
+        lore:
+          - '&7Automatically claims rewards'
+          - '&7when they become available'
+          - ''
+          - '&eClick to enable'
+      no-permission:
+        material: BARRIER
+        display-name: '&cAuto Claim'
+        lore:
+          - '&7Automatically claims rewards'
+          - '&7when they become available'
+          - ''
+          - '&cInsufficient permissions'
+  return:
+    slot: 40
+    material: REDSTONE
+    display-name: "&4Back"
